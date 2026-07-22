@@ -579,7 +579,7 @@ const DEFAULT_FOODS = [
 const cfg=JSON.parse(localStorage.getItem('gain_cfg')||'{}');
 const DB = {
   goal:cfg.goal||3000, proteinGoal:cfg.proteinGoal||40, target:cfg.target||35,
-  geminiKey:cfg.geminiKey||"AQ.Ab8RN6I4OC-K2na7hUa9PRJ8L_y6wn_sSKJZ6mYsJG-D-mLVVQ",
+  geminiKey:cfg.geminiKey||"",  /* NEVER hard-code a key here — enter it in the Admin panel. Public keys get auto-deleted by Google. */
   custom:JSON.parse(localStorage.getItem('gain_custom')||'[]'),
   days:JSON.parse(localStorage.getItem('gain_days')||'{}'),
   weights:JSON.parse(localStorage.getItem('gain_weights')||'[]')
