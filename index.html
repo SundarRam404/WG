@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Gain">
+<meta name="theme-color" content="#0e0f0d">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Crect width='180' height='180' rx='40' fill='%230e0f0d'/%3E%3Ctext x='90' y='118' font-family='Arial' font-size='84' font-weight='bold' fill='%23a8e05f' text-anchor='middle'%3EG%3C/text%3E%3C/svg%3E">
+<title>Gain</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0e0f0d;            /* page */
+  --bg2:#161816;          /* frame edge */
+  --card:#1a1d1a;         /* cards */
+  --card2:#20241f;        /* raised card */
+  --stroke:#2a2e29;       /* hairline */
+  --txt:#f2f4ef;          /* primary text */
+  --txt2:#9aa196;         /* secondary */
+  --txt3:#666c62;         /* muted */
+  --green:#a8e05f;        /* accent (matches ref) */
+  --green-d:#7bbd35;
+  --glow:rgba(168,224,95,.35);
+  --red:#ff5a52;
+  --amber:#ffce47;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{
+  font-family:'Inter',system-ui,sans-serif;color:var(--txt);
+  background:#000;display:flex;justify-content:center;color-scheme:dark;
+}
+/* PHONE FRAME — locked ratio even on desktop */
+.phone{
+  width:100%;max-width:420px;min-height:100vh;background:var(--bg);
+  position:relative;display:flex;flex-direction:column;overflow:hidden;
+  background-image:radial-gradient(120% 60% at 50% 0%, #14251a 0%, rgba(20,37,26,0) 55%);
+}
+@media(min-width:440px){ .phone{margin:0;border-left:1px solid #000;border-right:1px solid #000} }
+
+/* HEADER */
+header{padding:20px 20px 8px;display:flex;align-items:center;justify-content:space-between}
+.who{display:flex;align-items:center;gap:11px}
+.pfp{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#a8e05f,#4e8f2a);display:flex;align-items:center;justify-content:center;font-weight:800;color:#0e0f0d;font-size:16px}
+.who .hi{font-size:12px;color:var(--txt2)}
+.who .nm{font-size:18px;font-weight:700;letter-spacing:-.02em;margin-top:-1px}
+.bell{width:42px;height:42px;border-radius:50%;background:var(--card);border:1px solid var(--stroke);display:flex;align-items:center;justify-content:center;position:relative;cursor:pointer}
+.bell svg{width:19px;height:19px;stroke:var(--txt);fill:none;stroke-width:1.8}
+.bell .dot{position:absolute;top:9px;right:11px;width:7px;height:7px;background:var(--green);border-radius:50%;box-shadow:0 0 6px var(--glow)}
+
+.hdr-right{display:flex;align-items:center;gap:10px}
+.clouddot{width:9px;height:9px;border-radius:50%;background:var(--txt3);box-shadow:0 0 6px rgba(168,224,95,.4)}
+.homebtn{width:42px;height:42px;border-radius:50%;background:var(--card);border:1px solid var(--stroke);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.homebtn svg{width:20px;height:20px;fill:none;stroke:var(--green);stroke-width:1.9;stroke-linejoin:round;stroke-linecap:round}
+.homebtn:active{background:var(--card2)}
+/* install guide sheet steps */
+.istep{display:flex;gap:12px;align-items:flex-start;margin-bottom:16px}
+.istep .n{width:26px;height:26px;border-radius:50%;background:var(--green);color:#12200a;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.istep .t{font-size:14px;line-height:1.5}
+.iico{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border:1px solid var(--stroke);border-radius:6px;vertical-align:-5px;margin:0 2px}
+.iico svg{width:13px;height:13px;fill:none;stroke:var(--green);stroke-width:2}
+
+/* WARNING / ADMIN BUTTON */
+.warnbtn{width:42px;height:42px;border-radius:50%;background:var(--card);border:1px solid rgba(255,206,71,.4);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.warnbtn svg{width:20px;height:20px;fill:none;stroke:var(--amber);stroke-width:1.9;stroke-linejoin:round;stroke-linecap:round}
+.warnbtn:active{background:var(--card2)}
+
+/* ADMIN CARDS */
+.warncard{display:flex;gap:12px;align-items:flex-start;background:rgba(255,206,71,.08);border:1px solid rgba(255,206,71,.3);border-radius:16px;padding:14px;margin-bottom:16px}
+.warnico{font-size:22px;color:var(--amber);line-height:1}
+.warntxt{font-size:13px;line-height:1.5;color:var(--txt)}
+.askq{text-align:center;font-size:16px;font-weight:600;margin-bottom:16px}
+.okcard{background:rgba(168,224,95,.1);border:1px solid rgba(168,224,95,.3);color:var(--green);border-radius:14px;padding:11px;text-align:center;font-weight:600;font-size:13px;margin-bottom:18px}
+.asec{background:var(--card);border:1px solid var(--stroke);border-radius:18px;padding:16px;margin-bottom:14px}
+.asech{font-size:14px;font-weight:700;margin-bottom:12px}
+.grow{display:flex;gap:10px}.grow .field{flex:1;margin-bottom:12px}
+.btn.danger{background:rgba(255,90,82,.14);color:var(--red);box-shadow:none;border:1px solid rgba(255,90,82,.35)}
+.admfood{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--stroke)}
+.admfood:last-child{border-bottom:none}
+.admfood .an{flex:1;font-size:13px}.admfood .ac{font-size:12px;color:var(--txt2)}
+.admfood button{width:30px;height:30px;border-radius:9px;background:rgba(255,90,82,.14);border:none;color:var(--red);cursor:pointer}
+
+/* PASSCODE KEYBOARD */
+.passdots{text-align:center;font-size:20px;font-weight:700;letter-spacing:4px;min-height:28px;padding:14px;background:var(--card);border:1px solid var(--stroke);border-radius:14px;margin-bottom:8px}
+.passerr{text-align:center;color:var(--red);font-size:12px;min-height:16px;margin-bottom:10px}
+.keyboard{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:10px}
+.keybtn{padding:15px 0;border-radius:13px;background:var(--card2);border:1px solid var(--stroke);color:var(--txt);font-family:inherit;font-size:18px;font-weight:700;cursor:pointer}
+.keybtn:active{background:var(--green);color:#12200a}
+.keyrow-actions{display:flex;gap:8px}
+.keybtn.wide{flex:1;font-size:14px;padding:14px 0}
+.keybtn.go{background:var(--green);color:#12200a;border:none}
+
+/* QUOTE BAR */
+.quote{margin:2px 16px 0;padding:12px 15px;background:rgba(168,224,95,.08);border:1px solid rgba(168,224,95,.22);border-radius:16px;font-size:13px;line-height:1.5;color:#d6f0b4;display:flex;gap:9px;align-items:flex-start}
+.quote:before{content:"“";font-size:26px;line-height:.8;color:var(--green);flex-shrink:0}
+
+/* SCROLL */
+.scroll{flex:1;overflow-y:auto;padding:6px 16px 100px}
+.scroll::-webkit-scrollbar{display:none}
+
+/* SEGMENTED PILL TABS */
+.tabs{display:flex;gap:8px;padding:5px;background:var(--card);border:1px solid var(--stroke);border-radius:16px;margin:8px 4px 18px}
+.tabs button{flex:1;padding:10px 4px;border:none;background:none;color:var(--txt2);font-family:inherit;font-size:13px;font-weight:600;border-radius:12px;cursor:pointer;transition:.2s}
+.tabs button.on{background:var(--green);color:#12200a;box-shadow:0 4px 16px var(--glow)}
+
+/* HERO RING CARD */
+.hero{background:linear-gradient(160deg,#1e2b18,#161816);border:1px solid var(--stroke);border-radius:26px;padding:22px;margin-bottom:16px;position:relative;overflow:hidden}
+.hero:before{content:"";position:absolute;top:-40%;right:-20%;width:200px;height:200px;background:radial-gradient(circle,var(--glow),transparent 70%);pointer-events:none}
+.heroTop{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
+.heroTop .lbl{font-size:12px;color:var(--txt2);font-weight:500}
+.pill{font-size:11px;font-weight:700;padding:5px 11px;border-radius:20px}
+.pill.ok{background:var(--green);color:#12200a}
+.pill.warn{background:rgba(255,206,71,.15);color:var(--amber);border:1px solid rgba(255,206,71,.3)}
+/* EAT MORE — big and clear, thin clean text */
+.pill.bad{
+  display:inline-flex;align-items:center;gap:9px;
+  font-size:18px;font-weight:500;letter-spacing:.01em;
+  padding:11px 20px;border-radius:14px;
+  background:var(--red);color:#fff;border:none;
+  box-shadow:0 0 0 0 rgba(255,90,82,.5);
+  animation:eatpulse 2s ease-out infinite;
+}
+.pill.bad:before{content:"";width:8px;height:8px;border-radius:50%;background:#fff;flex-shrink:0}
+@keyframes eatpulse{
+  0%{box-shadow:0 0 0 0 rgba(255,90,82,.5)}
+  70%{box-shadow:0 0 0 10px rgba(255,90,82,0)}
+  100%{box-shadow:0 0 0 0 rgba(255,90,82,0)}
+}
+.ringwrap{display:flex;align-items:center;gap:20px;margin-top:6px}
+.ring{position:relative;width:132px;height:132px;flex-shrink:0}
+.ring svg{transform:rotate(-90deg)}
+.ring .ctr{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring .big{font-size:34px;font-weight:800;letter-spacing:-.03em;line-height:1}
+.ring .small{font-size:11px;color:var(--txt2);margin-top:2px}
+.heroStats{flex:1;display:flex;align-items:center;gap:14px}
+.protring{position:relative;width:58px;height:58px;flex-shrink:0}
+.prctr{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.prctr span{font-size:16px;font-weight:800;line-height:1}
+.prctr small{font-size:8.5px;color:var(--txt2)}
+.protside{flex:1}
+.hs{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--stroke)}
+.hs:last-child{border-bottom:none}
+.hs .k{font-size:12px;color:var(--txt2)}
+.hs .v{font-size:16px;font-weight:700}
+.hs .v small{font-size:11px;color:var(--txt3);font-weight:500}
+
+/* SECTION HEAD */
+.sh{display:flex;align-items:center;justify-content:space-between;margin:4px 6px 12px}
+.sh h3{font-size:16px;font-weight:700;letter-spacing:-.02em}
+.sh .cnt{font-size:12px;color:var(--txt2)}
+
+/* DATE NAV */
+.dnav{display:flex;align-items:center;justify-content:center;gap:16px;margin:2px 0 16px}
+.dnav button{width:34px;height:34px;border-radius:50%;background:var(--card);border:1px solid var(--stroke);color:var(--txt);font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.dnav .dlab{font-size:14px;font-weight:600;min-width:96px;text-align:center;cursor:pointer}
+.calbtn svg{width:17px;height:17px;fill:none;stroke:var(--green);stroke-width:1.8}
+.dnav #calInput{position:absolute;left:50%;bottom:-4px;transform:translateX(-50%);width:120px;height:1px;opacity:0;pointer-events:none;color-scheme:dark;accent-color:var(--green)}
+.dnav{position:relative}
+/* dark theme for any native date UI */
+input[type="date"]{color-scheme:dark;accent-color:var(--green)}
+::-webkit-datetime-edit,::-webkit-calendar-picker-indicator{color-scheme:dark}
+
+/* FOOD ROW CARD */
+.foodcard{background:var(--card);border:1px solid var(--stroke);border-radius:22px;overflow:hidden;margin-bottom:16px}
+.frow{display:flex;align-items:center;gap:13px;padding:14px 16px;border-bottom:1px solid var(--stroke)}
+.frow:last-child{border-bottom:none}
+.ficon{width:40px;height:40px;border-radius:13px;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+.finfo{flex:1;min-width:0}
+.finfo .fn{font-size:14px;font-weight:600}
+.finfo .fm{font-size:11.5px;color:var(--txt2);margin-top:1px}
+.fcal{font-size:16px;font-weight:700;text-align:right}
+.fcal small{display:block;font-size:10px;color:var(--txt3);font-weight:500}
+.fx{width:30px;height:30px;border-radius:50%;background:var(--card2);border:none;color:var(--txt2);font-size:14px;cursor:pointer;margin-left:6px;flex-shrink:0}
+.fx:active{background:var(--red);color:#fff}
+.empty{padding:34px 16px;text-align:center;color:var(--txt3);font-size:13px}
+.empty .e2{font-size:30px;margin-bottom:8px;opacity:.5}
+
+/* GENERIC CARD + FIELDS */
+.card{background:var(--card);border:1px solid var(--stroke);border-radius:22px;padding:18px;margin-bottom:16px}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:12px;color:var(--txt2);margin-bottom:7px;font-weight:500}
+.field input{width:100%;padding:14px;border:1px solid var(--stroke);border-radius:14px;background:var(--bg);color:var(--txt);font-family:inherit;font-size:15px}
+.field input:focus{outline:none;border-color:var(--green)}
+.field input::placeholder{color:var(--txt3)}
+
+/* BUTTONS */
+.btn{width:100%;padding:15px;border:none;border-radius:16px;background:var(--green);color:#12200a;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 6px 20px var(--glow);transition:.15s}
+.btn:active{transform:scale(.98)}
+.btn.ghost{background:var(--card2);color:var(--txt);box-shadow:none;border:1px solid var(--stroke)}
+
+/* FAB */
+.fab{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:40;width:calc(100% - 40px);max-width:380px;
+  padding:16px;border:none;border-radius:18px;background:var(--green);color:#12200a;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 8px 30px var(--glow);display:flex;align-items:center;justify-content:center;gap:8px}
+.fab:active{transform:translateX(-50%) scale(.98)}
+
+/* SHEETS */
+.sheet{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);z-index:50;display:none;align-items:flex-end;justify-content:center}
+.sheet.open{display:flex;animation:fade .2s}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.sinner{width:100%;max-width:420px;background:var(--bg2);border-radius:26px 26px 0 0;border-top:1px solid var(--stroke);max-height:88vh;overflow-y:auto;animation:up .25s cubic-bezier(.2,.9,.3,1)}
+@keyframes up{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.sinner::-webkit-scrollbar{display:none}
+.grab{width:38px;height:4px;background:var(--stroke);border-radius:3px;margin:10px auto 4px}
+.shead{display:flex;align-items:center;justify-content:space-between;padding:8px 20px 14px}
+.shead h3{font-size:18px;font-weight:700}
+.shead .x{width:32px;height:32px;border-radius:50%;background:var(--card);border:none;color:var(--txt);font-size:15px;cursor:pointer}
+.sbody{padding:0 16px 24px}
+.search{width:100%;padding:14px 16px;border:1px solid var(--stroke);border-radius:16px;background:var(--card);color:var(--txt);font-family:inherit;font-size:15px;margin-bottom:14px}
+.search:focus{outline:none;border-color:var(--green)}
+.search::placeholder{color:var(--txt3)}
+
+/* PICK ROW */
+.pick{display:flex;align-items:center;gap:13px;padding:13px 14px;border-radius:16px;background:var(--card);margin-bottom:9px;cursor:pointer;border:1px solid transparent}
+.pick:active{border-color:var(--green)}
+.pick .pn{font-size:14.5px;font-weight:600}
+.pick .pm{font-size:11px;color:var(--txt2);margin-top:1px}
+.pick .pc{margin-left:auto;font-size:15px;font-weight:700}
+.pick .pc small{font-size:10px;color:var(--txt3);display:block;text-align:right}
+
+/* QTY */
+.qtyrow{display:flex;align-items:center;gap:16px;margin:22px 0}
+.qbtn{width:56px;height:56px;border-radius:18px;background:var(--card2);border:1px solid var(--stroke);color:var(--txt);font-size:26px;font-weight:600;cursor:pointer}
+.qbtn:active{background:var(--green);color:#12200a}
+.qval{flex:1;text-align:center;font-size:34px;font-weight:800}
+.qinfo{text-align:center;font-size:13px;color:var(--txt2)}
+
+.tag{display:inline-block;font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;background:var(--card2);color:var(--txt2)}
+.tag.c{background:rgba(168,224,95,.14);color:var(--green)}
+
+/* AI FLOW */
+.aihint{text-align:center;font-size:12px;color:var(--txt2);margin-top:14px}
+.aierr{margin-top:12px;padding:11px 14px;border-radius:12px;background:rgba(255,90,82,.12);border:1px solid rgba(255,90,82,.35);color:#ff9a94;font-size:12.5px;line-height:1.5;text-align:center}
+/* themed toast (replaces system alert) */
+.toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%) translateY(20px);z-index:200;
+  max-width:340px;width:calc(100% - 40px);padding:13px 16px;border-radius:14px;
+  background:var(--card2);border:1px solid var(--stroke);color:var(--txt);font-size:13.5px;line-height:1.5;
+  box-shadow:0 10px 30px rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:.25s;text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.bad{border-color:rgba(255,90,82,.4)}
+.toast.good{border-color:rgba(168,224,95,.4)}
+/* themed confirm dialog */
+.cdlg{position:fixed;inset:0;z-index:210;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.6);backdrop-filter:blur(3px);padding:24px}
+.cdlg.open{display:flex}
+.cdlg .box{background:var(--bg2);border:1px solid var(--stroke);border-radius:20px;padding:20px;max-width:320px;width:100%;text-align:center}
+.cdlg .box p{font-size:14px;line-height:1.6;margin-bottom:18px}
+.cdlg .row{display:flex;gap:10px}
+.cdlg .row .btn{margin:0}
+/* multi-food rows */
+.rowhead{display:grid;grid-template-columns:1fr 60px 66px 30px;gap:8px;padding:0 2px 6px;font-size:10px;color:var(--txt3);text-transform:uppercase;letter-spacing:.04em}
+.rh-pc,.rh-g{text-align:center}
+.foodrow{display:grid;grid-template-columns:1fr 60px 66px 30px;gap:8px;margin-bottom:9px;align-items:center}
+.foodrow input{padding:12px 10px;border:1px solid var(--stroke);border-radius:12px;background:var(--bg);color:var(--txt);font-family:inherit;font-size:14px;width:100%}
+.foodrow input:focus{outline:none;border-color:var(--green)}
+.foodrow input::placeholder{color:var(--txt3)}
+.foodrow input.num{text-align:center}
+.rowx{width:30px;height:30px;border-radius:9px;background:var(--card2);border:none;color:var(--txt2);font-size:14px;cursor:pointer}
+.rowx:active{background:var(--red);color:#fff}
+.btn.addrow{margin-top:4px;font-size:14px;padding:12px}
+/* result list */
+.rline{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--stroke);border-radius:14px;padding:12px 14px;margin-bottom:9px}
+.rline .rlname{flex:1;font-size:14px;font-weight:600;text-transform:capitalize}
+.rline .rlsub{font-size:11px;color:var(--txt2);margin-top:1px}
+.rline .rlcal{font-size:15px;font-weight:700;text-align:right}
+.rline .rlcal small{display:block;font-size:10px;color:var(--txt3);font-weight:500}
+.totalcard{background:linear-gradient(160deg,#1e2b18,#161816);border:1px solid var(--stroke);border-radius:18px;padding:16px;margin:14px 0 12px}
+.totalcard .tlbl{font-size:12px;color:var(--txt2);text-align:center;margin-bottom:10px}
+.tgrid{display:flex;gap:12px}
+.tbox{flex:1;background:var(--card);border:1px solid var(--stroke);border-radius:14px;padding:12px 8px;text-align:center}
+.tnum{font-size:28px;font-weight:800;color:var(--green);line-height:1}
+.tnum.blue{color:#5fd0e0}
+.tlbl2{font-size:11px;color:var(--txt2);margin-top:5px}
+.loadwrap{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 0 44px}
+.spinner{width:56px;height:56px;border-radius:50%;border:5px solid var(--stroke);border-top-color:var(--green);animation:spin .8s linear infinite;box-shadow:0 0 24px var(--glow)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loadtxt{font-size:17px;font-weight:700;margin-top:20px}
+.loadsub{font-size:13px;color:var(--txt2);margin-top:5px}
+.resultcard{background:linear-gradient(160deg,#1e2b18,#161816);border:1px solid var(--stroke);border-radius:22px;padding:22px;text-align:center;margin-bottom:16px}
+.rfood{font-size:19px;font-weight:700;text-transform:capitalize}
+.rgrams{font-size:13px;color:var(--txt2);margin-top:2px}
+.rgrid{display:flex;gap:12px;margin-top:18px}
+.rbox{flex:1;background:var(--card);border:1px solid var(--stroke);border-radius:16px;padding:14px 8px}
+.rnum{font-size:30px;font-weight:800;color:var(--green);line-height:1}
+.rnum.blue{color:#5fd0e0}
+.rlbl{font-size:11px;color:var(--txt2);margin-top:5px}
+.rest{font-size:11px;color:var(--txt3);margin-top:14px}
+
+/* WEIGHT CHART */
+.chartbox{padding:8px 4px 0}
+svg.line{width:100%;height:auto;display:block;overflow:visible}
+.hint{font-size:12px;color:var(--green);background:rgba(168,224,95,.08);border:1px solid rgba(168,224,95,.2);border-radius:14px;padding:11px 14px;margin-bottom:16px;line-height:1.5}
+</style>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+</head>
+<body>
+<div class="phone">
+  <header>
+    <div class="who">
+      <div class="pfp" id="pfp">S</div>
+      <div><div class="hi">Keep going 💪</div><div class="nm" id="hdrName">Hi Sandhiya</div></div>
+    </div>
+    <div class="hdr-right">
+      <span class="clouddot" id="cloudDot" title="Connecting…"></span>
+      <button class="homebtn" onclick="openInstall()" aria-label="Add to Home Screen">
+        <svg viewBox="0 0 24 24"><path d="M3 11.5L12 4l9 7.5"/><path d="M5 10v9h14v-9"/><path d="M10 19v-5h4v5"/></svg>
+      </button>
+      <button class="warnbtn" onclick="openAdminAsk()" aria-label="Admin">
+        <svg viewBox="0 0 24 24"><path d="M12 3l9 16H3L12 3z"/><path d="M12 10v4M12 17.2v.1"/></svg>
+      </button>
+    </div>
+  </header>
+  <div class="quote" id="quoteBar"></div>
+
+  <div class="scroll">
+    <div class="tabs">
+      <button class="on" data-tab="today" onclick="tab('today')">Today</button>
+      <button data-tab="foods" onclick="tab('foods')">Food Log</button>
+      <button data-tab="weight" onclick="tab('weight')">Weight</button>
+    </div>
+
+    <!-- ===== TODAY ===== -->
+    <div id="tab-today">
+      <div class="dnav">
+        <button onclick="shiftDay(-1)">‹</button>
+        <div class="dlab" id="dateLabel" onclick="openCal()">Today</div>
+        <button class="calbtn" onclick="openCal()" aria-label="Pick date">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="16" rx="2.5"/><path d="M3 9h18M8 3v3M16 3v3"/></svg>
+        </button>
+        <button onclick="shiftDay(1)">›</button>
+        <input type="date" id="calInput" onchange="pickDate(this.value)">
+      </div>
+
+      <div class="hero">
+        <div class="heroTop">
+          <span class="lbl">Calories today</span>
+          <span class="pill bad" id="dayPill">Eat more</span>
+        </div>
+        <div class="ringwrap">
+          <div class="ring">
+            <svg width="132" height="132" viewBox="0 0 132 132">
+              <circle cx="66" cy="66" r="56" fill="none" stroke="#2a2e29" stroke-width="12"/>
+              <circle id="ringFill" cx="66" cy="66" r="56" fill="none" stroke="url(#g)" stroke-width="12" stroke-linecap="round" stroke-dasharray="351.8" stroke-dashoffset="351.8"/>
+              <defs>
+                <linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a8e05f"/><stop offset="1" stop-color="#7bbd35"/></linearGradient>
+                <linearGradient id="gb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5fd0e0"/><stop offset="1" stop-color="#3595bd"/></linearGradient>
+              </defs>
+            </svg>
+            <div class="ctr"><div class="big" id="calNum">0</div><div class="small" id="calGoalTxt">/ 3000 kcal</div></div>
+          </div>
+          <div class="heroStats">
+            <div class="protring">
+              <svg width="58" height="58" viewBox="0 0 58 58">
+                <circle cx="29" cy="29" r="24" fill="none" stroke="#2a2e29" stroke-width="7"/>
+                <circle id="protRingFill" cx="29" cy="29" r="24" fill="none" stroke="url(#gb)" stroke-width="7" stroke-linecap="round" stroke-dasharray="150.8" stroke-dashoffset="150.8" transform="rotate(-90 29 29)"/>
+              </svg>
+              <div class="prctr"><span id="protNum">0</span><small>/40g</small></div>
+            </div>
+            <div class="protside">
+              <div class="hs"><span class="k">Items</span><span class="v" id="itemNum">0</span></div>
+              <div class="hs"><span class="k">To goal</span><span class="v" id="remNum">3000<small>kcal</small></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sh"><h3>Logged food</h3><span class="cnt" id="foodSub">0 items</span></div>
+      <div class="foodcard" id="foodList"></div>
+    </div>
+
+    <!-- ===== FOOD LOG (history of all days) ===== -->
+    <div id="tab-foods" style="display:none">
+      <div class="hint">Every food you've logged, newest day first.</div>
+      <div class="sh"><h3>Food log</h3><span class="cnt" id="logSub">0 days</span></div>
+      <div id="logList"></div>
+    </div>
+
+    <!-- ===== WEIGHT (last) ===== -->
+    <div id="tab-weight" style="display:none">
+      <div class="hint">Weigh once a week · morning · before eating · same clothes.</div>
+      <div class="sh"><h3>Weight trend</h3><span class="cnt" id="wSub">Target 35.0 kg</span></div>
+      <div class="card"><div class="chartbox"><svg class="line" id="wChart" viewBox="0 0 360 180"></svg></div></div>
+      <div class="card">
+        <div class="field"><label>Current weight (kg)</label><input id="wInput" type="number" step="0.1" placeholder="e.g. 25.5"></div>
+        <button class="btn" onclick="addWeight()">Save weight</button>
+      </div>
+      <div class="sh"><h3>History</h3><span class="cnt" id="wHistSub">0 entries</span></div>
+      <div class="foodcard" id="wHist"></div>
+    </div>
+  </div>
+
+  <button class="fab" id="fab" onclick="openSheet()">＋ Add food</button>
+</div>
+
+<!-- ADD FOOD SHEET (AI flow) -->
+<div class="sheet" id="sheet">
+  <div class="sinner">
+    <div class="grab"></div>
+    <div class="shead"><h3 id="addTitle">Add food</h3><button class="x" onclick="closeSheet()">✕</button></div>
+    <div class="sbody">
+
+      <!-- STEP 1: input (multiple foods) -->
+      <div id="step-input">
+        <div class="rowhead"><span class="rh-food">Food</span><span class="rh-pc">Pieces</span><span class="rh-g">Grams</span><span class="rh-x"></span></div>
+        <div id="foodRows"></div>
+        <button class="btn ghost addrow" onclick="addRow()">＋ Add another food</button>
+        <button class="btn" onclick="askAI()" style="margin-top:12px">Check calories →</button>
+        <div class="aierr" id="aiErr" style="display:none"></div>
+        <div class="aihint">Only the food name is needed. Pieces &amp; grams are optional.</div>
+      </div>
+
+      <!-- STEP 2: loading -->
+      <div id="step-loading" style="display:none">
+        <div class="loadwrap">
+          <div class="spinner"></div>
+          <div class="loadtxt">Asking AI…</div>
+          <div class="loadsub" id="loadSub">Calculating calories &amp; protein</div>
+        </div>
+      </div>
+
+      <!-- STEP 3: result + confirm -->
+      <div id="step-result" style="display:none">
+        <div id="resultList"></div>
+        <div class="totalcard">
+          <div class="tlbl">Meal total</div>
+          <div class="tgrid">
+            <div class="tbox"><div class="tnum" id="rTotCal">0</div><div class="tlbl2">calories</div></div>
+            <div class="tbox"><div class="tnum blue" id="rTotProt">0</div><div class="tlbl2">protein (g)</div></div>
+          </div>
+        </div>
+        <div class="rest" style="text-align:center;margin-bottom:14px">AI estimate — close, not exact</div>
+        <button class="btn" onclick="confirmLog()">✓ Yes, log these foods</button>
+        <button class="btn ghost" onclick="resetSheet()" style="margin-top:10px">Cancel</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN: ASK -->
+<div class="sheet" id="adminAsk">
+  <div class="sinner">
+    <div class="grab"></div>
+    <div class="shead"><h3>Admin control</h3><button class="x" onclick="closeSheet2('adminAsk')">✕</button></div>
+    <div class="sbody">
+      <div class="warncard">
+        <div class="warnico">⚠</div>
+        <div class="warntxt">This area is for the <b>admin only</b>. It can delete food, reset data and change the AI key.</div>
+      </div>
+      <div class="askq">Are you the admin?</div>
+      <button class="btn" onclick="openPass()">Yes, I am admin</button>
+      <button class="btn ghost" onclick="closeSheet2('adminAsk')" style="margin-top:10px">No, go back</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN: PASSCODE KEYBOARD -->
+<div class="sheet" id="adminPass">
+  <div class="sinner">
+    <div class="grab"></div>
+    <div class="shead"><h3>Enter passcode</h3><button class="x" onclick="closeSheet2('adminPass')">✕</button></div>
+    <div class="sbody">
+      <div class="passdots" id="passDisplay">Type the secret code</div>
+      <div class="passerr" id="passErr"></div>
+      <div class="keyboard" id="keyboard"></div>
+      <div class="keyrow-actions">
+        <button class="keybtn wide" onclick="passDel()">⌫ Delete</button>
+        <button class="keybtn wide go" onclick="passSubmit()">Unlock →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN: PANEL -->
+<div class="sheet" id="adminPanel">
+  <div class="sinner">
+    <div class="grab"></div>
+    <div class="shead"><h3>Admin panel</h3><button class="x" onclick="closeSheet2('adminPanel')">✕</button></div>
+    <div class="sbody">
+      <div class="okcard">✓ Unlocked — full control</div>
+
+      <div class="asec"><div class="asech">Gemini API key</div>
+        <div class="field"><input id="admKey" placeholder="Paste Gemini key (blank = offline AI)"></div>
+        <button class="btn" onclick="admSaveKey()">Save key</button>
+      </div>
+
+      <div class="asec"><div class="asech">Daily goals</div>
+        <div class="grow">
+          <div class="field"><label>Calories</label><input id="admGoal" type="number"></div>
+          <div class="field"><label>Protein g</label><input id="admProt" type="number"></div>
+          <div class="field"><label>Target kg</label><input id="admTarget" type="number" step="0.1"></div>
+        </div>
+        <button class="btn" onclick="admSaveGoals()">Save goals</button>
+      </div>
+
+      <div class="asec"><div class="asech">Delete a food (today)</div>
+        <div id="admFoodList"></div>
+      </div>
+
+      <div class="asec"><div class="asech">Danger zone</div>
+        <button class="btn danger" onclick="admResetToday()">Reset today's food</button>
+        <button class="btn danger" onclick="admResetAll()" style="margin-top:10px">Erase ALL data</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADD TO HOME SHEET -->
+<div class="sheet" id="installSheet">
+  <div class="sinner">
+    <div class="grab"></div>
+    <div class="shead"><h3>Add to Home Screen</h3><button class="x" onclick="closeSheet2('installSheet')">✕</button></div>
+    <div class="sbody">
+      <p style="font-size:13px;color:var(--txt2);line-height:1.5;margin-bottom:18px">Put GAIN on your phone like a real app. Then just tap the icon to open it.</p>
+
+      <!-- iPhone steps -->
+      <div id="iosSteps">
+        <div class="istep"><div class="n">1</div><div class="t">Tap the <b>Share</b> button
+          <span class="iico"><svg viewBox="0 0 24 24"><path d="M12 16V4M8 8l4-4 4 4"/><path d="M6 12v7h12v-7"/></svg></span>
+          at the bottom of Safari.</div></div>
+        <div class="istep"><div class="n">2</div><div class="t">Scroll down and tap <b>Add to Home Screen</b>
+          <span class="iico"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>.</div></div>
+        <div class="istep"><div class="n">3</div><div class="t">Tap <b>Add</b> in the top-right. Done — the GAIN icon is now on your home screen.</div></div>
+        <p style="font-size:12px;color:var(--txt3);margin-top:4px">Note: on iPhone this must be done in <b>Safari</b> (not Chrome).</p>
+      </div>
+
+      <!-- Android steps -->
+      <div id="androidSteps" style="display:none">
+        <button class="btn" id="androidInstallBtn" onclick="doAndroidInstall()" style="margin-bottom:16px">Install app</button>
+        <div class="istep"><div class="n">1</div><div class="t">If the button above didn't work: tap the <b>⋮</b> menu (top-right of Chrome).</div></div>
+        <div class="istep"><div class="n">2</div><div class="t">Tap <b>Add to Home screen</b> / <b>Install app</b>.</div></div>
+        <div class="istep"><div class="n">3</div><div class="t">Confirm. The GAIN icon appears on your home screen.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- themed toast + confirm -->
+<div class="toast" id="toast"></div>
+<div class="cdlg" id="cdlg"><div class="box"><p id="cdlgMsg"></p><div class="row">
+  <button class="btn ghost" id="cdlgNo">Cancel</button>
+  <button class="btn" id="cdlgYes">Yes</button>
+</div></div></div>
+
+<script>
+/* ---------- THEMED MESSAGES (replace system alert/confirm) ---------- */
+let toastT=null;
+function toast(msg,kind){
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.className='toast show'+(kind?' '+kind:'');
+  if(toastT)clearTimeout(toastT);
+  toastT=setTimeout(()=>{el.className='toast'+(kind?' '+kind:'');},3200);
+}
+function confirmThemed(msg){
+  return new Promise(res=>{
+    const dlg=document.getElementById('cdlg');
+    document.getElementById('cdlgMsg').textContent=msg;
+    dlg.classList.add('open');
+    const yes=document.getElementById('cdlgYes'), no=document.getElementById('cdlgNo');
+    const done=v=>{dlg.classList.remove('open');yes.onclick=null;no.onclick=null;res(v);};
+    yes.onclick=()=>done(true); no.onclick=()=>done(false);
+  });
+}
+
+/* ---------- FOOD DB ---------- */
+const DEFAULT_FOODS = [
+  ["Dosa","🥞",130,3],["Egg dosa","🍳",210,9],["Idli (1)","⚪",60,2],["Sambar (bowl)","🥘",120,5],
+  ["Rice (1 cup)","🍚",200,4],["Rasam rice (plate)","🍛",350,7],["Curd rice (plate)","🍚",330,8],
+  ["Dal (bowl)","🥣",150,9],["Chapati","🫓",120,3],["Poori (1)","🫓",100,2],
+  ["Banana","🍌",105,1],["Milk (glass)","🥛",125,8],["Peanuts (handful)","🥜",170,7],
+  ["Peanut chikki (1)","🍯",90,3],["Egg (boiled)","🥚",75,6],["Chicken curry (bowl)","🍗",250,22],
+  ["Chilli beef (6 pc)","🥩",350,25],["Ghee (1 tbsp)","🧈",120,0],["Potato curry (bowl)","🥔",180,4],
+  ["Pomegranate juice","🧃",130,2],["Rice water (glass)","💧",25,1],["Groundnut smoothie","🥤",580,18]
+];
+const cfg=JSON.parse(localStorage.getItem('gain_cfg')||'{}');
+const DB = {
+  goal:cfg.goal||3000, proteinGoal:cfg.proteinGoal||40, target:cfg.target||35,
+  geminiKey:cfg.geminiKey||"AQ.Ab8RN6I4OC-K2na7hUa9PRJ8L_y6wn_sSKJZ6mYsJG-D-mLVVQ",
+  custom:JSON.parse(localStorage.getItem('gain_custom')||'[]'),
+  days:JSON.parse(localStorage.getItem('gain_days')||'{}'),
+  weights:JSON.parse(localStorage.getItem('gain_weights')||'[]')
+};
+let curDate = todayKey();
+
+/* ---------- FIREBASE CLOUD SYNC ---------- */
+const firebaseConfig = {
+  apiKey: "AIzaSyAU-UNy4kNTthVNFBxigvlB8ThLu2JzDVk",
+  authDomain: "weight-gain-app-6ed4e.firebaseapp.com",
+  projectId: "weight-gain-app-6ed4e",
+  storageBucket: "weight-gain-app-6ed4e.firebasestorage.app",
+  messagingSenderId: "830637937964",
+  appId: "1:830637937964:web:907f2664f1730903804889"
+};
+let fdb=null, cloudReady=false, applyingCloud=false;
+const CLOUD_DOC="shared/sandhiya"; // one shared record both phones read/write
+function initFirebase(){
+  try{
+    firebase.initializeApp(firebaseConfig);
+    fdb=firebase.firestore();
+    // live listener: when cloud changes (from her phone or yours), update instantly
+    fdb.doc(CLOUD_DOC).onSnapshot(snap=>{
+      const d = snap.exists ? snap.data() : {};
+      applyingCloud=true;
+      if(d.days) DB.days=d.days;
+      if(d.weights) DB.weights=d.weights;
+      if(d.custom) DB.custom=d.custom;
+      if(d.goal) DB.goal=d.goal;
+      if(d.proteinGoal) DB.proteinGoal=d.proteinGoal;
+      if(d.target) DB.target=d.target;
+      if(typeof d.geminiKey==='string' && d.geminiKey) DB.geminiKey=d.geminiKey;
+      // merge the one-time 9-day seed into cloud if missing
+      let seededNow=false;
+      for(const day in SEED_DAYS){ if(!DB.days[day]){ DB.days[day]=SEED_DAYS[day]; seededNow=true; } }
+      saveLocal();
+      applyingCloud=false;
+      if(seededNow){ pushCloud(); }
+      refreshUI();
+      cloudReady=true;
+      setCloudStatus(true);
+    }, err=>{ console.warn('cloud read error',err); setCloudStatus(false); });
+    cloudReady=true;
+  }catch(e){ console.warn('Firebase init failed, offline only',e); setCloudStatus(false); }
+}
+function pushCloud(){
+  if(!fdb) return;
+  fdb.doc(CLOUD_DOC).set({
+    days:DB.days, weights:DB.weights, custom:DB.custom,
+    goal:DB.goal, proteinGoal:DB.proteinGoal, target:DB.target, geminiKey:DB.geminiKey,
+    updated:Date.now()
+  },{merge:true}).then(()=>setCloudStatus(true)).catch(e=>{console.warn('cloud write error',e);setCloudStatus(false);});
+}
+function setCloudStatus(ok){
+  const el=document.getElementById('cloudDot'); if(!el)return;
+  el.style.background = ok ? 'var(--green)' : 'var(--txt3)';
+  el.title = ok ? 'Synced to cloud' : 'Offline (saved on phone)';
+}
+function refreshUI(){
+  renderToday();
+  const wv=document.getElementById('tab-weight'); if(wv&&wv.style.display!=='none'){drawChart();renderWHist();}
+  const fv=document.getElementById('tab-foods'); if(fv&&fv.style.display!=='none'){renderLog();}
+}
+
+function saveLocal(){
+  localStorage.setItem('gain_custom',JSON.stringify(DB.custom));
+  localStorage.setItem('gain_days',JSON.stringify(DB.days));
+  localStorage.setItem('gain_weights',JSON.stringify(DB.weights));
+  localStorage.setItem('gain_cfg',JSON.stringify({goal:DB.goal,proteinGoal:DB.proteinGoal,target:DB.target,geminiKey:DB.geminiKey}));
+}
+function save(){
+  saveLocal();
+  if(!applyingCloud) pushCloud(); // don't echo cloud changes back
+}
+function todayKey(){return new Date().toISOString().slice(0,10);}
+function allFoods(){return [...DEFAULT_FOODS.map(f=>({n:f[0],ic:f[1],c:f[2],p:f[3]})), ...DB.custom.map(f=>({...f,ic:f.ic||'🍽️'}))];}
+
+/* ---------- TABS ---------- */
+function tab(t){
+  document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===t));
+  today.style.display=t==='today'?'block':'none';
+  ['today','weight','foods'].forEach(x=>document.getElementById('tab-'+x).style.display=x===t?'block':'none');
+  document.getElementById('fab').style.display=t==='today'?'flex':'none';
+  if(t==='weight'){drawChart();renderWHist();}
+  if(t==='foods')renderLog();
+}
+const today=document.getElementById('tab-today');
+
+/* ---------- QUOTES ---------- */
+const QUOTES=["Being lean is your starting point, not your limit.","Every extra bite is a brick in the body you're building.","You're not too thin to be strong — you're strong and getting bigger.","Muscle is patient. Feed it, and it will come.","A skinny frame can carry a powerful future. Keep feeding it.","Weight gain is won at the dinner table, one plate at a time.","You didn't get lean overnight; you won't gain overnight. Stay steady.","Your appetite is a muscle too — train it a little more each day.","One more spoon is a quiet act of self-belief.","Small frame, big determination. That's how giants start.","Eat like you love the body you're trying to build.","The mirror will change. Trust the meals in between.","You're planting mass with every meal. Water it daily.","Being underweight is a chapter, not your whole story.","Gain slow, gain strong, gain for good.","Your metabolism is fast — just feed it faster.","Extra calories today are extra strength tomorrow.","You are allowed to take up more space in this world.","Skinny is where you began; strong is where you're going.","Feed the frame, build the future.","A lean body responds fast once you feed it right.","Every gram gained is a promise kept to yourself.","You're not failing at gaining — you're learning to fuel.","Big meals, calm mind, steady gains.","The hardest rep is lifting the fork one more time. Do it.","Your future strong self is built from today's second helping.","Gaining weight is self-care, not indulgence.","You deserve to feel full, fueled, and strong.","Thin now, mighty soon. Keep eating.","Consistency turns a lean body into a strong one.","Every healthy kilo is a victory worth celebrating.","You're building mass the honest way — meal by meal.","Don't shrink from food; grow with it.","A strong body is a well-fed body. Feed yours.","Your bones are ready. Give them muscle to wear.","Slow gains are permanent gains.","You are becoming heavier, healthier, happier.","The scale rises when you refuse to skip meals.","Fuel first, strength follows.","Lean today, layered with muscle tomorrow.","Your body wants to grow — just give it the bricks.","Eat for the size you want, not the size you are.","Every full plate is a step off the 'too skinny' label.","You're not eating too much; you're finally eating enough.","Gains love a person who never skips breakfast.","A little more every meal becomes a lot over months.","Strength is stored in the meals you don't skip.","Your weight-gain journey is proof you care about yourself.","Being lean means muscle shows fast — so build it.","Feed the dream of a stronger you.","You have the frame; now add the force.","Nourish now, flex later.","The best time to eat more was yesterday; the next best is now.","Your body keeps score of every good meal. Keep scoring.","Grow into your strength one honest bite at a time.","Underweight is a starting line, and you're already running.","Calories are not the enemy; they're your building blocks.","You're worth every extra helping.","Weight gain rewards the patient and the persistent.","A stronger body is being assembled inside you right now.","Lean frames become strong frames when they're fed with intent.","Every meal skipped is a gain postponed. So don't skip.","You are stronger at the table than you think.","The path to muscle is paved with plates you finished.","Add mass with kindness — to your body and yourself.","Your appetite will grow. Meet it halfway.","Being small is not the same as staying small.","Feed today, thank yourself in three months.","Your strength story starts with a full stomach.","Gains are gentle giants — they arrive slowly, then all at once.","You are not behind; you are building.","Extra protein is extra armor. Wear more.","Muscle grows in the quiet space between meals and rest.","You can outgrow 'skinny' — one dinner at a time.","Your future physique is hungry. Feed it now.","Lean and determined beats big and lazy every time.","Weight gain is a marathon of meals. Keep pacing.","You are exactly the person who can do this.","A full plate is a form of hope.","The strongest thing a lean person can do is keep eating well.","Your body is a garden; calories are the rain.","Small servings, stacked daily, build a bigger you.","Don't fear the scale — befriend it.","You're not gaining fat; you're gaining a future.","Every gram counts, and every gram is yours to earn.","Muscle memory starts with meal memory.","You have room to grow, and permission to fill it.","Feed the lean machine and watch it roar.","Gaining weight healthily is a flex all its own.","The frame is set; now pour in the strength.","You're one good month of meals from a new you.","Lean people who eat with purpose become powerful.","Your metabolism isn't a curse; it's a challenge you're beating.","Bite by bite, you're rewriting your body.","Strong starts in the kitchen, not the mirror.","You deserve to be nourished into strength.","Add a little more today; you'll thank yourself later.","The lean become the strong when they refuse to quit eating well.","Your best body is a fed body.","Gains are shy — feed them consistently and they'll show up.","You are building, not just eating.","Show up to every meal like it matters, because it does.","Discipline is eating well even when you're not hungry.","Consistency is the secret ingredient in every gain.","Miss a meal, miss a chance. Take the chance.","Your gains live in the meals you almost skipped.","Steady eating beats occasional feasting.","Routine builds the body motivation only dreams of.","Three solid meals beat one giant one.","Snacks are not cheating; they're building blocks.","The habit of eating enough will change everything.","Plan the plate, win the day.","Never negotiate with a skipped meal.","Small daily wins stack into a stronger you.","Your calendar of meals is your blueprint for muscle.","Feed the routine and the routine feeds you back.","You control the fork; the fork controls the gains.","Every on-time meal is a vote for the strong you.","Persistence at the plate pays in muscle.","Consistency isn't glamorous, but it's powerful.","Win the meal, win the month.","Discipline today is confidence tomorrow.","You don't need motivation; you need your next meal.","Habits build bodies. Build good ones.","Keep the streak of good meals alive.","The body follows the fork. Lead it well.","Meal by meal, you become undeniable.","Show up hungry or not — your muscles are counting on you.","Progress hides inside your daily routine.","A missed meal is a missed brick. Lay every one.","Your discipline is quietly building a giant.","Slow gain is real gain.","You can't rush muscle, but you can never stop feeding it.","Patience is the muscle that grows all the others.","Trust the months, not the mornings.","Progress you can't see today is still progress.","The scale moves for the patient.","Gains are earned in weeks, not days.","Give it time; give it food; give it consistency.","Every slow week still moves you forward.","You're not stuck; you're steeping.","Muscle takes its time because it's built to last.","Small numbers on the scale are big wins in disguise.","The tortoise gains muscle too — and keeps it.","Be patient with the body that's working for you.","Growth is quiet before it's obvious.","You are further along than the mirror admits.","Trust the process even when it's slow.","The best gains take the longest — and stay the longest.","A year from now, today's patience will show.","Keep watering; the growth is coming.","Eggs are cheap strength. Eat more of them.","A glass of milk is muscle you can drink.","Peanuts: small, cheap, and packed with gains.","Dal and rice built strong bodies for centuries.","You don't need expensive food to gain — you need enough food.","Bananas before bed, gains in your head.","Rice is fuel; treat every grain like it matters.","Groundnuts are a poor person's protein gold.","Milk, eggs, dal, rice — your budget muscle stack.","A boiled egg is a tiny brick of strength.","Cheap calories still build a strong body.","Ghee on rice is honest energy. Use it.","Peanut chikki: sweet, cheap, and full of gains.","You can gain on a small budget with a big plan.","Curd rice fills you and fuels you.","Every rupee of dal is a rupee of muscle.","Simple food, eaten fully, builds strong bodies.","Two eggs a day keep the weakness away.","A smoothie of milk, banana, and peanuts is liquid gains.","Never underestimate the power of a full bowl of rice.","Your body is not a problem to fix but a garden to grow.","Speak kindly to the frame you're strengthening.","You are worthy of the effort it takes to gain.","Being lean is beautiful; being strong is a gift you give yourself.","Love your body enough to feed it fully.","You are not too much; you are becoming enough.","The way you talk to yourself feeds your progress too.","Gaining weight is choosing yourself.","You are allowed to want to be bigger and stronger.","Your worth was never tied to the scale — but your health is.","Be proud of every step toward a stronger you.","You are building a home for a healthier life.","Kindness to your body speeds every gain.","You deserve to feel powerful in your own skin.","Grow at your own pace and be proud of it.","Your journey is yours; walk it with pride.","A fed body is a loved body.","You are enough today and getting stronger for tomorrow.","Celebrate the effort, not just the outcome.","Your body hears every kind word you feed it.","On no-appetite days, one bite is still a win.","Hard days don't erase your progress; they test it.","Even a small meal on a bad day keeps the streak alive.","When eating feels hard, remember why you started.","A slow day is not a failed day.","Push through the full feeling; that's where growth lives.","Off days pass; your goals remain.","Eat something, anything healthy — momentum matters.","The hardest meals build the strongest results.","You've survived every hard day so far. Keep going.","When motivation fades, let routine carry you.","One difficult meal today saves a week of setbacks.","Bad appetite? Sip your calories. Keep moving.","Progress isn't lost on tough days; it's paused.","You are stronger than a skipped-meal excuse.","Feed yourself gently on the hard days.","Even 100 extra calories beats zero.","Tough day? Small plate, big win.","Rest, refuel, and rise again tomorrow.","Your comeback is built on days you almost gave up.","Every meal is a rep for your future muscles.","Fork in hand, strength on the way.","Build the base now; the muscle stacks on top.","Your arms are waiting for the calories you'll give them.","Strength is stored energy — so store more.","Feed the machine; watch the power grow.","Muscle is a thank-you note from consistent meals.","You're forging strength in a kitchen, not just a gym.","Every gram of protein is a soldier for your strength.","Lift the fork, build the frame.","Your future flex starts on today's plate.","Power is patient; feed it and wait.","Turn calories into confidence.","Strength grows where food and rest meet.","You're not just eating; you're engineering strength.","The strongest version of you is hungry right now.","Fuel the fire that becomes muscle.","Meals now, muscles later. Simple math.","Your strength is a stack of finished plates.","Grow the engine before you race.","Picture the stronger you, then feed that picture.","Your goal weight is a series of meals away.","Keep the vision; the muscle will follow.","Aim for strong, not just heavier.","Every plate points toward your goal.","The target is set; the fork is the tool.","See the finish line in every full plate.","Your dream body is built one meal at a time.","Chase strength, and weight will follow.","Hold the vision, do the meals.","Goals are met by people who keep eating well.","Your target weight is patient; go meet it.","Dream big, eat bigger.","The strong you is a promise; keep it with food.","Every meal is a step toward the goal you can see.","Believe in the body you're building.","Your future is heavier and healthier. Go get it.","The goal isn't far; it's just fed one meal at a time.","Keep your eyes on strong and your plate full.","You will reach it — bite by bite, day by day.","You started, and starting is the hardest part.","Momentum loves a person who never skips a meal.","Keep going; your body is finally getting what it needs.","You're doing the work most people avoid. Respect that.","One good week becomes one good month becomes a new you.","You're closer than you were yesterday.","Keep stacking good days.","The results are coming; keep feeding them.","You're building unstoppable momentum.","Don't stop now — the gains are just warming up.","Every day you show up, you win a little.","Progress compounds. Keep depositing meals.","You've got a rhythm now; protect it.","The hard part is behind you; keep the streak alive.","Little wins today, big change tomorrow.","You are the kind of person who follows through.","Keep feeding the momentum you've earned.","Your consistency is becoming your superpower.","Stay the course; the muscle is on its way.","You're not just gaining weight; you're gaining momentum.","Full plate, clear goal, steady heart.","Your strength grows quietly, then loudly.","Feed the body; free the confidence.","Every good meal is an investment that pays in strength.","You're turning 'too skinny' into 'surprisingly strong'.","Calories in, confidence up.","The frame is ready; add the muscle.","You are worth being strong and healthy.","Eat with intention; grow with pride.","A stronger tomorrow is on today's menu.","Your body thrives when you stop shrinking your meals.","Bigger plates, brighter future.","You're not behind anyone; you're building yourself.","Strength is a habit; start it at every meal.","Feed the body that carries all your dreams.","Your gains are proof that you kept your promise.","Grow steadily and you'll grow forever.","The lean become legends when they keep feeding the fire.","You are the author of a stronger story.","One more bite is one more step toward strong.","Weight gain is patience with a plate.","You're building something that lasts: a strong, healthy body.","Every full meal is a quiet triumph.","Fuel up; your strength is waiting.","The strongest muscle you'll build is the will to keep eating well.","You are becoming the person your goals need you to be.","Add mass, add confidence, add life.","Your journey from lean to strong starts on this plate.","Keep eating, keep believing, keep growing.","You've got this — plate by plate, day by day, gain by gain."];
+let lastQuote=-1, quoteTimer=null;
+function pickQuote(){
+  let i;
+  do{ i=Math.floor(Math.random()*QUOTES.length); }while(i===lastQuote && QUOTES.length>1);
+  lastQuote=i;
+  document.getElementById('quoteBar').textContent=QUOTES[i];
+}
+function showQuote(){
+  pickQuote();
+  if(quoteTimer) clearInterval(quoteTimer);
+  quoteTimer=setInterval(pickQuote, 60000); // new quote every 1 minute
+}
+
+/* ---------- DAY NAV ---------- */
+function shiftDay(d){const dt=new Date(curDate);dt.setDate(dt.getDate()+d);const k=dt.toISOString().slice(0,10);if(k>todayKey())return;curDate=k;renderToday();}
+function openCal(){const el=document.getElementById('calInput');el.max=todayKey();el.value=curDate;if(el.showPicker){try{el.showPicker();}catch(e){el.click();}}else{el.click();}}
+function pickDate(v){if(!v)return;if(v>todayKey())v=todayKey();curDate=v;renderToday();}
+function dateText(){if(curDate===todayKey())return 'Today';const dt=new Date(curDate);return dt.toLocaleDateString('en-GB',{weekday:'short',day:'2-digit',month:'short'});}
+
+/* ---------- TODAY ---------- */
+function renderToday(){
+  const items=DB.days[curDate]||[];
+  let cal=0,prot=0;items.forEach(i=>{cal+=i.c*i.q;prot+=(i.p||0)*i.q;});
+  cal=Math.round(cal);prot=Math.round(prot);
+  document.getElementById('calNum').textContent=cal;
+  document.getElementById('protNum').textContent=prot;
+  document.getElementById('itemNum').textContent=items.length;
+  document.getElementById('calGoalTxt').textContent='/ '+DB.goal+' kcal';
+  const rem=Math.max(0,DB.goal-cal);
+  document.getElementById('remNum').innerHTML=rem+'<small>kcal</small>';
+  const pct=Math.min(1,cal/DB.goal);
+  const C=351.8;document.getElementById('ringFill').style.strokeDashoffset=C-C*pct;
+  const pPct=Math.min(1,prot/DB.proteinGoal);
+  const PC=150.8;document.getElementById('protRingFill').style.strokeDashoffset=PC-PC*pPct;
+  document.getElementById('dateLabel').textContent=dateText();
+  document.getElementById('foodSub').textContent=items.length+' item'+(items.length===1?'':'s');
+  const pill=document.getElementById('dayPill');
+  if(cal>=DB.goal){pill.className='pill ok';pill.textContent='Goal hit ✓';}
+  else if(cal>=DB.goal*0.7){pill.className='pill warn';pill.textContent='Almost there';}
+  else{pill.className='pill bad';pill.textContent='Eat more';}
+  const list=document.getElementById('foodList');
+  if(!items.length){list.innerHTML='<div class="empty"><div class="e2">🍽️</div>No food yet.<br>Tap the green button to add.</div>';return;}
+  list.innerHTML=items.map((i,idx)=>`
+    <div class="frow">
+      <div class="ficon">${i.ic||'🍽️'}</div>
+      <div class="finfo"><div class="fn">${i.n}</div><div class="fm">${foodAmt(i)}${i.p?' · '+i.p+'g protein':''}</div></div>
+      <div class="fcal">${i.c*i.q}<small>kcal</small></div>
+      <button class="fx" onclick="delFood(${idx})">✕</button>
+    </div>`).join('');
+}
+function delFood(idx){DB.days[curDate].splice(idx,1);if(!DB.days[curDate].length)delete DB.days[curDate];save();renderToday();}
+function foodAmt(i){return [i.pc?i.pc+' pc':'',i.g?i.g+' g':''].filter(Boolean).join(' · ')||'1 serving';}
+
+/* ---------- ADD SHEET (multi-food AI flow) ---------- */
+let aiResults=null;
+function openSheet(){resetSheet();document.getElementById('sheet').classList.add('open');}
+function closeSheet(){document.getElementById('sheet').classList.remove('open');}
+function showStep(s){
+  ['input','loading','result'].forEach(x=>document.getElementById('step-'+x).style.display=x===s?'block':'none');
+}
+function rowHTML(){
+  return `<div class="foodrow">
+    <input class="f-name" placeholder="e.g. Dosa">
+    <input class="f-pc num" type="number" placeholder="—">
+    <input class="f-g num" type="number" placeholder="—">
+    <button class="rowx" onclick="removeRow(this)">✕</button>
+  </div>`;
+}
+function addRow(){document.getElementById('foodRows').insertAdjacentHTML('beforeend',rowHTML());}
+function removeRow(btn){
+  const rows=document.querySelectorAll('#foodRows .foodrow');
+  if(rows.length<=1){btn.closest('.foodrow').querySelectorAll('input').forEach(i=>i.value='');return;}
+  btn.closest('.foodrow').remove();
+}
+function resetSheet(){
+  document.getElementById('foodRows').innerHTML=rowHTML()+rowHTML();
+  document.getElementById('addTitle').textContent='Add food';
+  aiResults=null;showStep('input');
+}
+
+/* ===== AI CALL (all rows) ===== */
+async function askAI(){
+  const rows=[...document.querySelectorAll('#foodRows .foodrow')];
+  const foods=[];
+  for(const r of rows){
+    const name=r.querySelector('.f-name').value.trim();
+    if(!name)continue;
+    const pc=parseInt(r.querySelector('.f-pc').value)||null;
+    const g=parseInt(r.querySelector('.f-g').value)||null;
+    foods.push({name,pc,g});
+  }
+  if(!foods.length){ inErr('Type at least one food first.'); return; }
+  if(!DB.geminiKey){ inErr('No AI key set. Add your Gemini key in the Admin panel.'); return; }
+  inErr('');
+  document.getElementById('addTitle').textContent='Checking…';
+  showStep('loading');
+  try{
+    const results=[];
+    for(const f of foods){
+      const r=await geminiEstimate(f.name,f.g,f.pc); // Gemini only, no offline
+      results.push({n:f.name,pc:f.pc,g:f.g,c:r.calories,p:r.protein});
+    }
+    aiResults=results;
+    let totC=0,totP=0;
+    document.getElementById('resultList').innerHTML=results.map(r=>{
+      totC+=r.c;totP+=r.p;
+      const amt=[r.pc?r.pc+' pc':'',r.g?r.g+' g':''].filter(Boolean).join(' · ')||'1 serving';
+      return `<div class="rline"><div><div class="rlname">${r.n}</div><div class="rlsub">${amt}</div></div>
+        <div class="rlcal">${r.c}<small>${r.p}g protein</small></div></div>`;
+    }).join('');
+    document.getElementById('rTotCal').textContent=totC;
+    document.getElementById('rTotProt').textContent=totP;
+    document.getElementById('addTitle').textContent='AI result';
+    showStep('result');
+  }catch(e){
+    document.getElementById('addTitle').textContent='Add food';
+    showStep('input');
+    inErr(e.message || 'AI could not answer. Try again.');
+  }
+}
+/* in-sheet error line (themed, not a system popup) */
+function inErr(msg){
+  const el=document.getElementById('aiErr'); if(!el)return;
+  el.textContent=msg||''; el.style.display=msg?'block':'none';
+}
+
+/* ===== FOOD ESTIMATOR =====
+   Uses real Gemini if a key is set (Admin panel), else offline estimate. */
+async function estimateFood(name,grams,pieces){
+  if(DB.geminiKey){ return await geminiEstimate(name,grams,pieces); }
+  return await mockEstimate(name,grams,pieces);
+}
+
+/* MOCK: rough offline guess. Uses grams if given, else pieces, else 1 serving */
+function mockEstimate(name,grams,pieces){
+  return new Promise(res=>{
+    const n=name.toLowerCase();
+    let cPer100=150,pPer100=5, perPiece=null,ppPiece=null;
+    const map=[
+      [['chicken','beef','mutton','fish'],200,20,120,12],
+      [['egg'],155,13,75,6],
+      [['peanut','groundnut','nuts'],560,25,null,null],
+      [['chikki'],450,10,90,3],
+      [['dosa'],200,5,130,3],
+      [['idli'],120,3,60,2],
+      [['chapati','roti','poori','poori'],250,8,110,3],
+      [['banana'],90,1,105,1],
+      [['dal','sambar'],110,6,null,null],
+      [['curry','gravy'],130,7,null,null],
+      [['rice','biryani','pulao'],180,5,null,null],
+      [['milk','curd','yogurt'],65,3,null,null],
+      [['smoothie','shake'],120,5,null,null],
+      [['apple','fruit','juice'],55,1,null,null],
+      [['ghee','oil','butter'],850,0,null,null]
+    ];
+    for(const[keys,c,p,pp,ppp]of map){if(keys.some(k=>n.includes(k))){cPer100=c;pPer100=p;perPiece=pp;ppPiece=ppp;break;}}
+    let calories,protein;
+    if(grams){calories=Math.round(cPer100*grams/100);protein=Math.round(pPer100*grams/100);}
+    else if(pieces&&perPiece){calories=Math.round(perPiece*pieces);protein=Math.round(ppPiece*pieces);}
+    else if(pieces){calories=Math.round(cPer100*pieces*0.8);protein=Math.round(pPer100*pieces*0.8);} // ~80g/piece guess
+    else {calories=Math.round(cPer100*1.5);protein=Math.round(pPer100*1.5);} // ~150g serving
+    setTimeout(()=>res({calories,protein}),700);
+  });
+}
+
+/* REAL GEMINI
+   Key is sent as the x-goog-api-key HEADER — this works for both the old
+   AIza... keys and the newer AQ.... keys from Google AI Studio. */
+async function geminiEstimate(name,grams,pieces){
+  const amt = grams ? grams+' grams' : (pieces ? pieces+' pieces or servings' : 'one normal serving');
+  // Models your key can use, ordered by highest free daily limit first.
+  // gemini-3.1-flash-lite has 500/day; the 2.5 ones have ~20/day.
+  const models=['gemini-3.1-flash-lite','gemini-2.5-flash-lite','gemini-2.5-flash','gemini-3.5-flash-lite'];
+  const prompt=`Estimate total calories and protein for ${amt} of "${name}" (assume Indian home food if unclear). Reply ONLY as JSON like {"calories":123,"protein":12}. No extra text.`;
+  const bodyStr=JSON.stringify({contents:[{parts:[{text:prompt}]}]});
+  let lastMsg='AI error';
+  for(const model of models){
+    const url='https://generativelanguage.googleapis.com/v1beta/models/'+model+':generateContent';
+    let resp;
+    try{
+      resp=await fetch(url,{method:'POST',
+        headers:{'Content-Type':'application/json','x-goog-api-key':DB.geminiKey},
+        body:bodyStr});
+    }catch(e){ throw new Error('No internet connection'); }
+    let data={};
+    try{ data=await resp.json(); }catch(e){}
+    if(resp.ok){
+      try{
+        const txt=data.candidates[0].content.parts[0].text.replace(/```json|```/g,'').trim();
+        const j=JSON.parse(txt);
+        return {calories:Math.round(j.calories),protein:Math.round(j.protein)};
+      }catch(e){ throw new Error('AI gave an unexpected reply'); }
+    }
+    // not ok — remember message, maybe try next model
+    lastMsg=(data && data.error && data.error.message) ? data.error.message : ('Error '+resp.status);
+    if(resp.status===401 || resp.status===403){
+      throw new Error('Key rejected by Google: '+lastMsg);
+    }
+    // 400 (bad model name), 404 (model not found), 429 (limit) → try next model
+  }
+  throw new Error('All models failed. Last: '+lastMsg);
+}
+
+function confirmLog(){
+  if(!aiResults||!aiResults.length)return;
+  if(!DB.days[curDate])DB.days[curDate]=[];
+  aiResults.forEach(r=>{
+    DB.days[curDate].push({n:r.n,ic:'🍽️',c:r.c,p:r.p,q:1,g:r.g||null,pc:r.pc||null});
+  });
+  save();closeSheet();renderToday();
+}
+
+/* ---------- FOOD LOG (history) ---------- */
+function renderLog(){
+  const el=document.getElementById('logList');
+  const dates=Object.keys(DB.days).sort().reverse();
+  document.getElementById('logSub').textContent=dates.length+' day'+(dates.length===1?'':'s');
+  if(!dates.length){el.innerHTML='<div class="foodcard"><div class="empty"><div class="e2">📋</div>No food logged yet.</div></div>';return;}
+  el.innerHTML=dates.map(d=>{
+    const items=DB.days[d];let cal=0,prot=0;items.forEach(i=>{cal+=i.c*i.q;prot+=(i.p||0)*i.q;});
+    const dt=d===todayKey()?'Today':new Date(d).toLocaleDateString('en-GB',{weekday:'short',day:'2-digit',month:'short'});
+    const rows=items.map(i=>`<div class="frow"><div class="ficon">${i.ic||'🍽️'}</div>
+      <div class="finfo"><div class="fn">${i.n}</div><div class="fm">${foodAmt(i)} · ${i.p||0}g protein</div></div>
+      <div class="fcal">${i.c*i.q}<small>kcal</small></div></div>`).join('');
+    return `<div class="sh"><h3>${dt}</h3><span class="cnt">${Math.round(cal)} kcal · ${Math.round(prot)}g</span></div>
+      <div class="foodcard">${rows}</div>`;
+  }).join('');
+}
+
+/* ---------- WEIGHT ---------- */
+function addWeight(){
+  const v=parseFloat(document.getElementById('wInput').value);
+  if(!v){toast('Enter your weight first','bad');return;}
+  DB.weights=DB.weights.filter(w=>w.d!==todayKey());
+  DB.weights.push({d:todayKey(),kg:v});DB.weights.sort((a,b)=>a.d<b.d?-1:1);
+  save();document.getElementById('wInput').value='';drawChart();renderWHist();
+}
+function renderWHist(){
+  const el=document.getElementById('wHist');
+  document.getElementById('wHistSub').textContent=DB.weights.length+' entries';
+  if(!DB.weights.length){el.innerHTML='<div class="empty"><div class="e2">⚖️</div>No weight logged yet.</div>';return;}
+  el.innerHTML=[...DB.weights].reverse().map((w,ri)=>{
+    const idx=DB.weights.length-1-ri,prev=DB.weights[idx-1];
+    let diff='';if(prev){const d=(w.kg-prev.kg).toFixed(1);diff=(d>=0?'+':'')+d+' kg';}
+    const dt=new Date(w.d).toLocaleDateString('en-GB',{day:'2-digit',month:'short'});
+    return `<div class="frow"><div class="ficon">⚖️</div>
+      <div class="finfo"><div class="fn">${w.kg} kg</div><div class="fm">${dt}${diff?' · '+diff:''}</div></div>
+      <div class="fcal">${((w.kg/DB.target)*100).toFixed(0)}<small>% to goal</small></div></div>`;
+  }).join('');
+}
+function drawChart(){
+  const svg=document.getElementById('wChart');const W=360,H=180,pad=28;
+  const ws=DB.weights;document.getElementById('wSub').textContent='Target '+DB.target.toFixed(1)+' kg';
+  if(!ws.length){svg.innerHTML=`<text x="${W/2}" y="${H/2}" text-anchor="middle" font-family="Inter" font-size="13" fill="#666c62">Log weight to see your trend</text>`;return;}
+  const kgs=ws.map(w=>w.kg);const minK=Math.min(...kgs,DB.target)-1,maxK=Math.max(...kgs,DB.target)+1;
+  const x=i=>ws.length===1?W/2:pad+(i/(ws.length-1))*(W-pad*1.5);
+  const y=k=>H-pad-((k-minK)/(maxK-minK))*(H-pad*1.9);
+  let g='';
+  for(let i=0;i<=3;i++){const yy=pad*0.5+i*((H-pad*1.5)/3);g+=`<line x1="${pad}" y1="${yy}" x2="${W-6}" y2="${yy}" stroke="#2a2e29" stroke-width="1" stroke-dasharray="4 5"/>`;}
+  const ty=y(DB.target);
+  g+=`<line x1="${pad}" y1="${ty}" x2="${W-6}" y2="${ty}" stroke="#a8e05f" stroke-width="1.5" stroke-dasharray="6 4" opacity=".6"/>`;
+  g+=`<text x="${W-6}" y="${ty-6}" text-anchor="end" font-family="Inter" font-size="10" fill="#a8e05f">target ${DB.target}</text>`;
+  if(ws.length>1){
+    const pts=ws.map((w,i)=>`${x(i)},${y(w.kg)}`).join(' ');
+    const area=`${pad},${H-pad} `+pts+` ${x(ws.length-1)},${H-pad}`;
+    g+=`<polygon points="${area}" fill="url(#ag)" opacity=".25"/>`;
+    g+=`<polyline points="${pts}" fill="none" stroke="#a8e05f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>`;
+    g+=`<defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a8e05f"/><stop offset="1" stop-color="#a8e05f" stop-opacity="0"/></linearGradient></defs>`;
+  }
+  ws.forEach((w,i)=>{g+=`<circle cx="${x(i)}" cy="${y(w.kg)}" r="4.5" fill="#0e0f0d" stroke="#a8e05f" stroke-width="2.5"/>`;});
+  svg.innerHTML=g;
+}
+
+/* ---------- ADMIN ---------- */
+const PASSCODE="san2273";
+let passEntry="";
+function closeSheet2(id){document.getElementById(id).classList.remove('open');}
+function openAdminAsk(){document.getElementById('adminAsk').classList.add('open');}
+function openPass(){
+  closeSheet2('adminAsk');
+  passEntry="";document.getElementById('passErr').textContent="";
+  updatePassDisplay();buildKeyboard();
+  document.getElementById('adminPass').classList.add('open');
+}
+/* custom scrambled keyboard: guarantees s,a,n + a few letters + all digits, shuffled */
+function buildKeyboard(){
+  const must=['s','a','n'];
+  const pool=['b','r','t','m','k','h','d','p','e','o','i','u','l','c','g','y'];
+  // pick extra letters (not duplicating must)
+  const extras=[];const shuffled=[...pool].sort(()=>Math.random()-0.5);
+  for(const l of shuffled){if(extras.length>=9)break;if(!must.includes(l))extras.push(l);}
+  let letters=[...must,...extras];
+  const digits=['0','1','2','3','4','5','6','7','8','9'];
+  let keys=[...letters,...digits].sort(()=>Math.random()-0.5);
+  document.getElementById('keyboard').innerHTML=keys.map(k=>`<button class="keybtn" onclick="passTap('${k}')">${k}</button>`).join('');
+}
+function updatePassDisplay(){
+  const el=document.getElementById('passDisplay');
+  el.textContent = passEntry ? '•'.repeat(passEntry.length) : 'Type the secret code';
+}
+function passTap(k){passEntry+=k;document.getElementById('passErr').textContent="";updatePassDisplay();}
+function passDel(){passEntry=passEntry.slice(0,-1);updatePassDisplay();}
+function passSubmit(){
+  if(passEntry===PASSCODE){
+    closeSheet2('adminPass');passEntry="";openAdminPanel();
+  }else{
+    document.getElementById('passErr').textContent="Wrong passcode. Try again.";
+    passEntry="";updatePassDisplay();buildKeyboard();
+  }
+}
+function openAdminPanel(){
+  document.getElementById('admKey').value=DB.geminiKey||"";
+  document.getElementById('admGoal').value=DB.goal;
+  document.getElementById('admProt').value=DB.proteinGoal;
+  document.getElementById('admTarget').value=DB.target;
+  renderAdminFoods();
+  document.getElementById('adminPanel').classList.add('open');
+}
+function renderAdminFoods(){
+  const el=document.getElementById('admFoodList');
+  const items=DB.days[curDate]||[];
+  if(!items.length){el.innerHTML='<div class="ac">No food logged today.</div>';return;}
+  el.innerHTML=items.map((i,idx)=>`<div class="admfood"><span class="an">${i.n}</span><span class="ac">${i.c*i.q} kcal</span><button onclick="admDelFood(${idx})">✕</button></div>`).join('');
+}
+function admDelFood(idx){DB.days[curDate].splice(idx,1);if(!DB.days[curDate].length)delete DB.days[curDate];save();renderAdminFoods();renderToday();}
+function admSaveKey(){DB.geminiKey=document.getElementById('admKey').value.trim();save();toast(DB.geminiKey?'Gemini key saved. AI is ON.':'Key cleared.','good');}
+function admSaveGoals(){
+  DB.goal=parseInt(document.getElementById('admGoal').value)||DB.goal;
+  DB.proteinGoal=parseInt(document.getElementById('admProt').value)||DB.proteinGoal;
+  DB.target=parseFloat(document.getElementById('admTarget').value)||DB.target;
+  save();renderToday();toast('Goals updated.','good');
+}
+async function admResetToday(){if(await confirmThemed("Delete ALL of today's food?")){delete DB.days[curDate];save();renderAdminFoods();renderToday();toast('Today’s food cleared.','good');}}
+async function admResetAll(){if(await confirmThemed("Erase everything — all food and weight? This cannot be undone.")){DB.days={};DB.weights=[];DB.custom=[];save();renderAdminFoods();renderToday();toast('All data erased.','good');}}
+
+/* ---------- ADD TO HOME SCREEN ---------- */
+let deferredPrompt=null;
+window.addEventListener && window.addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); deferredPrompt=e; });
+function isIOS(){ return /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1); }
+function isStandalone(){ return window.matchMedia && window.matchMedia('(display-mode: standalone)').matches || navigator.standalone===true; }
+function openInstall(){
+  if(isStandalone()){ toast('Already added to your home screen ✓','good'); return; }
+  const ios=isIOS();
+  document.getElementById('iosSteps').style.display = ios ? 'block' : 'none';
+  document.getElementById('androidSteps').style.display = ios ? 'none' : 'block';
+  const btn=document.getElementById('androidInstallBtn');
+  if(btn) btn.style.display = deferredPrompt ? 'block' : 'none';
+  document.getElementById('installSheet').classList.add('open');
+}
+async function doAndroidInstall(){
+  if(!deferredPrompt){ toast('Use the menu steps below.'); return; }
+  deferredPrompt.prompt();
+  const {outcome}=await deferredPrompt.userChoice;
+  deferredPrompt=null;
+  if(outcome==='accepted'){ closeSheet2('installSheet'); toast('Added to home screen ✓','good'); }
+}
+
+/* ---------- ONE-TIME SEED: 9 days of past food ---------- */
+const SEED_DAYS = {"2026-07-13":[{"n":"Dosa","ic":"🍽️","c":480,"p":12,"q":1,"g":null,"pc":4},{"n":"Eggs","ic":"🍽️","c":140,"p":12,"q":1,"g":null,"pc":2},{"n":"Egg fried rice","ic":"🍽️","c":600,"p":18,"q":1,"g":null,"pc":null},{"n":"Vegetables","ic":"🍽️","c":50,"p":2,"q":1,"g":null,"pc":null},{"n":"Buldak ramen","ic":"🍽️","c":550,"p":12,"q":1,"g":null,"pc":null},{"n":"Egg yolks","ic":"🍽️","c":110,"p":6,"q":1,"g":null,"pc":2}],"2026-07-14":[{"n":"Maggi","ic":"🍽️","c":350,"p":7,"q":1,"g":null,"pc":null},{"n":"Egg whites","ic":"🍽️","c":35,"p":7,"q":1,"g":null,"pc":2},{"n":"Dosa","ic":"🍽️","c":480,"p":12,"q":1,"g":null,"pc":4},{"n":"Boiled eggs","ic":"🍽️","c":140,"p":12,"q":1,"g":null,"pc":2},{"n":"Peanut chikki","ic":"🍽️","c":320,"p":12,"q":1,"g":null,"pc":4},{"n":"Egg fried rice (half)","ic":"🍽️","c":300,"p":9,"q":1,"g":null,"pc":null}],"2026-07-15":[{"n":"Dosa","ic":"🍽️","c":480,"p":12,"q":1,"g":null,"pc":4},{"n":"Pomegranate juice","ic":"🍽️","c":120,"p":2,"q":1,"g":null,"pc":null},{"n":"Bread","ic":"🍽️","c":160,"p":5,"q":1,"g":null,"pc":null},{"n":"Beef biryani","ic":"🍽️","c":900,"p":40,"q":1,"g":null,"pc":null},{"n":"Peanut chikki","ic":"🍽️","c":320,"p":12,"q":1,"g":null,"pc":4},{"n":"Boiled eggs","ic":"🍽️","c":210,"p":18,"q":1,"g":null,"pc":3},{"n":"Milk + sugar","ic":"🍽️","c":180,"p":8,"q":1,"g":null,"pc":null},{"n":"Carrot","ic":"🍽️","c":30,"p":1,"q":1,"g":null,"pc":1},{"n":"Almonds","ic":"🍽️","c":35,"p":1,"q":1,"g":null,"pc":5}],"2026-07-16":[{"n":"Weight-gain smoothie","ic":"🍽️","c":550,"p":18,"q":1,"g":null,"pc":null},{"n":"Egg rice + ghee","ic":"🍽️","c":700,"p":20,"q":1,"g":null,"pc":null},{"n":"Peanut chikki","ic":"🍽️","c":320,"p":12,"q":1,"g":null,"pc":4},{"n":"Dosa","ic":"🍽️","c":480,"p":12,"q":1,"g":null,"pc":4},{"n":"Milk","ic":"🍽️","c":125,"p":8,"q":1,"g":200,"pc":null}],"2026-07-17":[{"n":"Smoothie","ic":"🍽️","c":550,"p":18,"q":1,"g":null,"pc":null},{"n":"Black chickpeas (boiled)","ic":"🍽️","c":240,"p":13,"q":1,"g":70,"pc":null},{"n":"Oats","ic":"🍽️","c":150,"p":5,"q":1,"g":null,"pc":null},{"n":"Appalam","ic":"🍽️","c":60,"p":2,"q":1,"g":null,"pc":1},{"n":"Rice","ic":"🍽️","c":300,"p":6,"q":1,"g":null,"pc":null},{"n":"Egg dosa","ic":"🍽️","c":500,"p":18,"q":1,"g":null,"pc":2},{"n":"Banana","ic":"🍽️","c":105,"p":1,"q":1,"g":null,"pc":1},{"n":"Milk","ic":"🍽️","c":125,"p":8,"q":1,"g":200,"pc":null},{"n":"Peanut chikki","ic":"🍽️","c":320,"p":12,"q":1,"g":null,"pc":4},{"n":"Almonds","ic":"🍽️","c":35,"p":1,"q":1,"g":null,"pc":5},{"n":"Broken wheat jaggery pongal","ic":"🍽️","c":300,"p":7,"q":1,"g":null,"pc":null}],"2026-07-18":[{"n":"Smoothie","ic":"🍽️","c":550,"p":18,"q":1,"g":null,"pc":null},{"n":"Black chickpeas","ic":"🍽️","c":200,"p":11,"q":1,"g":120,"pc":null},{"n":"Egg dosa","ic":"🍽️","c":500,"p":18,"q":1,"g":null,"pc":2},{"n":"Rice + drumstick gravy","ic":"🍽️","c":400,"p":10,"q":1,"g":null,"pc":null},{"n":"Ghee","ic":"🍽️","c":120,"p":0,"q":1,"g":null,"pc":null},{"n":"Pomegranate juice","ic":"🍽️","c":120,"p":2,"q":1,"g":200,"pc":null},{"n":"Coke (small)","ic":"🍽️","c":90,"p":0,"q":1,"g":null,"pc":null},{"n":"Peanut chikki","ic":"🍽️","c":320,"p":12,"q":1,"g":null,"pc":4},{"n":"Rice water","ic":"🍽️","c":30,"p":1,"q":1,"g":null,"pc":null},{"n":"Roasted peanuts","ic":"🍽️","c":340,"p":15,"q":1,"g":60,"pc":null},{"n":"Butter popcorn","ic":"🍽️","c":300,"p":4,"q":1,"g":60,"pc":null},{"n":"Milk","ic":"🍽️","c":125,"p":8,"q":1,"g":200,"pc":null}],"2026-07-19":[{"n":"Pongal","ic":"🍽️","c":400,"p":9,"q":1,"g":null,"pc":null},{"n":"Urad vada","ic":"🍽️","c":300,"p":8,"q":1,"g":null,"pc":2},{"n":"Coconut chutney","ic":"🍽️","c":100,"p":2,"q":1,"g":null,"pc":null},{"n":"Sambar","ic":"🍽️","c":80,"p":4,"q":1,"g":null,"pc":null},{"n":"Mutton soup (bowl + 2 pc)","ic":"🍽️","c":150,"p":12,"q":1,"g":null,"pc":null},{"n":"Banana","ic":"🍽️","c":105,"p":1,"q":1,"g":null,"pc":1},{"n":"Rice water","ic":"🍽️","c":30,"p":1,"q":1,"g":null,"pc":null},{"n":"Rice (half plate)","ic":"🍽️","c":160,"p":3,"q":1,"g":null,"pc":null},{"n":"Mutton","ic":"🍽️","c":300,"p":28,"q":1,"g":null,"pc":6},{"n":"Mutton pakoda","ic":"🍽️","c":900,"p":45,"q":1,"g":200,"pc":null}],"2026-07-20":[{"n":"Dry-fruit smoothie","ic":"🍽️","c":580,"p":16,"q":1,"g":null,"pc":null},{"n":"Ghee biscuits","ic":"🍽️","c":80,"p":1,"q":1,"g":null,"pc":2},{"n":"Green gram (boiled)","ic":"🍽️","c":240,"p":15,"q":1,"g":70,"pc":null},{"n":"Half-boiled egg","ic":"🍽️","c":70,"p":6,"q":1,"g":null,"pc":1},{"n":"Rasam rice","ic":"🍽️","c":350,"p":7,"q":1,"g":null,"pc":null},{"n":"Roasted peanuts","ic":"🍽️","c":285,"p":13,"q":1,"g":50,"pc":null},{"n":"Rice water","ic":"🍽️","c":30,"p":1,"q":1,"g":null,"pc":null},{"n":"Pomegranate juice","ic":"🍽️","c":120,"p":2,"q":1,"g":200,"pc":null},{"n":"Kinder Joy","ic":"🍽️","c":110,"p":2,"q":1,"g":null,"pc":1},{"n":"Egg dosa","ic":"🍽️","c":500,"p":18,"q":1,"g":null,"pc":2},{"n":"Milk","ic":"🍽️","c":125,"p":8,"q":1,"g":200,"pc":null},{"n":"Banana","ic":"🍽️","c":105,"p":1,"q":1,"g":null,"pc":1},{"n":"Beef chilli (half)","ic":"🍽️","c":300,"p":20,"q":1,"g":null,"pc":null},{"n":"Rice","ic":"🍽️","c":325,"p":6,"q":1,"g":250,"pc":null}],"2026-07-21":[{"n":"Egg dosa","ic":"🍽️","c":500,"p":18,"q":1,"g":null,"pc":2},{"n":"Chilli beef","ic":"🍽️","c":350,"p":25,"q":1,"g":null,"pc":6},{"n":"Ghee","ic":"🍽️","c":240,"p":0,"q":1,"g":null,"pc":null},{"n":"Dry-fruit smoothie","ic":"🍽️","c":580,"p":16,"q":1,"g":null,"pc":null},{"n":"Peanut chikki","ic":"🍽️","c":240,"p":9,"q":1,"g":null,"pc":3},{"n":"Rice water","ic":"🍽️","c":20,"p":1,"q":1,"g":120,"pc":null},{"n":"Rasam rice","ic":"🍽️","c":350,"p":7,"q":1,"g":null,"pc":null},{"n":"Dosa + podi","ic":"🍽️","c":400,"p":8,"q":1,"g":null,"pc":2},{"n":"Milk","ic":"🍽️","c":125,"p":8,"q":1,"g":200,"pc":null},{"n":"Banana","ic":"🍽️","c":105,"p":1,"q":1,"g":null,"pc":1}]};
+function seedOnce(){
+  if(localStorage.getItem('gain_seeded_v1')) return;
+  let added=false;
+  for(const d in SEED_DAYS){ if(!DB.days[d]){ DB.days[d]=SEED_DAYS[d]; added=true; } }
+  localStorage.setItem('gain_seeded_v1','1');
+  if(added){ save(); }
+}
+
+/* ---------- INIT ---------- */
+showQuote();seedOnce();renderToday();
+if(window.firebase){ initFirebase(); } else { setCloudStatus(false); }
+document.getElementById('sheet').addEventListener('click',e=>{if(e.target.id==='sheet')closeSheet();});
+['adminAsk','adminPass','adminPanel','installSheet'].forEach(id=>document.getElementById(id).addEventListener('click',e=>{if(e.target.id===id)closeSheet2(id);}));
+
+/* inject a web app manifest so Android/Chrome installs it as a real app */
+(function(){
+  try{
+    const icon="data:image/svg+xml,"+encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='512' height='512'><rect width='512' height='512' rx='110' fill='#0e0f0d'/><text x='256' y='340' font-family='Arial' font-size='240' font-weight='bold' fill='#a8e05f' text-anchor='middle'>G</text></svg>");
+    const manifest={name:"Gain — Food & Weight",short_name:"Gain",display:"standalone",background_color:"#0e0f0d",theme_color:"#0e0f0d",start_url:".",icons:[{src:icon,sizes:"512x512",type:"image/svg+xml"}]};
+    const blob=new Blob([JSON.stringify(manifest)],{type:'application/json'});
+    const link=document.createElement('link');
+    link.rel='manifest'; link.href=URL.createObjectURL(blob);
+    document.head.appendChild(link);
+  }catch(e){}
+})();
+</script>
+</body>
+</html>
