@@ -23,9 +23,9 @@
   --txt:#f2f4ef;          /* primary text */
   --txt2:#9aa196;         /* secondary */
   --txt3:#666c62;         /* muted */
-  --green:#a8e05f;        /* accent (matches ref) */
-  --green-d:#7bbd35;
-  --glow:rgba(168,224,95,.35);
+  --green:#ff5c9d;        /* accent — now PINK */
+  --green-d:#e03e82;
+  --glow:rgba(255,92,157,.4);
   --red:#ff5a52;
   --amber:#ffce47;
 }
@@ -39,14 +39,14 @@ body{
 .phone{
   width:100%;max-width:420px;min-height:100vh;background:var(--bg);
   position:relative;display:flex;flex-direction:column;overflow:hidden;
-  background-image:radial-gradient(120% 60% at 50% 0%, #14251a 0%, rgba(20,37,26,0) 55%);
+  background-image:radial-gradient(120% 60% at 50% 0%, #2a1220 0%, rgba(42,18,32,0) 55%);
 }
 @media(min-width:440px){ .phone{margin:0;border-left:1px solid #000;border-right:1px solid #000} }
 
 /* HEADER */
 header{padding:20px 20px 8px;display:flex;align-items:center;justify-content:space-between}
 .who{display:flex;align-items:center;gap:11px}
-.pfp{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#a8e05f,#4e8f2a);display:flex;align-items:center;justify-content:center;font-weight:800;color:#0e0f0d;font-size:16px}
+.pfp{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#ff5c9d,#b02466);display:flex;align-items:center;justify-content:center;font-weight:800;color:#0e0f0d;font-size:16px}
 .who .hi{font-size:12px;color:var(--txt2)}
 .who .nm{font-size:18px;font-weight:700;letter-spacing:-.02em;margin-top:-1px}
 .bell{width:42px;height:42px;border-radius:50%;background:var(--card);border:1px solid var(--stroke);display:flex;align-items:center;justify-content:center;position:relative;cursor:pointer}
@@ -54,13 +54,13 @@ header{padding:20px 20px 8px;display:flex;align-items:center;justify-content:spa
 .bell .dot{position:absolute;top:9px;right:11px;width:7px;height:7px;background:var(--green);border-radius:50%;box-shadow:0 0 6px var(--glow)}
 
 .hdr-right{display:flex;align-items:center;gap:10px}
-.clouddot{width:9px;height:9px;border-radius:50%;background:var(--txt3);box-shadow:0 0 6px rgba(168,224,95,.4)}
+.clouddot{width:9px;height:9px;border-radius:50%;background:var(--txt3);box-shadow:0 0 6px rgba(255,92,157,.4)}
 .homebtn{width:42px;height:42px;border-radius:50%;background:var(--card);border:1px solid var(--stroke);display:flex;align-items:center;justify-content:center;cursor:pointer}
 .homebtn svg{width:20px;height:20px;fill:none;stroke:var(--green);stroke-width:1.9;stroke-linejoin:round;stroke-linecap:round}
 .homebtn:active{background:var(--card2)}
 /* install guide sheet steps */
 .istep{display:flex;gap:12px;align-items:flex-start;margin-bottom:16px}
-.istep .n{width:26px;height:26px;border-radius:50%;background:var(--green);color:#12200a;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.istep .n{width:26px;height:26px;border-radius:50%;background:var(--green);color:#3a0018;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .istep .t{font-size:14px;line-height:1.5}
 .iico{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border:1px solid var(--stroke);border-radius:6px;vertical-align:-5px;margin:0 2px}
 .iico svg{width:13px;height:13px;fill:none;stroke:var(--green);stroke-width:2}
@@ -75,7 +75,7 @@ header{padding:20px 20px 8px;display:flex;align-items:center;justify-content:spa
 .warnico{font-size:22px;color:var(--amber);line-height:1}
 .warntxt{font-size:13px;line-height:1.5;color:var(--txt)}
 .askq{text-align:center;font-size:16px;font-weight:600;margin-bottom:16px}
-.okcard{background:rgba(168,224,95,.1);border:1px solid rgba(168,224,95,.3);color:var(--green);border-radius:14px;padding:11px;text-align:center;font-weight:600;font-size:13px;margin-bottom:18px}
+.okcard{background:rgba(255,92,157,.1);border:1px solid rgba(255,92,157,.3);color:var(--green);border-radius:14px;padding:11px;text-align:center;font-weight:600;font-size:13px;margin-bottom:18px}
 .asec{background:var(--card);border:1px solid var(--stroke);border-radius:18px;padding:16px;margin-bottom:14px}
 .asech{font-size:14px;font-weight:700;margin-bottom:12px}
 .grow{display:flex;gap:10px}.grow .field{flex:1;margin-bottom:12px}
@@ -90,13 +90,13 @@ header{padding:20px 20px 8px;display:flex;align-items:center;justify-content:spa
 .passerr{text-align:center;color:var(--red);font-size:12px;min-height:16px;margin-bottom:10px}
 .keyboard{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:10px}
 .keybtn{padding:15px 0;border-radius:13px;background:var(--card2);border:1px solid var(--stroke);color:var(--txt);font-family:inherit;font-size:18px;font-weight:700;cursor:pointer}
-.keybtn:active{background:var(--green);color:#12200a}
+.keybtn:active{background:var(--green);color:#3a0018}
 .keyrow-actions{display:flex;gap:8px}
 .keybtn.wide{flex:1;font-size:14px;padding:14px 0}
-.keybtn.go{background:var(--green);color:#12200a;border:none}
+.keybtn.go{background:var(--green);color:#3a0018;border:none}
 
 /* QUOTE BAR */
-.quote{margin:2px 16px 0;padding:12px 15px;background:rgba(168,224,95,.08);border:1px solid rgba(168,224,95,.22);border-radius:16px;font-size:13px;line-height:1.5;color:#d6f0b4;display:flex;gap:9px;align-items:flex-start}
+.quote{margin:2px 16px 0;padding:12px 15px;background:rgba(255,92,157,.08);border:1px solid rgba(255,92,157,.22);border-radius:16px;font-size:13px;line-height:1.5;color:#ffc4dc;display:flex;gap:9px;align-items:flex-start}
 .quote:before{content:"“";font-size:26px;line-height:.8;color:var(--green);flex-shrink:0}
 
 /* SCROLL */
@@ -106,15 +106,15 @@ header{padding:20px 20px 8px;display:flex;align-items:center;justify-content:spa
 /* SEGMENTED PILL TABS */
 .tabs{display:flex;gap:8px;padding:5px;background:var(--card);border:1px solid var(--stroke);border-radius:16px;margin:8px 4px 18px}
 .tabs button{flex:1;padding:10px 4px;border:none;background:none;color:var(--txt2);font-family:inherit;font-size:13px;font-weight:600;border-radius:12px;cursor:pointer;transition:.2s}
-.tabs button.on{background:var(--green);color:#12200a;box-shadow:0 4px 16px var(--glow)}
+.tabs button.on{background:var(--green);color:#3a0018;box-shadow:0 4px 16px var(--glow)}
 
 /* HERO RING CARD */
-.hero{background:linear-gradient(160deg,#1e2b18,#161816);border:1px solid var(--stroke);border-radius:26px;padding:22px;margin-bottom:16px;position:relative;overflow:hidden}
+.hero{background:linear-gradient(160deg,#2b1420,#161816);border:1px solid var(--stroke);border-radius:26px;padding:22px;margin-bottom:16px;position:relative;overflow:hidden}
 .hero:before{content:"";position:absolute;top:-40%;right:-20%;width:200px;height:200px;background:radial-gradient(circle,var(--glow),transparent 70%);pointer-events:none}
 .heroTop{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
 .heroTop .lbl{font-size:12px;color:var(--txt2);font-weight:500}
 .pill{font-size:11px;font-weight:700;padding:5px 11px;border-radius:20px}
-.pill.ok{background:var(--green);color:#12200a}
+.pill.ok{background:var(--green);color:#3a0018}
 .pill.warn{background:rgba(255,206,71,.15);color:var(--amber);border:1px solid rgba(255,206,71,.3)}
 /* EAT MORE — big and clear, thin clean text */
 .pill.bad{
@@ -189,13 +189,13 @@ input[type="date"]{color-scheme:dark;accent-color:var(--green)}
 .field input::placeholder{color:var(--txt3)}
 
 /* BUTTONS */
-.btn{width:100%;padding:15px;border:none;border-radius:16px;background:var(--green);color:#12200a;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 6px 20px var(--glow);transition:.15s}
+.btn{width:100%;padding:15px;border:none;border-radius:16px;background:var(--green);color:#3a0018;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 6px 20px var(--glow);transition:.15s}
 .btn:active{transform:scale(.98)}
 .btn.ghost{background:var(--card2);color:var(--txt);box-shadow:none;border:1px solid var(--stroke)}
 
 /* FAB */
 .fab{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:40;width:calc(100% - 40px);max-width:380px;
-  padding:16px;border:none;border-radius:18px;background:var(--green);color:#12200a;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 8px 30px var(--glow);display:flex;align-items:center;justify-content:center;gap:8px}
+  padding:16px;border:none;border-radius:18px;background:var(--green);color:#3a0018;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 8px 30px var(--glow);display:flex;align-items:center;justify-content:center;gap:8px}
 .fab:active{transform:translateX(-50%) scale(.98)}
 
 /* SHEETS */
@@ -225,12 +225,12 @@ input[type="date"]{color-scheme:dark;accent-color:var(--green)}
 /* QTY */
 .qtyrow{display:flex;align-items:center;gap:16px;margin:22px 0}
 .qbtn{width:56px;height:56px;border-radius:18px;background:var(--card2);border:1px solid var(--stroke);color:var(--txt);font-size:26px;font-weight:600;cursor:pointer}
-.qbtn:active{background:var(--green);color:#12200a}
+.qbtn:active{background:var(--green);color:#3a0018}
 .qval{flex:1;text-align:center;font-size:34px;font-weight:800}
 .qinfo{text-align:center;font-size:13px;color:var(--txt2)}
 
 .tag{display:inline-block;font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;background:var(--card2);color:var(--txt2)}
-.tag.c{background:rgba(168,224,95,.14);color:var(--green)}
+.tag.c{background:rgba(255,92,157,.14);color:var(--green)}
 
 /* AI FLOW */
 .aihint{text-align:center;font-size:12px;color:var(--txt2);margin-top:14px}
@@ -242,7 +242,7 @@ input[type="date"]{color-scheme:dark;accent-color:var(--green)}
   box-shadow:0 10px 30px rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:.25s;text-align:center}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .toast.bad{border-color:rgba(255,90,82,.4)}
-.toast.good{border-color:rgba(168,224,95,.4)}
+.toast.good{border-color:rgba(255,92,157,.4)}
 /* themed confirm dialog */
 .cdlg{position:fixed;inset:0;z-index:210;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.6);backdrop-filter:blur(3px);padding:24px}
 .cdlg.open{display:flex}
@@ -267,7 +267,7 @@ input[type="date"]{color-scheme:dark;accent-color:var(--green)}
 .rline .rlsub{font-size:11px;color:var(--txt2);margin-top:1px}
 .rline .rlcal{font-size:15px;font-weight:700;text-align:right}
 .rline .rlcal small{display:block;font-size:10px;color:var(--txt3);font-weight:500}
-.totalcard{background:linear-gradient(160deg,#1e2b18,#161816);border:1px solid var(--stroke);border-radius:18px;padding:16px;margin:14px 0 12px}
+.totalcard{background:linear-gradient(160deg,#2b1420,#161816);border:1px solid var(--stroke);border-radius:18px;padding:16px;margin:14px 0 12px}
 .totalcard .tlbl{font-size:12px;color:var(--txt2);text-align:center;margin-bottom:10px}
 .tgrid{display:flex;gap:12px}
 .tbox{flex:1;background:var(--card);border:1px solid var(--stroke);border-radius:14px;padding:12px 8px;text-align:center}
@@ -279,7 +279,7 @@ input[type="date"]{color-scheme:dark;accent-color:var(--green)}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loadtxt{font-size:17px;font-weight:700;margin-top:20px}
 .loadsub{font-size:13px;color:var(--txt2);margin-top:5px}
-.resultcard{background:linear-gradient(160deg,#1e2b18,#161816);border:1px solid var(--stroke);border-radius:22px;padding:22px;text-align:center;margin-bottom:16px}
+.resultcard{background:linear-gradient(160deg,#2b1420,#161816);border:1px solid var(--stroke);border-radius:22px;padding:22px;text-align:center;margin-bottom:16px}
 .rfood{font-size:19px;font-weight:700;text-transform:capitalize}
 .rgrams{font-size:13px;color:var(--txt2);margin-top:2px}
 .rgrid{display:flex;gap:12px;margin-top:18px}
@@ -289,6 +289,8 @@ input[type="date"]{color-scheme:dark;accent-color:var(--green)}
 .rlbl{font-size:11px;color:var(--txt2);margin-top:5px}
 .rest{font-size:11px;color:var(--txt3);margin-top:14px}
 
+/* mini fire in hero stats */
+.minifire{display:inline-block;animation:flicker 1.1s ease-in-out infinite;transform-origin:bottom center}
 /* ===== STREAK CARD ===== */
 .streakcard{display:flex;align-items:center;gap:16px;background:linear-gradient(135deg,#2a1e10,#161816);border:1px solid rgba(255,140,40,.3);border-radius:22px;padding:16px 18px;margin-bottom:16px;position:relative;overflow:hidden}
 .streakcard:before{content:"";position:absolute;top:-30%;left:-10%;width:160px;height:160px;background:radial-gradient(circle,rgba(255,120,20,.22),transparent 70%);pointer-events:none}
@@ -312,8 +314,21 @@ input[type="date"]{color-scheme:dark;accent-color:var(--green)}
 .weekcard .wk .v small{font-size:12px;color:var(--txt3);font-weight:500}
 .weekcard .wk .d{font-size:11.5px;color:var(--green);margin-top:2px}
 
+/* ===== FLOATING HEARTS BACKGROUND ===== */
+.hearts{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.hearts .h{position:absolute;bottom:-40px;font-size:18px;opacity:0;animation:floatUp linear infinite}
+@keyframes floatUp{
+  0%{transform:translateY(0) scale(.7) rotate(0);opacity:0}
+  10%{opacity:.55}
+  50%{transform:translateY(-50vh) scale(1) rotate(15deg);opacity:.5}
+  90%{opacity:.35}
+  100%{transform:translateY(-102vh) scale(1.1) rotate(-10deg);opacity:0}
+}
+.phone{z-index:1}
+
 /* ===== NOTE FROM PARTNER ===== */
 .notecard{background:linear-gradient(135deg,#2a1520,#161816);border:1px solid rgba(255,90,120,.3);border-radius:22px;padding:16px 18px;margin-bottom:16px;position:relative}
+.notecard.pink{background:linear-gradient(135deg,#2a1228,#161816);border-color:rgba(255,130,180,.35)}
 .notecard .nhead{display:flex;align-items:center;gap:8px;font-size:12px;color:#ff8fb0;font-weight:600;margin-bottom:8px}
 .notecard .nheart{animation:beat 1.3s ease-in-out infinite}
 @keyframes beat{0%,100%{transform:scale(1)}25%{transform:scale(1.25)}40%{transform:scale(1)}}
@@ -321,27 +336,34 @@ input[type="date"]{color-scheme:dark;accent-color:var(--green)}
 .notecard .nempty{font-size:13px;color:var(--txt3);font-style:italic}
 
 /* ===== REMINDER CARD ===== */
-.remcard{display:flex;align-items:center;gap:13px;background:rgba(168,224,95,.08);border:1px solid rgba(168,224,95,.25);border-radius:18px;padding:13px 16px;margin-bottom:16px}
+.remcard{display:flex;align-items:center;gap:13px;background:rgba(255,92,157,.08);border:1px solid rgba(255,92,157,.25);border-radius:18px;padding:13px 16px;margin-bottom:16px}
 .remcard .ri{font-size:24px}
 .remcard .rt{font-size:13.5px;line-height:1.45;color:var(--txt)}
 
-/* ===== WATER TRACKER ===== */
-.waterhead{display:flex;gap:10px;margin-bottom:16px}
-.watertoggle{flex:1;padding:12px;border-radius:14px;border:1px solid var(--stroke);background:var(--card);text-align:center;font-size:13px;font-weight:600;cursor:pointer;color:var(--txt2)}
-.watertoggle.on{background:var(--green);color:#12200a;border-color:var(--green)}
-.watergrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
-.wcell{aspect-ratio:1;border-radius:16px;border:1px solid var(--stroke);background:var(--card);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;transition:.15s}
-.wcell .wt{font-size:9px;color:var(--txt3)}
-.wcell .we{font-size:22px;opacity:.3;transition:.15s}
-.wcell.filled{background:rgba(95,180,224,.14);border-color:#5fd0e0}
-.wcell.filled .we{opacity:1}
-.wcell.milk.filled{background:rgba(168,224,95,.14);border-color:var(--green)}
-.wcell:active{transform:scale(.95)}
-.watersummary{display:flex;gap:12px;margin-bottom:16px}
-.wsum{flex:1;background:var(--card);border:1px solid var(--stroke);border-radius:16px;padding:14px;text-align:center}
-.wsum .n{font-size:26px;font-weight:800}
-.wsum .n.blue{color:#5fd0e0}.wsum .n.grn{color:var(--green)}
-.wsum .l{font-size:11px;color:var(--txt2);margin-top:3px}
+/* ===== WATER / MILK (ml + time) ===== */
+.drinkcards{display:flex;gap:12px;margin-bottom:16px}
+.drinkcard{flex:1;background:var(--card);border:1px solid var(--stroke);border-radius:20px;padding:16px}
+.drinkcard.water{border-color:rgba(95,208,224,.3)}
+.drinkcard.milk{border-color:rgba(255,92,157,.3)}
+.dtop{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;font-weight:600}
+.dgoaltxt{font-size:10px;color:var(--txt3);font-weight:500}
+.dbig{font-size:26px;font-weight:800;margin:8px 0 10px}
+.dbig small{font-size:12px;color:var(--txt3);font-weight:500}
+.dbar{height:8px;border-radius:5px;background:var(--card2);overflow:hidden}
+.dbar span{display:block;height:100%;width:0;border-radius:5px;transition:width .35s}
+.wbar{background:linear-gradient(90deg,#5fd0e0,#3595bd)}
+.mbar{background:linear-gradient(90deg,#ff5c9d,#e03e82)}
+/* drink type toggle in sheet */
+.drinkpick{display:flex;gap:10px;margin-bottom:20px}
+.dtype{flex:1;padding:13px;border-radius:14px;border:1px solid var(--stroke);background:var(--card);text-align:center;font-size:14px;font-weight:600;cursor:pointer;color:var(--txt2)}
+.dtype.on{background:var(--green);color:#3a0018;border-color:var(--green)}
+/* wheel picker */
+.wheel-lbl{text-align:center;font-size:12px;color:var(--txt2);margin-bottom:8px}
+.wheel{height:150px;overflow-y:scroll;scroll-snap-type:y mandatory;border-top:1px solid var(--stroke);border-bottom:1px solid var(--stroke);position:relative;-webkit-mask-image:linear-gradient(transparent,#000 30%,#000 70%,transparent);mask-image:linear-gradient(transparent,#000 30%,#000 70%,transparent)}
+.wheel::-webkit-scrollbar{display:none}
+.wheel .wopt{height:50px;scroll-snap-align:center;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:var(--txt3);transition:.15s}
+.wheel .wopt.sel{color:var(--green);font-size:30px;font-weight:800}
+.wheel-time{text-align:center;font-size:12px;color:var(--txt2);margin-top:10px}
 
 /* ===== NOTE EDITOR (admin/partner) ===== */
 .notebtn{width:100%;padding:12px;border-radius:14px;background:var(--card2);border:1px solid var(--stroke);color:var(--txt);font-family:inherit;font-size:13px;cursor:pointer;margin-top:8px}
@@ -351,19 +373,20 @@ input[type="date"]{color-scheme:dark;accent-color:var(--green)}
 .celebrate.show{display:block}
 .confetti{position:absolute;top:-20px;width:10px;height:14px;opacity:.95;animation:fall linear forwards}
 @keyframes fall{to{transform:translateY(105vh) rotate(720deg);opacity:.3}}
-.celebmsg{position:fixed;left:50%;top:42%;transform:translate(-50%,-50%) scale(0);z-index:301;background:var(--green);color:#12200a;padding:18px 26px;border-radius:20px;font-size:18px;font-weight:800;box-shadow:0 12px 40px rgba(168,224,95,.5);text-align:center;pointer-events:none;display:none}
+.celebmsg{position:fixed;left:50%;top:42%;transform:translate(-50%,-50%) scale(0);z-index:301;background:var(--green);color:#3a0018;padding:18px 26px;border-radius:20px;font-size:18px;font-weight:800;box-shadow:0 12px 40px rgba(255,92,157,.5);text-align:center;pointer-events:none;display:none}
 .celebmsg.show{display:block;animation:pop .5s cubic-bezier(.2,1.4,.4,1) forwards}
 @keyframes pop{to{transform:translate(-50%,-50%) scale(1)}}
 
 /* WEIGHT CHART */
 .chartbox{padding:8px 4px 0}
 svg.line{width:100%;height:auto;display:block;overflow:visible}
-.hint{font-size:12px;color:var(--green);background:rgba(168,224,95,.08);border:1px solid rgba(168,224,95,.2);border-radius:14px;padding:11px 14px;margin-bottom:16px;line-height:1.5}
+.hint{font-size:12px;color:var(--green);background:rgba(255,92,157,.08);border:1px solid rgba(255,92,157,.2);border-radius:14px;padding:11px 14px;margin-bottom:16px;line-height:1.5}
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 </head>
 <body>
+<div class="hearts" id="hearts"></div>
 <div class="phone">
   <header>
     <div class="who">
@@ -413,7 +436,7 @@ svg.line{width:100%;height:auto;display:block;overflow:visible}
               <circle cx="66" cy="66" r="56" fill="none" stroke="#2a2e29" stroke-width="12"/>
               <circle id="ringFill" cx="66" cy="66" r="56" fill="none" stroke="url(#g)" stroke-width="12" stroke-linecap="round" stroke-dasharray="351.8" stroke-dashoffset="351.8"/>
               <defs>
-                <linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a8e05f"/><stop offset="1" stop-color="#7bbd35"/></linearGradient>
+                <linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff5c9d"/><stop offset="1" stop-color="#e03e82"/></linearGradient>
                 <linearGradient id="gb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5fd0e0"/><stop offset="1" stop-color="#3595bd"/></linearGradient>
               </defs>
             </svg>
@@ -428,8 +451,9 @@ svg.line{width:100%;height:auto;display:block;overflow:visible}
               <div class="prctr"><span id="protNum">0</span><small>/40g</small></div>
             </div>
             <div class="protside">
-              <div class="hs"><span class="k">Items</span><span class="v" id="itemNum">0</span></div>
               <div class="hs"><span class="k">To goal</span><span class="v" id="remNum">3000<small>kcal</small></span></div>
+              <div class="hs"><span class="k">Items</span><span class="v" id="itemNum">0</span></div>
+              <div class="hs"><span class="k"><span class="minifire">🔥</span> Streak</span><span class="v" id="streakInline">0<small>days</small></span></div>
             </div>
           </div>
         </div>
@@ -444,11 +468,16 @@ svg.line{width:100%;height:auto;display:block;overflow:visible}
         <div class="streaktxt"><div class="big" id="streakNum">0 days</div><div class="sub" id="streakSub">in a row hitting your goal</div></div>
       </div>
 
-      <!-- NOTE FROM PARTNER -->
-      <div class="notecard" id="noteCard">
-        <div class="nhead"><span class="nheart">❤️</span> <span id="noteFrom">A note for you</span></div>
-        <div class="nmsg" id="noteMsg"></div>
-        <button class="notebtn" onclick="openNoteEditor()" id="noteEditBtn">✏️ Leave / edit a note</button>
+      <!-- NOTES (both directions) -->
+      <div class="notecard">
+        <div class="nhead"><span class="nheart">💛</span> <span id="noteAFrom">From Sundar</span></div>
+        <div class="nmsg" id="noteAMsg"></div>
+        <button class="notebtn" onclick="openNoteEditor('A')">✏️ Sundar: write / edit</button>
+      </div>
+      <div class="notecard pink">
+        <div class="nhead"><span class="nheart">💗</span> <span id="noteBFrom">From Sandhiya</span></div>
+        <div class="nmsg" id="noteBMsg"></div>
+        <button class="notebtn" onclick="openNoteEditor('B')">✏️ Sandhiya: write / edit</button>
       </div>
 
       <!-- WEEKLY SUMMARY -->
@@ -461,19 +490,28 @@ svg.line{width:100%;height:auto;display:block;overflow:visible}
       <div class="foodcard" id="foodList"></div>
     </div>
 
-    <!-- ===== WATER / MILK TRACKER ===== -->
+    <!-- ===== WATER / MILK TRACKER (ml + time) ===== -->
     <div id="tab-water" style="display:none">
-      <div class="hint">Tap a cup each time you drink. Aim: 8 waters + 3 milks a day.</div>
-      <div class="waterhead">
-        <div class="watertoggle on" id="wtWater" onclick="setDrink('water')">💧 Water</div>
-        <div class="watertoggle" id="wtMilk" onclick="setDrink('milk')">🥛 Milk</div>
+      <div class="remcard" id="drinkRem" style="display:none"><div class="ri" id="drinkRemIcon">💧</div><div class="rt" id="drinkRemText"></div></div>
+
+      <!-- two progress cards -->
+      <div class="drinkcards">
+        <div class="drinkcard water">
+          <div class="dtop"><span>💧 Water</span><span class="dgoaltxt" id="waterGoalTxt">/ 2000 ml</span></div>
+          <div class="dbig" id="waterTotal">0<small>ml</small></div>
+          <div class="dbar"><span id="waterBar" class="wbar"></span></div>
+        </div>
+        <div class="drinkcard milk">
+          <div class="dtop"><span>🥛 Milk</span><span class="dgoaltxt" id="milkGoalTxt">/ 600 ml</span></div>
+          <div class="dbig" id="milkTotal">0<small>ml</small></div>
+          <div class="dbar"><span id="milkBar" class="mbar"></span></div>
+        </div>
       </div>
-      <div class="watersummary">
-        <div class="wsum"><div class="n blue" id="waterCount">0</div><div class="l">💧 glasses water</div></div>
-        <div class="wsum"><div class="n grn" id="milkCount">0</div><div class="l">🥛 glasses milk</div></div>
-      </div>
-      <div class="sh"><h3 id="waterTitle">Water today</h3><span class="cnt">tap to fill</span></div>
-      <div class="watergrid" id="waterGrid"></div>
+
+      <button class="btn" onclick="openDrinkSheet()" style="margin-bottom:16px">＋ Add a drink</button>
+
+      <div class="sh"><h3>Today's drinks</h3><span class="cnt" id="drinkCount">0 logged</span></div>
+      <div class="foodcard" id="drinkList"></div>
     </div>
 
     <!-- ===== FOOD LOG (history of all days) ===== -->
@@ -593,6 +631,14 @@ svg.line{width:100%;height:auto;display:block;overflow:visible}
         <button class="btn danger" onclick="admClearKey()" style="margin-top:10px">Clear old / dead key</button>
       </div>
 
+      <div class="asec"><div class="asech">Names on the love notes</div>
+        <div class="grow">
+          <div class="field"><label>Your name (💛)</label><input id="admNameA"></div>
+          <div class="field"><label>Her name (💗)</label><input id="admNameB"></div>
+        </div>
+        <button class="btn" onclick="admSaveNames()">Save names</button>
+      </div>
+
       <div class="asec"><div class="asech">Daily goals</div>
         <div class="grow">
           <div class="field"><label>Calories</label><input id="admGoal" type="number"></div>
@@ -648,12 +694,29 @@ svg.line{width:100%;height:auto;display:block;overflow:visible}
 <div class="sheet" id="noteSheet">
   <div class="sinner">
     <div class="grab"></div>
-    <div class="shead"><h3>Leave a note ❤️</h3><button class="x" onclick="closeSheet2('noteSheet')">✕</button></div>
+    <div class="shead"><h3 id="noteSheetTitle">Write a note ❤️</h3><button class="x" onclick="closeSheet2('noteSheet')">✕</button></div>
     <div class="sbody">
-      <div class="field"><label>Who's it from?</label><input id="noteFromInput" placeholder="e.g. Sundar"></div>
-      <div class="field"><label>Your message</label><input id="noteMsgInput" placeholder="Proud of you — eat that extra banana ❤️"></div>
-      <button class="btn" onclick="saveNote()">Save note</button>
+      <div class="field"><label id="noteSheetLbl">Your message</label><input id="noteMsgInput" placeholder="Proud of you — eat that extra banana ❤️"></div>
+      <button class="btn" onclick="saveNote()">Save (replaces old note)</button>
       <button class="btn ghost" onclick="clearNote()" style="margin-top:10px">Remove note</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD DRINK SHEET (wheel picker) -->
+<div class="sheet" id="drinkSheet">
+  <div class="sinner">
+    <div class="grab"></div>
+    <div class="shead"><h3>Add a drink</h3><button class="x" onclick="closeSheet2('drinkSheet')">✕</button></div>
+    <div class="sbody">
+      <div class="drinkpick">
+        <div class="dtype on" id="dtWater" onclick="setDrinkType('water')">💧 Water</div>
+        <div class="dtype" id="dtMilk" onclick="setDrinkType('milk')">🥛 Milk</div>
+      </div>
+      <div class="wheel-lbl">How much? (ml)</div>
+      <div class="wheel" id="mlWheel"></div>
+      <div class="wheel-time" id="drinkTimeLbl"></div>
+      <button class="btn" onclick="saveDrink()" style="margin-top:16px">Add drink</button>
     </div>
   </div>
 </div>
@@ -702,12 +765,13 @@ const DEFAULT_FOODS = [
 const cfg=JSON.parse(localStorage.getItem('gain_cfg')||'{}');
 const DB = {
   goal:cfg.goal||3000, proteinGoal:cfg.proteinGoal||40, target:cfg.target||35,
+  nameA:cfg.nameA||"Sundar", nameB:cfg.nameB||"Sandhiya",   /* A = you, B = her — editable in Admin */
   geminiKey:cfg.geminiKey||"",  /* NEVER hard-code a key here — enter it in the Admin panel. Public keys get auto-deleted by Google. */
   custom:JSON.parse(localStorage.getItem('gain_custom')||'[]'),
   days:JSON.parse(localStorage.getItem('gain_days')||'{}'),
   weights:JSON.parse(localStorage.getItem('gain_weights')||'[]'),
-  water:JSON.parse(localStorage.getItem('gain_water')||'{}'),   /* { '2026-07-22': {w:5,m:2} } */
-  note:JSON.parse(localStorage.getItem('gain_note')||'null')     /* {from, msg} */
+  water:JSON.parse(localStorage.getItem('gain_water')||'{}'),
+  notes:JSON.parse(localStorage.getItem('gain_notes')||'{}')     /* { sundar:{msg}, sandhiya:{msg} } — one note each, edit replaces */
 };
 let curDate = todayKey();
 
@@ -738,7 +802,9 @@ function initFirebase(){
       if(d.target) DB.target=d.target;
       if(typeof d.geminiKey==='string' && d.geminiKey) DB.geminiKey=d.geminiKey;
       if(d.water) DB.water=d.water;
-      if(d.note!==undefined) DB.note=d.note;
+      if(d.notes) DB.notes=d.notes;
+      if(d.nameA) DB.nameA=d.nameA;
+      if(d.nameB) DB.nameB=d.nameB;
       // merge the one-time 9-day seed into cloud if missing
       let seededNow=false;
       for(const day in SEED_DAYS){ if(!DB.days[day]){ DB.days[day]=SEED_DAYS[day]; seededNow=true; } }
@@ -755,7 +821,8 @@ function initFirebase(){
 function pushCloud(){
   if(!fdb) return;
   fdb.doc(CLOUD_DOC).set({
-    days:DB.days, weights:DB.weights, custom:DB.custom, water:DB.water, note:DB.note,
+    days:DB.days, weights:DB.weights, custom:DB.custom, water:DB.water, notes:DB.notes,
+    nameA:DB.nameA, nameB:DB.nameB,
     goal:DB.goal, proteinGoal:DB.proteinGoal, target:DB.target, geminiKey:DB.geminiKey,
     updated:Date.now()
   },{merge:true}).then(()=>setCloudStatus(true)).catch(e=>{console.warn('cloud write error',e);setCloudStatus(false);});
@@ -776,8 +843,8 @@ function saveLocal(){
   localStorage.setItem('gain_days',JSON.stringify(DB.days));
   localStorage.setItem('gain_weights',JSON.stringify(DB.weights));
   localStorage.setItem('gain_water',JSON.stringify(DB.water));
-  localStorage.setItem('gain_note',JSON.stringify(DB.note));
-  localStorage.setItem('gain_cfg',JSON.stringify({goal:DB.goal,proteinGoal:DB.proteinGoal,target:DB.target,geminiKey:DB.geminiKey}));
+  localStorage.setItem('gain_notes',JSON.stringify(DB.notes));
+  localStorage.setItem('gain_cfg',JSON.stringify({goal:DB.goal,proteinGoal:DB.proteinGoal,target:DB.target,geminiKey:DB.geminiKey,nameA:DB.nameA,nameB:DB.nameB}));
 }
 function save(){
   saveLocal();
@@ -882,7 +949,12 @@ function currentStreak(){
 }
 function renderStreak(){
   const s=currentStreak();
+  // always-visible inline streak in the hero stats
+  const inl=document.getElementById('streakInline');
+  if(inl) inl.innerHTML = s+'<small>'+(s===1?'day':'days')+'</small>';
+  // big animated card only when there's a streak going
   const card=document.getElementById('streakCard');
+  if(!card) return;
   if(s<1){ card.style.display='none'; return; }
   card.style.display='flex';
   document.getElementById('streakNum').textContent=s+(s===1?' day':' days');
@@ -905,49 +977,76 @@ function renderWeekly(){
   if(eat) eat.textContent = avg>=DB.goal ? '💪' : (avg>=DB.goal*0.7 ? '😋' : '🍽️');
 }
 
-/* ===== NOTE FROM PARTNER ===== */
+/* ===== TWO-WAY LOVE NOTES ===== */
+let editingNote='A';
 function renderNote(){
-  const msgEl=document.getElementById('noteMsg');
-  const fromEl=document.getElementById('noteFrom');
-  if(DB.note && DB.note.msg){
-    msgEl.textContent=DB.note.msg; msgEl.className='nmsg';
-    fromEl.textContent = DB.note.from ? ('From '+DB.note.from) : 'A note for you';
-  }else{
-    msgEl.textContent='No note yet. Tap below to leave a sweet message ❤️';
-    msgEl.className='nempty';
-    fromEl.textContent='A note for you';
-  }
+  // A = your note (from Sundar), B = her note (from Sandhiya)
+  document.getElementById('noteAFrom').textContent='From '+DB.nameA;
+  document.getElementById('noteBFrom').textContent='From '+DB.nameB;
+  const a=document.getElementById('noteAMsg'), b=document.getElementById('noteBMsg');
+  const na=DB.notes.A, nb=DB.notes.B;
+  if(na && na.msg){ a.textContent=na.msg; a.className='nmsg'; }
+  else { a.textContent='No note yet — tap below to write one ❤️'; a.className='nempty'; }
+  if(nb && nb.msg){ b.textContent=nb.msg; b.className='nmsg'; }
+  else { b.textContent='No note yet — tap below to write one ❤️'; b.className='nempty'; }
 }
-function openNoteEditor(){
-  document.getElementById('noteFromInput').value = DB.note?.from || '';
-  document.getElementById('noteMsgInput').value = DB.note?.msg || '';
+function openNoteEditor(which){
+  editingNote=which;
+  const name = which==='A'?DB.nameA:DB.nameB;
+  document.getElementById('noteSheetTitle').textContent='Note from '+name+' ❤️';
+  document.getElementById('noteSheetLbl').textContent=name+"'s message";
+  document.getElementById('noteMsgInput').value = DB.notes[which]?.msg || '';
   document.getElementById('noteSheet').classList.add('open');
 }
 function saveNote(){
-  const from=document.getElementById('noteFromInput').value.trim();
   const msg=document.getElementById('noteMsgInput').value.trim();
   if(!msg){toast('Write a message first','bad');return;}
-  DB.note={from,msg};save();renderNote();closeSheet2('noteSheet');toast('Note saved ❤️','good');
+  DB.notes[editingNote]={msg};   // edit REPLACES the old note
+  save();renderNote();closeSheet2('noteSheet');toast('Note saved ❤️','good');
 }
-function clearNote(){DB.note=null;save();renderNote();closeSheet2('noteSheet');toast('Note removed.');}
+function clearNote(){DB.notes[editingNote]=null;save();renderNote();closeSheet2('noteSheet');toast('Note removed.');}
 
-/* ===== REMINDER (in-app, time-based) ===== */
+/* ===== FLOATING HEARTS ===== */
+function spawnHeart(){
+  const wrap=document.getElementById('hearts'); if(!wrap)return;
+  const h=document.createElement('div');
+  const set=['💗','💖','💕','💘','🩷','❤️','💓'];
+  h.className='h'; h.textContent=set[Math.floor(Math.random()*set.length)];
+  h.style.left=Math.random()*100+'%';
+  const dur=7+Math.random()*8;
+  h.style.animationDuration=dur+'s';
+  h.style.fontSize=(13+Math.random()*20)+'px';
+  wrap.appendChild(h);
+  setTimeout(()=>h.remove(), dur*1000+200);
+}
+function startHearts(){
+  for(let i=0;i<6;i++) setTimeout(spawnHeart,i*400);   // initial burst
+  setInterval(spawnHeart, 1300);                        // keep them coming 24/7
+}
+
+/* ===== REMINDER (smart — based on how much is left) ===== */
 function renderReminder(cal){
   const card=document.getElementById('remCard');
   const icon=document.getElementById('remIcon');
   const text=document.getElementById('remText');
   if(curDate!==todayKey()){ card.style.display='none'; return; }
-  const h=new Date().getHours();
   const rem=Math.max(0,DB.goal-cal);
-  let msg='', ic='⏰';
-  if(cal>=DB.goal){ ic='🎉'; msg="You've hit today's goal — amazing! Anything extra is a bonus."; }
-  else if(h>=21){ ic='🌙'; msg=`Before bed: a glass of milk or a banana adds easy calories. ${rem} kcal to go.`; }
-  else if(h>=18){ ic='🍽️'; msg=`Dinner time. You still need ${rem} kcal today — make it count.`; }
-  else if(h>=15){ ic='🥜'; msg=`Snack o'clock! Peanuts or chikki now. ${rem} kcal left today.`; }
-  else if(h>=12){ ic='🍛'; msg=`Lunch time — eat a full plate. ${rem} kcal to reach your goal.`; }
-  else if(h>=9){ ic='🥞'; msg=`Good morning! Start strong with dosa + egg. ${rem} kcal for the day.`; }
-  else { ic='🌅'; msg=`New day, fresh start. Goal: ${DB.goal} kcal. You've got this!`; }
-  icon.textContent=ic; text.textContent=msg; card.style.display='flex';
+
+  // Done for the day
+  if(rem<=0){ icon.textContent='🎉'; text.textContent="Goal complete! You did it today. Anything more is a bonus ❤️"; card.style.display='flex'; return; }
+
+  // pick a concrete cheap food suggestion that roughly matches what's left
+  let ic='🍽️', suggest;
+  if(rem<=130){ ic='🍌'; suggest='just 1 banana'; }
+  else if(rem<=250){ ic='🥛'; suggest='a glass of milk + a banana'; }
+  else if(rem<=400){ ic='🥜'; suggest='a handful of peanuts + a glass of milk'; }
+  else if(rem<=600){ ic='🥞'; suggest='2 dosa with an egg'; }
+  else if(rem<=900){ ic='🍛'; suggest='a full plate of rice with dal + ghee'; }
+  else { ic='🍽️'; suggest='a smoothie + a plate of rice'; }
+
+  icon.textContent=ic;
+  text.textContent=`Only ${rem} kcal left — eat ${suggest} and you're done for today. You've got this!`;
+  card.style.display='flex';
 }
 
 /* ===== CELEBRATION ===== */
@@ -961,7 +1060,7 @@ function checkCelebration(cal){
 }
 function celebrate(message){
   const wrap=document.getElementById('celebrate');
-  const cols=['#a8e05f','#5fd0e0','#ffce47','#ff8fb0','#ffb347','#ffffff'];
+  const cols=['#ff5c9d','#5fd0e0','#ffce47','#ff8fb0','#ffb347','#ffffff'];
   let html='';
   for(let i=0;i<70;i++){
     const l=Math.random()*100, dur=2+Math.random()*2, delay=Math.random()*.6, col=cols[i%cols.length], w=6+Math.random()*8;
@@ -972,37 +1071,103 @@ function celebrate(message){
   setTimeout(()=>{wrap.classList.remove('show');wrap.innerHTML='';m.classList.remove('show');},3600);
 }
 
-/* ===== WATER / MILK TRACKER ===== */
-let waterMode='water';
-function setDrink(m){
-  waterMode=m;
-  document.getElementById('wtWater').classList.toggle('on',m==='water');
-  document.getElementById('wtMilk').classList.toggle('on',m==='milk');
-  document.getElementById('waterTitle').textContent = m==='water'?'Water today':'Milk today';
-  renderWater();
+/* ===== WATER / MILK TRACKER (ml + time) =====
+   DB.water = { '2026-07-22': [ {ml:250, type:'water', t:1690000000000}, ... ] }  */
+const WATER_GOAL=2000, MILK_GOAL=600;      // ml per day
+function todayDrinks(){ return DB.water[todayKey()] || []; }
+function drinkTotals(){
+  let w=0,m=0; todayDrinks().forEach(d=>{ if(d.type==='milk')m+=d.ml; else w+=d.ml; });
+  return {w,m};
 }
-function getWater(){ const d=DB.water[todayKey()]||{w:0,m:0}; return {w:d.w||0,m:d.m||0}; }
 function renderWater(){
-  const d=getWater();
-  document.getElementById('waterCount').textContent=d.w;
-  document.getElementById('milkCount').textContent=d.m;
-  const total = waterMode==='water'?8:4;   // 8 waters / 4 milks target
-  const filled = waterMode==='water'?d.w:d.m;
-  const emoji = waterMode==='water'?'💧':'🥛';
-  const cls = waterMode==='milk'?'wcell milk':'wcell';
-  let html='';
-  for(let i=0;i<total;i++){
-    html+=`<div class="${cls}${i<filled?' filled':''}" onclick="tapCup(${i})"><div class="we">${emoji}</div><div class="wt">${i+1}</div></div>`;
+  const t=drinkTotals();
+  document.getElementById('waterTotal').innerHTML=t.w+'<small>ml</small>';
+  document.getElementById('milkTotal').innerHTML=t.m+'<small>ml</small>';
+  document.getElementById('waterGoalTxt').textContent='/ '+WATER_GOAL+' ml';
+  document.getElementById('milkGoalTxt').textContent='/ '+MILK_GOAL+' ml';
+  document.getElementById('waterBar').style.width=Math.min(100,t.w/WATER_GOAL*100)+'%';
+  document.getElementById('milkBar').style.width=Math.min(100,t.m/MILK_GOAL*100)+'%';
+  const list=todayDrinks();
+  document.getElementById('drinkCount').textContent=list.length+' logged';
+  const el=document.getElementById('drinkList');
+  if(!list.length){ el.innerHTML='<div class="empty"><div class="e2">🥤</div>No drinks yet today.</div>'; }
+  else{
+    el.innerHTML=[...list].reverse().map((d,ri)=>{
+      const idx=list.length-1-ri;
+      const time=new Date(d.t).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+      const ic=d.type==='milk'?'🥛':'💧';
+      return `<div class="frow"><div class="ficon">${ic}</div>
+        <div class="finfo"><div class="fn">${d.ml} ml ${d.type}</div><div class="fm">${time}</div></div>
+        <button class="fx" onclick="delDrink(${idx})">✕</button></div>`;
+    }).join('');
   }
-  document.getElementById('waterGrid').innerHTML=html;
+  renderDrinkReminder();
 }
-function tapCup(i){
-  const key=todayKey(); if(!DB.water[key])DB.water[key]={w:0,m:0};
-  const field = waterMode==='water'?'w':'m';
-  const cur=DB.water[key][field]||0;
-  // tapping cup i: if it's the next empty one, fill up to i+1; if already filled, unfill to i
-  DB.water[key][field] = (i+1>cur) ? i+1 : i;
-  save();renderWater();
+function delDrink(idx){ const k=todayKey(); DB.water[k].splice(idx,1); if(!DB.water[k].length)delete DB.water[k]; save();renderWater(); }
+
+/* hourly nudge: if behind pace and >60min since last drink */
+function renderDrinkReminder(){
+  const card=document.getElementById('drinkRem');
+  if(!card) return;
+  const t=drinkTotals(), list=todayDrinks();
+  const now=Date.now(), hour=new Date().getHours();
+  // expected water by this hour (spread 2000ml across waking hours 7am-11pm)
+  const startH=7,endH=23;
+  let expected=0;
+  if(hour>startH){ expected=Math.min(WATER_GOAL, WATER_GOAL*(hour-startH)/(endH-startH)); }
+  const lastT=list.length?Math.max(...list.map(d=>d.t)):0;
+  const minsSince=lastT?Math.round((now-lastT)/60000):999;
+  if(t.w>=WATER_GOAL){ card.style.display='none'; return; }
+  if(minsSince>=60 && t.w<expected-100){
+    document.getElementById('drinkRemIcon').textContent='💧';
+    const need=Math.max(0,WATER_GOAL-t.w);
+    document.getElementById('drinkRemText').textContent=`It's been over an hour — drink a glass of water. ${need} ml left today.`;
+    card.style.display='flex';
+  } else if(t.m<MILK_GOAL && hour>=18){
+    document.getElementById('drinkRemIcon').textContent='🥛';
+    document.getElementById('drinkRemText').textContent=`Don't forget your milk today — ${MILK_GOAL-t.m} ml to go for the protein.`;
+    card.style.display='flex';
+  } else { card.style.display='none'; }
+}
+
+/* ----- add-drink sheet with wheel picker ----- */
+let drinkType='water', drinkMl=250;
+const ML_OPTIONS=[50,100,150,200,250,300,350,400,500,600,750,1000];
+function openDrinkSheet(){
+  drinkType='water'; setDrinkTypeUI();
+  document.getElementById('drinkTimeLbl').textContent='Time: '+new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+  buildWheel();
+  document.getElementById('drinkSheet').classList.add('open');
+}
+function setDrinkType(t){ drinkType=t; setDrinkTypeUI(); }
+function setDrinkTypeUI(){
+  document.getElementById('dtWater').classList.toggle('on',drinkType==='water');
+  document.getElementById('dtMilk').classList.toggle('on',drinkType==='milk');
+}
+function buildWheel(){
+  const w=document.getElementById('mlWheel');
+  // pad top/bottom so first/last can center
+  w.innerHTML='<div class="wopt" style="height:50px"></div>'+
+    ML_OPTIONS.map(v=>`<div class="wopt" data-ml="${v}">${v} ml</div>`).join('')+
+    '<div class="wopt" style="height:50px"></div>';
+  const defIdx=ML_OPTIONS.indexOf(250);
+  // scroll so 250 is centred (each row 50px; +1 for pad)
+  setTimeout(()=>{ w.scrollTop=defIdx*50; highlightWheel(); },30);
+  w.onscroll=()=>{ if(w._raf)cancelAnimationFrame(w._raf); w._raf=requestAnimationFrame(highlightWheel); };
+}
+function highlightWheel(){
+  const w=document.getElementById('mlWheel');
+  const center=w.scrollTop; // because of 50px top pad, row i center aligns at scrollTop=i*50
+  const idx=Math.round(center/50);
+  const opts=[...w.querySelectorAll('.wopt[data-ml]')];
+  opts.forEach((o,i)=>o.classList.toggle('sel',i===idx));
+  if(opts[idx]) drinkMl=parseInt(opts[idx].dataset.ml);
+}
+function saveDrink(){
+  const k=todayKey(); if(!DB.water[k])DB.water[k]=[];
+  DB.water[k].push({ml:drinkMl,type:drinkType,t:Date.now()});
+  save(); closeSheet2('drinkSheet'); renderWater();
+  toast(`Added ${drinkMl} ml ${drinkType} 💧`,'good');
 }
 
 /* ---------- ADD SHEET (multi-food AI flow) ---------- */
@@ -1212,16 +1377,16 @@ function drawChart(){
   let g='';
   for(let i=0;i<=3;i++){const yy=pad*0.5+i*((H-pad*1.5)/3);g+=`<line x1="${pad}" y1="${yy}" x2="${W-6}" y2="${yy}" stroke="#2a2e29" stroke-width="1" stroke-dasharray="4 5"/>`;}
   const ty=y(DB.target);
-  g+=`<line x1="${pad}" y1="${ty}" x2="${W-6}" y2="${ty}" stroke="#a8e05f" stroke-width="1.5" stroke-dasharray="6 4" opacity=".6"/>`;
-  g+=`<text x="${W-6}" y="${ty-6}" text-anchor="end" font-family="Inter" font-size="10" fill="#a8e05f">target ${DB.target}</text>`;
+  g+=`<line x1="${pad}" y1="${ty}" x2="${W-6}" y2="${ty}" stroke="#ff5c9d" stroke-width="1.5" stroke-dasharray="6 4" opacity=".6"/>`;
+  g+=`<text x="${W-6}" y="${ty-6}" text-anchor="end" font-family="Inter" font-size="10" fill="#ff5c9d">target ${DB.target}</text>`;
   if(ws.length>1){
     const pts=ws.map((w,i)=>`${x(i)},${y(w.kg)}`).join(' ');
     const area=`${pad},${H-pad} `+pts+` ${x(ws.length-1)},${H-pad}`;
     g+=`<polygon points="${area}" fill="url(#ag)" opacity=".25"/>`;
-    g+=`<polyline points="${pts}" fill="none" stroke="#a8e05f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>`;
-    g+=`<defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a8e05f"/><stop offset="1" stop-color="#a8e05f" stop-opacity="0"/></linearGradient></defs>`;
+    g+=`<polyline points="${pts}" fill="none" stroke="#ff5c9d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>`;
+    g+=`<defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff5c9d"/><stop offset="1" stop-color="#ff5c9d" stop-opacity="0"/></linearGradient></defs>`;
   }
-  ws.forEach((w,i)=>{g+=`<circle cx="${x(i)}" cy="${y(w.kg)}" r="4.5" fill="#0e0f0d" stroke="#a8e05f" stroke-width="2.5"/>`;});
+  ws.forEach((w,i)=>{g+=`<circle cx="${x(i)}" cy="${y(w.kg)}" r="4.5" fill="#0e0f0d" stroke="#ff5c9d" stroke-width="2.5"/>`;});
   svg.innerHTML=g;
 }
 
@@ -1267,8 +1432,15 @@ function openAdminPanel(){
   document.getElementById('admGoal').value=DB.goal;
   document.getElementById('admProt').value=DB.proteinGoal;
   document.getElementById('admTarget').value=DB.target;
+  document.getElementById('admNameA').value=DB.nameA;
+  document.getElementById('admNameB').value=DB.nameB;
   renderAdminFoods();
   document.getElementById('adminPanel').classList.add('open');
+}
+function admSaveNames(){
+  DB.nameA=document.getElementById('admNameA').value.trim()||"Sundar";
+  DB.nameB=document.getElementById('admNameB').value.trim()||"Sandhiya";
+  save();renderNote();toast('Names updated ❤️','good');
 }
 function renderAdminFoods(){
   const el=document.getElementById('admFoodList');
@@ -1337,10 +1509,25 @@ function seedOnce(){
 }
 
 /* ---------- INIT ---------- */
-showQuote();seedOnce();renderToday();
+showQuote();seedOnce();renderToday();startHearts();
 if(window.firebase){ initFirebase(); } else { setCloudStatus(false); }
 document.getElementById('sheet').addEventListener('click',e=>{if(e.target.id==='sheet')closeSheet();});
-['adminAsk','adminPass','adminPanel','installSheet','noteSheet'].forEach(id=>document.getElementById(id).addEventListener('click',e=>{if(e.target.id===id)closeSheet2(id);}));
+['adminAsk','adminPass','adminPanel','installSheet','noteSheet','drinkSheet'].forEach(id=>document.getElementById(id).addEventListener('click',e=>{if(e.target.id===id)closeSheet2(id);}));
+
+/* migrate any old cup-format water data ({w,m}) to the new ml-list format */
+(function(){
+  let changed=false;
+  for(const k in DB.water){
+    const v=DB.water[k];
+    if(v && !Array.isArray(v)){
+      const arr=[];
+      for(let i=0;i<(v.w||0);i++) arr.push({ml:250,type:'water',t:Date.now()});
+      for(let i=0;i<(v.m||0);i++) arr.push({ml:200,type:'milk',t:Date.now()});
+      DB.water[k]=arr; changed=true;
+    }
+  }
+  if(changed) saveLocal();
+})();
 
 /* inject a web app manifest so Android/Chrome installs it as a real app */
 (function(){
