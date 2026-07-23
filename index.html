@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Sandhiya ♥">
 <meta name="theme-color" content="#0e0f0d">
-<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Crect width='180' height='180' rx='40' fill='%230e0f0d'/%3E%3Cpath d='M90 138 C 40 104, 44 60, 74 60 C 88 60, 90 74, 90 74 C 90 74, 92 60, 106 60 C 136 60, 140 104, 90 138 Z' fill='%23ff6b8a'/%3E%3Ctext x='90' y='102' font-family='Arial' font-size='30' font-weight='bold' fill='%23fff' text-anchor='middle'%3ES%2BS%3C/text%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Crect width='180' height='180' rx='40' fill='%231a0b12'/%3E%3Cpath d='M90 150 C 30 108, 34 54, 72 54 C 88 54, 90 72, 90 72 C 90 72, 92 54, 108 54 C 146 54, 150 108, 90 150 Z' fill='%23ff5c9d'/%3E%3Ctext x='90' y='108' font-family='Georgia,serif' font-size='40' font-weight='bold' fill='%23fff' text-anchor='middle'%3ES%E2%99%A5S%3C/text%3E%3C/svg%3E">
 <title>Gain</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -314,17 +314,18 @@ input[type="date"]{color-scheme:dark;accent-color:var(--green)}
 .weekcard .wk .v small{font-size:12px;color:var(--txt3);font-weight:500}
 .weekcard .wk .d{font-size:11.5px;color:var(--green);margin-top:2px}
 
-/* ===== FLOATING HEARTS BACKGROUND ===== */
-.hearts{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.hearts .h{position:absolute;bottom:-40px;font-size:18px;opacity:0;animation:floatUp linear infinite}
+/* ===== FLOATING HEARTS (inside phone, behind content) ===== */
+.hearts{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.hearts .h{position:absolute;bottom:-40px;font-size:18px;opacity:0;animation:floatUp linear infinite;will-change:transform,opacity}
 @keyframes floatUp{
   0%{transform:translateY(0) scale(.7) rotate(0);opacity:0}
-  10%{opacity:.55}
-  50%{transform:translateY(-50vh) scale(1) rotate(15deg);opacity:.5}
-  90%{opacity:.35}
-  100%{transform:translateY(-102vh) scale(1.1) rotate(-10deg);opacity:0}
+  10%{opacity:.6}
+  50%{transform:translateY(-55vh) scale(1) rotate(15deg);opacity:.55}
+  90%{opacity:.4}
+  100%{transform:translateY(-110vh) scale(1.1) rotate(-10deg);opacity:0}
 }
-.phone{z-index:1}
+/* content sits above the hearts */
+header,.quote,.scroll,.fab{position:relative;z-index:2}
 
 /* ===== NOTE FROM PARTNER ===== */
 .notecard{background:linear-gradient(135deg,#2a1520,#161816);border:1px solid rgba(255,90,120,.3);border-radius:22px;padding:16px 18px;margin-bottom:16px;position:relative}
@@ -359,9 +360,9 @@ input[type="date"]{color-scheme:dark;accent-color:var(--green)}
 .dtype.on{background:var(--green);color:#3a0018;border-color:var(--green)}
 /* wheel picker */
 .wheel-lbl{text-align:center;font-size:12px;color:var(--txt2);margin-bottom:8px}
-.wheel{height:150px;overflow-y:scroll;scroll-snap-type:y mandatory;border-top:1px solid var(--stroke);border-bottom:1px solid var(--stroke);position:relative;-webkit-mask-image:linear-gradient(transparent,#000 30%,#000 70%,transparent);mask-image:linear-gradient(transparent,#000 30%,#000 70%,transparent)}
+.wheel{height:150px;overflow-y:scroll;scroll-snap-type:y mandatory;border-top:1px solid var(--stroke);border-bottom:1px solid var(--stroke);position:relative;-webkit-overflow-scrolling:touch;-webkit-mask-image:linear-gradient(transparent,#000 30%,#000 70%,transparent);mask-image:linear-gradient(transparent,#000 30%,#000 70%,transparent)}
 .wheel::-webkit-scrollbar{display:none}
-.wheel .wopt{height:50px;scroll-snap-align:center;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:var(--txt3);transition:.15s}
+.wheel .wopt{height:50px;scroll-snap-align:center;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:var(--txt3);transition:color .15s,font-size .15s}
 .wheel .wopt.sel{color:var(--green);font-size:30px;font-weight:800}
 .wheel-time{text-align:center;font-size:12px;color:var(--txt2);margin-top:10px}
 
@@ -386,8 +387,8 @@ svg.line{width:100%;height:auto;display:block;overflow:visible}
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 </head>
 <body>
-<div class="hearts" id="hearts"></div>
 <div class="phone">
+  <div class="hearts" id="hearts"></div>
   <header>
     <div class="who">
       <div class="pfp" id="pfp">S</div>
@@ -1134,10 +1135,12 @@ function renderDrinkReminder(){
 let drinkType='water', drinkMl=250;
 const ML_OPTIONS=[50,100,150,200,250,300,350,400,500,600,750,1000];
 function openDrinkSheet(){
-  drinkType='water'; setDrinkTypeUI();
-  document.getElementById('drinkTimeLbl').textContent='Time: '+new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
-  buildWheel();
+  // open the sheet FIRST so it always works, even if the wheel setup hiccups
   document.getElementById('drinkSheet').classList.add('open');
+  drinkType='water'; drinkMl=250;
+  try{ setDrinkTypeUI(); }catch(e){}
+  try{ document.getElementById('drinkTimeLbl').textContent='Time: '+new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}); }catch(e){}
+  try{ buildWheel(); }catch(e){ console.warn('wheel build failed',e); }
 }
 function setDrinkType(t){ drinkType=t; setDrinkTypeUI(); }
 function setDrinkTypeUI(){
@@ -1145,20 +1148,17 @@ function setDrinkTypeUI(){
   document.getElementById('dtMilk').classList.toggle('on',drinkType==='milk');
 }
 function buildWheel(){
-  const w=document.getElementById('mlWheel');
-  // pad top/bottom so first/last can center
+  const w=document.getElementById('mlWheel'); if(!w) return;
   w.innerHTML='<div class="wopt" style="height:50px"></div>'+
     ML_OPTIONS.map(v=>`<div class="wopt" data-ml="${v}">${v} ml</div>`).join('')+
     '<div class="wopt" style="height:50px"></div>';
   const defIdx=ML_OPTIONS.indexOf(250);
-  // scroll so 250 is centred (each row 50px; +1 for pad)
-  setTimeout(()=>{ w.scrollTop=defIdx*50; highlightWheel(); },30);
+  setTimeout(()=>{ try{ w.scrollTop=defIdx*50; highlightWheel(); }catch(e){} },40);
   w.onscroll=()=>{ if(w._raf)cancelAnimationFrame(w._raf); w._raf=requestAnimationFrame(highlightWheel); };
 }
 function highlightWheel(){
-  const w=document.getElementById('mlWheel');
-  const center=w.scrollTop; // because of 50px top pad, row i center aligns at scrollTop=i*50
-  const idx=Math.round(center/50);
+  const w=document.getElementById('mlWheel'); if(!w) return;
+  const idx=Math.round(w.scrollTop/50);
   const opts=[...w.querySelectorAll('.wopt[data-ml]')];
   opts.forEach((o,i)=>o.classList.toggle('sel',i===idx));
   if(opts[idx]) drinkMl=parseInt(opts[idx].dataset.ml);
@@ -1532,8 +1532,8 @@ document.getElementById('sheet').addEventListener('click',e=>{if(e.target.id==='
 /* inject a web app manifest so Android/Chrome installs it as a real app */
 (function(){
   try{
-    const icon="data:image/svg+xml,"+encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='512' height='512'><rect width='512' height='512' rx='110' fill='#0e0f0d'/><path d='M256 400 C 110 300, 122 168, 210 168 C 250 168, 256 210, 256 210 C 256 210, 262 168, 302 168 C 390 168, 402 300, 256 400 Z' fill='#ff6b8a'/><text x='256' y='300' font-family='Arial' font-size='84' font-weight='bold' fill='#fff' text-anchor='middle'>S+S</text></svg>");
-    const manifest={name:"Sandhiya ♥ Sundar",short_name:"Gain",display:"standalone",background_color:"#0e0f0d",theme_color:"#0e0f0d",start_url:".",icons:[{src:icon,sizes:"512x512",type:"image/svg+xml"}]};
+    const icon="data:image/svg+xml,"+encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='512' height='512'><rect width='512' height='512' rx='120' fill='#1a0b12'/><path d='M256 430 C 90 310, 100 150, 208 150 C 250 150, 256 200, 256 200 C 256 200, 262 150, 304 150 C 412 150, 422 310, 256 430 Z' fill='#ff5c9d'/><text x='256' y='310' font-family='Georgia,serif' font-size='110' font-weight='bold' fill='#fff' text-anchor='middle'>S♥S</text></svg>");
+    const manifest={name:"Sandhiya ♥ Sundar",short_name:"S♥S",display:"standalone",background_color:"#1a0b12",theme_color:"#1a0b12",start_url:".",icons:[{src:icon,sizes:"512x512",type:"image/svg+xml"}]};
     const blob=new Blob([JSON.stringify(manifest)],{type:'application/json'});
     const link=document.createElement('link');
     link.rel='manifest'; link.href=URL.createObjectURL(blob);
