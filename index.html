@@ -985,16 +985,16 @@ function renderReminder(cal){
   const text=document.getElementById('remText');
   if(curDate!==todayKey()){ card.style.display='none'; return; }
   const rem=Math.max(0,DB.goal-cal);
-  if(rem<=0){ icon.textContent='🎉'; text.textContent="Goal complete! You did it today. Anything more is a bonus ❤️"; card.style.display='flex'; return; }
+  if(rem<=0){ icon.textContent='🎉'; text.textContent="Daily Goal Hit! Great job ❤️"; card.style.display='flex'; return; }
   let ic='🍽️', suggest;
-  if(rem<=130){ ic='🍌'; suggest='just 1 banana'; }
-  else if(rem<=250){ ic='🥛'; suggest='a glass of milk + a banana'; }
-  else if(rem<=400){ ic='🥜'; suggest='a handful of peanuts + a glass of milk'; }
-  else if(rem<=600){ ic='🥞'; suggest='2 dosa with an egg'; }
-  else if(rem<=900){ ic='🍛'; suggest='a full plate of rice with dal + ghee'; }
-  else { ic='🍽️'; suggest='a smoothie + a plate of rice'; }
+  if(rem<=130){ ic='🍌'; suggest='Eat 1 banana 🍌'; }
+  else if(rem<=250){ ic='🥛'; suggest='Drink milk + eat 1 banana 🥛'; }
+  else if(rem<=400){ ic='🥜'; suggest='Drink milk + eat peanuts 🥜'; }
+  else if(rem<=600){ ic='🥞'; suggest='Eat 2 dosa + 1 egg 🥞'; }
+  else if(rem<=900){ ic='🍛'; suggest='Eat a plate of rice with dal & ghee 🍛'; }
+  else { ic='🥤'; suggest='Drink a smoothie + eat a plate of rice 🥤'; }
   icon.textContent=ic;
-  text.textContent=`Only ${rem} kcal left — eat ${suggest} and you're done for today. You've got this!`;
+  text.textContent=`Only ${rem} kcal left — ${suggest}`;
   card.style.display='flex';
 }
 let celebratedFor=localStorage.getItem('gain_celebday')||'';
