@@ -58,6 +58,7 @@ header{padding:20px 20px 8px;display:flex;align-items:center;justify-content:spa
 .homebtn{width:42px;height:42px;border-radius:50%;background:var(--card);border:1px solid var(--stroke);display:flex;align-items:center;justify-content:center;cursor:pointer}
 .homebtn svg{width:20px;height:20px;fill:none;stroke:var(--green);stroke-width:1.9;stroke-linejoin:round;stroke-linecap:round}
 .homebtn:active{background:var(--card2)}
+
 /* install guide sheet steps */
 .istep{display:flex;gap:12px;align-items:flex-start;margin-bottom:16px}
 .istep .n{width:26px;height:26px;border-radius:50%;background:var(--green);color:#3a0018;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
@@ -116,7 +117,6 @@ header{padding:20px 20px 8px;display:flex;align-items:center;justify-content:spa
 .pill{font-size:11px;font-weight:700;padding:5px 11px;border-radius:20px}
 .pill.ok{background:var(--green);color:#3a0018}
 .pill.warn{background:rgba(255,206,71,.15);color:var(--amber);border:1px solid rgba(255,206,71,.3)}
-/* EAT MORE — big and clear, thin clean text */
 .pill.bad{
   display:inline-flex;align-items:center;gap:9px;
   font-size:18px;font-weight:500;letter-spacing:.01em;
@@ -161,7 +161,6 @@ header{padding:20px 20px 8px;display:flex;align-items:center;justify-content:spa
 .calbtn svg{width:17px;height:17px;fill:none;stroke:var(--green);stroke-width:1.8}
 .dnav #calInput{position:absolute;left:50%;bottom:-4px;transform:translateX(-50%);width:120px;height:1px;opacity:0;pointer-events:none;color-scheme:dark;accent-color:var(--green)}
 .dnav{position:relative}
-/* dark theme for any native date UI */
 input[type="date"]{color-scheme:dark;accent-color:var(--green)}
 ::-webkit-datetime-edit,::-webkit-calendar-picker-indicator{color-scheme:dark}
 
@@ -214,28 +213,10 @@ input[type="date"]{color-scheme:dark;accent-color:var(--green)}
 .search:focus{outline:none;border-color:var(--green)}
 .search::placeholder{color:var(--txt3)}
 
-/* PICK ROW */
-.pick{display:flex;align-items:center;gap:13px;padding:13px 14px;border-radius:16px;background:var(--card);margin-bottom:9px;cursor:pointer;border:1px solid transparent}
-.pick:active{border-color:var(--green)}
-.pick .pn{font-size:14.5px;font-weight:600}
-.pick .pm{font-size:11px;color:var(--txt2);margin-top:1px}
-.pick .pc{margin-left:auto;font-size:15px;font-weight:700}
-.pick .pc small{font-size:10px;color:var(--txt3);display:block;text-align:right}
-
-/* QTY */
-.qtyrow{display:flex;align-items:center;gap:16px;margin:22px 0}
-.qbtn{width:56px;height:56px;border-radius:18px;background:var(--card2);border:1px solid var(--stroke);color:var(--txt);font-size:26px;font-weight:600;cursor:pointer}
-.qbtn:active{background:var(--green);color:#3a0018}
-.qval{flex:1;text-align:center;font-size:34px;font-weight:800}
-.qinfo{text-align:center;font-size:13px;color:var(--txt2)}
-
-.tag{display:inline-block;font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;background:var(--card2);color:var(--txt2)}
-.tag.c{background:rgba(255,92,157,.14);color:var(--green)}
-
 /* AI FLOW */
 .aihint{text-align:center;font-size:12px;color:var(--txt2);margin-top:14px}
 .aierr{margin-top:12px;padding:11px 14px;border-radius:12px;background:rgba(255,90,82,.12);border:1px solid rgba(255,90,82,.35);color:#ff9a94;font-size:12.5px;line-height:1.5;text-align:center}
-/* themed toast (replaces system alert) */
+/* themed toast */
 .toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%) translateY(20px);z-index:200;
   max-width:340px;width:calc(100% - 40px);padding:13px 16px;border-radius:14px;
   background:var(--card2);border:1px solid var(--stroke);color:var(--txt);font-size:13.5px;line-height:1.5;
@@ -250,6 +231,7 @@ input[type="date"]{color-scheme:dark;accent-color:var(--green)}
 .cdlg .box p{font-size:14px;line-height:1.6;margin-bottom:18px}
 .cdlg .row{display:flex;gap:10px}
 .cdlg .row .btn{margin:0}
+
 /* multi-food rows */
 .rowhead{display:grid;grid-template-columns:1fr 60px 66px 30px;gap:8px;padding:0 2px 6px;font-size:10px;color:var(--txt3);text-transform:uppercase;letter-spacing:.04em}
 .rh-pc,.rh-g{text-align:center}
@@ -261,6 +243,7 @@ input[type="date"]{color-scheme:dark;accent-color:var(--green)}
 .rowx{width:30px;height:30px;border-radius:9px;background:var(--card2);border:none;color:var(--txt2);font-size:14px;cursor:pointer}
 .rowx:active{background:var(--red);color:#fff}
 .btn.addrow{margin-top:4px;font-size:14px;padding:12px}
+
 /* result list */
 .rline{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--stroke);border-radius:14px;padding:12px 14px;margin-bottom:9px}
 .rline .rlname{flex:1;font-size:14px;font-weight:600;text-transform:capitalize}
@@ -279,19 +262,8 @@ input[type="date"]{color-scheme:dark;accent-color:var(--green)}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loadtxt{font-size:17px;font-weight:700;margin-top:20px}
 .loadsub{font-size:13px;color:var(--txt2);margin-top:5px}
-.resultcard{background:linear-gradient(160deg,#2b1420,#161816);border:1px solid var(--stroke);border-radius:22px;padding:22px;text-align:center;margin-bottom:16px}
-.rfood{font-size:19px;font-weight:700;text-transform:capitalize}
-.rgrams{font-size:13px;color:var(--txt2);margin-top:2px}
-.rgrid{display:flex;gap:12px;margin-top:18px}
-.rbox{flex:1;background:var(--card);border:1px solid var(--stroke);border-radius:16px;padding:14px 8px}
-.rnum{font-size:30px;font-weight:800;color:var(--green);line-height:1}
-.rnum.blue{color:#5fd0e0}
-.rlbl{font-size:11px;color:var(--txt2);margin-top:5px}
-.rest{font-size:11px;color:var(--txt3);margin-top:14px}
 
-/* mini fire in hero stats */
-.minifire{display:inline-block;animation:flicker 1.1s ease-in-out infinite;transform-origin:bottom center}
-/* ===== STREAK CARD ===== */
+/* STREAK CARD */
 .streakcard{display:flex;align-items:center;gap:16px;background:linear-gradient(135deg,#2a1e10,#161816);border:1px solid rgba(255,140,40,.3);border-radius:22px;padding:16px 18px;margin-bottom:16px;position:relative;overflow:hidden}
 .streakcard:before{content:"";position:absolute;top:-30%;left:-10%;width:160px;height:160px;background:radial-gradient(circle,rgba(255,120,20,.22),transparent 70%);pointer-events:none}
 .fire{font-size:44px;line-height:1;filter:drop-shadow(0 0 10px rgba(255,120,20,.8));animation:flicker 1.1s ease-in-out infinite;transform-origin:bottom center}
@@ -304,7 +276,7 @@ input[type="date"]{color-scheme:dark;accent-color:var(--green)}
 .streaktxt .big{font-size:26px;font-weight:800;line-height:1;color:#ffb347}
 .streaktxt .sub{font-size:12.5px;color:var(--txt2);margin-top:3px}
 
-/* ===== WEEKLY CARD ===== */
+/* WEEKLY CARD */
 .weekcard{background:var(--card);border:1px solid var(--stroke);border-radius:22px;padding:16px 18px;margin-bottom:16px;display:flex;align-items:center;gap:16px}
 .weekcard .eat{font-size:38px;animation:chew 1.4s ease-in-out infinite;transform-origin:center}
 @keyframes chew{0%,100%{transform:scale(1) rotate(0)}30%{transform:scale(1.15) rotate(-6deg)}60%{transform:scale(.94) rotate(5deg)}}
@@ -314,7 +286,7 @@ input[type="date"]{color-scheme:dark;accent-color:var(--green)}
 .weekcard .wk .v small{font-size:12px;color:var(--txt3);font-weight:500}
 .weekcard .wk .d{font-size:11.5px;color:var(--green);margin-top:2px}
 
-/* ===== NOTE FROM PARTNER ===== */
+/* NOTE FROM PARTNER */
 .notecard{background:linear-gradient(135deg,#2a1520,#161816);border:1px solid rgba(255,90,120,.3);border-radius:22px;padding:16px 18px;margin-bottom:16px;position:relative}
 .notecard.pink{background:linear-gradient(135deg,#2a1228,#161816);border-color:rgba(255,130,180,.35)}
 .notecard .nhead{display:flex;align-items:center;gap:8px;font-size:12px;color:#ff8fb0;font-weight:600;margin-bottom:8px}
@@ -323,12 +295,12 @@ input[type="date"]{color-scheme:dark;accent-color:var(--green)}
 .notecard .nmsg{font-size:14.5px;line-height:1.5;color:var(--txt)}
 .notecard .nempty{font-size:13px;color:var(--txt3);font-style:italic}
 
-/* ===== REMINDER CARD ===== */
+/* REMINDER CARD */
 .remcard{display:flex;align-items:center;gap:13px;background:rgba(255,92,157,.08);border:1px solid rgba(255,92,157,.25);border-radius:18px;padding:13px 16px;margin-bottom:16px}
 .remcard .ri{font-size:24px}
 .remcard .rt{font-size:13.5px;line-height:1.45;color:var(--txt)}
 
-/* ===== WATER (ml + time) ===== */
+/* WATER CARD & QUICK CHIPS */
 .drinkcard{background:var(--card);border:1px solid var(--stroke);border-radius:20px;padding:16px}
 .drinkcard.water{border-color:rgba(95,208,224,.3)}
 .dtop{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;font-weight:600}
@@ -340,18 +312,25 @@ input[type="date"]{color-scheme:dark;accent-color:var(--green)}
 .wbar{background:linear-gradient(90deg,#5fd0e0,#3595bd)}
 .watergo{font-size:14px;font-weight:700;color:#5fd0e0;margin-top:12px}
 .watertime{font-size:12px;color:var(--txt2);margin-top:5px;line-height:1.4}
-/* wheel picker */
+.qchips{display:flex;gap:8px;margin-top:14px}
+.qchip{flex:1;padding:10px 4px;border-radius:12px;background:rgba(95,208,224,.12);border:1px solid rgba(95,208,224,.3);color:#5fd0e0;font-weight:700;font-size:13px;cursor:pointer;text-align:center;transition:.15s}
+.qchip:active{transform:scale(.96);background:rgba(95,208,224,.25)}
+
+/* Wheel picker + direct ml input in modal */
 .wheel-lbl{text-align:center;font-size:12px;color:var(--txt2);margin-bottom:8px}
-.wheel{height:150px;overflow-y:scroll;scroll-snap-type:y mandatory;border-top:1px solid var(--stroke);border-bottom:1px solid var(--stroke);position:relative;-webkit-overflow-scrolling:touch;-webkit-mask-image:linear-gradient(transparent,#000 30%,#000 70%,transparent);mask-image:linear-gradient(transparent,#000 30%,#000 70%,transparent)}
+.wheel{height:140px;overflow-y:scroll;scroll-snap-type:y mandatory;border-top:1px solid var(--stroke);border-bottom:1px solid var(--stroke);position:relative;-webkit-overflow-scrolling:touch;-webkit-mask-image:linear-gradient(transparent,#000 30%,#000 70%,transparent);mask-image:linear-gradient(transparent,#000 30%,#000 70%,transparent)}
 .wheel::-webkit-scrollbar{display:none}
 .wheel .wopt{height:50px;scroll-snap-align:center;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:var(--txt3);transition:color .15s,font-size .15s}
-.wheel .wopt.sel{color:var(--green);font-size:30px;font-weight:800}
+.wheel .wopt.sel{color:#5fd0e0;font-size:30px;font-weight:800}
 .wheel-time{text-align:center;font-size:12px;color:var(--txt2);margin-top:10px}
+.direct-ml{display:flex;align-items:center;gap:10px;margin-top:14px;margin-bottom:12px}
+.direct-ml label{font-size:13px;color:var(--txt2);font-weight:600}
+.direct-ml input{flex:1;padding:12px;border:1px solid var(--stroke);border-radius:12px;background:var(--bg);color:var(--txt);font-family:inherit;font-size:18px;font-weight:700;text-align:center}
 
-/* ===== NOTE EDITOR (admin/partner) ===== */
+/* NOTE EDITOR */
 .notebtn{width:100%;padding:12px;border-radius:14px;background:var(--card2);border:1px solid var(--stroke);color:var(--txt);font-family:inherit;font-size:13px;cursor:pointer;margin-top:8px}
 
-/* ===== CELEBRATION ===== */
+/* CELEBRATION */
 .celebrate{position:fixed;inset:0;z-index:300;pointer-events:none;display:none;overflow:hidden}
 .celebrate.show{display:block}
 .confetti{position:absolute;top:-20px;width:10px;height:14px;opacity:.95;animation:fall linear forwards}
@@ -472,7 +451,7 @@ svg.line{width:100%;height:auto;display:block;overflow:visible}
       <div class="foodcard" id="foodList"></div>
     </div>
 
-    <!-- ===== WATER TRACKER (ml + time + schedule) ===== -->
+    <!-- ===== WATER TRACKER ===== -->
     <div id="tab-water" style="display:none">
       <div class="remcard" id="drinkRem" style="display:none"><div class="ri" id="drinkRemIcon">💧</div><div class="rt" id="drinkRemText"></div></div>
 
@@ -482,9 +461,16 @@ svg.line{width:100%;height:auto;display:block;overflow:visible}
         <div class="dbar"><span id="waterBar" class="wbar"></span></div>
         <div class="watergo" id="waterGo">2000 ml to go</div>
         <div class="watertime" id="waterTime"></div>
+        
+        <!-- Quick 1-tap add chips right on the card -->
+        <div class="qchips">
+          <button class="qchip" onclick="quickAdd(250)">+250ml</button>
+          <button class="qchip" onclick="quickAdd(500)">+500ml</button>
+          <button class="qchip" onclick="quickAdd(750)">+750ml</button>
+        </div>
       </div>
 
-      <button class="btn" onclick="openDrinkSheet()" style="margin-bottom:16px">＋ Add water</button>
+      <button class="btn" onclick="openDrinkSheet()" style="margin-bottom:16px">＋ Custom Water Amount</button>
 
       <div class="sh"><h3>Your drink plan</h3><span class="cnt" id="planSub"></span></div>
       <div class="foodcard" id="planList"></div>
@@ -493,14 +479,14 @@ svg.line{width:100%;height:auto;display:block;overflow:visible}
       <div class="foodcard" id="drinkList"></div>
     </div>
 
-    <!-- ===== FOOD LOG (history of all days) ===== -->
+    <!-- ===== FOOD LOG ===== -->
     <div id="tab-foods" style="display:none">
       <div class="hint">Every food you've logged, newest day first.</div>
       <div class="sh"><h3>Food log</h3><span class="cnt" id="logSub">0 days</span></div>
       <div id="logList"></div>
     </div>
 
-    <!-- ===== WEIGHT (last) ===== -->
+    <!-- ===== WEIGHT ===== -->
     <div id="tab-weight" style="display:none">
       <div class="hint">Weigh once a week · morning · before eating · same clothes.</div>
       <div class="sh"><h3>Weight trend</h3><span class="cnt" id="wSub">Target 35.0 kg</span></div>
@@ -647,7 +633,6 @@ svg.line{width:100%;height:auto;display:block;overflow:visible}
     <div class="sbody">
       <p style="font-size:13px;color:var(--txt2);line-height:1.5;margin-bottom:18px">Put GAIN on your phone like a real app. Then just tap the icon to open it.</p>
 
-      <!-- iPhone steps -->
       <div id="iosSteps">
         <div class="istep"><div class="n">1</div><div class="t">Tap the <b>Share</b> button
           <span class="iico"><svg viewBox="0 0 24 24"><path d="M12 16V4M8 8l4-4 4 4"/><path d="M6 12v7h12v-7"/></svg></span>
@@ -658,7 +643,6 @@ svg.line{width:100%;height:auto;display:block;overflow:visible}
         <p style="font-size:12px;color:var(--txt3);margin-top:4px">Note: on iPhone this must be done in <b>Safari</b> (not Chrome).</p>
       </div>
 
-      <!-- Android steps -->
       <div id="androidSteps" style="display:none">
         <button class="btn" id="androidInstallBtn" onclick="doAndroidInstall()" style="margin-bottom:16px">Install app</button>
         <div class="istep"><div class="n">1</div><div class="t">If the button above didn't work: tap the <b>⋮</b> menu (top-right of Chrome).</div></div>
@@ -682,15 +666,28 @@ svg.line{width:100%;height:auto;display:block;overflow:visible}
   </div>
 </div>
 
-<!-- ADD DRINK SHEET (wheel picker) -->
+<!-- ADD DRINK SHEET (quick chips + direct input + wheel picker) -->
 <div class="sheet" id="drinkSheet">
   <div class="sinner">
     <div class="grab"></div>
     <div class="shead"><h3>Add water</h3><button class="x" onclick="closeSheet2('drinkSheet')">✕</button></div>
     <div class="sbody">
-      <div class="wheel-lbl">How much? (ml)</div>
+      <div class="direct-ml">
+        <label>Amount (ml):</label>
+        <input type="number" id="drinkInputMl" value="250" step="50" min="50" max="2000" onchange="setMlFromInput(this.value)">
+      </div>
+      
+      <div class="qchips" style="margin-bottom:14px">
+        <button class="qchip" onclick="setMlPreset(100)">100ml</button>
+        <button class="qchip" onclick="setMlPreset(250)">250ml</button>
+        <button class="qchip" onclick="setMlPreset(500)">500ml</button>
+        <button class="qchip" onclick="setMlPreset(750)">750ml</button>
+      </div>
+
+      <div class="wheel-lbl">Or scroll to pick</div>
       <div class="wheel" id="mlWheel"></div>
       <div class="wheel-time" id="drinkTimeLbl"></div>
+      
       <button class="btn" onclick="saveDrink()" style="margin-top:16px">Add water</button>
     </div>
   </div>
@@ -708,7 +705,7 @@ svg.line{width:100%;height:auto;display:block;overflow:visible}
 </div></div></div>
 
 <script>
-/* ---------- THEMED MESSAGES (replace system alert/confirm) ---------- */
+/* ---------- THEMED MESSAGES ---------- */
 let toastT=null;
 function toast(msg,kind){
   const el=document.getElementById('toast');
@@ -740,13 +737,13 @@ const DEFAULT_FOODS = [
 const cfg=JSON.parse(localStorage.getItem('gain_cfg')||'{}');
 const DB = {
   goal:cfg.goal||3000, proteinGoal:cfg.proteinGoal||40, target:cfg.target||35,
-  nameA:cfg.nameA||"Sundar", nameB:cfg.nameB||"Sandhiya",   /* A = you, B = her — editable in Admin */
-  geminiKey:cfg.geminiKey||"",  /* NEVER hard-code a key here — enter it in the Admin panel. Public keys get auto-deleted by Google. */
+  nameA:cfg.nameA||"Sundar", nameB:cfg.nameB||"Sandhiya",
+  geminiKey:cfg.geminiKey||"",
   custom:JSON.parse(localStorage.getItem('gain_custom')||'[]'),
   days:JSON.parse(localStorage.getItem('gain_days')||'{}'),
   weights:JSON.parse(localStorage.getItem('gain_weights')||'[]'),
   water:JSON.parse(localStorage.getItem('gain_water')||'{}'),
-  notes:JSON.parse(localStorage.getItem('gain_notes')||'{}')     /* { sundar:{msg}, sandhiya:{msg} } — one note each, edit replaces */
+  notes:JSON.parse(localStorage.getItem('gain_notes')||'{}')
 };
 let curDate = todayKey();
 
@@ -760,12 +757,12 @@ const firebaseConfig = {
   appId: "1:830637937964:web:907f2664f1730903804889"
 };
 let fdb=null, cloudReady=false, applyingCloud=false;
-const CLOUD_DOC="shared/sandhiya"; // one shared record both phones read/write
+const CLOUD_DOC="shared/sandhiya";
+
 function initFirebase(){
   try{
     firebase.initializeApp(firebaseConfig);
     fdb=firebase.firestore();
-    // live listener: when cloud changes (from her phone or yours), update instantly
     fdb.doc(CLOUD_DOC).onSnapshot(snap=>{
       const d = snap.exists ? snap.data() : {};
       applyingCloud=true;
@@ -776,6 +773,8 @@ function initFirebase(){
       if(d.proteinGoal) DB.proteinGoal=d.proteinGoal;
       if(d.target) DB.target=d.target;
       if(typeof d.geminiKey==='string' && d.geminiKey) DB.geminiKey=d.geminiKey;
+      
+      // Ensure water data is converted to array format if legacy cloud data exists
       if(d.water && typeof d.water==='object'){
         for(const k in d.water){
           if(d.water[k] && !Array.isArray(d.water[k])){
@@ -789,10 +788,11 @@ function initFirebase(){
         }
         DB.water=d.water;
       }
+      
       if(d.notes) DB.notes=d.notes;
       if(d.nameA) DB.nameA=d.nameA;
       if(d.nameB) DB.nameB=d.nameB;
-      // merge the one-time 9-day seed into cloud if missing
+
       let seededNow=false;
       for(const day in SEED_DAYS){ if(!DB.days[day]){ DB.days[day]=SEED_DAYS[day]; seededNow=true; } }
       saveLocal();
@@ -836,10 +836,9 @@ function saveLocal(){
 }
 function save(){
   saveLocal();
-  if(!applyingCloud) pushCloud(); // don't echo cloud changes back
+  if(!applyingCloud) pushCloud();
 }
 function todayKey(){return new Date().toISOString().slice(0,10);}
-function allFoods(){return [...DEFAULT_FOODS.map(f=>({n:f[0],ic:f[1],c:f[2],p:f[3]})), ...DB.custom.map(f=>({...f,ic:f.ic||'🍽️'}))];}
 
 /* ---------- TABS ---------- */
 function tab(t){
@@ -850,10 +849,9 @@ function tab(t){
   if(t==='foods')renderLog();
   if(t==='water')renderWater();
 }
-const today=document.getElementById('tab-today');
 
 /* ---------- QUOTES ---------- */
-const QUOTES=["Being lean is your starting point, not your limit.","Every extra bite is a brick in the body you're building.","You're not too thin to be strong — you're strong and getting bigger.","Muscle is patient. Feed it, and it will come.","A skinny frame can carry a powerful future. Keep feeding it.","Weight gain is won at the dinner table, one plate at a time.","You didn't get lean overnight; you won't gain overnight. Stay steady.","Your appetite is a muscle too — train it a little more each day.","One more spoon is a quiet act of self-belief.","Small frame, big determination. That's how giants start.","Eat like you love the body you're trying to build.","The mirror will change. Trust the meals in between.","You're planting mass with every meal. Water it daily.","Being underweight is a chapter, not your whole story.","Gain slow, gain strong, gain for good.","Your metabolism is fast — just feed it faster.","Extra calories today are extra strength tomorrow.","You are allowed to take up more space in this world.","Skinny is where you began; strong is where you're going.","Feed the frame, build the future.","A lean body responds fast once you feed it right.","Every gram gained is a promise kept to yourself.","You're not failing at gaining — you're learning to fuel.","Big meals, calm mind, steady gains.","The hardest rep is lifting the fork one more time. Do it.","Your future strong self is built from today's second helping.","Gaining weight is self-care, not indulgence.","You deserve to feel full, fueled, and strong.","Thin now, mighty soon. Keep eating.","Consistency turns a lean body into a strong one.","Every healthy kilo is a victory worth celebrating.","You're building mass the honest way — meal by meal.","Don't shrink from food; grow with it.","A strong body is a well-fed body. Feed yours.","Your bones are ready. Give them muscle to wear.","Slow gains are permanent gains.","You are becoming heavier, healthier, happier.","The scale rises when you refuse to skip meals.","Fuel first, strength follows.","Lean today, layered with muscle tomorrow.","Your body wants to grow — just give it the bricks.","Eat for the size you want, not the size you are.","Every full plate is a step off the 'too skinny' label.","You're not eating too much; you're finally eating enough.","Gains love a person who never skips breakfast.","A little more every meal becomes a lot over months.","Strength is stored in the meals you don't skip.","Your weight-gain journey is proof you care about yourself.","Being lean means muscle shows fast — so build it.","Feed the dream of a stronger you.","You have the frame; now add the force.","Nourish now, flex later.","The best time to eat more was yesterday; the next best is now.","Your body keeps score of every good meal. Keep scoring.","Grow into your strength one honest bite at a time.","Underweight is a starting line, and you're already running.","Calories are not the enemy; they're your building blocks.","You're worth every extra helping.","Weight gain rewards the patient and the persistent.","A stronger body is being assembled inside you right now.","Lean frames become strong frames when they're fed with intent.","Every meal skipped is a gain postponed. So don't skip.","You are stronger at the table than you think.","The path to muscle is paved with plates you finished.","Add mass with kindness — to your body and yourself.","Your appetite will grow. Meet it halfway.","Being small is not the same as staying small.","Feed today, thank yourself in three months.","Your strength story starts with a full stomach.","Gains are gentle giants — they arrive slowly, then all at once.","You are not behind; you are building.","Extra protein is extra armor. Wear more.","Muscle grows in the quiet space between meals and rest.","You can outgrow 'skinny' — one dinner at a time.","Your future physique is hungry. Feed it now.","Lean and determined beats big and lazy every time.","Weight gain is a marathon of meals. Keep pacing.","You are exactly the person who can do this.","A full plate is a form of hope.","The strongest thing a lean person can do is keep eating well.","Your body is a garden; calories are the rain.","Small servings, stacked daily, build a bigger you.","Don't fear the scale — befriend it.","You're not gaining fat; you're gaining a future.","Every gram counts, and every gram is yours to earn.","Muscle memory starts with meal memory.","You have room to grow, and permission to fill it.","Feed the lean machine and watch it roar.","Gaining weight healthily is a flex all its own.","The frame is set; now pour in the strength.","You're one good month of meals from a new you.","Lean people who eat with purpose become powerful.","Your metabolism isn't a curse; it's a challenge you're beating.","Bite by bite, you're rewriting your body.","Strong starts in the kitchen, not the mirror.","You deserve to be nourished into strength.","Add a little more today; you'll thank yourself later.","The lean become the strong when they refuse to quit eating well.","Your best body is a fed body.","Gains are shy — feed them consistently and they'll show up.","You are building, not just eating.","Show up to every meal like it matters, because it does.","Discipline is eating well even when you're not hungry.","Consistency is the secret ingredient in every gain.","Miss a meal, miss a chance. Take the chance.","Your gains live in the meals you almost skipped.","Steady eating beats occasional feasting.","Routine builds the body motivation only dreams of.","Three solid meals beat one giant one.","Snacks are not cheating; they're building blocks.","The habit of eating enough will change everything.","Plan the plate, win the day.","Never negotiate with a skipped meal.","Small daily wins stack into a stronger you.","Your calendar of meals is your blueprint for muscle.","Feed the routine and the routine feeds you back.","You control the fork; the fork controls the gains.","Every on-time meal is a vote for the strong you.","Persistence at the plate pays in muscle.","Consistency isn't glamorous, but it's powerful.","Win the meal, win the month.","Discipline today is confidence tomorrow.","You don't need motivation; you need your next meal.","Habits build bodies. Build good ones.","Keep the streak of good meals alive.","The body follows the fork. Lead it well.","Meal by meal, you become undeniable.","Show up hungry or not — your muscles are counting on you.","Progress hides inside your daily routine.","A missed meal is a missed brick. Lay every one.","Your discipline is quietly building a giant.","Slow gain is real gain.","You can't rush muscle, but you can never stop feeding it.","Patience is the muscle that grows all the others.","Trust the months, not the mornings.","Progress you can't see today is still progress.","The scale moves for the patient.","Gains are earned in weeks, not days.","Give it time; give it food; give it consistency.","Every slow week still moves you forward.","You're not stuck; you're steeping.","Muscle takes its time because it's built to last.","Small numbers on the scale are big wins in disguise.","The tortoise gains muscle too — and keeps it.","Be patient with the body that's working for you.","Growth is quiet before it's obvious.","You are further along than the mirror admits.","Trust the process even when it's slow.","The best gains take the longest — and stay the longest.","A year from now, today's patience will show.","Keep watering; the growth is coming.","Eggs are cheap strength. Eat more of them.","A glass of milk is muscle you can drink.","Peanuts: small, cheap, and packed with gains.","Dal and rice built strong bodies for centuries.","You don't need expensive food to gain — you need enough food.","Bananas before bed, gains in your head.","Rice is fuel; treat every grain like it matters.","Groundnuts are a poor person's protein gold.","Milk, eggs, dal, rice — your budget muscle stack.","A boiled egg is a tiny brick of strength.","Cheap calories still build a strong body.","Ghee on rice is honest energy. Use it.","Peanut chikki: sweet, cheap, and full of gains.","You can gain on a small budget with a big plan.","Curd rice fills you and fuels you.","Every rupee of dal is a rupee of muscle.","Simple food, eaten fully, builds strong bodies.","Two eggs a day keep the weakness away.","A smoothie of milk, banana, and peanuts is liquid gains.","Never underestimate the power of a full bowl of rice.","Your body is not a problem to fix but a garden to grow.","Speak kindly to the frame you're strengthening.","You are worthy of the effort it takes to gain.","Being lean is beautiful; being strong is a gift you give yourself.","Love your body enough to feed it fully.","You are not too much; you are becoming enough.","The way you talk to yourself feeds your progress too.","Gaining weight is choosing yourself.","You are allowed to want to be bigger and stronger.","Your worth was never tied to the scale — but your health is.","Be proud of every step toward a stronger you.","You are building a home for a healthier life.","Kindness to your body speeds every gain.","You deserve to feel powerful in your own skin.","Grow at your own pace and be proud of it.","Your journey is yours; walk it with pride.","A fed body is a loved body.","You are enough today and getting stronger for tomorrow.","Celebrate the effort, not just the outcome.","Your body hears every kind word you feed it.","On no-appetite days, one bite is still a win.","Hard days don't erase your progress; they test it.","Even a small meal on a bad day keeps the streak alive.","When eating feels hard, remember why you started.","A slow day is not a failed day.","Push through the full feeling; that's where growth lives.","Off days pass; your goals remain.","Eat something, anything healthy — momentum matters.","The hardest meals build the strongest results.","You've survived every hard day so far. Keep going.","When motivation fades, let routine carry you.","One difficult meal today saves a week of setbacks.","Bad appetite? Sip your calories. Keep moving.","Progress isn't lost on tough days; it's paused.","You are stronger than a skipped-meal excuse.","Feed yourself gently on the hard days.","Even 100 extra calories beats zero.","Tough day? Small plate, big win.","Rest, refuel, and rise again tomorrow.","Your comeback is built on days you almost gave up.","Every meal is a rep for your future muscles.","Fork in hand, strength on the way.","Build the base now; the muscle stacks on top.","Your arms are waiting for the calories you'll give them.","Strength is stored energy — so store more.","Feed the machine; watch the power grow.","Muscle is a thank-you note from consistent meals.","You're forging strength in a kitchen, not just a gym.","Every gram of protein is a soldier for your strength.","Lift the fork, build the frame.","Your future flex starts on today's plate.","Power is patient; feed it and wait.","Turn calories into confidence.","Strength grows where food and rest meet.","You're not just eating; you're engineering strength.","The strongest version of you is hungry right now.","Fuel the fire that becomes muscle.","Meals now, muscles later. Simple math.","Your strength is a stack of finished plates.","Grow the engine before you race.","Picture the stronger you, then feed that picture.","Your goal weight is a series of meals away.","Keep the vision; the muscle will follow.","Aim for strong, not just heavier.","Every plate points toward your goal.","The target is set; the fork is the tool.","See the finish line in every full plate.","Your dream body is built one meal at a time.","Chase strength, and weight will follow.","Hold the vision, do the meals.","Goals are met by people who keep eating well.","Your target weight is patient; go meet it.","Dream big, eat bigger.","The strong you is a promise; keep it with food.","Every meal is a step toward the goal you can see.","Believe in the body you're building.","Your future is heavier and healthier. Go get it.","The goal isn't far; it's just fed one meal at a time.","Keep your eyes on strong and your plate full.","You will reach it — bite by bite, day by day.","You started, and starting is the hardest part.","Momentum loves a person who never skips a meal.","Keep going; your body is finally getting what it needs.","You're doing the work most people avoid. Respect that.","One good week becomes one good month becomes a new you.","You're closer than you were yesterday.","Keep stacking good days.","The results are coming; keep feeding them.","You're building unstoppable momentum.","Don't stop now — the gains are just warming up.","Every day you show up, you win a little.","Progress compounds. Keep depositing meals.","You've got a rhythm now; protect it.","The hard part is behind you; keep the streak alive.","Little wins today, big change tomorrow.","You are the kind of person who follows through.","Keep feeding the momentum you've earned.","Your consistency is becoming your superpower.","Stay the course; the muscle is on its way.","You're not just gaining weight; you're gaining momentum.","Full plate, clear goal, steady heart.","Your strength grows quietly, then loudly.","Feed the body; free the confidence.","Every good meal is an investment that pays in strength.","You're turning 'too skinny' into 'surprisingly strong'.","Calories in, confidence up.","The frame is ready; add the muscle.","You are worth being strong and healthy.","Eat with intention; grow with pride.","A stronger tomorrow is on today's menu.","Your body thrives when you stop shrinking your meals.","Bigger plates, brighter future.","You're not behind anyone; you're building yourself.","Strength is a habit; start it at every meal.","Feed the body that carries all your dreams.","Your gains are proof that you kept your promise.","Grow steadily and you'll grow forever.","The lean become legends when they keep feeding the fire.","You are the author of a stronger story.","One more bite is one more step toward strong.","Weight gain is patience with a plate.","You're building something that lasts: a strong, healthy body.","Every full meal is a quiet triumph.","Fuel up; your strength is waiting.","The strongest muscle you'll build is the will to keep eating well.","You are becoming the person your goals need you to be.","Add mass, add confidence, add life.","Your journey from lean to strong starts on this plate.","Keep eating, keep believing, keep growing.","You've got this — plate by plate, day by day, gain by gain."];
+const QUOTES=["Being lean is your starting point, not your limit.","Every extra bite is a brick in the body you're building.","You're not too thin to be strong — you're strong and getting bigger.","Muscle is patient. Feed it, and it will come.","A skinny frame can carry a powerful future. Keep feeding it.","Weight gain is won at the dinner table, one plate at a time.","You didn't get lean overnight; you won't gain overnight. Stay steady.","Your appetite is a muscle too — train it a little more each day.","One more spoon is a quiet act of self-belief.","Small frame, big determination. That's how giants start.","Eat like you love the body you're trying to build.","The mirror will change. Trust the meals in between.","You're planting mass with every meal. Water it daily.","Being underweight is a chapter, not your whole story.","Gain slow, gain strong, gain for good.","Your metabolism is fast — just feed it faster.","Extra calories today are extra strength tomorrow.","You are allowed to take up more space in this world.","Skinny is where you began; strong is where you're going.","Feed the frame, build the future."];
 let lastQuote=-1, quoteTimer=null;
 function pickQuote(){
   let i;
@@ -864,7 +862,7 @@ function pickQuote(){
 function showQuote(){
   pickQuote();
   if(quoteTimer) clearInterval(quoteTimer);
-  quoteTimer=setInterval(pickQuote, 60000); // new quote every 1 minute
+  quoteTimer=setInterval(pickQuote, 60000);
 }
 
 /* ---------- DAY NAV ---------- */
@@ -910,15 +908,14 @@ function delFood(idx){DB.days[curDate].splice(idx,1);if(!DB.days[curDate].length
 function foodAmt(i){return [i.pc?i.pc+' pc':'',i.g?i.g+' g':''].filter(Boolean).join(' · ')||'1 serving';}
 function dayCals(d){let c=0;(DB.days[d]||[]).forEach(i=>c+=i.c*i.q);return c;}
 
-/* ===== STREAK ===== */
+/* STREAK & WEEKLY & NOTES */
 function currentStreak(){
   let streak=0; const min=DB.goal*0.7;
   if(dayCals(todayKey())>=min) streak++;
   for(let k=1;k<400;k++){
     const dt=new Date(); dt.setDate(dt.getDate()-k);
     const key=dt.toISOString().slice(0,10);
-    if(dayCals(key)>=min) streak++;
-    else break;
+    if(dayCals(key)>=min) streak++; else break;
   }
   if(dayCals(todayKey())<min){
     streak=0;
@@ -942,8 +939,6 @@ function renderStreak(){
   document.getElementById('streakSub').textContent = dayCals(todayKey())>=DB.goal*0.7
     ? 'in a row hitting your goal 🔥' : 'streak — eat today to keep it going!';
 }
-
-/* ===== WEEKLY SUMMARY ===== */
 function renderWeekly(){
   let sum=0,n=0;
   for(let k=0;k<7;k++){
@@ -957,8 +952,6 @@ function renderWeekly(){
   const eat=document.querySelector('#weekCard .eat');
   if(eat) eat.textContent = avg>=DB.goal ? '💪' : (avg>=DB.goal*0.7 ? '😋' : '🍽️');
 }
-
-/* ===== TWO-WAY LOVE NOTES ===== */
 let editingNote='A';
 function renderNote(){
   document.getElementById('noteAFrom').textContent='From '+DB.nameA;
@@ -986,16 +979,13 @@ function saveNote(){
 }
 function clearNote(){DB.notes[editingNote]=null;save();renderNote();closeSheet2('noteSheet');toast('Note removed.');}
 
-/* ===== REMINDER (smart — based on how much is left) ===== */
 function renderReminder(cal){
   const card=document.getElementById('remCard');
   const icon=document.getElementById('remIcon');
   const text=document.getElementById('remText');
   if(curDate!==todayKey()){ card.style.display='none'; return; }
   const rem=Math.max(0,DB.goal-cal);
-
   if(rem<=0){ icon.textContent='🎉'; text.textContent="Goal complete! You did it today. Anything more is a bonus ❤️"; card.style.display='flex'; return; }
-
   let ic='🍽️', suggest;
   if(rem<=130){ ic='🍌'; suggest='just 1 banana'; }
   else if(rem<=250){ ic='🥛'; suggest='a glass of milk + a banana'; }
@@ -1003,13 +993,10 @@ function renderReminder(cal){
   else if(rem<=600){ ic='🥞'; suggest='2 dosa with an egg'; }
   else if(rem<=900){ ic='🍛'; suggest='a full plate of rice with dal + ghee'; }
   else { ic='🍽️'; suggest='a smoothie + a plate of rice'; }
-
   icon.textContent=ic;
   text.textContent=`Only ${rem} kcal left — eat ${suggest} and you're done for today. You've got this!`;
   card.style.display='flex';
 }
-
-/* ===== CELEBRATION ===== */
 let celebratedFor=localStorage.getItem('gain_celebday')||'';
 function checkCelebration(cal){
   if(curDate!==todayKey()) return;
@@ -1031,53 +1018,69 @@ function celebrate(message){
   setTimeout(()=>{wrap.classList.remove('show');wrap.innerHTML='';m.classList.remove('show');},3600);
 }
 
-/* ===== WATER TRACKER (safe Array checks) ===== */
-const WATER_GOAL=2000;                 // ml/day
-const WAKE_H=7, SLEEP_H=21;            // 7am -> 9pm (bedtime)
+/* ===== WATER TRACKER (robust & simple) ===== */
+const WATER_GOAL=2000;
+const WAKE_H=7, SLEEP_H=21;
+
 function todayDrinks(){
   const list = DB.water[todayKey()];
   return Array.isArray(list) ? list : [];
 }
 function waterTotal(){
   let w=0;
-  todayDrinks().forEach(d => w += (d.ml || 0));
+  todayDrinks().forEach(d => w += (parseInt(d.ml)||0));
   return w;
 }
+
 function renderWater(){
-  const done=waterTotal(), togo=Math.max(0,WATER_GOAL-done);
-  document.getElementById('waterTotal').innerHTML=done+'<small>ml</small>';
-  document.getElementById('waterGoalTxt').textContent='/ '+WATER_GOAL+' ml';
-  document.getElementById('waterBar').style.width=Math.min(100,done/WATER_GOAL*100)+'%';
-  const goEl=document.getElementById('waterGo');
-  goEl.textContent = togo>0 ? (togo+' ml to go') : 'Goal complete! Well done ❤️';
+  try {
+    const done=waterTotal(), togo=Math.max(0,WATER_GOAL-done);
+    const wTot = document.getElementById('waterTotal');
+    if (wTot) wTot.innerHTML=done+'<small>ml</small>';
+    const wGoal = document.getElementById('waterGoalTxt');
+    if (wGoal) wGoal.textContent='/ '+WATER_GOAL+' ml';
+    const wBar = document.getElementById('waterBar');
+    if (wBar) wBar.style.width=Math.min(100,done/WATER_GOAL*100)+'%';
+    const goEl=document.getElementById('waterGo');
+    if (goEl) goEl.textContent = togo>0 ? (togo+' ml to go') : 'Goal complete! Well done ❤️';
 
-  const now=new Date(), hour=now.getHours()+now.getMinutes()/60;
-  const hrsLeft=Math.max(0, SLEEP_H-hour);
-  const timeEl=document.getElementById('waterTime');
-  if(togo<=0){ timeEl.textContent='✓ Done for today'; }
-  else if(hrsLeft<=0){ timeEl.textContent='⏰ Past bedtime — finish '+togo+' ml if awake'; }
-  else {
-    const hh=Math.floor(hrsLeft), mm=Math.round((hrsLeft-hh)*60);
-    timeEl.textContent=`⏰ ${nowClock()} · about ${hh}h ${mm}m left until 9 PM bedtime`;
-  }
+    const now=new Date(), hour=now.getHours()+now.getMinutes()/60;
+    const hrsLeft=Math.max(0, SLEEP_H-hour);
+    const timeEl=document.getElementById('waterTime');
+    if (timeEl) {
+      if(togo<=0){ timeEl.textContent='✓ Done for today'; }
+      else if(hrsLeft<=0){ timeEl.textContent='⏰ Past bedtime — finish '+togo+' ml if awake'; }
+      else {
+        const hh=Math.floor(hrsLeft), mm=Math.round((hrsLeft-hh)*60);
+        timeEl.textContent=`⏰ ${nowClock()} · about ${hh}h ${mm}m left until 9 PM bedtime`;
+      }
+    }
 
-  renderPlan(togo, hrsLeft);
-  const list=todayDrinks();
-  document.getElementById('drinkCount').textContent=list.length+' logged';
-  const el=document.getElementById('drinkList');
-  if(!list.length){ el.innerHTML='<div class="empty"><div class="e2">💧</div>No water yet today.</div>'; }
-  else{
-    el.innerHTML=[...list].reverse().map((d,ri)=>{
-      const idx=list.length-1-ri;
-      const time=d.t ? new Date(d.t).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}) : 'Today';
-      return `<div class="frow"><div class="ficon">💧</div>
-        <div class="finfo"><div class="fn">${d.ml||250} ml water</div><div class="fm">${time}</div></div>
-        <button class="fx" onclick="delDrink(${idx})">✕</button></div>`;
-    }).join('');
+    renderPlan(togo, hrsLeft);
+    const list=todayDrinks();
+    const dCount = document.getElementById('drinkCount');
+    if (dCount) dCount.textContent=list.length+' logged';
+    const el=document.getElementById('drinkList');
+    if (el) {
+      if(!list.length){ el.innerHTML='<div class="empty"><div class="e2">💧</div>No water yet today.</div>'; }
+      else{
+        el.innerHTML=[...list].reverse().map((d,ri)=>{
+          const idx=list.length-1-ri;
+          const time=d.t ? new Date(d.t).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}) : 'Today';
+          return `<div class="frow"><div class="ficon">💧</div>
+            <div class="finfo"><div class="fn">${d.ml||250} ml water</div><div class="fm">${time}</div></div>
+            <button class="fx" onclick="delDrink(${idx})">✕</button></div>`;
+        }).join('');
+      }
+    }
+    renderDrinkReminder();
+  } catch(e) {
+    console.error('renderWater error:', e);
   }
-  renderDrinkReminder();
 }
+
 function nowClock(){ return new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}); }
+
 function delDrink(idx){
   const k=todayKey();
   if(Array.isArray(DB.water[k])){
@@ -1089,8 +1092,9 @@ function delDrink(idx){
 
 function renderPlan(togo, hrsLeft){
   const el=document.getElementById('planList'), sub=document.getElementById('planSub');
-  if(togo<=0){ el.innerHTML='<div class="empty">All planned water done for today 🎉</div>'; sub.textContent=''; return; }
-  if(hrsLeft<=0.2){ el.innerHTML='<div class="empty">It\'s bedtime — try to finish '+togo+' ml if you\'re still up.</div>'; sub.textContent=''; return; }
+  if(!el) return;
+  if(togo<=0){ el.innerHTML='<div class="empty">All planned water done for today 🎉</div>'; if(sub)sub.textContent=''; return; }
+  if(hrsLeft<=0.2){ el.innerHTML='<div class="empty">It\'s bedtime — try to finish '+togo+' ml if you\'re still up.</div>'; if(sub)sub.textContent=''; return; }
   const slots=Math.max(1, Math.min(8, Math.round(hrsLeft)));
   let per=Math.ceil(togo/slots/50)*50;
   if(per<100) per=100;
@@ -1105,22 +1109,26 @@ function renderPlan(togo, hrsLeft){
       <div class="finfo"><div class="fn">${ml} ml water</div><div class="fm">at ${tt}</div></div>
       <button class="fx" onclick="quickAdd(${ml})">＋</button></div>`;
   }
-  sub.textContent=`${togo} ml over ~${slots} glasses`;
+  if(sub) sub.textContent=`${togo} ml over ~${slots} glasses`;
   el.innerHTML=rows;
 }
-function quickAdd(ml){
+
+/* Add water function - guaranteed safe */
+function quickAdd(mlAmount){
+  const amount = parseInt(mlAmount) || 250;
   const k=todayKey();
   if(!Array.isArray(DB.water[k])) DB.water[k]=[];
-  DB.water[k].push({ml:ml||250, t:Date.now()});
-  save(); renderWater(); toast('Added '+(ml||250)+' ml 💧','good');
+  DB.water[k].push({ml: amount, t: Date.now()});
+  save(); 
+  renderWater(); 
+  toast('Added '+amount+' ml 💧','good');
 }
 
 function renderDrinkReminder(){
   const card=document.getElementById('drinkRem'); if(!card) return;
   const done=waterTotal(), togo=Math.max(0,WATER_GOAL-done), list=todayDrinks();
   const now=new Date(), hour=now.getHours()+now.getMinutes()/60;
-  if(togo<=0){ card.style.display='none'; return; }
-  if(hour<WAKE_H || hour>=SLEEP_H){ card.style.display='none'; return; }
+  if(togo<=0 || hour<WAKE_H || hour>=SLEEP_H){ card.style.display='none'; return; }
   const expected=WATER_GOAL*Math.min(1,Math.max(0,(hour-WAKE_H)/(SLEEP_H-WAKE_H)));
   const lastT=list.length ? Math.max(...list.map(d=>(d.t||0))) : 0;
   const minsSince=lastT ? Math.round((Date.now()-lastT)/60000) : 999;
@@ -1132,14 +1140,28 @@ function renderDrinkReminder(){
   } else { card.style.display='none'; }
 }
 
-/* ----- add-water sheet with wheel picker ----- */
+/* ADD WATER MODAL & PRESETS */
 let drinkMl=250;
 const ML_OPTIONS=[50,100,150,200,250,300,350,400,500,600,750,1000];
+
 function openDrinkSheet(){
-  document.getElementById('drinkSheet').classList.add('open');
   drinkMl=250;
+  const inp = document.getElementById('drinkInputMl');
+  if(inp) inp.value = 250;
   try{ document.getElementById('drinkTimeLbl').textContent='Time: '+nowClock(); }catch(e){}
-  try{ buildWheel(); }catch(e){ console.warn('wheel build failed',e); }
+  try{ buildWheel(); }catch(e){}
+  document.getElementById('drinkSheet').classList.add('open');
+}
+
+function setMlPreset(val){
+  drinkMl = parseInt(val) || 250;
+  const inp = document.getElementById('drinkInputMl');
+  if(inp) inp.value = drinkMl;
+  saveDrink();
+}
+
+function setMlFromInput(val){
+  drinkMl = parseInt(val) || 250;
 }
 
 function buildWheel(){
@@ -1148,25 +1170,30 @@ function buildWheel(){
     ML_OPTIONS.map(v=>`<div class="wopt" data-ml="${v}">${v} ml</div>`).join('')+
     '<div class="wopt" style="height:50px"></div>';
   const defIdx=ML_OPTIONS.indexOf(250);
-  setTimeout(()=>{ try{ w.scrollTop=defIdx*50; highlightWheel(); }catch(e){} },40);
+  setTimeout(()=>{ try{ w.scrollTop=defIdx*50; highlightWheel(); }catch(e){} },50);
   w.onscroll=()=>{ if(w._raf)cancelAnimationFrame(w._raf); w._raf=requestAnimationFrame(highlightWheel); };
 }
+
 function highlightWheel(){
   const w=document.getElementById('mlWheel'); if(!w) return;
   const idx=Math.round(w.scrollTop/50);
   const opts=[...w.querySelectorAll('.wopt[data-ml]')];
   opts.forEach((o,i)=>o.classList.toggle('sel',i===idx));
-  if(opts[idx]) drinkMl=parseInt(opts[idx].dataset.ml)||250;
-}
-function saveDrink(){
-  const k=todayKey();
-  if(!Array.isArray(DB.water[k])) DB.water[k]=[];
-  DB.water[k].push({ml:drinkMl||250, t:Date.now()});
-  save(); closeSheet2('drinkSheet'); renderWater();
-  toast('Added '+(drinkMl||250)+' ml water 💧','good');
+  if(opts[idx]) {
+    drinkMl=parseInt(opts[idx].dataset.ml)||250;
+    const inp = document.getElementById('drinkInputMl');
+    if(inp) inp.value = drinkMl;
+  }
 }
 
-/* ---------- ADD SHEET (multi-food AI flow) ---------- */
+function saveDrink(){
+  const inp = document.getElementById('drinkInputMl');
+  if(inp && inp.value) drinkMl = parseInt(inp.value) || drinkMl;
+  quickAdd(drinkMl);
+  closeSheet2('drinkSheet');
+}
+
+/* ---------- ADD FOOD SHEET ---------- */
 let aiResults=null;
 function openSheet(){resetSheet();document.getElementById('sheet').classList.add('open');}
 function closeSheet(){document.getElementById('sheet').classList.remove('open');}
@@ -1193,7 +1220,6 @@ function resetSheet(){
   aiResults=null;showStep('input');
 }
 
-/* ===== AI CALL (all rows) ===== */
 async function askAI(){
   const rows=[...document.querySelectorAll('#foodRows .foodrow')];
   const foods=[];
@@ -1238,7 +1264,6 @@ function inErr(msg){
   el.textContent=msg||''; el.style.display=msg?'block':'none';
 }
 
-/* REAL GEMINI */
 async function geminiEstimate(name,grams,pieces){
   const amt = grams ? grams+' grams' : (pieces ? pieces+' pieces or servings' : 'one normal serving');
   const models=['gemini-3.1-flash-lite','gemini-2.5-flash-lite','gemini-2.5-flash','gemini-3.5-flash-lite'];
@@ -1279,7 +1304,7 @@ function confirmLog(){
   save();closeSheet();renderToday();
 }
 
-/* ---------- FOOD LOG (history) ---------- */
+/* ---------- FOOD LOG HISTORY ---------- */
 function renderLog(){
   const el=document.getElementById('logList');
   const dates=Object.keys(DB.days).sort().reverse();
@@ -1445,7 +1470,7 @@ async function doAndroidInstall(){
   if(outcome==='accepted'){ closeSheet2('installSheet'); toast('Added to home screen ✓','good'); }
 }
 
-/* ---------- ONE-TIME SEED: 9 days of past food ---------- */
+/* ---------- ONE-TIME SEED ---------- */
 const SEED_DAYS = {"2026-07-13":[{"n":"Dosa","ic":"🍽️","c":480,"p":12,"q":1,"g":null,"pc":4},{"n":"Eggs","ic":"🍽️","c":140,"p":12,"q":1,"g":null,"pc":2},{"n":"Egg fried rice","ic":"🍽️","c":600,"p":18,"q":1,"g":null,"pc":null},{"n":"Vegetables","ic":"🍽️","c":50,"p":2,"q":1,"g":null,"pc":null},{"n":"Buldak ramen","ic":"🍽️","c":550,"p":12,"q":1,"g":null,"pc":null},{"n":"Egg yolks","ic":"🍽️","c":110,"p":6,"q":1,"g":null,"pc":2}],"2026-07-14":[{"n":"Maggi","ic":"🍽️","c":350,"p":7,"q":1,"g":null,"pc":null},{"n":"Egg whites","ic":"🍽️","c":35,"p":7,"q":1,"g":null,"pc":2},{"n":"Dosa","ic":"🍽️","c":480,"p":12,"q":1,"g":null,"pc":4},{"n":"Boiled eggs","ic":"🍽️","c":140,"p":12,"q":1,"g":null,"pc":2},{"n":"Peanut chikki","ic":"🍽️","c":320,"p":12,"q":1,"g":null,"pc":4},{"n":"Egg fried rice (half)","ic":"🍽️","c":300,"p":9,"q":1,"g":null,"pc":null}],"2026-07-15":[{"n":"Dosa","ic":"🍽️","c":480,"p":12,"q":1,"g":null,"pc":4},{"n":"Pomegranate juice","ic":"🍽️","c":120,"p":2,"q":1,"g":null,"pc":null},{"n":"Bread","ic":"🍽️","c":160,"p":5,"q":1,"g":null,"pc":null},{"n":"Beef biryani","ic":"🍽️","c":900,"p":40,"q":1,"g":null,"pc":null},{"n":"Peanut chikki","ic":"🍽️","c":320,"p":12,"q":1,"g":null,"pc":4},{"n":"Boiled eggs","ic":"🍽️","c":210,"p":18,"q":1,"g":null,"pc":3},{"n":"Milk + sugar","ic":"🍽️","c":180,"p":8,"q":1,"g":null,"pc":null},{"n":"Carrot","ic":"🍽️","c":30,"p":1,"q":1,"g":null,"pc":1},{"n":"Almonds","ic":"🍽️","c":35,"p":1,"q":1,"g":null,"pc":5}],"2026-07-16":[{"n":"Weight-gain smoothie","ic":"🍽️","c":550,"p":18,"q":1,"g":null,"pc":null},{"n":"Egg rice + ghee","ic":"🍽️","c":700,"p":20,"q":1,"g":null,"pc":null},{"n":"Peanut chikki","ic":"🍽️","c":320,"p":12,"q":1,"g":null,"pc":4},{"n":"Dosa","ic":"🍽️","c":480,"p":12,"q":1,"g":null,"pc":4},{"n":"Milk","ic":"🍽️","c":125,"p":8,"q":1,"g":200,"pc":null}],"2026-07-17":[{"n":"Smoothie","ic":"🍽️","c":550,"p":18,"q":1,"g":null,"pc":null},{"n":"Black chickpeas (boiled)","ic":"🍽️","c":240,"p":13,"q":1,"g":70,"pc":null},{"n":"Oats","ic":"🍽️","c":150,"p":5,"q":1,"g":null,"pc":null},{"n":"Appalam","ic":"🍽️","c":60,"p":2,"q":1,"g":null,"pc":1},{"n":"Rice","ic":"🍽️","c":300,"p":6,"q":1,"g":null,"pc":null},{"n":"Egg dosa","ic":"🍽️","c":500,"p":18,"q":1,"g":null,"pc":2},{"n":"Banana","ic":"🍽️","c":105,"p":1,"q":1,"g":null,"pc":1},{"n":"Milk","ic":"🍽️","c":125,"p":8,"q":1,"g":200,"pc":null},{"n":"Peanut chikki","ic":"🍽️","c":320,"p":12,"q":1,"g":null,"pc":4},{"n":"Almonds","ic":"🍽️","c":35,"p":1,"q":1,"g":null,"pc":5},{"n":"Broken wheat jaggery pongal","ic":"🍽️","c":300,"p":7,"q":1,"g":null,"pc":null}],"2026-07-18":[{"n":"Smoothie","ic":"🍽️","c":550,"p":18,"q":1,"g":null,"pc":null},{"n":"Black chickpeas","ic":"🍽️","c":200,"p":11,"q":1,"g":120,"pc":null},{"n":"Egg dosa","ic":"🍽️","c":500,"p":18,"q":1,"g":null,"pc":2},{"n":"Rice + drumstick gravy","ic":"🍽️","c":400,"p":10,"q":1,"g":null,"pc":null},{"n":"Ghee","ic":"🍽️","c":120,"p":0,"q":1,"g":null,"pc":null},{"n":"Pomegranate juice","ic":"🍽️","c":120,"p":2,"q":1,"g":200,"pc":null},{"n":"Coke (small)","ic":"🍽️","c":90,"p":0,"q":1,"g":null,"pc":null},{"n":"Peanut chikki","ic":"🍽️","c":320,"p":12,"q":1,"g":null,"pc":4},{"n":"Rice water","ic":"🍽️","c":30,"p":1,"q":1,"g":null,"pc":null},{"n":"Roasted peanuts","ic":"🍽️","c":340,"p":15,"q":1,"g":60,"pc":null},{"n":"Butter popcorn","ic":"🍽️","c":300,"p":4,"q":1,"g":60,"pc":null},{"n":"Milk","ic":"🍽️","c":125,"p":8,"q":1,"g":200,"pc":null}],"2026-07-19":[{"n":"Pongal","ic":"🍽️","c":400,"p":9,"q":1,"g":null,"pc":null},{"n":"Urad vada","ic":"🍽️","c":300,"p":8,"q":1,"g":null,"pc":2},{"n":"Coconut chutney","ic":"🍽️","c":100,"p":2,"q":1,"g":null,"pc":null},{"n":"Sambar","ic":"🍽️","c":80,"p":4,"q":1,"g":null,"pc":null},{"n":"Mutton soup (bowl + 2 pc)","ic":"🍽️","c":150,"p":12,"q":1,"g":null,"pc":null},{"n":"Banana","ic":"🍽️","c":105,"p":1,"q":1,"g":null,"pc":1},{"n":"Rice water","ic":"🍽️","c":30,"p":1,"q":1,"g":null,"pc":null},{"n":"Rice (half plate)","ic":"🍽️","c":160,"p":3,"q":1,"g":null,"pc":null},{"n":"Mutton","ic":"🍽️","c":300,"p":28,"q":1,"g":null,"pc":6},{"n":"Mutton pakoda","ic":"🍽️","c":900,"p":45,"q":1,"g":200,"pc":null}],"2026-07-20":[{"n":"Dry-fruit smoothie","ic":"🍽️","c":580,"p":16,"q":1,"g":null,"pc":null},{"n":"Ghee biscuits","ic":"🍽️","c":80,"p":1,"q":1,"g":null,"pc":2},{"n":"Green gram (boiled)","ic":"🍽️","c":240,"p":15,"q":1,"g":70,"pc":null},{"n":"Half-boiled egg","ic":"🍽️","c":70,"p":6,"q":1,"g":null,"pc":1},{"n":"Rasam rice","ic":"🍽️","c":350,"p":7,"q":1,"g":null,"pc":null},{"n":"Roasted peanuts","ic":"🍽️","c":285,"p":13,"q":1,"g":50,"pc":null},{"n":"Rice water","ic":"🍽️","c":30,"p":1,"q":1,"g":null,"pc":null},{"n":"Pomegranate juice","ic":"🍽️","c":120,"p":2,"q":1,"g":200,"pc":null},{"n":"Kinder Joy","ic":"🍽️","c":110,"p":2,"q":1,"g":null,"pc":1},{"n":"Egg dosa","ic":"🍽️","c":500,"p":18,"q":1,"g":null,"pc":2},{"n":"Milk","ic":"🍽️","c":125,"p":8,"q":1,"g":200,"pc":null},{"n":"Banana","ic":"🍽️","c":105,"p":1,"q":1,"g":null,"pc":1},{"n":"Beef chilli (half)","ic":"🍽️","c":300,"p":20,"q":1,"g":null,"pc":null},{"n":"Rice","ic":"🍽️","c":325,"p":6,"q":1,"g":250,"pc":null}],"2026-07-21":[{"n":"Egg dosa","ic":"🍽️","c":500,"p":18,"q":1,"g":null,"pc":2},{"n":"Chilli beef","ic":"🍽️","c":350,"p":25,"q":1,"g":null,"pc":6},{"n":"Ghee","ic":"🍽️","c":240,"p":0,"q":1,"g":null,"pc":null},{"n":"Dry-fruit smoothie","ic":"🍽️","c":580,"p":16,"q":1,"g":null,"pc":null},{"n":"Peanut chikki","ic":"🍽️","c":240,"p":9,"q":1,"g":null,"pc":3},{"n":"Rice water","ic":"🍽️","c":20,"p":1,"q":1,"g":120,"pc":null},{"n":"Rasam rice","ic":"🍽️","c":350,"p":7,"q":1,"g":null,"pc":null},{"n":"Dosa + podi","ic":"🍽️","c":400,"p":8,"q":1,"g":null,"pc":2},{"n":"Milk","ic":"🍽️","c":125,"p":8,"q":1,"g":200,"pc":null},{"n":"Banana","ic":"🍽️","c":105,"p":1,"q":1,"g":null,"pc":1}]};
 function seedOnce(){
   if(localStorage.getItem('gain_seeded_v1')) return;
