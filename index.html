@@ -484,8 +484,9 @@ svg.line{width:100%;height:auto;display:block;overflow:visible}
       <div class="okcard">✓ Unlocked — full control</div>
 
       <div class="asec"><div class="asech">Gemini API key</div>
-        <div class="field"><input id="admKey" placeholder="Paste Gemini key (blank = offline AI)"></div>
-        <button class="btn" onclick="admSaveKey()">Save key</button>
+        <div class="field"><input id="admKey" placeholder="Paste your Gemini key here"></div>
+        <button class="btn" onclick="admSaveKey()">Save key (updates cloud too)</button>
+        <button class="btn danger" onclick="admClearKey()" style="margin-top:10px">Clear old / dead key</button>
       </div>
 
       <div class="asec"><div class="asech">Daily goals</div>
@@ -995,7 +996,24 @@ function renderAdminFoods(){
   el.innerHTML=items.map((i,idx)=>`<div class="admfood"><span class="an">${i.n}</span><span class="ac">${i.c*i.q} kcal</span><button onclick="admDelFood(${idx})">✕</button></div>`).join('');
 }
 function admDelFood(idx){DB.days[curDate].splice(idx,1);if(!DB.days[curDate].length)delete DB.days[curDate];save();renderAdminFoods();renderToday();}
-function admSaveKey(){DB.geminiKey=document.getElementById('admKey').value.trim();save();toast(DB.geminiKey?'Gemini key saved. AI is ON.':'Key cleared.','good');}
+function admSaveKey(){
+  DB.geminiKey=document.getElementById('admKey').value.trim();
+  save();                       // saves locally + pushes to cloud
+  forceCloudKey(DB.geminiKey);  // make sure cloud gets THIS key, not the old one
+  toast(DB.geminiKey?'Gemini key saved everywhere. AI is ON.':'Key cleared.','good');
+}
+function admClearKey(){
+  DB.geminiKey="";
+  document.getElementById('admKey').value="";
+  save();
+  forceCloudKey("");            // wipe the dead key from the cloud too
+  toast('Old key wiped from phone and cloud. Now paste a NEW key.','good');
+}
+/* force the cloud's stored key to exactly match what admin just set */
+function forceCloudKey(k){
+  if(!fdb) return;
+  fdb.doc(CLOUD_DOC).set({geminiKey:k, updated:Date.now()},{merge:true}).catch(e=>console.warn('key push failed',e));
+}
 function admSaveGoals(){
   DB.goal=parseInt(document.getElementById('admGoal').value)||DB.goal;
   DB.proteinGoal=parseInt(document.getElementById('admProt').value)||DB.proteinGoal;
