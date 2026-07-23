@@ -6,9 +6,9 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Gain">
+<meta name="apple-mobile-web-app-title" content="Sandhiya ♥">
 <meta name="theme-color" content="#0e0f0d">
-<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Crect width='180' height='180' rx='40' fill='%230e0f0d'/%3E%3Ctext x='90' y='118' font-family='Arial' font-size='84' font-weight='bold' fill='%23a8e05f' text-anchor='middle'%3EG%3C/text%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Crect width='180' height='180' rx='40' fill='%230e0f0d'/%3E%3Cpath d='M90 138 C 40 104, 44 60, 74 60 C 88 60, 90 74, 90 74 C 90 74, 92 60, 106 60 C 136 60, 140 104, 90 138 Z' fill='%23ff6b8a'/%3E%3Ctext x='90' y='102' font-family='Arial' font-size='30' font-weight='bold' fill='%23fff' text-anchor='middle'%3ES%2BS%3C/text%3E%3C/svg%3E">
 <title>Gain</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -289,6 +289,72 @@ input[type="date"]{color-scheme:dark;accent-color:var(--green)}
 .rlbl{font-size:11px;color:var(--txt2);margin-top:5px}
 .rest{font-size:11px;color:var(--txt3);margin-top:14px}
 
+/* ===== STREAK CARD ===== */
+.streakcard{display:flex;align-items:center;gap:16px;background:linear-gradient(135deg,#2a1e10,#161816);border:1px solid rgba(255,140,40,.3);border-radius:22px;padding:16px 18px;margin-bottom:16px;position:relative;overflow:hidden}
+.streakcard:before{content:"";position:absolute;top:-30%;left:-10%;width:160px;height:160px;background:radial-gradient(circle,rgba(255,120,20,.22),transparent 70%);pointer-events:none}
+.fire{font-size:44px;line-height:1;filter:drop-shadow(0 0 10px rgba(255,120,20,.8));animation:flicker 1.1s ease-in-out infinite;transform-origin:bottom center}
+@keyframes flicker{
+  0%,100%{transform:scale(1) rotate(-2deg);filter:drop-shadow(0 0 8px rgba(255,120,20,.7))}
+  25%{transform:scale(1.12) rotate(2deg);filter:drop-shadow(0 0 16px rgba(255,170,40,.95))}
+  50%{transform:scale(.96) rotate(-1deg);filter:drop-shadow(0 0 6px rgba(255,90,10,.6))}
+  75%{transform:scale(1.08) rotate(3deg);filter:drop-shadow(0 0 14px rgba(255,150,30,.9))}
+}
+.streaktxt .big{font-size:26px;font-weight:800;line-height:1;color:#ffb347}
+.streaktxt .sub{font-size:12.5px;color:var(--txt2);margin-top:3px}
+
+/* ===== WEEKLY CARD ===== */
+.weekcard{background:var(--card);border:1px solid var(--stroke);border-radius:22px;padding:16px 18px;margin-bottom:16px;display:flex;align-items:center;gap:16px}
+.weekcard .eat{font-size:38px;animation:chew 1.4s ease-in-out infinite;transform-origin:center}
+@keyframes chew{0%,100%{transform:scale(1) rotate(0)}30%{transform:scale(1.15) rotate(-6deg)}60%{transform:scale(.94) rotate(5deg)}}
+.weekcard .wk{flex:1}
+.weekcard .wk .t{font-size:12px;color:var(--txt2)}
+.weekcard .wk .v{font-size:22px;font-weight:800;margin-top:2px}
+.weekcard .wk .v small{font-size:12px;color:var(--txt3);font-weight:500}
+.weekcard .wk .d{font-size:11.5px;color:var(--green);margin-top:2px}
+
+/* ===== NOTE FROM PARTNER ===== */
+.notecard{background:linear-gradient(135deg,#2a1520,#161816);border:1px solid rgba(255,90,120,.3);border-radius:22px;padding:16px 18px;margin-bottom:16px;position:relative}
+.notecard .nhead{display:flex;align-items:center;gap:8px;font-size:12px;color:#ff8fb0;font-weight:600;margin-bottom:8px}
+.notecard .nheart{animation:beat 1.3s ease-in-out infinite}
+@keyframes beat{0%,100%{transform:scale(1)}25%{transform:scale(1.25)}40%{transform:scale(1)}}
+.notecard .nmsg{font-size:14.5px;line-height:1.5;color:var(--txt)}
+.notecard .nempty{font-size:13px;color:var(--txt3);font-style:italic}
+
+/* ===== REMINDER CARD ===== */
+.remcard{display:flex;align-items:center;gap:13px;background:rgba(168,224,95,.08);border:1px solid rgba(168,224,95,.25);border-radius:18px;padding:13px 16px;margin-bottom:16px}
+.remcard .ri{font-size:24px}
+.remcard .rt{font-size:13.5px;line-height:1.45;color:var(--txt)}
+
+/* ===== WATER TRACKER ===== */
+.waterhead{display:flex;gap:10px;margin-bottom:16px}
+.watertoggle{flex:1;padding:12px;border-radius:14px;border:1px solid var(--stroke);background:var(--card);text-align:center;font-size:13px;font-weight:600;cursor:pointer;color:var(--txt2)}
+.watertoggle.on{background:var(--green);color:#12200a;border-color:var(--green)}
+.watergrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.wcell{aspect-ratio:1;border-radius:16px;border:1px solid var(--stroke);background:var(--card);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;transition:.15s}
+.wcell .wt{font-size:9px;color:var(--txt3)}
+.wcell .we{font-size:22px;opacity:.3;transition:.15s}
+.wcell.filled{background:rgba(95,180,224,.14);border-color:#5fd0e0}
+.wcell.filled .we{opacity:1}
+.wcell.milk.filled{background:rgba(168,224,95,.14);border-color:var(--green)}
+.wcell:active{transform:scale(.95)}
+.watersummary{display:flex;gap:12px;margin-bottom:16px}
+.wsum{flex:1;background:var(--card);border:1px solid var(--stroke);border-radius:16px;padding:14px;text-align:center}
+.wsum .n{font-size:26px;font-weight:800}
+.wsum .n.blue{color:#5fd0e0}.wsum .n.grn{color:var(--green)}
+.wsum .l{font-size:11px;color:var(--txt2);margin-top:3px}
+
+/* ===== NOTE EDITOR (admin/partner) ===== */
+.notebtn{width:100%;padding:12px;border-radius:14px;background:var(--card2);border:1px solid var(--stroke);color:var(--txt);font-family:inherit;font-size:13px;cursor:pointer;margin-top:8px}
+
+/* ===== CELEBRATION ===== */
+.celebrate{position:fixed;inset:0;z-index:300;pointer-events:none;display:none;overflow:hidden}
+.celebrate.show{display:block}
+.confetti{position:absolute;top:-20px;width:10px;height:14px;opacity:.95;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(720deg);opacity:.3}}
+.celebmsg{position:fixed;left:50%;top:42%;transform:translate(-50%,-50%) scale(0);z-index:301;background:var(--green);color:#12200a;padding:18px 26px;border-radius:20px;font-size:18px;font-weight:800;box-shadow:0 12px 40px rgba(168,224,95,.5);text-align:center;pointer-events:none;display:none}
+.celebmsg.show{display:block;animation:pop .5s cubic-bezier(.2,1.4,.4,1) forwards}
+@keyframes pop{to{transform:translate(-50%,-50%) scale(1)}}
+
 /* WEIGHT CHART */
 .chartbox{padding:8px 4px 0}
 svg.line{width:100%;height:auto;display:block;overflow:visible}
@@ -319,6 +385,7 @@ svg.line{width:100%;height:auto;display:block;overflow:visible}
   <div class="scroll">
     <div class="tabs">
       <button class="on" data-tab="today" onclick="tab('today')">Today</button>
+      <button data-tab="water" onclick="tab('water')">Water</button>
       <button data-tab="foods" onclick="tab('foods')">Food Log</button>
       <button data-tab="weight" onclick="tab('weight')">Weight</button>
     </div>
@@ -368,8 +435,45 @@ svg.line{width:100%;height:auto;display:block;overflow:visible}
         </div>
       </div>
 
+      <!-- REMINDER (in-app, time-based) -->
+      <div class="remcard" id="remCard" style="display:none"><div class="ri" id="remIcon">⏰</div><div class="rt" id="remText"></div></div>
+
+      <!-- STREAK -->
+      <div class="streakcard" id="streakCard" style="display:none">
+        <div class="fire">🔥</div>
+        <div class="streaktxt"><div class="big" id="streakNum">0 days</div><div class="sub" id="streakSub">in a row hitting your goal</div></div>
+      </div>
+
+      <!-- NOTE FROM PARTNER -->
+      <div class="notecard" id="noteCard">
+        <div class="nhead"><span class="nheart">❤️</span> <span id="noteFrom">A note for you</span></div>
+        <div class="nmsg" id="noteMsg"></div>
+        <button class="notebtn" onclick="openNoteEditor()" id="noteEditBtn">✏️ Leave / edit a note</button>
+      </div>
+
+      <!-- WEEKLY SUMMARY -->
+      <div class="weekcard" id="weekCard">
+        <div class="eat">😋</div>
+        <div class="wk"><div class="t">This week's average</div><div class="v" id="weekAvg">0<small> kcal/day</small></div><div class="d" id="weekDays">0 days logged</div></div>
+      </div>
+
       <div class="sh"><h3>Logged food</h3><span class="cnt" id="foodSub">0 items</span></div>
       <div class="foodcard" id="foodList"></div>
+    </div>
+
+    <!-- ===== WATER / MILK TRACKER ===== -->
+    <div id="tab-water" style="display:none">
+      <div class="hint">Tap a cup each time you drink. Aim: 8 waters + 3 milks a day.</div>
+      <div class="waterhead">
+        <div class="watertoggle on" id="wtWater" onclick="setDrink('water')">💧 Water</div>
+        <div class="watertoggle" id="wtMilk" onclick="setDrink('milk')">🥛 Milk</div>
+      </div>
+      <div class="watersummary">
+        <div class="wsum"><div class="n blue" id="waterCount">0</div><div class="l">💧 glasses water</div></div>
+        <div class="wsum"><div class="n grn" id="milkCount">0</div><div class="l">🥛 glasses milk</div></div>
+      </div>
+      <div class="sh"><h3 id="waterTitle">Water today</h3><span class="cnt">tap to fill</span></div>
+      <div class="watergrid" id="waterGrid"></div>
     </div>
 
     <!-- ===== FOOD LOG (history of all days) ===== -->
@@ -540,6 +644,24 @@ svg.line{width:100%;height:auto;display:block;overflow:visible}
   </div>
 </div>
 
+<!-- NOTE EDITOR -->
+<div class="sheet" id="noteSheet">
+  <div class="sinner">
+    <div class="grab"></div>
+    <div class="shead"><h3>Leave a note ❤️</h3><button class="x" onclick="closeSheet2('noteSheet')">✕</button></div>
+    <div class="sbody">
+      <div class="field"><label>Who's it from?</label><input id="noteFromInput" placeholder="e.g. Sundar"></div>
+      <div class="field"><label>Your message</label><input id="noteMsgInput" placeholder="Proud of you — eat that extra banana ❤️"></div>
+      <button class="btn" onclick="saveNote()">Save note</button>
+      <button class="btn ghost" onclick="clearNote()" style="margin-top:10px">Remove note</button>
+    </div>
+  </div>
+</div>
+
+<!-- CELEBRATION -->
+<div class="celebrate" id="celebrate"></div>
+<div class="celebmsg" id="celebMsg"></div>
+
 <!-- themed toast + confirm -->
 <div class="toast" id="toast"></div>
 <div class="cdlg" id="cdlg"><div class="box"><p id="cdlgMsg"></p><div class="row">
@@ -583,7 +705,9 @@ const DB = {
   geminiKey:cfg.geminiKey||"",  /* NEVER hard-code a key here — enter it in the Admin panel. Public keys get auto-deleted by Google. */
   custom:JSON.parse(localStorage.getItem('gain_custom')||'[]'),
   days:JSON.parse(localStorage.getItem('gain_days')||'{}'),
-  weights:JSON.parse(localStorage.getItem('gain_weights')||'[]')
+  weights:JSON.parse(localStorage.getItem('gain_weights')||'[]'),
+  water:JSON.parse(localStorage.getItem('gain_water')||'{}'),   /* { '2026-07-22': {w:5,m:2} } */
+  note:JSON.parse(localStorage.getItem('gain_note')||'null')     /* {from, msg} */
 };
 let curDate = todayKey();
 
@@ -613,6 +737,8 @@ function initFirebase(){
       if(d.proteinGoal) DB.proteinGoal=d.proteinGoal;
       if(d.target) DB.target=d.target;
       if(typeof d.geminiKey==='string' && d.geminiKey) DB.geminiKey=d.geminiKey;
+      if(d.water) DB.water=d.water;
+      if(d.note!==undefined) DB.note=d.note;
       // merge the one-time 9-day seed into cloud if missing
       let seededNow=false;
       for(const day in SEED_DAYS){ if(!DB.days[day]){ DB.days[day]=SEED_DAYS[day]; seededNow=true; } }
@@ -629,7 +755,7 @@ function initFirebase(){
 function pushCloud(){
   if(!fdb) return;
   fdb.doc(CLOUD_DOC).set({
-    days:DB.days, weights:DB.weights, custom:DB.custom,
+    days:DB.days, weights:DB.weights, custom:DB.custom, water:DB.water, note:DB.note,
     goal:DB.goal, proteinGoal:DB.proteinGoal, target:DB.target, geminiKey:DB.geminiKey,
     updated:Date.now()
   },{merge:true}).then(()=>setCloudStatus(true)).catch(e=>{console.warn('cloud write error',e);setCloudStatus(false);});
@@ -649,6 +775,8 @@ function saveLocal(){
   localStorage.setItem('gain_custom',JSON.stringify(DB.custom));
   localStorage.setItem('gain_days',JSON.stringify(DB.days));
   localStorage.setItem('gain_weights',JSON.stringify(DB.weights));
+  localStorage.setItem('gain_water',JSON.stringify(DB.water));
+  localStorage.setItem('gain_note',JSON.stringify(DB.note));
   localStorage.setItem('gain_cfg',JSON.stringify({goal:DB.goal,proteinGoal:DB.proteinGoal,target:DB.target,geminiKey:DB.geminiKey}));
 }
 function save(){
@@ -661,11 +789,11 @@ function allFoods(){return [...DEFAULT_FOODS.map(f=>({n:f[0],ic:f[1],c:f[2],p:f[
 /* ---------- TABS ---------- */
 function tab(t){
   document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===t));
-  today.style.display=t==='today'?'block':'none';
-  ['today','weight','foods'].forEach(x=>document.getElementById('tab-'+x).style.display=x===t?'block':'none');
+  ['today','water','weight','foods'].forEach(x=>document.getElementById('tab-'+x).style.display=x===t?'block':'none');
   document.getElementById('fab').style.display=t==='today'?'flex':'none';
   if(t==='weight'){drawChart();renderWHist();}
   if(t==='foods')renderLog();
+  if(t==='water')renderWater();
 }
 const today=document.getElementById('tab-today');
 
@@ -711,6 +839,8 @@ function renderToday(){
   if(cal>=DB.goal){pill.className='pill ok';pill.textContent='Goal hit ✓';}
   else if(cal>=DB.goal*0.7){pill.className='pill warn';pill.textContent='Almost there';}
   else{pill.className='pill bad';pill.textContent='Eat more';}
+  renderStreak();renderWeekly();renderNote();renderReminder(cal);
+  checkCelebration(cal);
   const list=document.getElementById('foodList');
   if(!items.length){list.innerHTML='<div class="empty"><div class="e2">🍽️</div>No food yet.<br>Tap the green button to add.</div>';return;}
   list.innerHTML=items.map((i,idx)=>`
@@ -723,6 +853,157 @@ function renderToday(){
 }
 function delFood(idx){DB.days[curDate].splice(idx,1);if(!DB.days[curDate].length)delete DB.days[curDate];save();renderToday();}
 function foodAmt(i){return [i.pc?i.pc+' pc':'',i.g?i.g+' g':''].filter(Boolean).join(' · ')||'1 serving';}
+function dayCals(d){let c=0;(DB.days[d]||[]).forEach(i=>c+=i.c*i.q);return c;}
+
+/* ===== STREAK ===== */
+function currentStreak(){
+  // count back from yesterday: consecutive days that hit >=70% of goal.
+  // include today only if today already hits goal.
+  let streak=0; const min=DB.goal*0.7;
+  const t=new Date();
+  // today counts only if achieved
+  if(dayCals(todayKey())>=min) streak++;
+  for(let k=1;k<400;k++){
+    const dt=new Date(); dt.setDate(dt.getDate()-k);
+    const key=dt.toISOString().slice(0,10);
+    if(dayCals(key)>=min) streak++;
+    else break;
+  }
+  // if today not achieved yet, streak starts from yesterday chain — recompute cleanly:
+  if(dayCals(todayKey())<min){
+    streak=0;
+    for(let k=1;k<400;k++){
+      const dt=new Date(); dt.setDate(dt.getDate()-k);
+      const key=dt.toISOString().slice(0,10);
+      if(dayCals(key)>=min) streak++; else break;
+    }
+  }
+  return streak;
+}
+function renderStreak(){
+  const s=currentStreak();
+  const card=document.getElementById('streakCard');
+  if(s<1){ card.style.display='none'; return; }
+  card.style.display='flex';
+  document.getElementById('streakNum').textContent=s+(s===1?' day':' days');
+  document.getElementById('streakSub').textContent = dayCals(todayKey())>=DB.goal*0.7
+    ? 'in a row hitting your goal 🔥' : 'streak — eat today to keep it going!';
+}
+
+/* ===== WEEKLY SUMMARY ===== */
+function renderWeekly(){
+  let sum=0,n=0;
+  for(let k=0;k<7;k++){
+    const dt=new Date(); dt.setDate(dt.getDate()-k);
+    const c=dayCals(dt.toISOString().slice(0,10));
+    if(c>0){sum+=c;n++;}
+  }
+  const avg=n?Math.round(sum/n):0;
+  document.getElementById('weekAvg').innerHTML=avg+'<small> kcal/day</small>';
+  document.getElementById('weekDays').textContent=n+' day'+(n===1?'':'s')+' logged this week';
+  const eat=document.querySelector('#weekCard .eat');
+  if(eat) eat.textContent = avg>=DB.goal ? '💪' : (avg>=DB.goal*0.7 ? '😋' : '🍽️');
+}
+
+/* ===== NOTE FROM PARTNER ===== */
+function renderNote(){
+  const msgEl=document.getElementById('noteMsg');
+  const fromEl=document.getElementById('noteFrom');
+  if(DB.note && DB.note.msg){
+    msgEl.textContent=DB.note.msg; msgEl.className='nmsg';
+    fromEl.textContent = DB.note.from ? ('From '+DB.note.from) : 'A note for you';
+  }else{
+    msgEl.textContent='No note yet. Tap below to leave a sweet message ❤️';
+    msgEl.className='nempty';
+    fromEl.textContent='A note for you';
+  }
+}
+function openNoteEditor(){
+  document.getElementById('noteFromInput').value = DB.note?.from || '';
+  document.getElementById('noteMsgInput').value = DB.note?.msg || '';
+  document.getElementById('noteSheet').classList.add('open');
+}
+function saveNote(){
+  const from=document.getElementById('noteFromInput').value.trim();
+  const msg=document.getElementById('noteMsgInput').value.trim();
+  if(!msg){toast('Write a message first','bad');return;}
+  DB.note={from,msg};save();renderNote();closeSheet2('noteSheet');toast('Note saved ❤️','good');
+}
+function clearNote(){DB.note=null;save();renderNote();closeSheet2('noteSheet');toast('Note removed.');}
+
+/* ===== REMINDER (in-app, time-based) ===== */
+function renderReminder(cal){
+  const card=document.getElementById('remCard');
+  const icon=document.getElementById('remIcon');
+  const text=document.getElementById('remText');
+  if(curDate!==todayKey()){ card.style.display='none'; return; }
+  const h=new Date().getHours();
+  const rem=Math.max(0,DB.goal-cal);
+  let msg='', ic='⏰';
+  if(cal>=DB.goal){ ic='🎉'; msg="You've hit today's goal — amazing! Anything extra is a bonus."; }
+  else if(h>=21){ ic='🌙'; msg=`Before bed: a glass of milk or a banana adds easy calories. ${rem} kcal to go.`; }
+  else if(h>=18){ ic='🍽️'; msg=`Dinner time. You still need ${rem} kcal today — make it count.`; }
+  else if(h>=15){ ic='🥜'; msg=`Snack o'clock! Peanuts or chikki now. ${rem} kcal left today.`; }
+  else if(h>=12){ ic='🍛'; msg=`Lunch time — eat a full plate. ${rem} kcal to reach your goal.`; }
+  else if(h>=9){ ic='🥞'; msg=`Good morning! Start strong with dosa + egg. ${rem} kcal for the day.`; }
+  else { ic='🌅'; msg=`New day, fresh start. Goal: ${DB.goal} kcal. You've got this!`; }
+  icon.textContent=ic; text.textContent=msg; card.style.display='flex';
+}
+
+/* ===== CELEBRATION ===== */
+let celebratedFor=localStorage.getItem('gain_celebday')||'';
+function checkCelebration(cal){
+  if(curDate!==todayKey()) return;
+  if(cal>=DB.goal && celebratedFor!==todayKey()){
+    celebratedFor=todayKey(); localStorage.setItem('gain_celebday',celebratedFor);
+    celebrate("🎉 "+DB.goal+" kcal hit! 🎉");
+  }
+}
+function celebrate(message){
+  const wrap=document.getElementById('celebrate');
+  const cols=['#a8e05f','#5fd0e0','#ffce47','#ff8fb0','#ffb347','#ffffff'];
+  let html='';
+  for(let i=0;i<70;i++){
+    const l=Math.random()*100, dur=2+Math.random()*2, delay=Math.random()*.6, col=cols[i%cols.length], w=6+Math.random()*8;
+    html+=`<div class="confetti" style="left:${l}%;background:${col};width:${w}px;height:${w*1.4}px;animation-duration:${dur}s;animation-delay:${delay}s;border-radius:${Math.random()>.5?'50%':'2px'}"></div>`;
+  }
+  wrap.innerHTML=html; wrap.classList.add('show');
+  const m=document.getElementById('celebMsg'); m.textContent=message; m.classList.add('show');
+  setTimeout(()=>{wrap.classList.remove('show');wrap.innerHTML='';m.classList.remove('show');},3600);
+}
+
+/* ===== WATER / MILK TRACKER ===== */
+let waterMode='water';
+function setDrink(m){
+  waterMode=m;
+  document.getElementById('wtWater').classList.toggle('on',m==='water');
+  document.getElementById('wtMilk').classList.toggle('on',m==='milk');
+  document.getElementById('waterTitle').textContent = m==='water'?'Water today':'Milk today';
+  renderWater();
+}
+function getWater(){ const d=DB.water[todayKey()]||{w:0,m:0}; return {w:d.w||0,m:d.m||0}; }
+function renderWater(){
+  const d=getWater();
+  document.getElementById('waterCount').textContent=d.w;
+  document.getElementById('milkCount').textContent=d.m;
+  const total = waterMode==='water'?8:4;   // 8 waters / 4 milks target
+  const filled = waterMode==='water'?d.w:d.m;
+  const emoji = waterMode==='water'?'💧':'🥛';
+  const cls = waterMode==='milk'?'wcell milk':'wcell';
+  let html='';
+  for(let i=0;i<total;i++){
+    html+=`<div class="${cls}${i<filled?' filled':''}" onclick="tapCup(${i})"><div class="we">${emoji}</div><div class="wt">${i+1}</div></div>`;
+  }
+  document.getElementById('waterGrid').innerHTML=html;
+}
+function tapCup(i){
+  const key=todayKey(); if(!DB.water[key])DB.water[key]={w:0,m:0};
+  const field = waterMode==='water'?'w':'m';
+  const cur=DB.water[key][field]||0;
+  // tapping cup i: if it's the next empty one, fill up to i+1; if already filled, unfill to i
+  DB.water[key][field] = (i+1>cur) ? i+1 : i;
+  save();renderWater();
+}
 
 /* ---------- ADD SHEET (multi-food AI flow) ---------- */
 let aiResults=null;
@@ -1059,13 +1340,13 @@ function seedOnce(){
 showQuote();seedOnce();renderToday();
 if(window.firebase){ initFirebase(); } else { setCloudStatus(false); }
 document.getElementById('sheet').addEventListener('click',e=>{if(e.target.id==='sheet')closeSheet();});
-['adminAsk','adminPass','adminPanel','installSheet'].forEach(id=>document.getElementById(id).addEventListener('click',e=>{if(e.target.id===id)closeSheet2(id);}));
+['adminAsk','adminPass','adminPanel','installSheet','noteSheet'].forEach(id=>document.getElementById(id).addEventListener('click',e=>{if(e.target.id===id)closeSheet2(id);}));
 
 /* inject a web app manifest so Android/Chrome installs it as a real app */
 (function(){
   try{
-    const icon="data:image/svg+xml,"+encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='512' height='512'><rect width='512' height='512' rx='110' fill='#0e0f0d'/><text x='256' y='340' font-family='Arial' font-size='240' font-weight='bold' fill='#a8e05f' text-anchor='middle'>G</text></svg>");
-    const manifest={name:"Gain — Food & Weight",short_name:"Gain",display:"standalone",background_color:"#0e0f0d",theme_color:"#0e0f0d",start_url:".",icons:[{src:icon,sizes:"512x512",type:"image/svg+xml"}]};
+    const icon="data:image/svg+xml,"+encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='512' height='512'><rect width='512' height='512' rx='110' fill='#0e0f0d'/><path d='M256 400 C 110 300, 122 168, 210 168 C 250 168, 256 210, 256 210 C 256 210, 262 168, 302 168 C 390 168, 402 300, 256 400 Z' fill='#ff6b8a'/><text x='256' y='300' font-family='Arial' font-size='84' font-weight='bold' fill='#fff' text-anchor='middle'>S+S</text></svg>");
+    const manifest={name:"Sandhiya ♥ Sundar",short_name:"Gain",display:"standalone",background_color:"#0e0f0d",theme_color:"#0e0f0d",start_url:".",icons:[{src:icon,sizes:"512x512",type:"image/svg+xml"}]};
     const blob=new Blob([JSON.stringify(manifest)],{type:'application/json'});
     const link=document.createElement('link');
     link.rel='manifest'; link.href=URL.createObjectURL(blob);
