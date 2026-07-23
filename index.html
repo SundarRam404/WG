@@ -776,7 +776,19 @@ function initFirebase(){
       if(d.proteinGoal) DB.proteinGoal=d.proteinGoal;
       if(d.target) DB.target=d.target;
       if(typeof d.geminiKey==='string' && d.geminiKey) DB.geminiKey=d.geminiKey;
-      if(d.water) DB.water=d.water;
+      if(d.water && typeof d.water==='object'){
+        for(const k in d.water){
+          if(d.water[k] && !Array.isArray(d.water[k])){
+            const arr=[];
+            if(typeof d.water[k]==='object'){
+              for(let i=0;i<(d.water[k].w||0);i++) arr.push({ml:250,t:Date.now()});
+              for(let i=0;i<(d.water[k].m||0);i++) arr.push({ml:200,t:Date.now()});
+            }
+            d.water[k]=arr;
+          }
+        }
+        DB.water=d.water;
+      }
       if(d.notes) DB.notes=d.notes;
       if(d.nameA) DB.nameA=d.nameA;
       if(d.nameB) DB.nameB=d.nameB;
@@ -811,6 +823,7 @@ function refreshUI(){
   renderToday();
   const wv=document.getElementById('tab-weight'); if(wv&&wv.style.display!=='none'){drawChart();renderWHist();}
   const fv=document.getElementById('tab-foods'); if(fv&&fv.style.display!=='none'){renderLog();}
+  const wat=document.getElementById('tab-water'); if(wat&&wat.style.display!=='none'){renderWater();}
 }
 
 function saveLocal(){
@@ -899,11 +912,7 @@ function dayCals(d){let c=0;(DB.days[d]||[]).forEach(i=>c+=i.c*i.q);return c;}
 
 /* ===== STREAK ===== */
 function currentStreak(){
-  // count back from yesterday: consecutive days that hit >=70% of goal.
-  // include today only if today already hits goal.
   let streak=0; const min=DB.goal*0.7;
-  const t=new Date();
-  // today counts only if achieved
   if(dayCals(todayKey())>=min) streak++;
   for(let k=1;k<400;k++){
     const dt=new Date(); dt.setDate(dt.getDate()-k);
@@ -911,7 +920,6 @@ function currentStreak(){
     if(dayCals(key)>=min) streak++;
     else break;
   }
-  // if today not achieved yet, streak starts from yesterday chain — recompute cleanly:
   if(dayCals(todayKey())<min){
     streak=0;
     for(let k=1;k<400;k++){
@@ -924,10 +932,8 @@ function currentStreak(){
 }
 function renderStreak(){
   const s=currentStreak();
-  // always-visible inline streak in the hero stats
   const inl=document.getElementById('streakInline');
   if(inl) inl.innerHTML = s+'<small>'+(s===1?'day':'days')+'</small>';
-  // big animated card only when there's a streak going
   const card=document.getElementById('streakCard');
   if(!card) return;
   if(s<1){ card.style.display='none'; return; }
@@ -955,7 +961,6 @@ function renderWeekly(){
 /* ===== TWO-WAY LOVE NOTES ===== */
 let editingNote='A';
 function renderNote(){
-  // A = your note (from Sundar), B = her note (from Sandhiya)
   document.getElementById('noteAFrom').textContent='From '+DB.nameA;
   document.getElementById('noteBFrom').textContent='From '+DB.nameB;
   const a=document.getElementById('noteAMsg'), b=document.getElementById('noteBMsg');
@@ -976,26 +981,11 @@ function openNoteEditor(which){
 function saveNote(){
   const msg=document.getElementById('noteMsgInput').value.trim();
   if(!msg){toast('Write a message first','bad');return;}
-  DB.notes[editingNote]={msg};   // edit REPLACES the old note
+  DB.notes[editingNote]={msg};
   save();renderNote();closeSheet2('noteSheet');toast('Note saved ❤️','good');
 }
 function clearNote(){DB.notes[editingNote]=null;save();renderNote();closeSheet2('noteSheet');toast('Note removed.');}
 
-/* (floating hearts removed) */
-function spawnHeart(){
-  return; // disabled
-  const wrap=document.getElementById('hearts'); if(!wrap)return;
-  const h=document.createElement('div');
-  const set=['💗','💖','💕','💘','🩷','❤️','💓'];
-  h.className='h'; h.textContent=set[Math.floor(Math.random()*set.length)];
-  h.style.left=Math.random()*100+'%';
-  const dur=7+Math.random()*8;
-  h.style.animationDuration=dur+'s';
-  h.style.fontSize=(13+Math.random()*20)+'px';
-  wrap.appendChild(h);
-  setTimeout(()=>h.remove(), dur*1000+200);
-}
-function startHearts(){ /* hearts removed */ }
 /* ===== REMINDER (smart — based on how much is left) ===== */
 function renderReminder(cal){
   const card=document.getElementById('remCard');
@@ -1004,10 +994,8 @@ function renderReminder(cal){
   if(curDate!==todayKey()){ card.style.display='none'; return; }
   const rem=Math.max(0,DB.goal-cal);
 
-  // Done for the day
   if(rem<=0){ icon.textContent='🎉'; text.textContent="Goal complete! You did it today. Anything more is a bonus ❤️"; card.style.display='flex'; return; }
 
-  // pick a concrete cheap food suggestion that roughly matches what's left
   let ic='🍽️', suggest;
   if(rem<=130){ ic='🍌'; suggest='just 1 banana'; }
   else if(rem<=250){ ic='🥛'; suggest='a glass of milk + a banana'; }
@@ -1043,12 +1031,18 @@ function celebrate(message){
   setTimeout(()=>{wrap.classList.remove('show');wrap.innerHTML='';m.classList.remove('show');},3600);
 }
 
-/* ===== WATER TRACKER (water only, ml + time + schedule) =====
-   DB.water = { '2026-07-22': [ {ml:250, t:1690000000000}, ... ] }  */
+/* ===== WATER TRACKER (safe Array checks) ===== */
 const WATER_GOAL=2000;                 // ml/day
 const WAKE_H=7, SLEEP_H=21;            // 7am -> 9pm (bedtime)
-function todayDrinks(){ return DB.water[todayKey()] || []; }
-function waterTotal(){ let w=0; todayDrinks().forEach(d=>w+=d.ml); return w; }
+function todayDrinks(){
+  const list = DB.water[todayKey()];
+  return Array.isArray(list) ? list : [];
+}
+function waterTotal(){
+  let w=0;
+  todayDrinks().forEach(d => w += (d.ml || 0));
+  return w;
+}
 function renderWater(){
   const done=waterTotal(), togo=Math.max(0,WATER_GOAL-done);
   document.getElementById('waterTotal').innerHTML=done+'<small>ml</small>';
@@ -1057,7 +1051,6 @@ function renderWater(){
   const goEl=document.getElementById('waterGo');
   goEl.textContent = togo>0 ? (togo+' ml to go') : 'Goal complete! Well done ❤️';
 
-  // hours left until bedtime
   const now=new Date(), hour=now.getHours()+now.getMinutes()/60;
   const hrsLeft=Math.max(0, SLEEP_H-hour);
   const timeEl=document.getElementById('waterTime');
@@ -1069,7 +1062,6 @@ function renderWater(){
   }
 
   renderPlan(togo, hrsLeft);
-  // logged list
   const list=todayDrinks();
   document.getElementById('drinkCount').textContent=list.length+' logged';
   const el=document.getElementById('drinkList');
@@ -1077,30 +1069,36 @@ function renderWater(){
   else{
     el.innerHTML=[...list].reverse().map((d,ri)=>{
       const idx=list.length-1-ri;
-      const time=new Date(d.t).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+      const time=d.t ? new Date(d.t).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}) : 'Today';
       return `<div class="frow"><div class="ficon">💧</div>
-        <div class="finfo"><div class="fn">${d.ml} ml water</div><div class="fm">${time}</div></div>
+        <div class="finfo"><div class="fn">${d.ml||250} ml water</div><div class="fm">${time}</div></div>
         <button class="fx" onclick="delDrink(${idx})">✕</button></div>`;
     }).join('');
   }
   renderDrinkReminder();
 }
 function nowClock(){ return new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}); }
-function delDrink(idx){ const k=todayKey(); DB.water[k].splice(idx,1); if(!DB.water[k].length)delete DB.water[k]; save();renderWater(); }
+function delDrink(idx){
+  const k=todayKey();
+  if(Array.isArray(DB.water[k])){
+    DB.water[k].splice(idx,1);
+    if(!DB.water[k].length) delete DB.water[k];
+  }
+  save(); renderWater();
+}
 
-/* build a simple plan: split the remaining ml across the remaining hours (every ~1h) */
 function renderPlan(togo, hrsLeft){
   const el=document.getElementById('planList'), sub=document.getElementById('planSub');
   if(togo<=0){ el.innerHTML='<div class="empty">All planned water done for today 🎉</div>'; sub.textContent=''; return; }
   if(hrsLeft<=0.2){ el.innerHTML='<div class="empty">It\'s bedtime — try to finish '+togo+' ml if you\'re still up.</div>'; sub.textContent=''; return; }
-  const slots=Math.max(1, Math.min(8, Math.round(hrsLeft)));   // one glass per hour, max 8 shown
-  let per=Math.ceil(togo/slots/50)*50;                          // round to nearest 50ml
+  const slots=Math.max(1, Math.min(8, Math.round(hrsLeft)));
+  let per=Math.ceil(togo/slots/50)*50;
   if(per<100) per=100;
   const now=new Date();
   const stepMin=(hrsLeft*60)/slots;
   let remaining=togo, rows='';
   for(let i=0;i<slots && remaining>0;i++){
-    const t=new Date(now.getTime()+ (i===0?5:stepMin*i)*60000);   // first one in 5 min, then spaced
+    const t=new Date(now.getTime()+ (i===0?5:stepMin*i)*60000);
     const ml=Math.min(per, remaining); remaining-=ml;
     const tt=t.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
     rows+=`<div class="frow"><div class="ficon">💧</div>
@@ -1110,9 +1108,13 @@ function renderPlan(togo, hrsLeft){
   sub.textContent=`${togo} ml over ~${slots} glasses`;
   el.innerHTML=rows;
 }
-function quickAdd(ml){ const k=todayKey(); if(!DB.water[k])DB.water[k]=[]; DB.water[k].push({ml,t:Date.now()}); save(); renderWater(); toast('Added '+ml+' ml 💧','good'); }
+function quickAdd(ml){
+  const k=todayKey();
+  if(!Array.isArray(DB.water[k])) DB.water[k]=[];
+  DB.water[k].push({ml:ml||250, t:Date.now()});
+  save(); renderWater(); toast('Added '+(ml||250)+' ml 💧','good');
+}
 
-/* reminder: if behind pace and >45min since last sip */
 function renderDrinkReminder(){
   const card=document.getElementById('drinkRem'); if(!card) return;
   const done=waterTotal(), togo=Math.max(0,WATER_GOAL-done), list=todayDrinks();
@@ -1120,8 +1122,8 @@ function renderDrinkReminder(){
   if(togo<=0){ card.style.display='none'; return; }
   if(hour<WAKE_H || hour>=SLEEP_H){ card.style.display='none'; return; }
   const expected=WATER_GOAL*Math.min(1,Math.max(0,(hour-WAKE_H)/(SLEEP_H-WAKE_H)));
-  const lastT=list.length?Math.max(...list.map(d=>d.t)):0;
-  const minsSince=lastT?Math.round((Date.now()-lastT)/60000):999;
+  const lastT=list.length ? Math.max(...list.map(d=>(d.t||0))) : 0;
+  const minsSince=lastT ? Math.round((Date.now()-lastT)/60000) : 999;
   if(minsSince>=45 && done<expected-100){
     document.getElementById('drinkRemIcon').textContent='💧';
     const hrsLeft=Math.max(0,SLEEP_H-hour), hh=Math.floor(hrsLeft);
@@ -1154,13 +1156,14 @@ function highlightWheel(){
   const idx=Math.round(w.scrollTop/50);
   const opts=[...w.querySelectorAll('.wopt[data-ml]')];
   opts.forEach((o,i)=>o.classList.toggle('sel',i===idx));
-  if(opts[idx]) drinkMl=parseInt(opts[idx].dataset.ml);
+  if(opts[idx]) drinkMl=parseInt(opts[idx].dataset.ml)||250;
 }
 function saveDrink(){
-  const k=todayKey(); if(!DB.water[k])DB.water[k]=[];
-  DB.water[k].push({ml:drinkMl,t:Date.now()});
+  const k=todayKey();
+  if(!Array.isArray(DB.water[k])) DB.water[k]=[];
+  DB.water[k].push({ml:drinkMl||250, t:Date.now()});
   save(); closeSheet2('drinkSheet'); renderWater();
-  toast('Added '+drinkMl+' ml water 💧','good');
+  toast('Added '+(drinkMl||250)+' ml water 💧','good');
 }
 
 /* ---------- ADD SHEET (multi-food AI flow) ---------- */
@@ -1209,7 +1212,7 @@ async function askAI(){
   try{
     const results=[];
     for(const f of foods){
-      const r=await geminiEstimate(f.name,f.g,f.pc); // Gemini only, no offline
+      const r=await geminiEstimate(f.name,f.g,f.pc);
       results.push({n:f.name,pc:f.pc,g:f.g,c:r.calories,p:r.protein});
     }
     aiResults=results;
@@ -1230,58 +1233,14 @@ async function askAI(){
     inErr(e.message || 'AI could not answer. Try again.');
   }
 }
-/* in-sheet error line (themed, not a system popup) */
 function inErr(msg){
   const el=document.getElementById('aiErr'); if(!el)return;
   el.textContent=msg||''; el.style.display=msg?'block':'none';
 }
 
-/* ===== FOOD ESTIMATOR =====
-   Uses real Gemini if a key is set (Admin panel), else offline estimate. */
-async function estimateFood(name,grams,pieces){
-  if(DB.geminiKey){ return await geminiEstimate(name,grams,pieces); }
-  return await mockEstimate(name,grams,pieces);
-}
-
-/* MOCK: rough offline guess. Uses grams if given, else pieces, else 1 serving */
-function mockEstimate(name,grams,pieces){
-  return new Promise(res=>{
-    const n=name.toLowerCase();
-    let cPer100=150,pPer100=5, perPiece=null,ppPiece=null;
-    const map=[
-      [['chicken','beef','mutton','fish'],200,20,120,12],
-      [['egg'],155,13,75,6],
-      [['peanut','groundnut','nuts'],560,25,null,null],
-      [['chikki'],450,10,90,3],
-      [['dosa'],200,5,130,3],
-      [['idli'],120,3,60,2],
-      [['chapati','roti','poori','poori'],250,8,110,3],
-      [['banana'],90,1,105,1],
-      [['dal','sambar'],110,6,null,null],
-      [['curry','gravy'],130,7,null,null],
-      [['rice','biryani','pulao'],180,5,null,null],
-      [['milk','curd','yogurt'],65,3,null,null],
-      [['smoothie','shake'],120,5,null,null],
-      [['apple','fruit','juice'],55,1,null,null],
-      [['ghee','oil','butter'],850,0,null,null]
-    ];
-    for(const[keys,c,p,pp,ppp]of map){if(keys.some(k=>n.includes(k))){cPer100=c;pPer100=p;perPiece=pp;ppPiece=ppp;break;}}
-    let calories,protein;
-    if(grams){calories=Math.round(cPer100*grams/100);protein=Math.round(pPer100*grams/100);}
-    else if(pieces&&perPiece){calories=Math.round(perPiece*pieces);protein=Math.round(ppPiece*pieces);}
-    else if(pieces){calories=Math.round(cPer100*pieces*0.8);protein=Math.round(pPer100*pieces*0.8);} // ~80g/piece guess
-    else {calories=Math.round(cPer100*1.5);protein=Math.round(pPer100*1.5);} // ~150g serving
-    setTimeout(()=>res({calories,protein}),700);
-  });
-}
-
-/* REAL GEMINI
-   Key is sent as the x-goog-api-key HEADER — this works for both the old
-   AIza... keys and the newer AQ.... keys from Google AI Studio. */
+/* REAL GEMINI */
 async function geminiEstimate(name,grams,pieces){
   const amt = grams ? grams+' grams' : (pieces ? pieces+' pieces or servings' : 'one normal serving');
-  // Models your key can use, ordered by highest free daily limit first.
-  // gemini-3.1-flash-lite has 500/day; the 2.5 ones have ~20/day.
   const models=['gemini-3.1-flash-lite','gemini-2.5-flash-lite','gemini-2.5-flash','gemini-3.5-flash-lite'];
   const prompt=`Estimate total calories and protein for ${amt} of "${name}" (assume Indian home food if unclear). Reply ONLY as JSON like {"calories":123,"protein":12}. No extra text.`;
   const bodyStr=JSON.stringify({contents:[{parts:[{text:prompt}]}]});
@@ -1303,12 +1262,10 @@ async function geminiEstimate(name,grams,pieces){
         return {calories:Math.round(j.calories),protein:Math.round(j.protein)};
       }catch(e){ throw new Error('AI gave an unexpected reply'); }
     }
-    // not ok — remember message, maybe try next model
     lastMsg=(data && data.error && data.error.message) ? data.error.message : ('Error '+resp.status);
     if(resp.status===401 || resp.status===403){
       throw new Error('Key rejected by Google: '+lastMsg);
     }
-    // 400 (bad model name), 404 (model not found), 429 (limit) → try next model
   }
   throw new Error('All models failed. Last: '+lastMsg);
 }
@@ -1394,11 +1351,9 @@ function openPass(){
   updatePassDisplay();buildKeyboard();
   document.getElementById('adminPass').classList.add('open');
 }
-/* custom scrambled keyboard: guarantees s,a,n + a few letters + all digits, shuffled */
 function buildKeyboard(){
   const must=['s','a','n'];
   const pool=['b','r','t','m','k','h','d','p','e','o','i','u','l','c','g','y'];
-  // pick extra letters (not duplicating must)
   const extras=[];const shuffled=[...pool].sort(()=>Math.random()-0.5);
   for(const l of shuffled){if(extras.length>=9)break;if(!must.includes(l))extras.push(l);}
   let letters=[...must,...extras];
@@ -1444,18 +1399,17 @@ function renderAdminFoods(){
 function admDelFood(idx){DB.days[curDate].splice(idx,1);if(!DB.days[curDate].length)delete DB.days[curDate];save();renderAdminFoods();renderToday();}
 function admSaveKey(){
   DB.geminiKey=document.getElementById('admKey').value.trim();
-  save();                       // saves locally + pushes to cloud
-  forceCloudKey(DB.geminiKey);  // make sure cloud gets THIS key, not the old one
+  save();
+  forceCloudKey(DB.geminiKey);
   toast(DB.geminiKey?'Gemini key saved everywhere. AI is ON.':'Key cleared.','good');
 }
 function admClearKey(){
   DB.geminiKey="";
   document.getElementById('admKey').value="";
   save();
-  forceCloudKey("");            // wipe the dead key from the cloud too
+  forceCloudKey("");
   toast('Old key wiped from phone and cloud. Now paste a NEW key.','good');
 }
-/* force the cloud's stored key to exactly match what admin just set */
 function forceCloudKey(k){
   if(!fdb) return;
   fdb.doc(CLOUD_DOC).set({geminiKey:k, updated:Date.now()},{merge:true}).catch(e=>console.warn('key push failed',e));
@@ -1501,7 +1455,7 @@ function seedOnce(){
   if(added){ save(); }
 }
 
-/* ---------- INIT (bulletproof — one failure can't break the app) ---------- */
+/* ---------- INIT ---------- */
 try{ showQuote(); }catch(e){ console.warn('quote',e); }
 try{ seedOnce(); }catch(e){ console.warn('seed',e); }
 try{ renderToday(); }catch(e){ console.warn('renderToday',e); }
@@ -1509,22 +1463,26 @@ try{ if(window.firebase){ initFirebase(); } else { setCloudStatus(false); } }cat
 document.getElementById('sheet').addEventListener('click',e=>{if(e.target.id==='sheet')closeSheet();});
 ['adminAsk','adminPass','adminPanel','installSheet','noteSheet','drinkSheet'].forEach(id=>document.getElementById(id).addEventListener('click',e=>{if(e.target.id===id)closeSheet2(id);}));
 
-/* migrate any old cup-format water data ({w,m}) to the new ml-list format */
+/* migrate legacy water data */
 (function(){
   let changed=false;
-  for(const k in DB.water){
-    const v=DB.water[k];
-    if(v && !Array.isArray(v)){
-      const arr=[];
-      for(let i=0;i<(v.w||0);i++) arr.push({ml:250,type:'water',t:Date.now()});
-      for(let i=0;i<(v.m||0);i++) arr.push({ml:200,type:'milk',t:Date.now()});
-      DB.water[k]=arr; changed=true;
+  if(DB.water && typeof DB.water==='object'){
+    for(const k in DB.water){
+      const v=DB.water[k];
+      if(v && !Array.isArray(v)){
+        const arr=[];
+        if(typeof v==='object'){
+          for(let i=0;i<(v.w||0);i++) arr.push({ml:250,t:Date.now()});
+          for(let i=0;i<(v.m||0);i++) arr.push({ml:200,t:Date.now()});
+        }
+        DB.water[k]=arr; changed=true;
+      }
     }
   }
   if(changed) saveLocal();
 })();
 
-/* inject a web app manifest so Android/Chrome installs it as a real app */
+/* manifest */
 (function(){
   try{
     const icon="data:image/svg+xml,"+encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='512' height='512'><rect width='512' height='512' rx='120' fill='#1a0b12'/><path d='M256 430 C 90 310, 100 150, 208 150 C 250 150, 256 200, 256 200 C 256 200, 262 150, 304 150 C 412 150, 422 310, 256 430 Z' fill='#ff5c9d'/><text x='256' y='310' font-family='Georgia,serif' font-size='110' font-weight='bold' fill='#fff' text-anchor='middle'>S♥S</text></svg>");
