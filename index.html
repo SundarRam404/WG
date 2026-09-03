@@ -2212,15 +2212,15 @@ mountain_climber:E({name:"Mountain climbers",target:"Core · conditioning",sets:
   b:{py:17,t:92,sL:4,sR:4,eL:4,eR:4,hR:-92,kR:-92,hL:-28,kL:-104}}),
 
 /* ---- cardio ---- */
-cardio_incline:E({name:"Incline walk",target:"Fat loss · low impact",sets:1,reps:20,unit:"min",
-  load:"5.0–5.5 km/h · incline 6–8",prop:"treadUp",speed:820,
-  cues:["Set the incline to 6 and the speed around 5 km/h.","Do not hold the handrails — it cuts the work by a third.","Aim for breathing hard but still able to speak in short sentences."],
+cardio_incline:E({name:"Treadmill",target:"Warm-up + fat loss · first thing",sets:1,reps:15,unit:"min",
+  load:"5 km/h · 3% incline",prop:"treadUp",speed:820,
+  cues:["Speed 5, incline 3, fifteen minutes. This is your warm-up and your cardio in one.","Do not hold the handrails — it cuts the work by about a third.","Breathing hard but still able to speak in short sentences is the right effort."],
   a:{t:9,sL:-26,sR:26,eL:-24,eR:24,hL:24,hR:-24,kL:12,kR:-34},
   b:{t:9,sL:26,sR:-26,eL:24,eR:-24,hL:-24,hR:24,kL:-34,kR:12}}),
 
-cardio_bike:E({name:"Air bike intervals",target:"Legs · arms · conditioning",sets:1,reps:15,unit:"min",
-  load:"20 s hard / 40 s easy",prop:"bike",speed:620,
-  cues:["Push and pull the arm bars — don't just pedal, that's half the machine.","20 seconds hard where you can't talk, then 40 seconds easy. Repeat 15 times.","If 20 seconds is too much in week one, do 15 hard and 45 easy."],
+cardio_bike:E({name:"Air bike",target:"Legs · arms · conditioning",sets:1,reps:15,unit:"min",
+  load:"Level 5 · 15 min",prop:"bike",speed:620,
+  cues:["Level 5, steady, fifteen minutes — straight after the treadmill.","Push and pull the arm bars. If you only pedal you are using half the machine.","If level 5 gets easy after a few weeks, go to 6 rather than adding time."],
   a:{py:8,t:-6,hL:62,kL:22,hR:-30,kR:-58,sL:104,eL:104,sR:62,eR:62},
   b:{py:8,t:-6,hR:62,kR:22,hL:-30,kL:-58,sR:104,eR:104,sL:62,eL:62}}),
 
@@ -2230,8 +2230,8 @@ cardio_intervals:E({name:"Treadmill intervals",target:"Fat loss · conditioning"
   a:{t:6,sL:-30,sR:30,eL:-28,eR:28,hL:28,hR:-28,kL:14,kR:-38},
   b:{t:6,sL:30,sR:-30,eL:28,eR:-28,hL:-28,hR:28,kL:-38,kR:14}}),
 
-cardio_steady:E({name:"Steady walk",target:"Recovery · fat loss",sets:1,reps:30,unit:"min",
-  load:"5 km/h · incline 3–4",prop:"tread",speed:960,
+cardio_steady:E({name:"Treadmill · easy",target:"Recovery · fat loss",sets:1,reps:30,unit:"min",
+  load:"5 km/h · 3% incline",prop:"tread",speed:960,
   cues:["Easy pace — this is a recovery day, not a session to survive.","You should be able to hold a full conversation the whole time.","Put something on your phone and just get the 30 minutes in."],
   a:{t:4,sL:-22,sR:22,eL:-20,eR:20,hL:20,hR:-20,kL:10,kR:-28},
   b:{t:4,sL:22,sR:-22,eL:20,eR:-20,hL:-20,hR:20,kL:-28,kR:10}}),
@@ -2271,23 +2271,32 @@ cd_child:E({name:"Child's pose",target:"Lower back · hips",sets:1,reps:60,unit:
 /* ---------------------------------------------------------------
    3. THE PROGRAM
    --------------------------------------------------------------- */
-var WARMUP  = ["wu_walk","wu_armcircle","wu_legswing","wu_bwsquat","wu_hiphinge","wu_catcow"];
-var COOLDOWN= ["cd_quad","cd_ham","cd_chest","cd_child"];
+var COOLDOWN= ["cd_quad","cd_ham"];
 
+/* Two blocks per session. The gym is small and busy, so it only gets the
+   two machines and three dumbbell moves — in and out. Everything that
+   needs no equipment waits until you're home. */
 var DAYS = {
-  A:{key:"A",title:"Legs & Pull",note:"Your legs carry 102 kg every day — they respond fast. Heavy-ish, slow, controlled.",
-     work:["goblet_squat","db_rdl","reverse_lunge","step_up","calf_raise","bent_row","floor_press","plank"],
-     cardio:["cardio_incline"]},
-  B:{key:"B",title:"Upper Body",note:"This is the arm and shoulder day. Light weight, strict form, slow lowering.",
-     work:["db_shoulder_press","one_arm_row","floor_press","lateral_raise","front_raise","bicep_curl","tri_ext","dead_bug"],
-     cardio:["cardio_bike"]},
-  C:{key:"C",title:"Full Body Burn",note:"Everything at once, shorter rests. This is the day that moves the scale.",
-     work:["thruster","db_deadlift","push_up","bent_row","farmer_carry","glute_bridge","russian_twist","mountain_climber"],
-     cardio:["cardio_intervals"]},
-  L:{key:"L",title:"Easy Day",note:"Optional. If you make it in on the weekend, keep it light and just move.",
-     work:["glute_bridge","plank","dead_bug"],
-     cardio:["cardio_steady","cardio_bike_easy"]}
+  A:{key:"A",title:"Legs & Pull",
+     note:"Machines first, then three dumbbell moves and you're out. The floor work waits until you're home.",
+     gym:["goblet_squat","db_rdl","reverse_lunge"],
+     home:["glute_bridge","plank"]},
+  B:{key:"B",title:"Upper Body",
+     note:"Arms and shoulders. Three dumbbell moves in one spot — you never need to walk around the gym.",
+     gym:["db_shoulder_press","bent_row","bicep_curl"],
+     home:["push_up","dead_bug"]},
+  C:{key:"C",title:"Full Body",
+     note:"The hardest of the three. Heavier dumbbells, shorter rests, then core at home.",
+     gym:["db_deadlift","thruster","one_arm_row"],
+     home:["push_up","mountain_climber","plank"]},
+  L:{key:"L",title:"Easy Day",
+     note:"Optional weekend day. Just the treadmill and some stretching — nothing to fight for space over.",
+     gym:[],
+     home:["glute_bridge"]}
 };
+var GYM_CARDIO = {A:["cardio_incline","cardio_bike"], B:["cardio_incline","cardio_bike"],
+                  C:["cardio_incline","cardio_bike"], L:["cardio_steady"]};
+
 /* Sun Mon Tue Wed Thu Fri Sat  —  Tue & Fri are college */
 var SCHEDULE = ["L","A",null,"B","C",null,"L"];
 var DNAME = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
@@ -2295,10 +2304,10 @@ var DSHORT = ["Su","Mo","Tu","We","Th","Fr","Sa"];
 
 function buildSession(k){
   var d = DAYS[k], list = [];
-  WARMUP.forEach(function(id){ list.push({id:id,phase:"Warm-up"}); });
-  d.work.forEach(function(id){ list.push({id:id,phase:"Strength"}); });
-  d.cardio.forEach(function(id){ list.push({id:id,phase:"Cardio"}); });
-  COOLDOWN.forEach(function(id){ list.push({id:id,phase:"Cool-down"}); });
+  GYM_CARDIO[k].forEach(function(id){ list.push({id:id, phase:"At the gym \u00b7 machines"}); });
+  d.gym.forEach(function(id){ list.push({id:id, phase:"At the gym \u00b7 dumbbells"}); });
+  d.home.forEach(function(id){ list.push({id:id, phase:"At home"}); });
+  COOLDOWN.forEach(function(id){ list.push({id:id, phase:"At home \u00b7 stretch"}); });
   return list;
 }
 
@@ -2470,8 +2479,9 @@ function gRenderHero(){
     var day=DAYS[k], list=buildSession(k);
     t.textContent=day.title;
     n.textContent=day.note;
-    var mins = k==="L" ? 45 : 55;
-    c.innerHTML='<span>'+list.length+' exercises</span><span>~'+mins+' min</span><span>Session '+k+'</span>';
+    var gymN = GYM_CARDIO[k].length + day.gym.length;
+    c.innerHTML='<span>'+gymN+' at the gym</span><span>'+(list.length-gymN)+' at home</span>'+
+                '<span>~'+(k==="L"?40:50)+' min</span>';
     b.textContent = gDoneToday() ? "Do it again" : "Start workout";
   }
 }
@@ -2511,8 +2521,11 @@ function gRenderPlan(){
   document.getElementById("gPlanIntro").innerHTML =
     "Three fixed sessions a week — <b>Monday, Wednesday, Thursday</b> — because Tuesday and Friday are college. "+
     "Saturday and Sunday are an optional easy day if you make it in.<br><br>"+
-    "Everything is built around what your apartment gym actually has: a treadmill, the air bike, and dumbbells up to 10 kg. "+
-    "Nothing here needs a machine you don't have.<br><br>"+
+    "Every session is split in two. <b>At the gym</b> you do the treadmill (15 min, 5 km/h, 3% incline), then the "+
+    "air bike (15 min, level 5), then three dumbbell moves — that's it, five things, and you're out. The gym is small "+
+    "and busy, so nothing in that block needs more than one pair of dumbbells and the patch of floor you're standing on.<br><br>"+
+    "<b>At home</b> you finish with the bodyweight work and two stretches. Nothing there needs equipment, so a crowded "+
+    "gym can never cost you the session.<br><br>"+
     "Starting point: <b>"+GYM.startWeight+" kg</b> at <b>"+GYM.height+" cm</b> (BMI "+bmi.toFixed(1)+"). "+
     "A realistic pace is 0.5–0.75 kg a week, so <b>"+GYM.target+" kg</b> is roughly 6–8 months of steady work. "+
     "The strength work is there so the weight you lose is fat and not the little muscle you have.";
@@ -2520,15 +2533,18 @@ function gRenderPlan(){
   ["A","B","C","L"].forEach(function(k){
     var d=DAYS[k], list=buildSession(k);
     var whenMap={A:"Monday",B:"Wednesday",C:"Thursday",L:"Sat / Sun · optional"};
+    var gymN = GYM_CARDIO[k].length + d.gym.length, homeN = list.length - gymN;
     h+='<div class="gc"><div class="gc-h">'+whenMap[k]+' · Session '+k+'</div>';
     h+='<div style="font-size:16px;font-weight:750;color:var(--gtx);margin-bottom:3px">'+d.title+'</div>';
-    h+='<div style="font-size:12px;color:var(--gtx3);margin-bottom:10px;line-height:1.5">'+d.note+'</div>';
+    h+='<div style="font-size:12px;color:var(--gtx3);margin-bottom:8px;line-height:1.5">'+d.note+'</div>';
+    h+='<div class="gy-hero chips" style="background:none;border:none;padding:0;margin:0 0 4px">'+
+       '<span>'+gymN+' at the gym</span><span>'+homeN+' at home</span></div>';
     var phase="";
     list.forEach(function(item,i){
       var e=EX[item.id];
       if(item.phase!==phase){
         phase=item.phase;
-        h+='<div style="font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--red2);margin:12px 0 2px;font-weight:700">'+phase+'</div>';
+        h+='<div style="font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--red2);margin:13px 0 2px;font-weight:700">'+phase+'</div>';
       }
       h+='<div class="gex"><div class="n">'+(i+1)+'</div><div><div class="nm">'+e.name+'</div>'+
          '<div class="sb">'+e.load+'</div></div><div class="rt">'+prescribe(e)+'</div></div>';
@@ -2647,14 +2663,13 @@ var MET = {
 /* Machine work gets its own maths — the treadmill uses speed and
    incline, the air bike uses how hard you went. */
 var CARDIO = {
-  wu_walk:          {kind:"walk", min:5,  speed:5.0, incline:2},
-  cardio_incline:   {kind:"walk", min:20, speed:5.0, incline:6},
-  cardio_intervals: {kind:"walk", min:18, speed:5.5, incline:2},
+  cardio_incline:   {kind:"walk", min:15, speed:5.0, incline:3},
   cardio_steady:    {kind:"walk", min:30, speed:5.0, incline:3},
-  cardio_bike:      {kind:"bike", min:15, met:7},
-  cardio_bike_easy: {kind:"bike", min:10, met:5}
+  cardio_bike:      {kind:"bike", min:15, level:5},
+  cardio_bike_easy: {kind:"bike", min:10, level:3}
 };
-var BIKE_LEVELS = [{l:"Easy",met:5},{l:"Moderate",met:7},{l:"Hard",met:9}];
+/* air bike resistance level -> MET */
+function bikeMet(level){ return 3.5 + (level||5)*0.7; }
 
 function bodyWt(){ return gLatestWeight() || GYM.startWeight || 102; }
 
@@ -2671,7 +2686,7 @@ function defaultActual(id){
   var e = EX[id], c = CARDIO[id];
   if(c) return c.kind==="walk"
     ? {kind:"walk", min:c.min, speed:c.speed, incline:c.incline}
-    : {kind:"bike", min:c.min, met:c.met};
+    : {kind:"bike", min:c.min, level:c.level};
   if(e.unit==="sec" || e.unit==="sec each")
     return {kind:"hold", sets:e.sets, secs:e.reps};
   return {kind:"reps", sets:e.sets, reps:e.reps||10};
@@ -2681,7 +2696,7 @@ function calcKcal(id, a){
   var wt = bodyWt(), met = MET[id] || 4;
   if(!a) return 0;
   if(a.kind==="walk") return kcalWalk(a.min, a.speed, a.incline, wt);
-  if(a.kind==="bike") return kcalMet(a.min, a.met||7, wt);
+  if(a.kind==="bike") return kcalMet(a.min, bikeMet(a.level), wt);
   if(a.kind==="hold"){
     var hw = (a.sets||0)*(a.secs||0)/60;
     return kcalMet(hw, met, wt) + kcalMet((a.sets||0)*0.75, 2, wt);
@@ -2814,14 +2829,11 @@ function renderList(){
 function actualLabel(r){
   var e = EX[r.id], a = r.actual || defaultActual(r.id);
   if(a.kind==="walk") return a.min+" min · "+a.speed+" km/h · "+a.incline+"% incline";
-  if(a.kind==="bike") return a.min+" min · "+bikeLabel(a.met);
+  if(a.kind==="bike") return a.min+" min · level "+(a.level||5);
   if(a.kind==="hold") return a.sets+" × "+a.secs+" sec"+(e.load?" · "+e.load:"");
   return a.sets+" × "+a.reps+" reps"+(e.load?" · "+e.load:"");
 }
-function bikeLabel(met){
-  for(var i=0;i<BIKE_LEVELS.length;i++) if(BIKE_LEVELS[i].met===met) return BIKE_LEVELS[i].l;
-  return "Moderate";
-}
+
 
 /* ---------- one exercise ---------- */
 function openEx(i){
@@ -2885,10 +2897,7 @@ function openFin(){
       finRow("Incline", "fIncline", a.incline, "%", "0.5");
   } else if(a.kind==="bike"){
     body = finRow("Minutes", "fMin", a.min, "min") +
-      '<div class="finlbl">How hard was it?</div><div class="finseg" id="fSeg">'+
-      BIKE_LEVELS.map(function(l){
-        return '<button data-met="'+l.met+'"'+(l.met===a.met?' class="on"':'')+'>'+l.l+'</button>';
-      }).join("")+'</div>';
+           finRow("Level", "fLevel", a.level, "level");
   } else if(a.kind==="hold"){
     body = finRow("Sets done", "fSets", a.sets, "sets") +
            finRow("Seconds each", "fSecs", a.secs, "sec");
@@ -2913,14 +2922,6 @@ function openFin(){
   var box = document.querySelector("#gFin .fbox");
   box.querySelectorAll(".finrow input").forEach(function(inp){
     inp.oninput = function(){ readFin(); FIN.edited=false; refreshFinKcal(); };
-  });
-  var seg = document.getElementById("fSeg");
-  if(seg) seg.querySelectorAll("button").forEach(function(b){
-    b.onclick = function(){
-      seg.querySelectorAll("button").forEach(function(x){ x.classList.remove("on"); });
-      b.classList.add("on"); FIN.a.met = +b.getAttribute("data-met");
-      FIN.edited=false; refreshFinKcal();
-    };
   });
   document.getElementById("fKcal").oninput = function(){ FIN.edited = true; setFinNote(true); };
   document.getElementById("fSave").onclick = function(){ commitFin("auto"); };
@@ -2950,6 +2951,7 @@ function readFin(){
     a.incline = numVal("fIncline", a.incline);
   } else if(a.kind==="bike"){
     a.min = numVal("fMin", a.min);
+    a.level = numVal("fLevel", a.level);
   } else if(a.kind==="hold"){
     a.sets = numVal("fSets", a.sets);
     a.secs = numVal("fSecs", a.secs);
