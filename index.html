@@ -286,15 +286,6 @@ input[type="date"]{color-scheme:dark;accent-color:var(--green)}
 .weekcard .wk .v small{font-size:12px;color:var(--txt3);font-weight:500}
 .weekcard .wk .d{font-size:11.5px;color:var(--green);margin-top:2px}
 
-/* NOTE FROM PARTNER */
-.notecard{background:linear-gradient(135deg,#2a1520,#161816);border:1px solid rgba(255,90,120,.3);border-radius:22px;padding:16px 18px;margin-bottom:16px;position:relative}
-.notecard.pink{background:linear-gradient(135deg,#2a1228,#161816);border-color:rgba(255,130,180,.35)}
-.notecard .nhead{display:flex;align-items:center;gap:8px;font-size:12px;color:#ff8fb0;font-weight:600;margin-bottom:8px}
-.notecard .nheart{animation:beat 1.3s ease-in-out infinite}
-@keyframes beat{0%,100%{transform:scale(1)}25%{transform:scale(1.25)}40%{transform:scale(1)}}
-.notecard .nmsg{font-size:14.5px;line-height:1.5;color:var(--txt)}
-.notecard .nempty{font-size:13px;color:var(--txt3);font-style:italic}
-
 /* REMINDER CARD */
 .remcard{display:flex;align-items:center;gap:13px;background:rgba(255,92,157,.08);border:1px solid rgba(255,92,157,.25);border-radius:18px;padding:13px 16px;margin-bottom:16px}
 .remcard .ri{font-size:24px}
@@ -328,7 +319,6 @@ input[type="date"]{color-scheme:dark;accent-color:var(--green)}
 .direct-ml input{flex:1;padding:12px;border:1px solid var(--stroke);border-radius:12px;background:var(--bg);color:var(--txt);font-family:inherit;font-size:18px;font-weight:700;text-align:center}
 
 /* NOTE EDITOR */
-.notebtn{width:100%;padding:12px;border-radius:14px;background:var(--card2);border:1px solid var(--stroke);color:var(--txt);font-family:inherit;font-size:13px;cursor:pointer;margin-top:8px}
 
 /* CELEBRATION */
 .celebrate{position:fixed;inset:0;z-index:300;pointer-events:none;display:none;overflow:hidden}
@@ -427,18 +417,6 @@ svg.line{width:100%;height:auto;display:block;overflow:visible}
       <div class="streakcard" id="streakCard" style="display:none">
         <div class="fire">🔥</div>
         <div class="streaktxt"><div class="big" id="streakNum">0 days</div><div class="sub" id="streakSub">in a row hitting your goal</div></div>
-      </div>
-
-      <!-- NOTES (both directions) -->
-      <div class="notecard">
-        <div class="nhead"><span class="nheart">💛</span> <span id="noteAFrom">From Sundar</span></div>
-        <div class="nmsg" id="noteAMsg"></div>
-        <button class="notebtn" onclick="openNoteEditor('A')">✏️ Sundar: write / edit</button>
-      </div>
-      <div class="notecard pink">
-        <div class="nhead"><span class="nheart">💗</span> <span id="noteBFrom">From Sandhiya</span></div>
-        <div class="nmsg" id="noteBMsg"></div>
-        <button class="notebtn" onclick="openNoteEditor('B')">✏️ Sandhiya: write / edit</button>
       </div>
 
       <!-- WEEKLY SUMMARY -->
@@ -596,14 +574,6 @@ svg.line{width:100%;height:auto;display:block;overflow:visible}
         <button class="btn danger" onclick="admClearKey()" style="margin-top:10px">Clear old / dead key</button>
       </div>
 
-      <div class="asec"><div class="asech">Names on the love notes</div>
-        <div class="grow">
-          <div class="field"><label>Your name (💛)</label><input id="admNameA"></div>
-          <div class="field"><label>Her name (💗)</label><input id="admNameB"></div>
-        </div>
-        <button class="btn" onclick="admSaveNames()">Save names</button>
-      </div>
-
       <div class="asec"><div class="asech">Daily goals</div>
         <div class="grow">
           <div class="field"><label>Calories</label><input id="admGoal" type="number"></div>
@@ -649,19 +619,6 @@ svg.line{width:100%;height:auto;display:block;overflow:visible}
         <div class="istep"><div class="n">2</div><div class="t">Tap <b>Add to Home screen</b> / <b>Install app</b>.</div></div>
         <div class="istep"><div class="n">3</div><div class="t">Confirm. The GAIN icon appears on your home screen.</div></div>
       </div>
-    </div>
-  </div>
-</div>
-
-<!-- NOTE EDITOR -->
-<div class="sheet" id="noteSheet">
-  <div class="sinner">
-    <div class="grab"></div>
-    <div class="shead"><h3 id="noteSheetTitle">Write a note ❤️</h3><button class="x" onclick="closeSheet2('noteSheet')">✕</button></div>
-    <div class="sbody">
-      <div class="field"><label id="noteSheetLbl">Your message</label><input id="noteMsgInput" placeholder="Proud of you — eat that extra banana ❤️"></div>
-      <button class="btn" onclick="saveNote()">Save (replaces old note)</button>
-      <button class="btn ghost" onclick="clearNote()" style="margin-top:10px">Remove note</button>
     </div>
   </div>
 </div>
@@ -892,7 +849,7 @@ function renderToday(){
   if(cal>=DB.goal){pill.className='pill ok';pill.textContent='Goal hit ✓';}
   else if(cal>=DB.goal*0.7){pill.className='pill warn';pill.textContent='Almost there';}
   else{pill.className='pill bad';pill.textContent='Eat more';}
-  renderStreak();renderWeekly();renderNote();renderReminder(cal);
+  renderStreak();renderWeekly();renderReminder(cal);
   checkCelebration(cal);
   const list=document.getElementById('foodList');
   if(!items.length){list.innerHTML='<div class="empty"><div class="e2">🍽️</div>No food yet.<br>Tap the green button to add.</div>';return;}
@@ -952,33 +909,6 @@ function renderWeekly(){
   const eat=document.querySelector('#weekCard .eat');
   if(eat) eat.textContent = avg>=DB.goal ? '💪' : (avg>=DB.goal*0.7 ? '😋' : '🍽️');
 }
-let editingNote='A';
-function renderNote(){
-  document.getElementById('noteAFrom').textContent='From '+DB.nameA;
-  document.getElementById('noteBFrom').textContent='From '+DB.nameB;
-  const a=document.getElementById('noteAMsg'), b=document.getElementById('noteBMsg');
-  const na=DB.notes.A, nb=DB.notes.B;
-  if(na && na.msg){ a.textContent=na.msg; a.className='nmsg'; }
-  else { a.textContent='No note yet — tap below to write one ❤️'; a.className='nempty'; }
-  if(nb && nb.msg){ b.textContent=nb.msg; b.className='nmsg'; }
-  else { b.textContent='No note yet — tap below to write one ❤️'; b.className='nempty'; }
-}
-function openNoteEditor(which){
-  editingNote=which;
-  const name = which==='A'?DB.nameA:DB.nameB;
-  document.getElementById('noteSheetTitle').textContent='Note from '+name+' ❤️';
-  document.getElementById('noteSheetLbl').textContent=name+"'s message";
-  document.getElementById('noteMsgInput').value = DB.notes[which]?.msg || '';
-  document.getElementById('noteSheet').classList.add('open');
-}
-function saveNote(){
-  const msg=document.getElementById('noteMsgInput').value.trim();
-  if(!msg){toast('Write a message first','bad');return;}
-  DB.notes[editingNote]={msg};
-  save();renderNote();closeSheet2('noteSheet');toast('Note saved ❤️','good');
-}
-function clearNote(){DB.notes[editingNote]=null;save();renderNote();closeSheet2('noteSheet');toast('Note removed.');}
-
 function renderReminder(cal){
   const card=document.getElementById('remCard');
   const icon=document.getElementById('remIcon');
@@ -1405,15 +1335,8 @@ function openAdminPanel(){
   document.getElementById('admGoal').value=DB.goal;
   document.getElementById('admProt').value=DB.proteinGoal;
   document.getElementById('admTarget').value=DB.target;
-  document.getElementById('admNameA').value=DB.nameA;
-  document.getElementById('admNameB').value=DB.nameB;
   renderAdminFoods();
   document.getElementById('adminPanel').classList.add('open');
-}
-function admSaveNames(){
-  DB.nameA=document.getElementById('admNameA').value.trim()||"Sundar";
-  DB.nameB=document.getElementById('admNameB').value.trim()||"Sandhiya";
-  save();renderNote();toast('Names updated ❤️','good');
 }
 function renderAdminFoods(){
   const el=document.getElementById('admFoodList');
@@ -1486,7 +1409,7 @@ try{ seedOnce(); }catch(e){ console.warn('seed',e); }
 try{ renderToday(); }catch(e){ console.warn('renderToday',e); }
 try{ if(window.firebase){ initFirebase(); } else { setCloudStatus(false); } }catch(e){ console.warn('firebase',e); }
 document.getElementById('sheet').addEventListener('click',e=>{if(e.target.id==='sheet')closeSheet();});
-['adminAsk','adminPass','adminPanel','installSheet','noteSheet','drinkSheet'].forEach(id=>document.getElementById(id).addEventListener('click',e=>{if(e.target.id===id)closeSheet2(id);}));
+['adminAsk','adminPass','adminPanel','installSheet','drinkSheet'].forEach(id=>document.getElementById(id).addEventListener('click',e=>{if(e.target.id===id)closeSheet2(id);}));
 
 /* migrate legacy water data */
 (function(){
