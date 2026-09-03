@@ -601,6 +601,63 @@ body.running{overflow:hidden}
 .rsum .s .v{font-size:18px;font-weight:800;color:#e9eef4}
 .rsum .s .k{font-size:9.5px;letter-spacing:.9px;text-transform:uppercase;color:#5a6675;margin-top:4px}
 
+
+/* ---------- session list ---------- */
+.lstat{display:flex;gap:8px;margin-bottom:14px}
+.lstat .s{flex:1;background:#151a21;border:1px solid #242d38;border-radius:14px;padding:11px 6px;text-align:center}
+.lstat .s .v{font-size:18px;font-weight:800;color:#e9eef4;letter-spacing:-.4px}
+.lstat .s .v small{font-size:11px;font-weight:600;color:#5a6675}
+.lstat .s .v.red{color:#ff2b4d}
+.lstat .s .k{font-size:9px;letter-spacing:.9px;text-transform:uppercase;color:#5a6675;margin-top:4px}
+.lphase{font-size:10px;letter-spacing:1.3px;text-transform:uppercase;color:#ff2b4d;
+  font-weight:700;margin:16px 0 7px}
+.lrow{display:flex;align-items:center;gap:12px;background:#151a21;border:1px solid #242d38;
+  border-radius:15px;padding:12px 14px;margin-bottom:8px;cursor:pointer;
+  transition:transform .12s ease,border-color .15s ease}
+.lrow:active{transform:scale(.985);border-color:#e11d3c}
+.lrow .n{width:27px;height:27px;border-radius:9px;background:#1c232c;border:1px solid #2f3a48;
+  display:grid;place-items:center;font-size:12px;font-weight:700;color:#7d8fa3;flex:0 0 27px}
+.lrow .mid{flex:1;min-width:0}
+.lrow .nm{font-size:13.5px;font-weight:650;color:#e9eef4}
+.lrow .sb{font-size:11px;color:#5a6675;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lrow .rt{text-align:right;flex:0 0 auto}
+.lrow .kc{font-size:14px;font-weight:750;color:#93a1b1}
+.lrow .kc span{font-size:9.5px;color:#5a6675;margin-left:2px;font-weight:600}
+.lrow.done{border-color:rgba(34,197,94,.4);background:rgba(34,197,94,.07)}
+.lrow.done .n{background:#22c55e;border-color:#22c55e;color:#062b13}
+.lrow.done .kc{color:#22c55e}
+.lrow.part{border-color:rgba(245,158,11,.4);background:rgba(245,158,11,.06)}
+.lrow.part .n{background:#f59e0b;border-color:#f59e0b;color:#3d2600}
+.lrow.part .kc{color:#f59e0b}
+.lrow.skip{opacity:.45}
+.lrow.skip .nm{text-decoration:line-through}
+
+.kcpill{font-size:11px;font-weight:700;background:rgba(225,29,60,.15);
+  border:1px solid rgba(225,29,60,.4);color:#ff6e86;padding:6px 10px;border-radius:9px;white-space:nowrap}
+
+/* ---------- finish sheet ---------- */
+.finrow{display:flex;align-items:center;gap:10px;margin-bottom:11px}
+.finrow label{font-size:13px;color:#93a1b1;flex:1}
+.finrow input{width:96px;padding:12px;border-radius:12px;background:#0b0e12;border:1px solid #2f3a48;
+  color:#e9eef4;font-family:inherit;font-size:16px;font-weight:700;text-align:center}
+.finrow input:focus{outline:none;border-color:#e11d3c}
+.finrow .u{font-size:11.5px;color:#5a6675;width:40px}
+.finlbl{font-size:12px;color:#5a6675;margin:14px 0 8px;letter-spacing:.3px}
+.finseg{display:flex;gap:7px;margin-bottom:6px}
+.finseg button{flex:1;padding:11px 0;border-radius:12px;background:#151a21;border:1px solid #242d38;
+  color:#7d8fa3;font-family:inherit;font-size:12.5px;font-weight:650;cursor:pointer}
+.finseg button.on{background:#e11d3c;border-color:#e11d3c;color:#fff}
+.finkcal{display:flex;align-items:center;gap:10px;margin:16px 0 6px;padding-top:15px;
+  border-top:1px solid #242d38}
+.finkcal .fk-l{font-size:13px;font-weight:650;color:#e9eef4;flex:1}
+.finkcal input{width:96px;padding:12px;border-radius:12px;background:#0b0e12;border:1px solid #e11d3c;
+  color:#ff6e86;font-family:inherit;font-size:17px;font-weight:800;text-align:center}
+.finkcal input:focus{outline:none}
+.finkcal .fk-u{font-size:11.5px;color:#5a6675;width:40px}
+.fk-note{font-size:11px;color:#5a6675;line-height:1.5;margin-bottom:16px}
+#gFin .fbox{max-height:88vh;overflow-y:auto}
+.rsum .s .v{font-size:16px}
+
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
@@ -740,24 +797,7 @@ body.running{overflow:hidden}
 <div id="gRun"><div class="rwrap" id="gRunWrap"></div></div>
 
 <!-- ---------- FINISH SHEET ---------- -->
-<div id="gFin">
-  <div class="fbox">
-    <h3 id="gFinTitle">How did that go?</h3>
-    <div class="sub" id="gFinSub"></div>
-    <button class="gbtn ok" onclick="gymFinishDone('full')">Did it all ✓</button>
-    <div style="height:10px"></div>
-    <button class="gbtn ghost" onclick="gymShowPartial()">Only did part of it</button>
-    <div id="gPartWrap">
-      <div style="height:16px"></div>
-      <div class="prow">
-        <label id="gPartLbl">How many did you actually do?</label>
-        <input type="number" inputmode="numeric" id="gPartVal" placeholder="7">
-      </div>
-      <button class="gbtn" onclick="gymFinishDone('partial')">Save</button>
-    </div>
-    <button class="rskip" onclick="gymCloseFin()">Cancel</button>
-  </div>
-</div>
+<div id="gFin"><div class="fbox"></div></div>
 
 <div id="appSandhiya">
 <div class="phone">
@@ -2587,17 +2627,85 @@ document.addEventListener("click",function(e){
 });
 
 /* ---------------------------------------------------------------
-   7. WORKOUT RUNNER
+   7. CALORIES + WORKOUT RUNNER
    --------------------------------------------------------------- */
+
+/* MET values per exercise — used with your bodyweight and the time
+   actually spent to work out calories burned. */
+var MET = {
+  wu_walk:3.8, wu_armcircle:2.8, wu_legswing:2.5, wu_bwsquat:4.0,
+  wu_hiphinge:3.0, wu_catcow:2.3,
+  goblet_squat:5.5, db_rdl:5.0, reverse_lunge:5.5, step_up:5.5,
+  calf_raise:3.5, bent_row:5.0, floor_press:4.5, plank:3.5,
+  db_shoulder_press:4.5, one_arm_row:5.0, lateral_raise:3.5,
+  front_raise:3.5, bicep_curl:3.5, tri_ext:3.5, dead_bug:3.5,
+  thruster:7.0, db_deadlift:6.0, push_up:5.0, farmer_carry:5.0,
+  glute_bridge:3.5, russian_twist:3.5, mountain_climber:8.0,
+  cd_quad:2.3, cd_ham:2.3, cd_chest:2.3, cd_child:2.3
+};
+
+/* Machine work gets its own maths — the treadmill uses speed and
+   incline, the air bike uses how hard you went. */
+var CARDIO = {
+  wu_walk:          {kind:"walk", min:5,  speed:5.0, incline:2},
+  cardio_incline:   {kind:"walk", min:20, speed:5.0, incline:6},
+  cardio_intervals: {kind:"walk", min:18, speed:5.5, incline:2},
+  cardio_steady:    {kind:"walk", min:30, speed:5.0, incline:3},
+  cardio_bike:      {kind:"bike", min:15, met:7},
+  cardio_bike_easy: {kind:"bike", min:10, met:5}
+};
+var BIKE_LEVELS = [{l:"Easy",met:5},{l:"Moderate",met:7},{l:"Hard",met:9}];
+
+function bodyWt(){ return gLatestWeight() || GYM.startWeight || 102; }
+
+/* ACSM walking / running equations */
+function kcalWalk(min, speed, grade, wt){
+  var S = (speed||0)*16.6667, g = (grade||0)/100;
+  var vo2 = (speed||0) < 7 ? 3.5 + 0.1*S + 1.8*S*g
+                           : 3.5 + 0.2*S + 0.9*S*g;
+  return Math.max(0, vo2 * wt * (min||0) / 200);
+}
+function kcalMet(min, met, wt){ return Math.max(0, met*3.5*wt*(min||0)/200); }
+
+function defaultActual(id){
+  var e = EX[id], c = CARDIO[id];
+  if(c) return c.kind==="walk"
+    ? {kind:"walk", min:c.min, speed:c.speed, incline:c.incline}
+    : {kind:"bike", min:c.min, met:c.met};
+  if(e.unit==="sec" || e.unit==="sec each")
+    return {kind:"hold", sets:e.sets, secs:e.reps};
+  return {kind:"reps", sets:e.sets, reps:e.reps||10};
+}
+
+function calcKcal(id, a){
+  var wt = bodyWt(), met = MET[id] || 4;
+  if(!a) return 0;
+  if(a.kind==="walk") return kcalWalk(a.min, a.speed, a.incline, wt);
+  if(a.kind==="bike") return kcalMet(a.min, a.met||7, wt);
+  if(a.kind==="hold"){
+    var hw = (a.sets||0)*(a.secs||0)/60;
+    return kcalMet(hw, met, wt) + kcalMet((a.sets||0)*0.75, 2, wt);
+  }
+  var work = (a.sets||0)*(a.reps||0)*3.5/60;
+  return kcalMet(work, met, wt) + kcalMet((a.sets||0)*1.0, 2, wt);
+}
+function kcalOf(res){
+  if(res.kcalEdited && res.kcal!=null) return res.kcal;
+  return Math.round(calcKcal(res.id, res.actual || defaultActual(res.id)));
+}
+
 var RUN = null;
 
 window.gymStart = function(){
   var k = todayKeyDay();
-  if(!k){ k = nextRotation(); }
+  if(!k) k = nextRotation();
   var list = buildSession(k);
   RUN = {
     dayKey:k, title:DAYS[k].title, list:list, i:-1,
-    results:list.map(function(x){ return {id:x.id, name:EX[x.id].name, status:null, actual:null, sets:[]}; }),
+    results:list.map(function(x){
+      return {id:x.id, name:EX[x.id].name, status:null,
+              actual:defaultActual(x.id), kcal:null, kcalEdited:false, sets:[]};
+    }),
     wb:null, wa:null
   };
   document.getElementById("gRun").classList.add("on");
@@ -2607,16 +2715,16 @@ window.gymStart = function(){
 };
 
 function nextRotation(){
-  var last=GYM.sessions.length? GYM.sessions[GYM.sessions.length-1].day : "C";
-  return {A:"B",B:"C",C:"A",L:"A"}[last]||"A";
+  var last = GYM.sessions.length ? GYM.sessions[GYM.sessions.length-1].day : "C";
+  return {A:"B",B:"C",C:"A",L:"A"}[last] || "A";
 }
-
 function runWrap(){ return document.getElementById("gRunWrap"); }
 
+/* ---------- weigh in / out ---------- */
 function renderWeighIn(which){
   stopAnim();
   var isBefore = which==="before";
-  var t=gToday(), w=GYM.weights[t]||{};
+  var t = gToday(), w = GYM.weights[t] || {};
   var pre = isBefore ? (w.b!==undefined?w.b:"") : (w.a!==undefined?w.a:"");
   runWrap().innerHTML =
     '<div class="rtop"><div class="x" onclick="gymQuit()">✕</div><div class="mid">'+
@@ -2630,48 +2738,108 @@ function renderWeighIn(which){
         : "Now weigh yourself again. The drop is mostly water — the point is the habit and the trend.")+'</p>'+
     '</div>'+
     '<div class="gc"><div class="gwi"><label>'+(isBefore?"Weight before":"Weight after")+'</label>'+
-      '<input type="number" step="0.1" inputmode="decimal" id="rWIn" value="'+pre+'" placeholder="'+gLatestWeight().toFixed(1)+'">'+
+      '<input type="number" step="0.1" inputmode="decimal" id="rWIn" value="'+pre+'" placeholder="'+bodyWt().toFixed(1)+'">'+
       '<span class="u">kg</span></div></div>'+
     '<div class="rspacer"></div>'+
-    '<div class="rfoot"><button class="gbtn" id="rWBtn">'+(isBefore?"Start warm-up":"Finish session")+'</button></div>'+
+    '<div class="rfoot"><button class="gbtn" id="rWBtn">'+(isBefore?"Show me the session":"Finish session")+'</button></div>'+
     '<button class="rskip" id="rWSkip">'+(isBefore?"Skip, weigh me later":"Skip weigh-in")+'</button>';
 
-  document.getElementById("rWBtn").onclick=function(){
-    var v=parseFloat(document.getElementById("rWIn").value);
-    if(!isNaN(v)) storeWeight(isBefore,v);
-    isBefore ? nextStep() : finishSession();
+  document.getElementById("rWBtn").onclick = function(){
+    var v = parseFloat(document.getElementById("rWIn").value);
+    if(!isNaN(v)) storeWeight(isBefore, v);
+    isBefore ? renderList() : finishSession();
   };
-  document.getElementById("rWSkip").onclick=function(){ isBefore ? nextStep() : finishSession(); };
+  document.getElementById("rWSkip").onclick = function(){
+    isBefore ? renderList() : finishSession();
+  };
 }
-function storeWeight(isBefore,v){
-  var t=gToday(), w=GYM.weights[t]||{};
-  if(isBefore){ w.b=v; RUN.wb=v; } else { w.a=v; RUN.wa=v; }
-  GYM.weights[t]=w; gSave();
-}
-
-function nextStep(){
-  RUN.i++;
-  if(RUN.i >= RUN.list.length){ renderWeighIn("after"); return; }
-  renderExercise();
+function storeWeight(isBefore, v){
+  var t = gToday(), w = GYM.weights[t] || {};
+  if(isBefore){ w.b = v; RUN.wb = v; } else { w.a = v; RUN.wa = v; }
+  GYM.weights[t] = w; gSave();
 }
 
-function renderExercise(){
-  var item=RUN.list[RUN.i], e=EX[item.id], res=RUN.results[RUN.i];
-  var pct=Math.round((RUN.i/RUN.list.length)*100);
-  var setsHtml="";
-  if(e.sets>1){
-    for(var i=0;i<e.sets;i++){
-      setsHtml+='<button class="st'+(res.sets[i]?" on":"")+'" data-set="'+i+'">'+
-        '<div class="l">Set '+(i+1)+'</div><div class="b">'+(res.sets[i]?"✓":"—")+'</div></button>';
+/* ---------- the session list — tap anything, any order ---------- */
+function renderList(){
+  stopAnim();
+  RUN.i = -1;
+  var done = RUN.results.filter(function(r){ return r.status==="full"||r.status==="partial"; }).length;
+  var total = RUN.list.length;
+  var burned = RUN.results.reduce(function(s,r){
+    return s + ((r.status==="full"||r.status==="partial") ? kcalOf(r) : 0);
+  },0);
+  var planned = RUN.results.reduce(function(s,r){ return s + kcalOf(r); },0);
+
+  var h =
+    '<div class="rtop"><div class="x" onclick="gymQuit()">✕</div><div class="mid">'+
+      '<div class="ph">'+RUN.title+'</div>'+
+      '<div class="ct">Session '+RUN.dayKey+' · tap any exercise to start it</div>'+
+    '</div></div>'+
+    '<div class="rbar"><i style="width:'+Math.round(done/total*100)+'%"></i></div>'+
+    '<div class="lstat">'+
+      '<div class="s"><div class="v">'+done+'<small>/'+total+'</small></div><div class="k">Done</div></div>'+
+      '<div class="s"><div class="v red">'+Math.round(burned)+'</div><div class="k">Kcal burned</div></div>'+
+      '<div class="s"><div class="v">'+Math.round(planned)+'</div><div class="k">Full session</div></div>'+
+    '</div>';
+
+  var phase = "";
+  RUN.list.forEach(function(item, i){
+    var e = EX[item.id], r = RUN.results[i];
+    if(item.phase !== phase){
+      phase = item.phase;
+      h += '<div class="lphase">'+phase+'</div>';
+    }
+    var cls = "lrow" + (r.status==="full"?" done":r.status==="partial"?" part":r.status==="skip"?" skip":"");
+    var mark = r.status==="full"?"✓":r.status==="partial"?"~":r.status==="skip"?"✕":(i+1);
+    h += '<div class="'+cls+'" data-i="'+i+'">'+
+           '<div class="n">'+mark+'</div>'+
+           '<div class="mid"><div class="nm">'+e.name+'</div>'+
+             '<div class="sb">'+actualLabel(r)+'</div></div>'+
+           '<div class="rt"><div class="kc">'+kcalOf(r)+'<span>kcal</span></div></div>'+
+         '</div>';
+  });
+
+  h += '<div class="rspacer"></div>'+
+       '<div class="rfoot"><button class="gbtn" id="rEnd">Finish session &amp; weigh out</button></div>'+
+       '<button class="rskip" onclick="gymQuit()">Leave without saving</button>';
+
+  runWrap().innerHTML = h;
+  runWrap().querySelectorAll(".lrow").forEach(function(row){
+    row.onclick = function(){ openEx(+row.getAttribute("data-i")); };
+  });
+  document.getElementById("rEnd").onclick = function(){ renderWeighIn("after"); };
+  window.scrollTo(0,0);
+}
+
+function actualLabel(r){
+  var e = EX[r.id], a = r.actual || defaultActual(r.id);
+  if(a.kind==="walk") return a.min+" min · "+a.speed+" km/h · "+a.incline+"% incline";
+  if(a.kind==="bike") return a.min+" min · "+bikeLabel(a.met);
+  if(a.kind==="hold") return a.sets+" × "+a.secs+" sec"+(e.load?" · "+e.load:"");
+  return a.sets+" × "+a.reps+" reps"+(e.load?" · "+e.load:"");
+}
+function bikeLabel(met){
+  for(var i=0;i<BIKE_LEVELS.length;i++) if(BIKE_LEVELS[i].met===met) return BIKE_LEVELS[i].l;
+  return "Moderate";
+}
+
+/* ---------- one exercise ---------- */
+function openEx(i){
+  RUN.i = i;
+  var item = RUN.list[i], e = EX[item.id], r = RUN.results[i];
+  var setsHtml = "";
+  if(e.sets > 1){
+    for(var s=0;s<e.sets;s++){
+      setsHtml += '<button class="st'+(r.sets[s]?" on":"")+'" data-set="'+s+'">'+
+        '<div class="l">Set '+(s+1)+'</div><div class="b">'+(r.sets[s]?"✓":"—")+'</div></button>';
     }
   }
   var num = e.unit==="max reps" ? "max" : e.reps;
   runWrap().innerHTML =
-    '<div class="rtop"><div class="x" onclick="gymQuit()">✕</div><div class="mid">'+
+    '<div class="rtop"><div class="x" id="rBack">‹</div><div class="mid">'+
       '<div class="ph">'+item.phase+'</div>'+
-      '<div class="ct">Exercise '+(RUN.i+1)+' of '+RUN.list.length+' · Session '+RUN.dayKey+'</div>'+
-    '</div></div>'+
-    '<div class="rbar"><i style="width:'+pct+'%"></i></div>'+
+      '<div class="ct">'+(i+1)+' of '+RUN.list.length+' · Session '+RUN.dayKey+'</div>'+
+    '</div><div class="kcpill">'+kcalOf(r)+' kcal</div></div>'+
     '<div class="rname">'+e.name+'</div>'+
     '<div class="rtarget">'+e.target+'</div>'+
     '<div class="rstage"><div class="rload">'+e.load+'</div>'+
@@ -2680,78 +2848,167 @@ function renderExercise(){
       (e.sets>1?'<b>'+e.sets+'</b><span>sets of</span>':'')+
       '<b>'+num+'</b><span>'+e.unit+'</span></div>'+
     (setsHtml?'<div class="rsets">'+setsHtml+'</div>':'')+
-    '<ul class="rcues">'+e.cues.map(function(c){return '<li>'+c+'</li>';}).join("")+'</ul>'+
+    '<ul class="rcues">'+e.cues.map(function(c){ return '<li>'+c+'</li>'; }).join("")+'</ul>'+
     '<div class="rspacer"></div>'+
     '<div class="rfoot"><button class="gbtn" id="rFinBtn">Finished this exercise</button></div>'+
     '<button class="rskip" id="rSkipBtn">Skip this one</button>';
 
   playAnim(document.getElementById("rSvg"), e);
-
   runWrap().querySelectorAll(".rsets .st").forEach(function(btn){
-    btn.onclick=function(){
-      var idx=+btn.getAttribute("data-set");
-      res.sets[idx]=!res.sets[idx];
-      btn.classList.toggle("on",res.sets[idx]);
-      btn.querySelector(".b").textContent=res.sets[idx]?"✓":"—";
+    btn.onclick = function(){
+      var idx = +btn.getAttribute("data-set");
+      r.sets[idx] = !r.sets[idx];
+      btn.classList.toggle("on", r.sets[idx]);
+      btn.querySelector(".b").textContent = r.sets[idx] ? "✓" : "—";
     };
   });
-  document.getElementById("rFinBtn").onclick=openFin;
-  document.getElementById("rSkipBtn").onclick=function(){
-    res.status="skip"; nextStep(); window.scrollTo(0,0);
+  document.getElementById("rBack").onclick = renderList;
+  document.getElementById("rFinBtn").onclick = openFin;
+  document.getElementById("rSkipBtn").onclick = function(){
+    r.status = "skip"; renderList();
   };
   window.scrollTo(0,0);
 }
 
+/* ---------- how much did you actually do ---------- */
+var FIN = null;
+
 function openFin(){
-  var e=EX[RUN.list[RUN.i].id];
-  document.getElementById("gFinTitle").textContent=e.name;
-  document.getElementById("gFinSub").textContent =
-    "Prescribed: "+prescribe(e)+(e.load?" · "+e.load:"");
-  document.getElementById("gPartWrap").classList.remove("on");
-  var lbl = e.unit==="sec"||e.unit==="min"||e.unit==="sec each"
-    ? "How many "+(e.unit==="min"?"minutes":"seconds")+" did you actually do?"
-    : "How many reps did you actually do?";
-  document.getElementById("gPartLbl").textContent=lbl;
-  document.getElementById("gPartVal").value="";
-  document.getElementById("gPartVal").placeholder=String(e.reps||"");
+  var i = RUN.i, r = RUN.results[i], e = EX[r.id];
+  FIN = {i:i, a:JSON.parse(JSON.stringify(r.actual || defaultActual(r.id))), kcal:null, edited:false};
+  var a = FIN.a, body = "";
+
+  if(a.kind==="walk"){
+    body =
+      finRow("Minutes", "fMin", a.min, "min") +
+      finRow("Speed", "fSpeed", a.speed, "km/h", "0.1") +
+      finRow("Incline", "fIncline", a.incline, "%", "0.5");
+  } else if(a.kind==="bike"){
+    body = finRow("Minutes", "fMin", a.min, "min") +
+      '<div class="finlbl">How hard was it?</div><div class="finseg" id="fSeg">'+
+      BIKE_LEVELS.map(function(l){
+        return '<button data-met="'+l.met+'"'+(l.met===a.met?' class="on"':'')+'>'+l.l+'</button>';
+      }).join("")+'</div>';
+  } else if(a.kind==="hold"){
+    body = finRow("Sets done", "fSets", a.sets, "sets") +
+           finRow("Seconds each", "fSecs", a.secs, "sec");
+  } else {
+    body = finRow("Sets done", "fSets", a.sets, "sets") +
+           finRow("Reps each set", "fReps", a.reps, "reps");
+  }
+
+  document.querySelector("#gFin .fbox").innerHTML =
+    '<h3>'+e.name+'</h3>'+
+    '<div class="sub">Planned: '+prescribe(e)+(e.load?' · '+e.load:'')+'<br>'+
+      'Change anything you did differently — the calories follow.</div>'+
+    body +
+    '<div class="finkcal"><div class="fk-l">Calories burned</div>'+
+      '<input type="number" inputmode="numeric" id="fKcal"><span class="fk-u">kcal</span></div>'+
+    '<div class="fk-note" id="fNote"></div>'+
+    '<button class="gbtn ok" id="fSave">Save</button>'+
+    '<div style="height:9px"></div>'+
+    '<button class="gbtn ghost" id="fFull">I did exactly the plan</button>'+
+    '<button class="rskip" onclick="gymCloseFin()">Cancel</button>';
+
+  var box = document.querySelector("#gFin .fbox");
+  box.querySelectorAll(".finrow input").forEach(function(inp){
+    inp.oninput = function(){ readFin(); FIN.edited=false; refreshFinKcal(); };
+  });
+  var seg = document.getElementById("fSeg");
+  if(seg) seg.querySelectorAll("button").forEach(function(b){
+    b.onclick = function(){
+      seg.querySelectorAll("button").forEach(function(x){ x.classList.remove("on"); });
+      b.classList.add("on"); FIN.a.met = +b.getAttribute("data-met");
+      FIN.edited=false; refreshFinKcal();
+    };
+  });
+  document.getElementById("fKcal").oninput = function(){ FIN.edited = true; setFinNote(true); };
+  document.getElementById("fSave").onclick = function(){ commitFin("auto"); };
+  document.getElementById("fFull").onclick = function(){
+    FIN.a = defaultActual(r.id); FIN.edited = false; commitFin("full");
+  };
+  refreshFinKcal();
   document.getElementById("gFin").classList.add("open");
 }
-window.gymShowPartial = function(){
-  document.getElementById("gPartWrap").classList.add("on");
-  setTimeout(function(){ document.getElementById("gPartVal").focus(); },80);
-};
-window.gymCloseFin = function(){ document.getElementById("gFin").classList.remove("open"); };
-window.gymFinishDone = function(kind){
-  var res=RUN.results[RUN.i], e=EX[RUN.list[RUN.i].id];
-  if(kind==="partial"){
-    var v=document.getElementById("gPartVal").value.trim();
-    if(!v){ if(typeof toast==="function") toast("Type how many you did","bad"); return; }
-    res.status="partial"; res.actual=v;
+
+function finRow(label, id, val, unit, step){
+  return '<div class="finrow"><label>'+label+'</label>'+
+    '<input type="number" inputmode="decimal" step="'+(step||"1")+'" id="'+id+'" value="'+val+'">'+
+    '<span class="u">'+unit+'</span></div>';
+}
+function numVal(id, fallback){
+  var el = document.getElementById(id);
+  if(!el) return fallback;
+  var v = parseFloat(el.value);
+  return isNaN(v) ? fallback : v;
+}
+function readFin(){
+  var a = FIN.a;
+  if(a.kind==="walk"){
+    a.min = numVal("fMin", a.min);
+    a.speed = numVal("fSpeed", a.speed);
+    a.incline = numVal("fIncline", a.incline);
+  } else if(a.kind==="bike"){
+    a.min = numVal("fMin", a.min);
+  } else if(a.kind==="hold"){
+    a.sets = numVal("fSets", a.sets);
+    a.secs = numVal("fSecs", a.secs);
   } else {
-    res.status="full"; res.actual=e.reps;
+    a.sets = numVal("fSets", a.sets);
+    a.reps = numVal("fReps", a.reps);
   }
+}
+function refreshFinKcal(){
+  var k = Math.round(calcKcal(RUN.results[FIN.i].id, FIN.a));
+  document.getElementById("fKcal").value = k;
+  setFinNote(false);
+}
+function setFinNote(edited){
+  document.getElementById("fNote").textContent = edited
+    ? "Using your own number instead of the calculated one."
+    : "Worked out from your weight, and what you just entered.";
+}
+
+function commitFin(kind){
+  var r = RUN.results[FIN.i], planned = defaultActual(r.id);
+  if(kind==="auto") readFin();
+  r.actual = FIN.a;
+  var k = parseFloat(document.getElementById("fKcal").value);
+  if(FIN.edited && !isNaN(k)){ r.kcal = Math.round(k); r.kcalEdited = true; }
+  else { r.kcal = null; r.kcalEdited = false; }
+  r.status = (kind==="full" || sameActual(r.actual, planned)) ? "full" : "partial";
   document.getElementById("gFin").classList.remove("open");
-  nextStep();
-};
+  renderList();
+}
+function sameActual(a, b){
+  for(var k in b) if(String(a[k]) !== String(b[k])) return false;
+  return true;
+}
+window.gymCloseFin = function(){ document.getElementById("gFin").classList.remove("open"); };
 
 window.gymQuit = function(){
   stopAnim();
   document.getElementById("gRun").classList.remove("on");
   document.body.classList.remove("running");
   document.getElementById("gFin").classList.remove("open");
-  RUN=null;
+  RUN = null;
   gRender();
 };
 
 function finishSession(){
   stopAnim();
-  var done=RUN.results.filter(function(r){return r.status==="full";}).length;
-  var part=RUN.results.filter(function(r){return r.status==="partial";}).length;
-  var skip=RUN.results.filter(function(r){return r.status==="skip"||!r.status;}).length;
+  var done = RUN.results.filter(function(r){ return r.status==="full"; }).length;
+  var part = RUN.results.filter(function(r){ return r.status==="partial"; }).length;
+  var kcal = RUN.results.reduce(function(s,r){
+    return s + ((r.status==="full"||r.status==="partial") ? kcalOf(r) : 0);
+  },0);
   GYM.sessions.push({
-    date:gToday(), day:RUN.dayKey, title:RUN.title,
+    date:gToday(), day:RUN.dayKey, title:RUN.title, kcal:Math.round(kcal),
     wb:RUN.wb===null?undefined:RUN.wb, wa:RUN.wa===null?undefined:RUN.wa,
-    ex:RUN.results.map(function(r){ return {id:r.id,name:r.name,status:r.status||"skip",actual:r.actual}; })
+    ex:RUN.results.map(function(r){
+      return {id:r.id, name:r.name, status:r.status||"skip",
+              actual:r.actual, kcal:(r.status==="full"||r.status==="partial")?kcalOf(r):0};
+    })
   });
   gSave();
   var wd = (RUN.wb!==null && RUN.wa!==null) ? (RUN.wa-RUN.wb).toFixed(1)+" kg" : "—";
@@ -2761,6 +3018,7 @@ function finishSession(){
       '<p>'+RUN.title+' · Session '+RUN.dayKey+'<br>That\'s '+GYM.sessions.length+
       ' logged since you started.</p>'+
       '<div class="rsum">'+
+        '<div class="s"><div class="v">'+Math.round(kcal)+'</div><div class="k">Kcal</div></div>'+
         '<div class="s"><div class="v">'+done+'</div><div class="k">Completed</div></div>'+
         '<div class="s"><div class="v">'+part+'</div><div class="k">Partial</div></div>'+
         '<div class="s"><div class="v">'+wd+'</div><div class="k">Change</div></div>'+
