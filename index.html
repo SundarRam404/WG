@@ -542,6 +542,11 @@ body.running{overflow:hidden}
   margin:15px 0;padding:8px;position:relative;
 }
 .rstage svg{display:block;width:100%;height:auto}
+.rstage.gif{background:#eef1f5;border-color:#39434f}
+.rgif{display:block;width:100%;max-width:300px;margin:0 auto;border-radius:14px}
+.rcredit{text-align:center;font-size:9.5px;letter-spacing:.3px;color:#5a6675;margin:-8px 0 14px}
+.rcredit a{color:#7d8fa3;text-decoration:none}
+.rstage.gif .rload{background:rgba(225,29,60,.14);border-color:rgba(225,29,60,.45);color:#c01432}
 .rload{
   position:absolute;left:14px;top:14px;font-size:10.5px;font-weight:700;letter-spacing:.5px;
   background:rgba(225,29,60,.16);border:1px solid rgba(225,29,60,.4);color:#ff6e86;
@@ -2709,6 +2714,12 @@ function kcalOf(res){
   return Math.round(calcKcal(res.id, res.actual || defaultActual(res.id)));
 }
 
+/* Exercises with a real 3D animation. Artwork © Gym visual — https://gymvisual.com/ */
+var GIFS = {cardio_incline:1,cardio_steady:1,cardio_bike:1,cardio_bike_easy:1,
+  goblet_squat:1,db_rdl:1,reverse_lunge:1,db_shoulder_press:1,bent_row:1,bicep_curl:1,
+  db_deadlift:1,thruster:1,one_arm_row:1,push_up:1,plank:1,glute_bridge:1,
+  dead_bug:1,mountain_climber:1,cd_quad:1,cd_ham:1};
+
 var RUN = null;
 
 window.gymStart = function(){
@@ -2854,8 +2865,10 @@ function openEx(i){
     '</div><div class="kcpill">'+kcalOf(r)+' kcal</div></div>'+
     '<div class="rname">'+e.name+'</div>'+
     '<div class="rtarget">'+e.target+'</div>'+
-    '<div class="rstage"><div class="rload">'+e.load+'</div>'+
-      '<svg id="rSvg" viewBox="0 0 260 200"></svg></div>'+
+    '<div class="rstage'+(GIFS[item.id]?' gif':'')+'"><div class="rload">'+e.load+'</div>'+
+      (GIFS[item.id]?'<img class="rgif" id="rGif" src="ex/'+item.id+'.gif" alt="'+e.name+'">':'')+
+      '<svg id="rSvg" viewBox="0 0 260 200"'+(GIFS[item.id]?' style="display:none"':'')+'></svg></div>'+
+    (GIFS[item.id]?'<div class="rcredit">Animation \u00a9 <a href="https://gymvisual.com/" target="_blank" rel="noopener">Gym visual</a></div>':'')+
     '<div class="rprescribe">'+
       (e.sets>1?'<b>'+e.sets+'</b><span>sets of</span>':'')+
       '<b>'+num+'</b><span>'+e.unit+'</span></div>'+
@@ -2865,7 +2878,18 @@ function openEx(i){
     '<div class="rfoot"><button class="gbtn" id="rFinBtn">Finished this exercise</button></div>'+
     '<button class="rskip" id="rSkipBtn">Skip this one</button>';
 
-  playAnim(document.getElementById("rSvg"), e);
+  var gifEl = document.getElementById("rGif"), svgEl = document.getElementById("rSvg");
+  if(gifEl){
+    gifEl.onerror = function(){
+      gifEl.style.display = "none";
+      var cr = runWrap().querySelector(".rcredit"); if(cr) cr.style.display = "none";
+      runWrap().querySelector(".rstage").classList.remove("gif");
+      svgEl.style.display = "block";
+      playAnim(svgEl, e);
+    };
+  } else {
+    playAnim(svgEl, e);
+  }
   runWrap().querySelectorAll(".rsets .st").forEach(function(btn){
     btn.onclick = function(){
       var idx = +btn.getAttribute("data-set");
