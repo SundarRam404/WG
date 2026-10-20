@@ -71,7 +71,7 @@ button{background:none;border:none;cursor:pointer}
 /* ---------- skull vessel ---------- */
 .vwrap{position:relative;width:236px;margin:6px auto 0}
 .vwrap.big{width:262px}
-.vessel{width:100%;height:auto;overflow:visible;touch-action:manipulation}
+.v3{width:100%;aspect-ratio:1/1.12;position:relative;touch-action:pan-y}.v3 canvas{display:block;width:100%!important;height:100%!important}
 .wvA{animation:wv 3.2s linear infinite}.wvB{animation:wv 5.1s linear infinite reverse}
 @keyframes wv{from{transform:translateX(0)}to{transform:translateX(-120px)}}
 .bb{animation:bub 6s ease-in infinite;opacity:0}
@@ -392,6 +392,7 @@ button{background:none;border:none;cursor:pointer}
     <div class="orn"><span>her</span></div>
     <div class="row"><div class="lab"><b>Greeting name</b><small>"Good evening, …"</small></div><input class="inp" style="max-width:150px;text-align:right" id="sName"></div>
     <div class="row"><div class="lab"><b>Second nudge</b><small>if a rite is still unsealed 30 min later</small></div><button class="tg" id="sNudge" onclick="toggleCfg(null,'nudge',this)"></button></div>
+    <div class="row"><div class="lab"><b>Tilt the blood</b><small>iPhone asks "Allow motion" once each time Domso opens. Off = never asks; drag the skull to slosh instead</small></div><button class="tg" id="sTilt" onclick="toggleTilt(this)"></button></div>
 
     <div class="orn"><span>the finales</span></div>
     <div class="hs" style="margin-bottom:10px">one plays each night when every rite is sealed, a new one daily. Tonight: <b id="finTonight" style="font-style:normal;color:var(--bone)"></b></div>
@@ -422,6 +423,8 @@ button{background:none;border:none;cursor:pointer}
 <div class="onb" id="onb"></div>
 <div class="boot" id="boot"><span id="bootSeal"></span><div class="bt">Domso</div><div class="bs">her daily rites</div></div>
 
+<script type="importmap">{"imports":{"three":"./lib/three.module.min.js"}}</script>
+<script type="module" src="lib/skull3d.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
@@ -616,45 +619,17 @@ function openSheet(html){ $('sheetIn').innerHTML='<div class="grab"></div>'+html
 /* ============================================================
    GLASS SKULL VESSEL  — blood that sloshes with the phone
    ============================================================ */
-const vessels={};
-const TOPY=14, BOTY=262;
-function waveD(amp){ let d="M-240 0"; for(let x=-240;x<720;x+=60){ d+=` Q${x+30} ${x/60%2===0?-amp:amp} ${x+60} 0`; } return d+" V40 H-240Z"; }
-function mountVessel(host,name){
-  const id='v'+name;
-  host.innerHTML=`<div class="vglow"></div><svg class="vessel" viewBox="-12 -70 264 352">
-   <defs><clipPath id="${id}c"><path d="${SKULL}"/></clipPath></defs>
-   <path d="${SKULL}" fill="url(#gGlass)"/>
-   <g clip-path="url(#${id}c)">
-     <g class="liq" id="${id}l">
-       <rect x="-240" y="0" width="960" height="420" fill="url(#gBlood)"/>
-       <g class="wvB"><path d="${waveD(5)}" fill="#5e040c" transform="translate(0 -4)"/></g>
-       <g class="wvA"><path d="${waveD(4)}" fill="#7d0611"/></g>
-       <path d="M60 3 Q120 -1 175 3" stroke="#ff6a7a" stroke-opacity=".38" stroke-width="2" fill="none" stroke-linecap="round"/>
-       <circle class="bb" cx="80" cy="200" r="4" fill="#a1101f" style="animation-delay:.4s"/><circle class="bb" cx="150" cy="230" r="3" fill="#a1101f" style="animation-delay:2.2s"/><circle class="bb" cx="118" cy="180" r="2.5" fill="#a1101f" style="animation-delay:3.9s"/>
-       <g class="spls"></g>
-     </g>
-     <rect x="0" y="0" width="240" height="280" fill="url(#gBloodSide)"/>
-   </g>
-   <path d="${EYE_L}" fill="#0a0103" fill-opacity=".62" stroke="#ffc6ce" stroke-opacity=".28"/>
-   <path d="${EYE_R}" fill="#0a0103" fill-opacity=".62" stroke="#ffc6ce" stroke-opacity=".28"/>
-   <path d="${NOSE}" fill="#0a0103" fill-opacity=".6" stroke="#ffc6ce" stroke-opacity=".22"/>
-   <path d="M84 214 Q120 222 156 214 M88 236 Q120 244 152 236" stroke="#ffd6dc" stroke-opacity=".3" fill="none"/>
-   ${[96,108,120,132,144].map(x=>`<line x1="${x}" y1="216" x2="${x}" y2="238" stroke="#ffd6dc" stroke-opacity=".22"/>`).join('')}
-   <path d="M120 14 C116 34 126 48 119 72" stroke="#ffd6dc" stroke-opacity=".16" fill="none"/>
-   <path d="${SKULL}" fill="none" stroke="#ffd6dc" stroke-opacity=".42" stroke-width="2"/>
-   <path d="M46 78 C50 46 76 26 108 22" stroke="#fff" stroke-opacity=".38" stroke-width="5" fill="none" stroke-linecap="round"/>
-   <path d="M40 104 C40 98 41 94 43 90" stroke="#fff" stroke-opacity=".3" stroke-width="3" fill="none" stroke-linecap="round"/>
-   <path d="M196 140 C200 126 200 112 198 100" stroke="#fff" stroke-opacity=".12" stroke-width="3" fill="none" stroke-linecap="round"/>
-   <path class="vdrop" d="M0 -12 C5 -4 8 1 8 5 a8 8 0 0 1 -16 0 C-8 1 -5 -4 0 -12Z" fill="#7d0611" stroke="#ff8a96" stroke-opacity=".4" style="display:none"/>
-  </svg>`;
-  const v={host,liq:$(id+'l'),drop:host.querySelector('.vdrop'),spls:host.querySelector('.spls'),level:BOTY+30,target:BOTY+30,hold:0};
-  host.querySelector('.vessel').addEventListener('click',()=>{ askMotion(); kick(7*(Math.random()<.5?-1:1)); });
-  vessels[name]=v; return v;
-}
-function levelFor(){ const tot=waterTotal(todayKey()), goal=cfg.waterGoal||2500; const pct=Math.min(tot/goal,1); return pct<=0? BOTY+30 : BOTY-pct*(BOTY-TOPY); }
+/* the vessel is a real 3D glass skull (lib/skull3d.js, WebGL). One renderer, moved between screens. */
+let SK=null;
+function skull(){ if(!SK && window.SkullVessel){ try{ SK=new SkullVessel(); }catch(e){ console.warn('3d off',e); } } return SK; }
+window.addEventListener('skull3d-ready',()=>renderAll());
+function waterPct(){ const tot=waterTotal(todayKey()), goal=cfg.waterGoal||2500; return Math.min(tot/goal,1); }
 function renderVessel(name,host,numEl){
-  const v=vessels[name]||mountVessel(host,name);
-  v.target=levelFor();
+  if(!host.querySelector('.v3')){
+    host.innerHTML='<div class="vglow"></div><div class="v3"></div>';
+    host.querySelector('.v3').addEventListener('click',()=>{ if(Date.now()<suppressTap) return; askMotion(); kick(9*(Math.random()<.5?-1:1)); });
+  }
+  const sk=skull(); if(sk){ sk.mount(host.querySelector('.v3')); sk.setLevel(waterPct()); }
   const k=todayKey(), tot=waterTotal(k), goal=cfg.waterGoal||2500, g=cfg.glass||250;
   const n=Math.max(4,Math.min(14,Math.round(goal/g))), lit=Math.min(n,Math.floor(tot/g));
   const L=(tot/1000).toFixed(2).replace(/0+$/,'').replace(/\.$/,'');
@@ -663,41 +638,42 @@ function renderVessel(name,host,numEl){
   host.querySelector('.vglow').style.opacity=tot>=goal?1:.45;
 }
 /* physics: one spring for the tilt, one ease for the level */
-let ang=0, angV=0, tilt=0, motionOn=false, motionAsked=false;
+/* tilt: iPhone forgets motion permission every time a home-screen app closes (WebKit limitation),
+   so if she turned tilt on we quietly re-ask on her FIRST touch after each open. Dragging a finger
+   across the skull also sloshes it, no permission needed. */
+let ang=0, angV=0, tilt=0, tiltTouch=0, motionOn=false, motionAsking=false;
+const tiltPref=()=>{ try{ return localStorage.getItem('domso_tilt')!=='off'; }catch(e){ return true; } };
 function kick(v){ angV+=v; }
 function askMotion(){
-  if(motionOn) return;
+  if(motionOn || motionAsking || !tiltPref()) return;
   const D=window.DeviceOrientationEvent;
   if(D && typeof D.requestPermission==='function'){
-    if(motionAsked) return; motionAsked=true;
-    D.requestPermission().then(r=>{ if(r==='granted') listenMotion(); }).catch(()=>{});
+    motionAsking=true;
+    D.requestPermission().then(r=>{ motionAsking=false; if(r==='granted') listenMotion(); else { try{localStorage.setItem('domso_tilt','off')}catch(e){} } }).catch(()=>{ motionAsking=false; });
   } else if(D) listenMotion();
 }
 function listenMotion(){ if(motionOn) return; motionOn=true; window.addEventListener('deviceorientation',e=>{ if(e.gamma!=null) tilt=Math.max(-40,Math.min(40,-e.gamma)); }); }
+function armMotion(){ // re-arm after every launch: first touch anywhere restores the slosh
+  if(!tiltPref()) return;
+  const D=window.DeviceOrientationEvent;
+  if(!(D && typeof D.requestPermission==='function')){ askMotion(); return; }
+  const once=()=>{ document.removeEventListener('touchend',once,true); askMotion(); };
+  document.addEventListener('touchend',once,true);
+}
+function toggleTilt(btn){
+  const on=!tiltPref(); try{ localStorage.setItem('domso_tilt',on?'on':'off'); }catch(e){}
+  btn.classList.toggle('on',on);
+  if(on) askMotion(); else { tilt=0; }
+  toast(on?'Tilt on':'Tilt off. Drag the skull to slosh');
+}
 (function loop(){
   const now=performance.now();
-  angV+=(tilt-ang)*0.045; angV*=0.9; ang+=angV;
-  for(const k in vessels){ const v=vessels[k];
-    if(now>v.hold) v.level+=(v.target-v.level)*0.07;
-    v.liq.setAttribute('transform',`translate(0 ${v.level.toFixed(2)}) rotate(${ang.toFixed(2)} 120 0)`);
-  }
+  const target=(motionOn&&tiltPref()?tilt:0)+tiltTouch+Math.sin(now/1700)*1.2;
+  angV+=(target-ang)*0.045; angV*=0.9; ang+=angV;
+  if(SK) SK.setAngle(ang);
   requestAnimationFrame(loop);
 })();
-function drip(name){
-  const v=vessels[name]; if(!v) return;
-  const start=performance.now(), from=-60, to=Math.min(v.level,BOTY)+2, dur=520;
-  v.hold=start+dur+60; v.drop.style.display='';
-  (function step(){
-    const t=Math.min(1,(performance.now()-start)/dur), y=from+(to-from)*t*t;
-    v.drop.setAttribute('transform',`translate(120 ${y.toFixed(1)}) scale(${1-.15*t},${1+.25*t})`);
-    if(t<1) requestAnimationFrame(step);
-    else{
-      v.drop.style.display='none'; kick(4*(Math.random()<.5?-1:1));
-      v.spls.innerHTML=Array.from({length:6},(_,i)=>{const a=-Math.PI*(.15+.7*i/5);return `<circle class="spl" cx="120" cy="0" r="${2+Math.random()*2}" fill="#9b0a1c" style="--sx:${(Math.cos(a)*22).toFixed(0)}px;--sy:${(Math.sin(a)*20).toFixed(0)}px"/>`}).join('');
-      setTimeout(()=>v.spls.innerHTML='',650);
-    }
-  })();
-}
+function drip(){ if(SK){ SK.drip(); setTimeout(()=>kick(5*(Math.random()<.5?-1:1)),560); } }
 
 /* ---------- water ---------- */
 function addWater(ml){
@@ -858,6 +834,7 @@ function renderMe(){
   $('sWS').value=cfg.waterRemind.start; $('sWE').value=cfg.waterRemind.end; $('sWEv').value=cfg.waterRemind.every;
   $('sHT').value=cfg.hairEve||'22:00'; $('sHD').value=cfg.hairDay||'06:15'; $('sName').value=cfg.name;
   $('sNudge').classList.toggle('on',!!cfg.nudge);
+  $('sTilt').classList.toggle('on',tiltPref());
   $('hairDays').innerHTML=["S","M","T","W","T","F","S"].map((c,ix)=>`<button class="${cfg.hairDays.includes(ix)?'on':''}" onclick="toggleHair(${ix})">${c}</button>`).join('');
   $('finTonight').textContent=`${finIndex()+1} · ${FINALES[finIndex()].name}`;
   $('finList').innerHTML=FINALES.map((f,i)=>`<button onclick="showFinale(${i})">${i+1}</button>`).join('');
@@ -964,10 +941,7 @@ const FINALES=[
    <svg class="abs" viewBox="0 0 390 20" preserveAspectRatio="none" style="left:0;top:-14px;width:390px;height:20px"><path d="M0 14 C60 2 120 24 195 12 S330 2 390 14 V20 H0Z" fill="#5a030b"/></svg></div>`}},
  {name:'Crowned Skull',title:'Queen of<br>the Night',sub:'crowned by your own discipline',scene:()=>`
   <div class="abs" style="left:35px;top:140px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,#b3122e55,transparent 65%);animation:fadeIn 2s 1s both"></div>
-  <svg class="abs" viewBox="0 0 240 280" style="left:85px;top:160px;width:220px"><defs><clipPath id="fsk"><path d="${SKULL}"/></clipPath></defs><path d="${SKULL}" fill="url(#gGlass)"/>
-   <g clip-path="url(#fsk)"><rect x="0" y="0" width="240" height="290" fill="url(#gBlood)" style="--from:290px;--to:8px;animation:up2 2.2s cubic-bezier(.3,0,.2,1) .3s both"/></g>
-   <path d="${EYE_L}" fill="#0a0103" fill-opacity=".7"/><path d="${EYE_R}" fill="#0a0103" fill-opacity=".7"/><path d="${NOSE}" fill="#0a0103" fill-opacity=".7"/>
-   <path d="${SKULL}" fill="none" stroke="#ffd6dc" stroke-opacity=".45" stroke-width="2"/><path d="M46 78 C50 46 76 26 108 22" stroke="#fff" stroke-opacity=".4" stroke-width="5" fill="none" stroke-linecap="round"/></svg>
+  <div class="abs" id="finSkull" style="left:75px;top:150px;width:240px"></div>
   <svg class="abs" viewBox="0 0 200 80" style="left:105px;top:92px;width:180px;filter:drop-shadow(0 0 14px #ffcf5a88);animation:crownDrop 1s cubic-bezier(.3,1.4,.5,1) 2.4s both"><path d="M60 70 L50 20 L80 45 L100 5 L120 45 L150 20 L140 70 Z" fill="#2a1a0c" stroke="url(#gGold)" stroke-width="3"/><circle cx="100" cy="9" r="5" fill="#b3122e" stroke="#d9b26a"/><circle cx="50" cy="22" r="4" fill="#b3122e" stroke="#d9b26a"/><circle cx="150" cy="22" r="4" fill="#b3122e" stroke="#d9b26a"/><rect x="58" y="62" width="84" height="10" fill="#2a1a0c" stroke="url(#gGold)" stroke-width="2"/></svg>
   ${[[95,110],[300,130],[80,300],[310,280],[195,70]].map(([x,y],i)=>`<div class="abs" style="left:${x}px;top:${y}px;color:#ffd98a;font-size:18px;animation:twinkle 1.6s ${(2.8+i*.3).toFixed(1)}s infinite both">✦</div>`).join('')}`},
  {name:'Black Rose',title:'In Full Bloom',sub:'every rite kept tonight',scene:()=>{
@@ -1040,9 +1014,10 @@ function showFinale(i,newSeal){
    <div class="ftxt" style="${textPos};--td:${f.td||'1.6s'}">${f.title?`<div class="ft">${f.title}</div><div class="fs">${f.sub}</div>`:''}${f.name==='Blood Letter'?'':statsHTML}
    ${newSeal?`<div class="fnew">✦ New seal earned: ${newSeal.name} ✦</div>`:''}<div class="fbtn" onclick="closeFinale()">${f.btn||'Rest now, my Queen'}</div></div></div>`;
   el.classList.add('on'); el.dataset.t=Date.now();
+  const fsk=$('finSkull'), sk=skull(); if(fsk&&sk){ sk.mount(fsk); sk.level=0; sk.setLevel(1); }
   el.onclick=e=>{ if(Date.now()-el.dataset.t>2500 && !e.target.closest('.fbtn')) closeFinale(); };
 }
-function closeFinale(){ const el=$('fin'); el.style.transition='opacity .5s'; el.style.opacity=0; setTimeout(()=>{el.classList.remove('on');el.style.opacity='';el.innerHTML='';},500); }
+function closeFinale(){ const el=$('fin'); el.style.transition='opacity .5s'; el.style.opacity=0; setTimeout(()=>{el.classList.remove('on');el.style.opacity='';el.innerHTML='';renderAll();},500); }
 
 /* ============================================================
    NAV, LOCK, GESTURES
@@ -1087,19 +1062,21 @@ document.addEventListener('touchstart',e=>{
   if(overlayOpen()||e.touches.length>1){ G=null; return; }
   const t=e.touches[0], tg=e.target;
   if(tg.closest('input,select,textarea,.nav')){ G=null; return; }
-  G={x0:t.clientX,y0:t.clientY,mode:null,row:tg.closest('#timeline .ev[data-id]'),cal:tg.closest('#cal'),atTop:window.scrollY<=0,dx:0,dy:0};
+  G={x0:t.clientX,y0:t.clientY,mode:null,row:tg.closest('#timeline .ev[data-id]'),cal:tg.closest('#cal'),ves:tg.closest('.v3'),atTop:window.scrollY<=0,dx:0,dy:0};
 },{passive:true});
 document.addEventListener('touchmove',e=>{
   if(!G) return; const t=e.touches[0]; G.dx=t.clientX-G.x0; G.dy=t.clientY-G.y0;
   const ax=Math.abs(G.dx), ay=Math.abs(G.dy);
   if(!G.mode){
-    if(ax>10 && ax>ay*1.3) G.mode=G.row?'row':G.cal?'cal':'tab';
+    if(G.ves && ax>6 && ax>ay) G.mode='slosh';
+    else if(ax>10 && ax>ay*1.3) G.mode=G.row?'row':G.cal?'cal':'tab';
     else if(G.dy>8 && G.atTop && ay>ax) G.mode='ptr';
     else if(ay>10) G.mode='scroll';
     else return;
   }
   if(G.mode==='scroll') return;
   e.preventDefault();
+  if(G.mode==='slosh'){ tiltTouch=Math.max(-38,Math.min(38,-G.dx/2.6)); return; }
   if(G.mode==='row'){
     const sealed=G.row.classList.contains('d'), dx=sealed?Math.min(0,G.dx):Math.max(0,G.dx);
     G.row.querySelector('.evi').style.transition='none'; G.row.querySelector('.evi').style.transform=`translateX(${dx}px)`;
@@ -1118,6 +1095,7 @@ document.addEventListener('touchmove',e=>{
 document.addEventListener('touchend',()=>{
   if(!G||!G.mode||G.mode==='scroll'){ G=null; return; }
   const g=G; G=null;
+  if(g.mode==='slosh'){ tiltTouch=0; kick(g.dx/14); suppressTap=Date.now()+300; return; }
   if(g.mode==='row'){
     const evi=g.row.querySelector('.evi'), w=g.row.offsetWidth, sealed=g.row.classList.contains('d');
     evi.style.transition=''; evi.style.transform=''; g.row.querySelector('.trk').style.opacity=0; suppressTap=Date.now()+400;
@@ -1145,7 +1123,7 @@ async function refreshApp(){
 let onbI=0;
 function showOnb(){
   const sl=[
-    {art:`<div style="width:190px"><svg viewBox="0 0 240 280" style="width:190px"><defs><clipPath id="osk"><path d="${SKULL}"/></clipPath></defs><path d="${SKULL}" fill="url(#gGlass)"/><g clip-path="url(#osk)"><rect width="240" height="290" fill="url(#gBlood)" style="--from:280px;--to:90px;animation:up2 2.4s cubic-bezier(.3,0,.2,1) .4s both"/></g><path d="${EYE_L}" fill="#0a0103" fill-opacity=".65"/><path d="${EYE_R}" fill="#0a0103" fill-opacity=".65"/><path d="${NOSE}" fill="#0a0103" fill-opacity=".6"/><path d="${SKULL}" fill="none" stroke="#ffd6dc" stroke-opacity=".45" stroke-width="2"/><path d="M46 78 C50 46 76 26 108 22" stroke="#fff" stroke-opacity=".38" stroke-width="5" fill="none" stroke-linecap="round"/></svg></div>`,h:'Welcome,<br>my Queen',p:'Domso keeps your daily rites: the tablets, the elixir, and the wash days.'},
+    {art:`<div id="onbSkull" style="width:230px"></div>`,h:'Welcome,<br>my Queen',p:'Domso keeps your daily rites: the tablets, the elixir, and the wash days.'},
     {art:`<div class="loopseal">${sealSVG(42)}</div>`,h:'Seal each rite',p:'Tap a rite, or swipe it right, to press your seal. Swipe left to break it.'},
     {art:`<div class="tiltdemo"><svg viewBox="0 0 120 200" style="width:110px"><rect x="4" y="4" width="112" height="192" rx="20" fill="#120a0c" stroke="#b08a4a" stroke-opacity=".6" stroke-width="2"/><rect x="14" y="110" width="92" height="76" rx="8" fill="#5a030b"/><path d="M14 110 Q60 98 106 110" fill="#7d0611"/><circle cx="60" cy="16" r="3" fill="#3d2027"/></svg></div>`,h:'The blood is alive',p:'Tilt your phone and it sloshes. Pull down from the top to refresh. Reminders come at each rite\'s time.'},
   ];
@@ -1153,11 +1131,12 @@ function showOnb(){
   el.innerHTML=`<div class="slides" id="onbS">${sl.map(s=>`<div class="sl"><div class="art">${s.art}</div><h2>${s.h}</h2><p>${s.p}</p></div>`).join('')}</div>
    <div class="ctl"><button class="skip" onclick="endOnb()">skip</button><div class="pg" id="onbPg">${sl.map((_,i)=>`<i class="${i?'':'on'}"></i>`).join('')}</div><button class="btn p" id="onbNext" onclick="nextOnb()">Next</button></div>`;
   el.classList.add('on');
+  const sk=skull(); if(sk){ sk.mount($('onbSkull')); sk.level=0; sk.setLevel(.65); }
   let sx=null; el.ontouchstart=e=>sx=e.touches[0].clientX; el.ontouchend=e=>{ if(sx==null) return; const dx=e.changedTouches[0].clientX-sx; if(dx<-50) nextOnb(); else if(dx>50&&onbI>0){onbI--;paintOnb();} sx=null; };
 }
 function paintOnb(){ $('onbS').style.transform=`translateX(${-onbI*100}%)`; document.querySelectorAll('#onbPg i').forEach((d,i)=>d.classList.toggle('on',i===onbI)); $('onbNext').textContent=onbI===2?'Enter':'Next'; }
 function nextOnb(){ if(onbI<2){ onbI++; paintOnb(); } else endOnb(); }
-function endOnb(){ askMotion(); localStorage.setItem('domso_onb','1'); const el=$('onb'); el.style.transition='opacity .5s'; el.style.opacity=0; setTimeout(()=>{el.classList.remove('on');el.style.opacity='';el.innerHTML='';},500); }
+function endOnb(){ askMotion(); localStorage.setItem('domso_onb','1'); const el=$('onb'); el.style.transition='opacity .5s'; el.style.opacity=0; setTimeout(()=>{el.classList.remove('on');el.style.opacity='';el.innerHTML='';renderAll();},500); }
 
 /* ---------- init ---------- */
 bindInputs();
@@ -1169,6 +1148,7 @@ setInterval(()=>{ if(cur==='today') renderToday(); },60000);
 document.addEventListener('visibilitychange',()=>{ if(document.hidden){ unlocked=false; if(cur==='me') go('today'); return; } renderAll(); });
 if(window.firebase) initCloud(); else setSync(false);
 initSW();
+armMotion();
 setTimeout(()=>{ $('boot').classList.add('gone'); if(!localStorage.getItem('domso_onb')) setTimeout(showOnb,300); },900);
 </script>
 </body>
