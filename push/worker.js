@@ -70,17 +70,18 @@ function nowIn(tz, at = new Date()) {
   const dow = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(p.weekday);
   return { key: `${p.year}-${p.month}-${p.day}`, m: (+p.hour % 24) * 60 + +p.minute, dow };
 }
-function itemsFor(cfg, dow) {
-  const list = (cfg.items || []).slice();
-  if ((cfg.hairDays || []).includes(dow)) list.push({ id: 'hair', title: 'Hair wash', sub: 'wash day', time: cfg.hairTime || '10:00' });
-  return list;
-}
+const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+function itemsFor(cfg) { return (cfg.items || []).slice(); }
 
 export function due(cfg, log, now) {
   const out = [];
   const today = (log && log[now.key]) || { done: {}, water: [] };
   const done = today.done || {};
-  for (const it of itemsFor(cfg, now.dow)) {
+  // hair wash: one heads-up the night before, at hairEve (default 22:00)
+  const hd = cfg.hairDays || [];
+  if (hd.includes((now.dow + 1) % 7) && now.m === mins(cfg.hairEve || '22:00'))
+    out.push({ title: '🪮 Hair wash tomorrow', body: `${DAYS[(now.dow + 1) % 7]} is wash day · get ready tonight`, tag: 'hair', url: './#today' });
+  for (const it of itemsFor(cfg)) {
     if (done[it.id]) continue;
     const t = mins(it.time);
     if (t === now.m) out.push({ title: `🩸 ${it.title}`, body: it.sub ? `${it.sub} · tap to tick it off` : 'tap to tick it off', tag: it.id, url: './#today' });

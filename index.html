@@ -103,6 +103,7 @@ button{background:none;border:none;cursor:pointer}
 .d .tile{filter:saturate(.6) brightness(.8)}
 .ev.now{background:linear-gradient(180deg,#2a0d14,#1a0a0e);border-color:var(--blood);box-shadow:0 0 0 1px #b3122e55,0 14px 34px -12px #ff2d4f88}
 .ev.now:before{width:16px;height:16px;margin-top:-8px;left:-28px;background:var(--glow);border:3px solid var(--bg);box-shadow:0 0 0 3px #ff2d4f55,0 0 14px var(--glow)}
+.hairtop{margin:6px 0 4px}.hairtop:before{display:none}
 .ev.now .tile{background:radial-gradient(circle at 30% 25%,var(--hot),var(--blood2) 75%);border-color:#ff4d68}
 .go{margin-left:auto;background:var(--bone);color:#1a0a0e;border-radius:99px;padding:8px 14px;font-size:12.5px;font-weight:800;flex:none}
 .due{display:inline-block;margin-top:3px;font-size:11px;font-weight:700;color:#ff6b80}
@@ -196,6 +197,14 @@ button{background:none;border:none;cursor:pointer}
 @keyframes up{from{transform:translateY(100%)}to{transform:none}}
 .sheet h3{font-family:'Cormorant Garamond';font-size:28px;font-weight:700;margin-bottom:4px}
 .sheet .grab{width:40px;height:5px;border-radius:3px;background:#3d2027;margin:0 auto 14px}
+.dots{display:flex;justify-content:center;gap:18px;margin:22px 0 26px}
+.dots i{width:15px;height:15px;border-radius:50%;border:1.5px solid #6b3a44;transition:.15s}
+.dots i.on{background:var(--glow);border-color:var(--glow);box-shadow:0 0 10px var(--glow)}
+.dots.shake{animation:shake .35s}
+@keyframes shake{20%,60%{transform:translateX(-9px)}40%,80%{transform:translateX(9px)}}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:290px;margin:0 auto}
+.pad button{height:64px;border-radius:50%;width:64px;justify-self:center;background:#1a1013;border:1px solid #3d2027;font-family:'Cormorant Garamond';font-size:30px;font-weight:600;display:grid;place-items:center}
+.pad button:active{background:#3a0f19}.pad button svg{width:22px}
 .toast{position:fixed;left:50%;top:calc(var(--st) + 14px);transform:translate(-50%,-140%);background:#1f1014;border:1px solid #b3122e;color:var(--bone);padding:11px 18px;border-radius:99px;font-weight:700;font-size:13.5px;z-index:60;transition:transform .35s cubic-bezier(.2,1.3,.4,1);box-shadow:0 10px 30px -8px #000;white-space:nowrap}
 .toast.on{transform:translate(-50%,0)}
 .confetti{position:fixed;inset:0;pointer-events:none;z-index:50}
@@ -211,6 +220,7 @@ button{background:none;border:none;cursor:pointer}
     <div class="hi" id="greet"></div><div class="hs" id="greetSub"></div>
     <div class="orbw" id="orbToday"></div>
     <div class="btns"><button class="btn p" onclick="addWater(cfg.glass)"><span data-i="drop"></span><span id="glassLbl">+ 250 ml</span></button><button class="btn" onclick="addWater(500)">+ 500 ml</button><button class="btn" onclick="undoWater()">Undo</button></div>
+    <div id="hairTop"></div>
     <div class="chips">
       <div class="chip"><b id="cDone">0<em> / 0</em></b><small>rites done today</small><div class="bar"><i id="cDoneBar"></i></div></div>
       <div class="chip"><b id="cStreak">0<em> nights</em></b><small>unbroken streak</small><div class="bar"><i id="cStreakBar"></i></div></div>
@@ -265,7 +275,7 @@ button{background:none;border:none;cursor:pointer}
 
     <div class="sec"><h4>Hair wash</h4><div class="card">
       <div class="days" id="hairDays"></div>
-      <div class="row" style="margin-top:6px"><div class="lab"><b>Reminder time</b><small>on wash days</small></div><input class="inp t" type="time" id="sHT"></div>
+      <div class="row" style="margin-top:6px"><div class="lab"><b>Heads-up the night before</b><small>card rises to the top + reminder</small></div><input class="inp t" type="time" id="sHT"></div>
     </div></div>
 
     <div class="sec"><h4>Her</h4><div class="card">
@@ -341,20 +351,28 @@ document.querySelectorAll('[data-i]').forEach(e=>e.outerHTML=IC[e.dataset.i]);
 const DEFAULT_CFG={
   name:"my Queen", tz:"Asia/Kolkata", waterGoal:2500, glass:250, nudge:true,
   waterRemind:{on:true,start:"08:00",end:"21:00",every:90},
-  hairDays:[0,4], hairTime:"10:00",
+  v:2, hairDays:[0,4], hairEve:"22:00",
   items:[
     {id:"thyroid",title:"Thyroid tablet",sub:"empty stomach, before 6:30",icon:"dawn",time:"06:15"},
-    {id:"sid_am_b",title:"Siddha · before food",sub:"morning",icon:"herb",time:"08:00"},
-    {id:"sid_am_a",title:"Siddha · after food",sub:"morning",icon:"herb",time:"08:45"},
-    {id:"strength",title:"Strength tablet",sub:"after breakfast",icon:"bolt",time:"08:50"},
-    {id:"sid_pm_b",title:"Siddha · before food",sub:"night",icon:"herb",time:"20:30"},
-    {id:"sid_pm_a",title:"Siddha · after food",sub:"night",icon:"herb",time:"21:15"},
-    {id:"ointment",title:"Ointment",sub:"right before sleep",icon:"jar",time:"22:30"}
+    {id:"sid_am_b",title:"Siddha · before food",sub:"morning",icon:"herb",time:"07:30"},
+    {id:"sid_am_a",title:"Siddha · after food",sub:"morning",icon:"herb",time:"09:00"},
+    {id:"strength",title:"Strength tablet",sub:"after breakfast",icon:"bolt",time:"09:00"},
+    {id:"sid_pm_b",title:"Siddha · before food",sub:"evening",icon:"herb",time:"18:30"},
+    {id:"sid_pm_a",title:"Siddha · after food",sub:"night",icon:"herb",time:"20:30"},
+    {id:"ointment",title:"Ointment",sub:"before sleep",icon:"jar",time:"21:00"}
   ]
 };
 const LS=k=>{try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}};
-let cfg=Object.assign(structuredClone(DEFAULT_CFG),LS('domso_cfg')||{});
+let cfg=Object.assign(structuredClone(DEFAULT_CFG),{v:1},LS('domso_cfg')||{});
 let log=LS('domso_log')||{};
+/* bring older saved routines up to the current defaults (v2 = her real times) */
+function migrate(){
+  if((cfg.v||1)>=2) return false;
+  const T={sid_am_b:"07:30",sid_am_a:"09:00",strength:"09:00",sid_pm_b:"18:30",sid_pm_a:"20:30",ointment:"21:00"};
+  cfg.items.forEach(i=>{ if(T[i.id]) i.time=T[i.id]; });
+  cfg.hairEve=cfg.hairEve||"22:00"; delete cfg.hairTime; cfg.v=2; return true;
+}
+let migrated=migrate();
 let sub=LS('domso_sub')||null;
 let updated=+(localStorage.getItem('domso_upd')||0);
 
@@ -370,7 +388,7 @@ const peek=k=>log[k]||{done:{},water:[]};
 /* items shown on a given date (hair wash only on its days) */
 function itemsFor(date){
   const list=cfg.items.map(i=>({...i}));
-  if(cfg.hairDays.includes(date.getDay())) list.push({id:"hair",title:"Hair wash",sub:"wash day",icon:"comb",time:cfg.hairTime});
+  if(cfg.hairDays.includes(date.getDay())) list.push({id:"hair",title:"Hair wash",sub:"wash day",icon:"comb",time:"12:00"});
   return list.sort((a,b)=>mins(a.time)-mins(b.time));
 }
 const waterTotal=k=>(peek(k).water||[]).reduce((s,w)=>s+w.ml,0);
@@ -420,7 +438,7 @@ function initCloud(){
       if((d.updated||0)>updated){
         applying=true;
         try{
-          if(d.cfg) cfg=Object.assign(structuredClone(DEFAULT_CFG),JSON.parse(d.cfg));
+          if(d.cfg) cfg=Object.assign(structuredClone(DEFAULT_CFG),{v:1},JSON.parse(d.cfg));
           if(d.log) log=JSON.parse(d.log);
           if(d.sub) sub=JSON.parse(d.sub);
           updated=d.updated;
@@ -429,6 +447,7 @@ function initCloud(){
           localStorage.setItem('domso_upd',String(updated));
           if(sub) localStorage.setItem('domso_sub',JSON.stringify(sub));
         }finally{ applying=false; }
+        if(migrate()) save();
         renderAll();
       } else if((d.updated||0)<updated){ pushCloud(); }
     },e=>{console.warn('cloud read',e);setSync(false)});
@@ -528,6 +547,7 @@ function renderToday(){
   for(const i of its){ if(!done[i.id] && mins(i.time)<=nm+60){ nowId=i.id; break; } }
   let html=`<div class="rail"></div><div class="glow" id="glow"></div>`, slot=null;
   for(const i of its){
+    if(i.id==='hair') continue;
     const s=mins(i.time)<15*60?'dawn':'dusk';
     if(s!==slot){ slot=s; html+=`<div class="lbl"${s==='dusk'&&html.includes('class="ev')?' style="margin-top:14px"':''}>${IC[s==='dawn'?'dawn':'moon']} ${s==='dawn'?'Dawn':'Dusk'}</div>`; }
     const isD=!!done[i.id], isN=i.id===nowId;
@@ -549,8 +569,17 @@ function renderToday(){
     const e=evs[last]; gl.style.height=(e.offsetTop+e.offsetHeight/2-24)+'px';
   });
 
-  // hair card
+  // hair card: rises to the top from hairEve the night before until she ticks it
   const dow=now.getDay(), hd=cfg.hairDays;
+  const tmrKey=(()=>{const t=new Date(now);t.setDate(t.getDate()+1);return dkey(t)})();
+  const washToday=hd.includes(dow)&&!done.hair;
+  const washEve=!washToday && hd.includes((dow+1)%7) && nm>=mins(cfg.hairEve||'22:00') && !(peek(tmrKey).done||{}).hair;
+  const top=$('hairTop'), names3=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+  if(washToday||washEve){
+    const k2=washToday?k:tmrKey;
+    top.innerHTML=`<div class="ev now hairtop" onclick="toggleDone('hair','${k2}')"><div class="tile">${IC.comb}</div><div class="tx"><h5>Hair wash ${washToday?'today':'tomorrow'}</h5><small>${washToday?`${names3[dow]} is wash day`:`${names3[(dow+1)%7]} is wash day · get ready tonight`}</small><br><span class="due">${washToday?'tap when it is done':'already washed? tap'}</span></div><span class="go">Done</span></div>`;
+    $('hairCard').style.display='none';
+  } else { top.innerHTML=''; $('hairCard').style.display=''; }
   let nextIn=null; for(let a=0;a<8;a++){ if(hd.includes((dow+a)%7)){ nextIn=a; break; } }
   const pill= nextIn===null?'—': nextIn===0?(done.hair?'washed':'today'): nextIn===1?'tomorrow':`in ${nextIn} days`;
   const names=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
@@ -620,7 +649,7 @@ function renderMe(){
   $('sGoal').value=cfg.waterGoal; $('sGlass').value=cfg.glass;
   $('sWR').classList.toggle('on',!!cfg.waterRemind.on);
   $('sWS').value=cfg.waterRemind.start; $('sWE').value=cfg.waterRemind.end; $('sWEv').value=cfg.waterRemind.every;
-  $('sHT').value=cfg.hairTime; $('sName').value=cfg.name;
+  $('sHT').value=cfg.hairEve||'22:00'; $('sName').value=cfg.name;
   $('sNudge').classList.toggle('on',!!cfg.nudge);
   $('hairDays').innerHTML=["S","M","T","W","T","F","S"].map((c,ix)=>`<button class="${cfg.hairDays.includes(ix)?'on':''}" onclick="toggleHair(${ix})">${c}</button>`).join('');
   renderPush();
@@ -636,7 +665,7 @@ function bindInputs(){
   num('sGoal',v=>cfg.waterGoal=v); num('sGlass',v=>cfg.glass=v); num('sWEv',v=>cfg.waterRemind.every=Math.max(15,v));
   $('sWS').addEventListener('change',e=>{if(e.target.value){cfg.waterRemind.start=e.target.value;save();toast('Saved')}});
   $('sWE').addEventListener('change',e=>{if(e.target.value){cfg.waterRemind.end=e.target.value;save();toast('Saved')}});
-  $('sHT').addEventListener('change',e=>{if(e.target.value){cfg.hairTime=e.target.value;save();renderAll();toast('Saved')}});
+  $('sHT').addEventListener('change',e=>{if(e.target.value){cfg.hairEve=e.target.value;save();renderAll();toast('Saved')}});
   $('sName').addEventListener('change',e=>{cfg.name=e.target.value.trim()||'my Queen';save();renderAll();toast('Saved')});
 }
 function exportData(){
@@ -676,7 +705,9 @@ async function enablePush(force){
   try{
     const perm=await Notification.requestPermission();
     if(perm!=='granted'){ renderPush(); return toast('Permission not given'); }
-    const reg=swReg||await navigator.serviceWorker.ready;
+    if(!navigator.serviceWorker.controller && swReg && !swReg.active){ toast('Finishing setup… one sec'); }
+    // wait for an *active* service worker (iOS refuses push without one)
+    const reg=await Promise.race([navigator.serviceWorker.ready,new Promise((_,rej)=>setTimeout(()=>rej(new Error('setup not ready. Close Domso fully and open it again')),10000))]);
     let s=await reg.pushManager.getSubscription();
     if(s && force){ await s.unsubscribe(); s=null; }
     if(!s) s=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:b64u(VAPID_PUBLIC)});
@@ -684,7 +715,7 @@ async function enablePush(force){
   }catch(e){ console.error(e); toast('Could not enable: '+(e.message||e)); }
 }
 async function testLocal(){
-  const reg=swReg||await navigator.serviceWorker.ready;
+  const reg=await navigator.serviceWorker.ready;
   reg.showNotification('Domso',{body:'This is how her reminders will look 🩸',icon:'icons/icon-192.png',badge:'icons/icon-192.png',tag:'test'});
 }
 async function initSW(){
@@ -711,7 +742,22 @@ function confetti(){
 
 /* ---------- nav ---------- */
 let cur='today';
+const PASS="1234"; let unlocked=false, pin="";
+function lockHTML(){ return `<h3 style="text-align:center">Sealed</h3><div class="hs" style="text-align:center">enter the passcode</div>
+  <div class="dots" id="dots">${'<i></i>'.repeat(4)}</div>
+  <div class="pad">${['1','2','3','4','5','6','7','8','9','','0','del'].map(k=>k===''?'<span></span>':`<button onclick="pinKey('${k}')">${k==='del'?IC.left:k}</button>`).join('')}</div>`; }
+function showLock(){ pin=""; openSheet(lockHTML()); }
+function pinKey(k){
+  if(k==='del') pin=pin.slice(0,-1); else if(pin.length<4) pin+=k;
+  buzz(8); document.querySelectorAll('#dots i').forEach((d,i)=>d.classList.toggle('on',i<pin.length));
+  if(pin.length===4){
+    if(pin===PASS){ unlocked=true; setTimeout(()=>{closeSheet();go('me')},150); }
+    else { const d=$('dots'); d.classList.remove('shake'); void d.offsetWidth; d.classList.add('shake'); buzz(60); pin="";
+      setTimeout(()=>document.querySelectorAll('#dots i').forEach(x=>x.classList.remove('on')),350); }
+  }
+}
 function go(v){
+  if(v==='me' && !unlocked){ showLock(); return; }
   cur=v; document.querySelectorAll('.view').forEach(e=>e.classList.toggle('on',e.id==='v-'+v));
   document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
   window.scrollTo({top:0}); renderAll(); buzz(6);
@@ -726,12 +772,13 @@ function renderAll(){
 
 /* ---------- init ---------- */
 bindInputs();
+if(migrated) save();
 const startHash=location.hash.slice(1);
 go(['today','water','cal','me'].includes(startHash)?startHash:'today');
 // a notification tap can deep-link to a rite: #today&rite=id
 setInterval(()=>{ if(cur==='today') renderToday(); },60000);
 let lastDay=todayKey();
-document.addEventListener('visibilitychange',()=>{ if(!document.hidden){ if(todayKey()!==lastDay){lastDay=todayKey();} renderAll(); }});
+document.addEventListener('visibilitychange',()=>{ if(document.hidden){ unlocked=false; if(cur==='me') go('today'); return; } if(!document.hidden){ if(todayKey()!==lastDay){lastDay=todayKey();} renderAll(); }});
 if(window.firebase) initCloud(); else setSync(false);
 initSW();
 </script>
