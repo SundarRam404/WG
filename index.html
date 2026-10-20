@@ -276,6 +276,7 @@ button{background:none;border:none;cursor:pointer}
     <div class="sec"><h4>Hair wash</h4><div class="card">
       <div class="days" id="hairDays"></div>
       <div class="row" style="margin-top:6px"><div class="lab"><b>Heads-up the night before</b><small>card rises to the top + reminder</small></div><input class="inp t" type="time" id="sHT"></div>
+      <div class="row"><div class="lab"><b>Wash-day morning ping</b><small>"Hair wash today"</small></div><input class="inp t" type="time" id="sHD"></div>
     </div></div>
 
     <div class="sec"><h4>Her</h4><div class="card">
@@ -351,7 +352,7 @@ document.querySelectorAll('[data-i]').forEach(e=>e.outerHTML=IC[e.dataset.i]);
 const DEFAULT_CFG={
   name:"my Queen", tz:"Asia/Kolkata", waterGoal:2500, glass:250, nudge:true,
   waterRemind:{on:true,start:"08:00",end:"21:00",every:90},
-  v:2, hairDays:[0,4], hairEve:"22:00",
+  v:2, hairDays:[0,4], hairEve:"22:00", hairDay:"06:15",
   items:[
     {id:"thyroid",title:"Thyroid tablet",sub:"empty stomach, before 6:30",icon:"dawn",time:"06:15"},
     {id:"sid_am_b",title:"Siddha · before food",sub:"morning",icon:"herb",time:"07:30"},
@@ -649,7 +650,7 @@ function renderMe(){
   $('sGoal').value=cfg.waterGoal; $('sGlass').value=cfg.glass;
   $('sWR').classList.toggle('on',!!cfg.waterRemind.on);
   $('sWS').value=cfg.waterRemind.start; $('sWE').value=cfg.waterRemind.end; $('sWEv').value=cfg.waterRemind.every;
-  $('sHT').value=cfg.hairEve||'22:00'; $('sName').value=cfg.name;
+  $('sHT').value=cfg.hairEve||'22:00'; $('sHD').value=cfg.hairDay||'06:15'; $('sName').value=cfg.name;
   $('sNudge').classList.toggle('on',!!cfg.nudge);
   $('hairDays').innerHTML=["S","M","T","W","T","F","S"].map((c,ix)=>`<button class="${cfg.hairDays.includes(ix)?'on':''}" onclick="toggleHair(${ix})">${c}</button>`).join('');
   renderPush();
@@ -666,6 +667,7 @@ function bindInputs(){
   $('sWS').addEventListener('change',e=>{if(e.target.value){cfg.waterRemind.start=e.target.value;save();toast('Saved')}});
   $('sWE').addEventListener('change',e=>{if(e.target.value){cfg.waterRemind.end=e.target.value;save();toast('Saved')}});
   $('sHT').addEventListener('change',e=>{if(e.target.value){cfg.hairEve=e.target.value;save();renderAll();toast('Saved')}});
+  $('sHD').addEventListener('change',e=>{if(e.target.value){cfg.hairDay=e.target.value;save();toast('Saved')}});
   $('sName').addEventListener('change',e=>{cfg.name=e.target.value.trim()||'my Queen';save();renderAll();toast('Saved')});
 }
 function exportData(){

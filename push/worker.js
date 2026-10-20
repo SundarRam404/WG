@@ -81,6 +81,9 @@ export function due(cfg, log, now) {
   const hd = cfg.hairDays || [];
   if (hd.includes((now.dow + 1) % 7) && now.m === mins(cfg.hairEve || '22:00'))
     out.push({ title: '🪮 Hair wash tomorrow', body: `${DAYS[(now.dow + 1) % 7]} is wash day · get ready tonight`, tag: 'hair', url: './#today' });
+  // and a morning ping on the wash day itself (default 06:15), skipped if already washed
+  if (hd.includes(now.dow) && !done.hair && now.m === mins(cfg.hairDay || '06:15'))
+    out.push({ title: '🪮 Hair wash today', body: `It's ${DAYS[now.dow]}, wash day · tap Done once washed`, tag: 'hair', url: './#today' });
   for (const it of itemsFor(cfg)) {
     if (done[it.id]) continue;
     const t = mins(it.time);
