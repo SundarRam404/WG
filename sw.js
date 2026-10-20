@@ -1,5 +1,5 @@
 /* Domso service worker: offline shell + push reminders */
-const CACHE = 'domso-v3';
+const CACHE = 'domso-v4';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icons/icon-180.png', './icons/icon-192.png', './icons/icon-512.png'];
 
 self.addEventListener('install', e => {
