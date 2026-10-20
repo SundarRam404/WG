@@ -652,7 +652,7 @@ function askMotion(){
     D.requestPermission().then(r=>{ motionAsking=false; if(r==='granted') listenMotion(); else { try{localStorage.setItem('domso_tilt','off')}catch(e){} } }).catch(()=>{ motionAsking=false; });
   } else if(D) listenMotion();
 }
-function listenMotion(){ if(motionOn) return; motionOn=true; window.addEventListener('deviceorientation',e=>{ if(e.gamma!=null) tilt=Math.max(-40,Math.min(40,-e.gamma)); }); }
+function listenMotion(){ if(motionOn) return; motionOn=true; window.addEventListener('deviceorientation',e=>{ if(e.gamma!=null) tilt=Math.max(-22,Math.min(22,-e.gamma*.6)); }); }
 function armMotion(){ // re-arm after every launch: first touch anywhere restores the slosh
   if(!tiltPref()) return;
   const D=window.DeviceOrientationEvent;
