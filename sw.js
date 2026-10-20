@@ -1,5 +1,5 @@
 /* Domso service worker: offline shell + push reminders */
-const CACHE = 'domso-v5';
+const CACHE = 'domso-v6';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icons/icon-180.png', './icons/icon-192.png', './icons/icon-512.png',
   './lib/three.module.min.js', './lib/skull3d.js', './lib/OBJLoader.js', './skull/skull.obj', './skull/normal.jpg', './skull/ao.jpg'];
 
@@ -19,8 +19,14 @@ self.addEventListener('fetch', e => {
   if (/firestore|googleapis\.com\/google\.firestore|firebaseio/.test(url.href)) return;
   // the app page: network first so updates land, cache when offline
   if (req.mode === 'navigate' || url.pathname.endsWith('/index.html')) {
-    e.respondWith(fetch(req).then(r => { const c = r.clone(); caches.open(CACHE).then(x => x.put('./index.html', c)); return r; })
+    e.respondWith(fetch(req, { cache: 'no-store' }).then(r => { const c = r.clone(); caches.open(CACHE).then(x => x.put('./index.html', c)); return r; })
       .catch(() => caches.match('./index.html')));
+    return;
+  }
+  // our own code + 3D files: network first (fresh after a push), cache when offline
+  if (url.origin === location.origin && /\/(lib|skull)\/|sw\.js$/.test(url.pathname)) {
+    e.respondWith(fetch(req, { cache: 'no-store' }).then(r => { const c = r.clone(); caches.open(CACHE).then(x => x.put(req, c)); return r; })
+      .catch(() => caches.match(req)));
     return;
   }
   // everything else (icons, fonts, firebase sdk): cache first, then network
