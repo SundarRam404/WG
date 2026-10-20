@@ -1,0 +1,15 @@
+name = "domso-push"
+main = "worker.js"
+compatibility_date = "2026-10-01"
+
+[triggers]
+crons = ["* * * * *"]
+
+[vars]
+FIREBASE_PROJECT = "weight-gain-app-6ed4e"
+FIREBASE_KEY = "AIzaSyAU-UNy4kNTthVNFBxigvlB8ThLu2JzDVk"
+DOC_PATH = "shared/domso"
+VAPID_PUBLIC = "BPOeA1faQb5JzwjC--8MY6bwz5uNt6ShgfB_qFTSi7m1vbgjUftU6S8hOhz1Rsio7pgYYYt6bAiOLF5OjfQ45_8"
+VAPID_SUBJECT = "https://sundarram404.github.io/WG/"
+
+# secrets (never in this repo): VAPID_PRIVATE_JWK, TEST_TOKEN — set by setup.sh
