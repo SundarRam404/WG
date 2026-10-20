@@ -49,12 +49,18 @@ button{background:none;border:none;cursor:pointer}
 .orbw.big{width:300px;height:300px}
 .ticks{position:absolute;inset:0;width:100%;height:100%}
 .orb{position:absolute;inset:16px;border-radius:50%;overflow:hidden;background:radial-gradient(circle at 50% 40%,#1c0f12,#0d0809 70%);box-shadow:0 0 0 1px #3d1a21,0 0 70px #b3122e44,inset 0 0 40px #000;transform:translateZ(0)}
-.lq{position:absolute;left:0;right:0;bottom:0;height:0%;background:linear-gradient(180deg,#d01a3a 0%,#8e0b22 45%,#3f0410 100%);transition:height 1.1s cubic-bezier(.3,1.3,.5,1)}
+.lq{position:absolute;left:0;right:0;bottom:0;height:0%;background:
+ radial-gradient(ellipse 60% 40% at 30% 18%,#9e0a1655,transparent 70%),
+ linear-gradient(90deg,#1a0003 0%,transparent 22%,transparent 78%,#1a0003 100%),
+ linear-gradient(180deg,#7d0611 0%,#5a030b 30%,#3a0107 62%,#1c0003 100%);
+ box-shadow:inset 0 -30px 50px #0a0001;transition:height 1.1s cubic-bezier(.3,1.3,.5,1)}
+.lq:after{content:"";position:absolute;left:12%;right:40%;top:6px;height:3px;border-radius:3px;background:linear-gradient(90deg,transparent,#ff6a7a66,transparent);filter:blur(1px)}
+.lq.empty:after{display:none}
 .wv{position:absolute;left:0;width:200%;height:26px;top:-13px;animation:wave 4s linear infinite}
-.wv.b{top:-9px;opacity:.55;animation-duration:6.5s;animation-direction:reverse}
+.wv.b{top:-9px;opacity:.9;animation-duration:6.5s;animation-direction:reverse}
 @keyframes wave{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .lq.empty .wv{display:none}
-.bub{position:absolute;border-radius:50%;background:radial-gradient(circle at 35% 35%,#ff9aaa,#ff2d4f55 60%,transparent 70%);animation:rise 5s ease-in infinite;opacity:0}
+.bub{position:absolute;border-radius:50%;background:radial-gradient(circle at 35% 35%,#c94a56,#6a0712aa 55%,transparent 70%);animation:rise 7s ease-in infinite;opacity:0}
 @keyframes rise{0%{transform:translateY(0);opacity:0}15%{opacity:.9}80%{opacity:.6}100%{transform:translateY(-90px);opacity:0}}
 .shine{position:absolute;left:22%;top:10%;width:34%;height:20%;border-radius:50%;background:linear-gradient(180deg,#ffffff10,transparent);transform:rotate(-20deg)}
 .otx{position:absolute;inset:0;display:grid;place-items:center;text-align:center;pointer-events:none}
@@ -70,6 +76,9 @@ button{background:none;border:none;cursor:pointer}
 .btn svg{width:15px}
 .btn.p{background:linear-gradient(180deg,var(--hot),var(--deep));border-color:transparent;box-shadow:0 8px 24px -6px #d01a3a99;color:#fff}
 .btn.full{width:100%}
+.btn.sq{width:42px;padding:0}.btn.sq svg{width:17px}
+#v-today .btns{gap:8px}#v-today .btn{padding:0 15px}#v-today .btn.sq{padding:0}
+.qk{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:4px 0 14px}.qk button{height:48px;border-radius:16px;background:#1a1013;border:1px solid #3d2027;font-weight:700;font-size:14px}.qk button:active{background:#3a0f19}
 .btn.ghost{background:transparent}
 
 /* chips */
@@ -219,7 +228,7 @@ button{background:none;border:none;cursor:pointer}
     <div class="top"><div class="logo">Domso</div><div class="av" onclick="go('me')"><div id="avL">Q</div><i id="syncDot"></i></div></div>
     <div class="hi" id="greet"></div><div class="hs" id="greetSub"></div>
     <div class="orbw" id="orbToday"></div>
-    <div class="btns"><button class="btn p" onclick="addWater(cfg.glass)"><span data-i="drop"></span><span id="glassLbl">+ 250 ml</span></button><button class="btn" onclick="addWater(500)">+ 500 ml</button><button class="btn" onclick="undoWater()">Undo</button></div>
+    <div class="btns"><button class="btn p" onclick="addWater(cfg.glass)"><span data-i="drop"></span><span id="glassLbl">+ 250 ml</span></button><button class="btn" onclick="addWater(500)">+ 500</button><button class="btn" onclick="askCustom()">Custom</button><button class="btn sq" onclick="undoWater()" aria-label="Undo"><span data-i="undo"></span></button></div>
     <div id="hairTop"></div>
     <div class="chips">
       <div class="chip"><b id="cDone">0<em> / 0</em></b><small>rites done today</small><div class="bar"><i id="cDoneBar"></i></div></div>
@@ -342,6 +351,7 @@ const IC={
  plus:P('<path d="M12 5v14M5 12h14"/>',2.4),
  left:P('<path d="M15 5l-7 7 7 7"/>',2.2),
  right:P('<path d="M9 5l7 7-7 7"/>',2.2),
+ undo:P('<path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 010 12h-3"/>',2),
  bell:P('<path d="M6 16V11a6 6 0 0112 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 004 0"/>',2),
  share:P('<path d="M12 3v12M7.5 7.5L12 3l4.5 4.5"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>',2),
 };
@@ -468,8 +478,8 @@ function openSheet(html){ $('sheetIn').innerHTML='<div class="grab"></div>'+html
 function orbHTML(){
   return `<svg class="ticks" viewBox="0 0 268 268"></svg>
   <div class="orb"><div class="lq">
-    <svg class="wv b" viewBox="0 0 800 26" preserveAspectRatio="none"><path d="M0 13 C50 25 100 25 150 13 S250 1 300 13 S400 25 450 13 S550 1 600 13 S700 25 750 13 S800 7 800 7 V26 H0z" fill="#ff3d5c"/></svg>
-    <svg class="wv" viewBox="0 0 800 26" preserveAspectRatio="none"><path d="M0 13 C50 1 100 1 150 13 S250 25 300 13 S400 1 450 13 S550 25 600 13 S700 1 750 13 S800 19 800 19 V26 H0z" fill="#d01a3a"/></svg>
+    <svg class="wv b" viewBox="0 0 800 26" preserveAspectRatio="none"><path d="M0 13 C50 25 100 25 150 13 S250 1 300 13 S400 25 450 13 S550 1 600 13 S700 25 750 13 S800 7 800 7 V26 H0z" fill="#5e040c"/></svg>
+    <svg class="wv" viewBox="0 0 800 26" preserveAspectRatio="none"><path d="M0 13 C50 1 100 1 150 13 S250 25 300 13 S400 1 450 13 S550 25 600 13 S700 1 750 13 S800 19 800 19 V26 H0z" fill="#7d0611"/></svg>
   </div>
   <div class="bub" style="width:10px;height:10px;left:30%;bottom:8%;animation-delay:.2s"></div>
   <div class="bub" style="width:6px;height:6px;left:58%;bottom:12%;animation-delay:1.7s"></div>
@@ -509,9 +519,9 @@ function undoWater(){ const w=day(todayKey()).water; if(!w.length) return toast(
 function delSip(i){ day(todayKey()).water.splice(i,1); save(); renderAll(); }
 function askCustom(){
   openSheet(`<h3>Custom amount</h3><div class="hs" style="margin-bottom:14px">how much did she drink?</div>
-  <input class="inp" id="cml" type="number" inputmode="numeric" placeholder="ml" style="font-size:20px;padding:14px">
+  <div class="qk">${[100,150,200,300,750,1000].map(v=>`<button onclick="addWater(${v});closeSheet()">${v>=1000?v/1000+' L':v+' ml'}</button>`).join('')}</div>
+  <input class="inp" id="cml" type="number" inputmode="numeric" placeholder="or type ml…" style="font-size:20px;padding:14px">
   <div class="btns" style="margin-top:16px"><button class="btn" onclick="closeSheet()">Cancel</button><button class="btn p" onclick="addWater($('cml').value);closeSheet()">Add</button></div>`);
-  setTimeout(()=>$('cml').focus(),300);
 }
 
 /* ---------- rites ---------- */
