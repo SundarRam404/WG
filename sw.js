@@ -1,5 +1,5 @@
 /* Domso service worker: offline shell + push reminders */
-const CACHE = 'domso-v7';
+const CACHE = 'domso-v8';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icons/icon-180.png', './icons/icon-192.png', './icons/icon-512.png',
   './lib/three.module.min.js', './lib/chalice3d.js'];
 
