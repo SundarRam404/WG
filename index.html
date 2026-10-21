@@ -181,6 +181,12 @@ button{background:none;border:none;cursor:pointer}
 .seal-it b{display:block;font-family:var(--disp);font-size:15px;margin-top:4px;line-height:1.1}
 .seal-it small{font-size:12.5px;color:var(--mute);font-style:italic}
 .seal-it.lock{opacity:.55}
+.seal-it.all{position:relative}
+.seal-it.all.got:before{content:"✓";position:absolute;top:-6px;left:50%;margin-left:16px;width:20px;height:20px;border-radius:50%;background:linear-gradient(#e7c27a,#a8792e);color:#1a0b06;font-size:12px;font-weight:700;line-height:20px;text-align:center;box-shadow:0 2px 6px #000a;z-index:1}
+.fold .seals{gap:14px 2px;grid-template-columns:repeat(4,minmax(0,1fr))}
+.fold .seal-it svg{width:56px;height:56px}
+.fold .seal-it b{font-size:13.5px}.fold .seal-it small{font-size:11.5px}
+.seal-it.all.got:before{margin-left:12px}
 
 /* ---------- me ---------- */
 .row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #2a1b1e}
@@ -552,7 +558,7 @@ const GLYPH={
  bat:`<path d="${BAT}" transform="translate(23 36) scale(.54)" fill="#4a030c"/>`,
  rose:`<path d="M50 50m-3.5 0a3.5 3.5 0 1 1 7 0a7.5 7.5 0 1 1-15 0a11.5 11.5 0 1 1 23 0a15.5 15.5 0 1 1-31 0" fill="none" stroke="#4a030c" stroke-width="3.2"/>`,
  raven:`<path d="${RAVEN}" transform="translate(25 30) scale(.43)" fill="#4a030c"/>`,
- moon:`<path d="M58 28a22 22 0 1 0 0 44a17 17 0 1 1 0-44z" fill="#4a030c"/>`,
+ moon:`<circle cx="50" cy="50" r="21" fill="none" stroke="#4a030c" stroke-width="4"/><circle cx="43" cy="44" r="5" fill="#4a030c"/><circle cx="57" cy="56" r="7" fill="#4a030c"/><circle cx="56" cy="40" r="3" fill="#4a030c"/><circle cx="42" cy="58" r="3.4" fill="#4a030c"/>`,
  crown:`<path d="M29 63L26 37L39 49L50 30L61 49L74 37L71 63Z" fill="#4a030c"/><rect x="29" y="64" width="42" height="6" fill="#4a030c"/>`,
  drop:`<path d="M50 24C59 37 67 47 67 58a17 17 0 0 1-34 0c0-11 8-21 17-34z" fill="#4a030c"/>`,
  drops2:`<path d="M38 30C45 40 51 48 51 56a13 13 0 0 1-26 0c0-8 6-16 13-26zM62 38C69 48 75 56 75 64a13 13 0 0 1-26 0c0-8 6-16 13-26z" fill="#4a030c"/>`,
@@ -657,12 +663,12 @@ function renderBadges(){
     return `<div class="orn"><span>${c.name}</span></div><div class="hs" style="text-align:center;margin:-2px 0 12px">${c.sub} · now <b style="font-style:normal;color:var(--bone)">${now}</b>, best <b style="font-style:normal;color:var(--bone)">${best}</b></div>
     <div class="seals">${c.seals.map((s,i)=>{const got=best>=s.n;return `<div class="seal-it${got?'':' lock'}" onclick="openBadge(${ci},${i})">${sealSVG(s.n*13+ci*7,s.g,!got,null,s.r)}<b>${got?s.name.replace(/^.* · /,''):'Sealed away'}</b><small>${s.n} days</small></div>`}).join('')}</div>`; }).join('');
 }
-function openBadge(ci,i,fresh){
-  const c=collections()[ci], s=c.seals[i], got=bestStreakOf(c.met)>=s.n;
+function openBadge(ci,i,fresh,reveal){
+  const c=collections()[ci], s=c.seals[i], earned=bestStreakOf(c.met)>=s.n, got=earned||reveal;
   openSheet(`<div style="text-align:center;padding:6px 0 10px"><div style="width:150px;margin:0 auto" class="${got?'stamp':''}">${sealSVG(s.n*13+ci*7,s.g,!got,null,s.r)}</div>
   ${fresh?'<div class="sc" style="margin-top:10px;color:var(--gold2)">a new seal</div>':''}
   <h3 style="margin-top:${fresh?4:12}px">${got?s.name:'A sealed mystery'}</h3><div class="hs">${got?s.t:`${c.sub.replace(/^the full finish: /,'')}: reach ${s.n} to break this seal`}</div>
-  <div class="hs" style="margin-top:8px">${c.name} · ${s.n} days</div></div>`);
+  <div class="hs" style="margin-top:8px">${c.name} · ${s.n} days${reveal?(earned?' · <b style="font-style:normal;color:var(--gold2)">✓ she has it</b>':' · not earned yet'):''}</div></div>`);
 }
 function famBests(){ return collections().slice(2).map(c=>bestStreakOf(c.met)); }
 const SEALS=[{n:3,name:'The Bat',g:'bat',t:'three days, every rite sealed'},{n:10,name:'The Rose',g:'rose',t:'ten days of every rite'},{n:30,name:'The Raven',g:'raven',t:'a month, not one rite missed'},{n:100,name:'The Moon',g:'moon',t:'one hundred days beneath the moon'},{n:150,name:'The Crown',g:'crown',t:'one hundred and fifty days. Queen indeed'},{n:200,name:'The Serpent',g:'serpent',t:'two hundred days, coiled discipline'},{n:300,name:'The Skull',g:'skull',t:'three hundred days. Legend'},{n:365,name:'The Eternal Night',g:'year',t:'a whole year, every rite. Immortal'}];
@@ -733,7 +739,7 @@ function pickFinale(v){ cfg.finale=v; save(); toast(v==='loop'?'A new finale eac
 function renderMeSeals(){ const C=collections(); let tot=0,got=0;
   $('meSeals').innerHTML=C.map((c,ci)=>{ const best=bestStreakOf(c.met), now=curStreakOf(c.met), g=c.seals.filter(x=>best>=x.n).length; tot+=c.seals.length; got+=g;
     return `<details class="fold"><summary><span>${c.name}</span><em>${g}/${c.seals.length} · now ${now}</em><i></i></summary><div class="fb"><div class="hs" style="margin:2px 0 10px">${c.sub} · best <b style="font-style:normal;color:var(--bone)">${best}</b></div>
-    <div class="seals">${c.seals.map((s,i)=>{const ok=best>=s.n;return `<div class="seal-it${ok?'':' lock'}" onclick="openBadge(${ci},${i})">${sealSVG(s.n*13+ci*7,s.g,!ok,null,s.r)}<b>${ok?s.name.replace(/^.* · /,''):'Sealed away'}</b><small>${s.n} days</small></div>`}).join('')}</div></div></details>`; }).join('');
+    <div class="seals">${c.seals.map((s,i)=>{const ok=best>=s.n;return `<div class="seal-it all${ok?' got':''}" onclick="openBadge(${ci},${i},false,true)">${sealSVG(s.n*13+ci*7,s.g,false,null,s.r)}<b>${s.name.replace(/^.* · /,'')}</b><small>${s.n} days</small></div>`}).join('')}</div></div></details>`; }).join('');
   $('sealNow').textContent=`${got} of ${tot} broken`; }
 window.addEventListener('skull3d-ready',()=>renderAll());
 function waterPct(){ const tot=waterTotal(todayKey()), goal=cfg.waterGoal||2500; return Math.min(tot/goal,1); }
