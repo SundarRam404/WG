@@ -1493,7 +1493,7 @@ function renderCandle(){
 
 /* ---------- the sky above her (morning · afternoon · evening · night) ---------- */
 const SKY_ON=()=>{ try{ return localStorage.getItem('domso_sky')!=='off' && (SKY_DEFAULT || localStorage.getItem('domso_sky')==='on'); }catch(e){ return SKY_DEFAULT; } };
-const SKY_DEFAULT=false;   // waiting for Sundar's OK on the four skies
+const SKY_DEFAULT=true;    // approved by Sundar
 function skyPhase(){ let p=null; try{ p=localStorage.getItem('domso_skyp'); }catch(e){} if(p) return p; const h=new Date().getHours(); return h>=5&&h<11?'morning':h>=11&&h<16?'afternoon':h>=16&&h<20?'evening':'night'; }
 const rnd=(s=>()=>(s=(s*16807)%2147483647)/2147483647)(42);
 function stars(n,ymax,big){ let o=''; for(let i=0;i<n;i++){ const x=(rnd()*390).toFixed(0), y=(rnd()*ymax).toFixed(0), r=(rnd()*(big?1.5:1)+.3).toFixed(2), d=(2+rnd()*4).toFixed(1); o+=`<circle cx="${x}" cy="${y}" r="${r}" fill="#fff" style="animation:tw ${d}s ${(rnd()*4).toFixed(1)}s ease-in-out infinite"/>`; } return o; }
