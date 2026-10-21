@@ -71,20 +71,27 @@ function nowIn(tz, at = new Date()) {
   return { key: `${p.year}-${p.month}-${p.day}`, m: (+p.hour % 24) * 60 + +p.minute, dow };
 }
 const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-function itemsFor(cfg) { return (cfg.items || []).slice(); }
+const pausedOn = (cfg, id, key) => (cfg.pauseLog || []).some(p => p.id === id && p.from <= key && (!p.to || key < p.to));
+function itemsFor(cfg, key) { return (cfg.items || []).filter(it => !key || !pausedOn(cfg, it.id, key)); }
 
 export function due(cfg, log, now) {
   const out = [];
   const today = (log && log[now.key]) || { done: {}, water: [] };
   const done = today.done || {};
-  // hair wash: one heads-up the night before, at hairEve (default 22:00)
+  // hair wash: two heads-ups the night before (default 20:00 and 21:00)…
   const hd = cfg.hairDays || [];
-  if (hd.includes((now.dow + 1) % 7) && now.m === mins(cfg.hairEve || '22:00'))
-    out.push({ title: '🪮 Hair wash tomorrow', body: `${DAYS[(now.dow + 1) % 7]} is wash day · get ready tonight`, tag: 'hair', url: './#today' });
-  // and a morning ping on the wash day itself (default 06:15), skipped if already washed
-  if (hd.includes(now.dow) && !done.hair && now.m === mins(cfg.hairDay || '06:15'))
-    out.push({ title: '🪮 Hair wash today', body: `It's ${DAYS[now.dow]}, wash day · tap Done once washed`, tag: 'hair', url: './#today' });
-  for (const it of itemsFor(cfg)) {
+  const tmrDone = false; // the card itself handles an early seal
+  if (hd.includes((now.dow + 1) % 7) && !tmrDone) {
+    if (now.m === mins(cfg.hairEve || '20:00')) out.push({ title: '🪮 Tomorrow is hair wash day', body: `${DAYS[(now.dow + 1) % 7]} is wash day · get ready tonight`, tag: 'hair', url: './#today' });
+    else if (cfg.hairEve2 && now.m === mins(cfg.hairEve2)) out.push({ title: '🪮 Hair wash tomorrow', body: `a reminder for ${DAYS[(now.dow + 1) % 7]} morning`, tag: 'hair', url: './#today' });
+  }
+  // …then on the day, a ping every interval from hairDay (05:00) until she seals it, never at or after hairEnd (11:00)
+  if (hd.includes(now.dow) && !done.hair) {
+    const hs = mins(cfg.hairDay || '05:00'), he = mins(cfg.hairEnd || '11:00'), ev = Math.max(15, +cfg.hairEvery || 30);
+    if (now.m >= hs && now.m < he && (now.m - hs) % ev === 0)
+      out.push({ title: '🪮 Hair wash today', body: now.m === hs ? `It's ${DAYS[now.dow]}, wash day · tap the card to seal once washed` : 'still unsealed · tap the card once washed', tag: 'hair', url: './#today' });
+  }
+  for (const it of itemsFor(cfg, now.key)) {
     if (done[it.id]) continue;
     const t = mins(it.time);
     if (t === now.m) out.push({ title: `🩸 ${it.title}`, body: it.sub ? `${it.sub} · tap to tick it off` : 'tap to tick it off', tag: it.id, url: './#today' });

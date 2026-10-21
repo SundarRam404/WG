@@ -263,8 +263,8 @@ button{background:none;border:none;cursor:pointer}
 .sheet h3{font-family:var(--disp);font-size:30px;font-weight:700;margin-bottom:2px}
 .sheet .grab{width:40px;height:5px;border-radius:3px;background:#3d2027;margin:0 auto 14px}
 .qk{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:6px 0 14px}.qk button{height:48px;border-radius:16px;background:#170d0f;box-shadow:inset 0 0 0 1px #b08a4a33;font-family:var(--disp);font-weight:700;font-size:17px}.qk button:active{background:#3a0f19}
-.toast{position:fixed;left:50%;top:calc(var(--st) + 14px);transform:translate(-50%,-160%);background:#1a0d10;box-shadow:inset 0 0 0 1px #b3122e,0 10px 30px -8px #000;color:var(--bone);padding:10px 20px;border-radius:99px;font-family:var(--disp);font-weight:700;font-size:16px;z-index:90;transition:transform .4s cubic-bezier(.2,1.3,.4,1);white-space:nowrap}
-.toast.on{transform:translate(-50%,0)}
+.toast{position:fixed;left:50%;top:calc(var(--st) + 14px);transform:translate(-50%,calc(-100% - var(--st) - 40px));opacity:0;visibility:hidden;background:#1a0d10;box-shadow:inset 0 0 0 1px #b3122e,0 10px 30px -8px #000;color:var(--bone);padding:10px 20px;border-radius:99px;font-family:var(--disp);font-weight:700;font-size:16px;z-index:90;transition:transform .4s cubic-bezier(.2,1.3,.4,1);white-space:nowrap;transition:transform .4s cubic-bezier(.2,1.3,.4,1),opacity .3s .1s,visibility 0s .45s}
+.toast.on{transform:translate(-50%,0);opacity:1;visibility:visible;transition:transform .4s cubic-bezier(.2,1.3,.4,1),opacity .15s}
 .dots{display:flex;justify-content:center;gap:18px;margin:22px 0 26px}
 .dots i{width:15px;height:15px;border-radius:50%;border:1.5px solid #6b3a44;transition:.15s}
 .dots i.on{background:var(--glow);border-color:var(--glow);box-shadow:0 0 10px var(--glow)}
@@ -414,6 +414,14 @@ button{background:none;border:none;cursor:pointer}
 .rdm .rck{position:absolute;inset:0;width:110px;height:110px;transition:opacity .6s}
 .rdm.mend .rck{opacity:0}.rdm.mend>svg:first-child{animation:mend 1s ease both}
 @keyframes mend{30%{filter:drop-shadow(0 0 22px #d9b26a) brightness(1.4)}100%{filter:drop-shadow(0 6px 8px #000c)}}
+.pz{display:flex;gap:12px;align-items:flex-start;margin:16px 0 4px;padding:12px 14px;border-radius:16px;background:#120a0b;box-shadow:inset 0 0 0 1px #b08a4a33}
+.pz>span{width:30px;flex:none;color:var(--gold2)}.pz>span svg{width:30px;height:30px}
+.pz b{display:block;font-family:var(--disp);font-size:18px}.pz small{font-size:13.5px;color:var(--mute);font-style:italic;line-height:1.35}
+.pz>div{flex:1}
+.rit.pzd{opacity:.42}
+.ev.pzr .tx h5{color:#8e7d76}.ev.pzr .med{opacity:.5}
+.pzn{display:inline-block;margin-top:3px;font-size:12.5px;font-style:normal;letter-spacing:.4px;color:var(--gold2);padding:1px 8px;border-radius:8px;box-shadow:inset 0 0 0 1px #b08a4a44}
+.sealbox.pzs svg{filter:drop-shadow(0 3px 4px #000c);transform:rotate(-6deg)}
 </style>
 </head>
 <body>
@@ -441,6 +449,7 @@ button{background:none;border:none;cursor:pointer}
     <div id="moodCard"></div>
     <div id="hairTop"></div>
     <div class="duo"><div><b id="cDone">0<em> / 0</em></b><span class="sc">rites sealed</span></div><div class="sep"></div><div><b id="cStreak">0<em> nights</em></b><span class="sc">unbroken</span></div></div>
+    <div id="pauseNote"></div>
     <div class="tl" id="timeline"></div>
     <div class="framed plaque" id="hairCard"></div>
     <div class="verse" id="verse"></div>
@@ -493,6 +502,7 @@ button{background:none;border:none;cursor:pointer}
     <details class="fold" data-k="the seals"><summary><span>the seals</span><em id="sealNow"></em><i></i></summary><div class="fb" id="meSeals"></div></details>
     <details class="fold" data-k="daily rites"><summary><span>daily rites</span><i></i></summary><div class="fb">
     <div class="hs" style="margin-bottom:4px">tap an emblem to change it</div>
+    <div id="pauseCtl"></div>
     <div id="ritList"></div>
     <button class="btn full" style="margin-top:12px" onclick="addRite()"><span data-i="plus"></span>Add a rite</button>
     </div></details>
@@ -508,8 +518,10 @@ button{background:none;border:none;cursor:pointer}
 
     <details class="fold" data-k="hair wash"><summary><span>hair wash</span><i></i></summary><div class="fb">
     <div class="days" id="hairDays"></div>
-    <div class="row" style="margin-top:6px"><div class="lab"><b>Night-before heads-up</b><small>card rises to the top + ping</small></div><input class="inp t" type="time" id="sHT"></div>
-    <div class="row"><div class="lab"><b>Wash-day morning ping</b><small>"Hair wash today"</small></div><input class="inp t" type="time" id="sHD"></div>
+    <div class="row" style="margin-top:6px"><div class="lab"><b>Night-before heads-up</b><small>card rises to the top + "Tomorrow is hair wash day"</small></div><input class="inp t" type="time" id="sHT"></div>
+    <div class="row"><div class="lab"><b>Second night ping</b><small>one more reminder that night</small></div><input class="inp t" type="time" id="sHT2"></div>
+    <div class="row"><div class="lab"><b>Wash-day pings</b><small>"Hair wash today", from … until …, stop once sealed</small></div><input class="inp t" type="time" id="sHD"><input class="inp t" type="time" id="sHE"></div>
+    <div class="row"><div class="lab"><b>Ping every</b><small>minutes, on wash-day mornings</small></div><input class="inp n" type="number" inputmode="numeric" id="sHEv" step="15"></div>
     </div></details>
 
     <details class="fold" data-k="her"><summary><span>her</span><i></i></summary><div class="fb">
@@ -542,7 +554,7 @@ button{background:none;border:none;cursor:pointer}
     </div>
     </div></details>
     </div>
-    <div class="foot"><b>Domso</b><br>do or marry someone · made with 🩸 by S<br><span style="letter-spacing:2px">v11 · word to Sundar</span></div>
+    <div class="foot"><b>Domso</b><br>do or marry someone · made with 🩸 by S<br><span style="letter-spacing:2px">v14 · siddha paused</span></div>
   </section>
 </main>
 
@@ -665,7 +677,7 @@ $('avSeal').innerHTML=sealSVG(4); $('bootSeal').innerHTML=sealSVG(11);
 const DEFAULT_CFG={
   name:"my Queen", tz:"Asia/Kolkata", waterGoal:2500, glass:250, nudge:true,
   waterRemind:{on:true,start:"07:00",end:"21:30",every:30,behindOnly:false},
-  v:4, hairDays:[0,4], hairEve:"22:00", hairDay:"06:15",
+  v:6, pauseLog:[], hairDays:[0,4], hairEve:"20:00", hairEve2:"21:00", hairDay:"05:00", hairEnd:"11:00", hairEvery:30,
   items:[
     {id:"thyroid",title:"Thyroid tablet",sub:"empty stomach, before 6:30",icon:"dawn",time:"06:15"},
     {id:"sid_am_b",title:"Siddha · before food",sub:"morning",icon:"herb",time:"07:30"},
@@ -680,12 +692,14 @@ const LS=k=>{try{return JSON.parse(localStorage.getItem(k))}catch(e){return null
 let cfg=Object.assign(structuredClone(DEFAULT_CFG),{v:1},LS('domso_cfg')||{});
 let log=LS('domso_log')||{};
 function migrate(){
-  if((cfg.v||1)>=4) return false;
+  if((cfg.v||1)===5){ Object.assign(cfg,{hairEve:'20:00',hairEve2:'21:00',hairDay:'05:00',hairEnd:'11:00',hairEvery:30}); cfg.v=6; return true; }
+  if((cfg.v||1)===4){ cfg.pauseLog=cfg.pauseLog||[]; cfg.items.filter(i=>i.id.startsWith('sid_')).forEach(i=>{ if(!cfg.pauseLog.some(p=>p.id===i.id&&!p.to)) cfg.pauseLog.push({id:i.id,from:'2026-10-21',to:null,why:'doctor'}); }); cfg.v=5; return migrate()||true; }
+  if((cfg.v||1)>=6) return false;
   const W={every:30,behindOnly:false,start:"07:00",end:"21:30"};
-  if((cfg.v||1)>=2){ cfg.waterRemind=Object.assign({},cfg.waterRemind,W); cfg.v=4; return true; }
+  if((cfg.v||1)>=2){ cfg.waterRemind=Object.assign({},cfg.waterRemind,W); cfg.v=4; return migrate()||true; }
   const T={sid_am_b:"07:30",sid_am_a:"09:00",strength:"09:00",sid_pm_b:"18:30",sid_pm_a:"20:30",ointment:"21:00"};
   cfg.items.forEach(i=>{ if(T[i.id]) i.time=T[i.id]; });
-  cfg.hairEve=cfg.hairEve||"22:00"; delete cfg.hairTime; cfg.waterRemind=Object.assign({},cfg.waterRemind,W); cfg.v=4; return true;
+  cfg.hairEve=cfg.hairEve||"22:00"; delete cfg.hairTime; cfg.waterRemind=Object.assign({},cfg.waterRemind,W); cfg.v=4; return migrate()||true;
 }
 let migrated=migrate();
 let sub=LS('domso_sub')||null, subS=LS('domso_subS')||null, evq=LS('domso_ev')||[];
@@ -701,8 +715,17 @@ const peek=k=>log[k]||{done:{},water:[]};
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const hash=s=>{let h=7;for(const c of String(s))h=(h*31+c.charCodeAt(0))%100000;return h};
 
+/* pauses (doctor's orders): a rite paused on a day is simply not asked of her that day */
+function pausedOn(id,key){ return (cfg.pauseLog||[]).some(p=>p.id===id && p.from<=key && (!p.to||key<p.to)); }
+function isPausedNow(id){ return pausedOn(id,todayKey()); }
+const SIDDHA_IDS=()=>cfg.items.filter(i=>i.id.startsWith('sid_')).map(i=>i.id);
+function pauseSince(){ const k=todayKey(), p=(cfg.pauseLog||[]).filter(p=>SIDDHA_IDS().includes(p.id)&&p.from<=k&&!p.to); return p.length?p.map(x=>x.from).sort()[0]:null; }
+function pauseSiddha(){ const k=todayKey(); cfg.pauseLog=cfg.pauseLog||[]; SIDDHA_IDS().forEach(id=>{ if(!isPausedNow(id)) cfg.pauseLog.push({id,from:k,to:null,why:'doctor'}); }); save(); toast('Siddha paused'); renderAll(); }
+function resumeSiddha(when){ const d=new Date(); if(when==='tomorrow') d.setDate(d.getDate()+1); const k=dkey(d);
+  (cfg.pauseLog||[]).forEach(p=>{ if(SIDDHA_IDS().includes(p.id)&&!p.to) p.to=k; }); save(); toast(when==='tomorrow'?'Siddha returns tomorrow':'Siddha is back from today'); renderAll(); }
 function itemsFor(date){
-  const list=cfg.items.map(i=>({...i}));
+  const key=dkey(date);
+  const list=cfg.items.filter(i=>!pausedOn(i.id,key)).map(i=>({...i}));
   if(cfg.hairDays.includes(date.getDay())) list.push({id:"hair",title:"Hair wash",sub:"wash day",icon:"comb",time:"12:00"});
   return list.sort((a,b)=>mins(a.time)-mins(b.time));
 }
@@ -723,10 +746,10 @@ function bestWaterStreak(){ const W=metR(waterMet); const keys=Object.keys(log).
   while(d<=end){ if(W(d)){c++;best=Math.max(best,c);} else c=0; d.setDate(d.getDate()+1); } return best; }
 const ROM12=['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
 const TIERS=[3,10,30,100,150,200,300,365], TIER_N=['Kindled','Steady','Devoted','Centurion','Unbroken','Relentless','Sovereign','Eternal'], ROM=['I','II','III','IV','V','VI','VII','VIII'];
-function curStreakOf(met0){ const met=metR(met0); const d=new Date(); let n=0; if(!met(d)) d.setDate(d.getDate()-1); while(met(d)&&n<3650){ n++; d.setDate(d.getDate()-1); } return n; }
+function curStreakOf(met0){ const met=metR(met0); const d=new Date(); let n=0,r,g=0; if(!met(d)) d.setDate(d.getDate()-1); while((r=met(d))&&g++<3650){ if(r!=='skip') n++; d.setDate(d.getDate()-1); } return n; }
 function bestStreakOf(met0){ const met=metR(met0); const keys=Object.keys(log).sort(); if(!keys.length) return 0; let best=0,c=0; const d=new Date(keys[0]+"T12:00"), end=new Date();
-  while(d<=end){ if(met(d)){c++;best=Math.max(best,c);} else c=0; d.setDate(d.getDate()+1); } return best; }
-const riteMet=ids=>d=>{ const L=ids(); if(!L.length) return false; const dn=peek(dkey(d)).done||{}; return L.every(id=>dn[id]); };
+  while(d<=end){ const r=met(d); if(r==='skip'){} else if(r){c++;best=Math.max(best,c);} else c=0; d.setDate(d.getDate()+1); } return best; }
+const riteMet=ids=>d=>{ const A=ids(); if(!A.length) return false; const k=dkey(d), L=A.filter(id=>!pausedOn(id,k)); if(!L.length) return 'skip'; const dn=peek(k).done||{}; return L.every(id=>dn[id]); };
 const FAM_SEALS={
  thyroid:[['First Light','t1','three dawns, the thyroid never missed'],['The Capsule','t2','ten mornings, one tablet each, on time'],['The Butterfly','t3','a month. The little butterfly in her throat thanks her'],['The Dawnstar','t4','one hundred sunrises, every one kept'],['The Moth','t5','one hundred and fifty days, drawn to the light'],["The Death's-head",'t6','two hundred days. Even the night moth bows'],['Crowned Wings','t7','three hundred mornings. A queen of habit'],['The Winged Sun','t8','a whole year of dawns. Eternal']],
  siddha:[['The Sprout','s1','three days of every siddha dose'],['The Leaf','s2','ten days, before and after, never missed'],['Mortar & Pestle','s3','a month of the old remedies, faithfully ground'],['Nightshade','s4','one hundred days. She knows her herbs now'],['The Bundle','s5','one hundred and fifty days, bound tight'],['The Thornbranch','s6','two hundred days. Thorns could not stop her'],['The Cauldron','s7','three hundred days of the brew'],['The Elder Tree','s8','a whole year. Roots deep, crown full']],
@@ -937,6 +960,10 @@ function rowHTML(i,{done,now,k,dueTxt}){
   return `<div class="ev${sealed?' d':''}${now?' now':''}" data-id="${i.id}" data-k="${k}"><div class="trk${sealed?' un':''}">${sealed?'break seal':sealSVG(9)+'seal it'}</div>
    <div class="evi" onclick="rowTap('${i.id}','${k}')"><div class="med">${IC[i.icon]||IC.pill}</div><div class="tx"><h5>${esc(i.title)}</h5><small>${sub}</small>${dueTxt||''}</div>${right}</div></div>`;
 }
+function pausedSeal(seed){ return `<svg viewBox="0 0 100 100"><path d="${sealPath(seed)}" fill="url(#gWaxDim)"/><circle cx="50" cy="50" r="33" fill="none" stroke="#0c0a0b" stroke-width="3" opacity=".7"/><circle cx="50" cy="50" r="36.5" fill="none" stroke="#fff" stroke-opacity=".08"/><rect x="38" y="34" width="8" height="32" rx="2.5" fill="#8e7d76"/><rect x="54" y="34" width="8" height="32" rx="2.5" fill="#8e7d76"/><path d="M24 34c4-9 12-14 22-15" stroke="#fff" stroke-opacity=".1" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`; }
+function pausedRowHTML(i){
+  return `<div class="ev pzr"><div class="evi" onclick="toast('Paused by the doctor. Ask Sundar to resume it')"><div class="med">${IC[i.icon]||IC.pill}</div><div class="tx"><h5>${esc(i.title)}</h5><small>${esc(i.sub)}${i.sub?' · ':''}${fmt12(i.time)}</small><br><span class="pzn">paused · ask Sundar to resume</span></div><span class="sealbox pzs">${pausedSeal(hash(i.id)+5)}</span></div></div>`;
+}
 let suppressTap=0;
 function rowTap(id,k){ if(Date.now()<suppressTap) return; toggleDone(id,k); }
 function renderToday(){
@@ -948,6 +975,7 @@ function renderToday(){
   $('greetSub').textContent=`${now.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})} · ${left?(left===1?'one rite remains':`${left} rites remain`):'every rite sealed'}`;
   renderVessel('today',$('vToday'),$('numToday'));
   renderSky(); renderCandle(); renderMood();
+  $('pauseNote').innerHTML='';
   document.querySelectorAll('.glassLbl').forEach(e=>e.textContent=`+ ${cfg.glass} ml`);
   const dn=its.length-left, st=streak();
   $('cDone').innerHTML=`${dn}<em> / ${its.length}</em>`;
@@ -955,9 +983,11 @@ function renderToday(){
 
   let nowId=null; for(const i of its){ if(!done[i.id] && i.id!=='hair' && mins(i.time)<=nm+60){ nowId=i.id; break; } }
   let html=`<div class="rail"></div><div class="glow" id="glow"></div>`, slot=null;
-  for(const i of its){
+  const pzd=cfg.items.filter(i=>pausedOn(i.id,k)).map(i=>({...i,_pz:1}));
+  for(const i of its.concat(pzd).sort((a,b)=>mins(a.time)-mins(b.time))){
     if(i.id==='hair') continue;
     const s=mins(i.time)<15*60?'dawn':'dusk';
+    if(i._pz){ if(s!==slot){ slot=s; html+=`<div class="orn"><span>${IC[s==='dawn'?'dawn':'moon']}${s}</span></div>`; } html+=pausedRowHTML(i); continue; }
     if(s!==slot){ slot=s; html+=`<div class="orn"><span>${IC[s==='dawn'?'dawn':'moon']}${s}</span></div>`; }
     let dueTxt="";
     if(i.id===nowId){ const diff=mins(i.time)-nm; dueTxt= diff>1?`<br><span class="due">due in ${diff} min</span>`: diff>=-1?`<br><span class="due">due now</span>`:`<br><span class="due late">${fmtLate(-diff)} late</span>`; }
@@ -975,7 +1005,7 @@ function renderToday(){
   const dow=now.getDay(), hd=cfg.hairDays, names=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
   const tmr=new Date(now); tmr.setDate(tmr.getDate()+1); const tmrKey=dkey(tmr);
   const washToday=hd.includes(dow)&&!done.hair;
-  const washEve=!washToday && hd.includes((dow+1)%7) && nm>=mins(cfg.hairEve||'22:00') && !(peek(tmrKey).done||{}).hair;
+  const washEve=!washToday && hd.includes((dow+1)%7) && nm>=mins(cfg.hairEve||'20:00') && !(peek(tmrKey).done||{}).hair;
   if(washToday||washEve){
     const k2=washToday?k:tmrKey;
     $('hairTop').innerHTML=`<div class="framed plaque hairtop" onclick="rowTap('hair','${k2}')"><div class="row1"><div class="med">${IC.comb}</div><div class="tx"><h5>Hair wash ${washToday?'today':'tomorrow'}</h5><small>${washToday?`${names[dow]} is wash day`:`${names[(dow+1)%7]} is wash day · get ready tonight`}</small><br><span class="due">${washToday?'tap to seal once washed':'already washed? tap to seal'}</span></div><span class="ring">seal</span></div></div>`;
@@ -1043,15 +1073,18 @@ function openDay(k){
 function paintSeal(){ const s=$('meSealed'), l=$('meLocked'); if(!s) return; if(!unlocked) l.querySelectorAll('details[open]').forEach(d=>d.open=false); s.style.display=unlocked?'none':''; l.style.display=unlocked?'':'none'; if(!unlocked) s.querySelector('div').innerHTML=sealSVG(31); }
 function renderMe(){
   paintSeal();
+  const ps=pauseSince();
+  $('pauseCtl').innerHTML=ps?`<div class="pz" style="margin:4px 0 10px"><span>${IC.herb||''}</span><div><b>Siddha paused since ${new Date(ps+'T12:00').toLocaleDateString('en-GB',{day:'numeric',month:'short'})}</b><small>no reminders, not counted, streaks frozen. When the new tablets come:</small><div style="display:flex;gap:8px;margin-top:9px"><button class="btn" style="flex:1" onclick="resumeSiddha('today')">Resume today</button><button class="btn p" style="flex:1" onclick="resumeSiddha('tomorrow')">From tomorrow</button></div></div></div>`
+    : (SIDDHA_IDS().length?`<button class="btn full" style="margin:4px 0 10px" onclick="pauseSiddha()">Pause all Siddha (doctor's orders)</button>`:'');
   $('ritList').innerHTML=cfg.items.slice().sort((a,b)=>mins(a.time)-mins(b.time)).map(i=>`
-   <div class="rit"><div class="med" onclick="cycleIcon('${i.id}')">${IC[i.icon]||IC.pill}</div>
+   <div class="rit${isPausedNow(i.id)?' pzd':''}"><div class="med" onclick="cycleIcon('${i.id}')">${IC[i.icon]||IC.pill}</div>
     <div class="f"><input class="inp" style="font-family:var(--disp);font-weight:700;font-size:18px" value="${esc(i.title)}" onchange="setItem('${i.id}','title',this.value)">
      <div class="r2"><input class="inp" style="font-style:italic" value="${esc(i.sub)}" placeholder="note" onchange="setItem('${i.id}','sub',this.value)"><input class="inp t" type="time" value="${i.time}" onchange="setItem('${i.id}','time',this.value)"></div></div>
     <button class="del" onclick="delRite('${i.id}')">${IC.x}</button></div>`).join('');
   $('sGoal').value=cfg.waterGoal; $('sGlass').value=cfg.glass;
   $('sWR').classList.toggle('on',!!cfg.waterRemind.on); $('sWB').classList.toggle('on',!!cfg.waterRemind.behindOnly);
   $('sWS').value=cfg.waterRemind.start; $('sWE').value=cfg.waterRemind.end; $('sWEv').value=cfg.waterRemind.every;
-  $('sHT').value=cfg.hairEve||'22:00'; $('sHD').value=cfg.hairDay||'06:15'; $('sName').value=cfg.name;
+  $('sHT').value=cfg.hairEve||'20:00'; $('sHT2').value=cfg.hairEve2||''; $('sHD').value=cfg.hairDay||'05:00'; $('sHE').value=cfg.hairEnd||'11:00'; $('sHEv').value=cfg.hairEvery||30; $('sName').value=cfg.name;
   $('sNudge').classList.toggle('on',!!cfg.nudge);
   $('sTilt').classList.toggle('on',tiltPref());
   $('hairDays').innerHTML=["S","M","T","W","T","F","S"].map((c,ix)=>`<button class="${cfg.hairDays.includes(ix)?'on':''}" onclick="toggleHair(${ix})">${c}</button>`).join('');
@@ -1080,6 +1113,9 @@ function bindInputs(){
   $('sWE').addEventListener('change',e=>{if(e.target.value){cfg.waterRemind.end=e.target.value;save();toast('Saved')}});
   $('sHT').addEventListener('change',e=>{if(e.target.value){cfg.hairEve=e.target.value;save();renderAll();toast('Saved')}});
   $('sHD').addEventListener('change',e=>{if(e.target.value){cfg.hairDay=e.target.value;save();toast('Saved')}});
+  $('sHT2').addEventListener('change',e=>{cfg.hairEve2=e.target.value||'';save();toast('Saved')});
+  $('sHE').addEventListener('change',e=>{if(e.target.value){cfg.hairEnd=e.target.value;save();toast('Saved')}});
+  $('sHEv').addEventListener('change',e=>{const v=Math.max(15,+e.target.value||30);cfg.hairEvery=v;save();toast('Saved')});
   $('sName').addEventListener('change',e=>{cfg.name=e.target.value.trim()||'my Queen';save();renderAll();toast('Saved')});
 }
 function exportData(){
@@ -1446,7 +1482,7 @@ function renderMood(){
 /* ---------- the monthly redemption ---------- */
 const okDay=d=>dayComplete(d)||!!peek(dkey(d)).redeem;
 const metR=met=>d=>met(d)||!!peek(dkey(d)).redeem;
-function streakEndingAt(met,date){ const d=new Date(date); let n=0; const M=metR(met); while(M(d)&&n<3650){ n++; d.setDate(d.getDate()-1); } return n; }
+function streakEndingAt(met,date){ const d=new Date(date); let n=0,r,g=0; const M=metR(met); while((r=M(d))&&g++<3650){ if(r!=='skip') n++; d.setDate(d.getDate()-1); } return n; }
 let redeemAskedFor=null;
 function checkRedeem(){
   if(ROLE()!=='her' || overlayOpen()) return;
