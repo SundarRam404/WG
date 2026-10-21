@@ -93,14 +93,16 @@ export function due(cfg, log, now) {
   const w = cfg.waterRemind || {};
   if (w.on && w.start && w.end && w.every) {
     const s = mins(w.start), e = mins(w.end), every = Math.max(15, +w.every);
-    if (now.m > s && now.m <= e && (now.m - s) % every === 0) {
+    if (now.m >= s && now.m <= e && (now.m - s) % every === 0) {
       const goal = +cfg.waterGoal || 2500;
       const drunk = (today.water || []).reduce((a, x) => a + (+x.ml || 0), 0);
       const pace = Math.round(goal * (now.m - s) / (e - s));
       const glass = +cfg.glass || 250;
-      if (drunk < goal && drunk + glass / 2 < pace) {
-        const behind = Math.ceil((pace - drunk) / glass);
-        out.push({ title: '💧 Time for the elixir', body: `${drunk} ml so far, about ${behind} glass${behind > 1 ? 'es' : ''} behind`, tag: 'water', url: './#water' });
+      const behind = drunk + glass / 2 < pace;
+      if (drunk < goal && (!w.behindOnly || behind)) {          // every interval until the goal is met
+        const left = ((goal - drunk) / 1000).toFixed(2).replace(/0+$/, '').replace(/\.$/, '');
+        const n = Math.ceil((pace - drunk) / glass);
+        out.push({ title: '💧 Time for the elixir', body: behind ? `${drunk} ml so far, about ${n} glass${n > 1 ? 'es' : ''} behind` : `a sip now, my Queen · ${left} L left today`, tag: 'water', url: './#water' });
       }
     }
   }

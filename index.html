@@ -361,6 +361,9 @@ button{background:none;border:none;cursor:pointer}
     <div class="duo"><div><b id="sBest">0</b><span class="sc">best streak</span></div><div class="sep"></div><div><b id="sMonth">0%</b><span class="sc">this month</span></div><div class="sep"></div><div><b id="sWater">0</b><span class="sc">elixir days</span></div></div>
     <div class="orn"><span>her seals</span></div>
     <div class="seals" id="seals"></div>
+    <div class="orn"><span>elixir seals</span></div>
+    <div class="hs" style="text-align:center;margin:-2px 0 10px">days in a row she drank the full elixir · now <b id="wsNow" style="font-style:normal;color:var(--bone)">0</b>, best <b id="wsBest" style="font-style:normal;color:var(--bone)">0</b></div>
+    <div class="seals" id="wseals"></div>
   </section>
 
   <!-- ME -->
@@ -385,7 +388,8 @@ button{background:none;border:none;cursor:pointer}
     <div class="orn"><span>the elixir</span></div>
     <div class="row"><div class="lab"><b>Daily goal</b><small>millilitres</small></div><input class="inp n" type="number" inputmode="numeric" id="sGoal" step="100"></div>
     <div class="row"><div class="lab"><b>One glass</b><small>the big red button</small></div><input class="inp n" type="number" inputmode="numeric" id="sGlass" step="50"></div>
-    <div class="row"><div class="lab"><b>Water reminders</b><small>only when she's behind pace</small></div><button class="tg" id="sWR" onclick="toggleCfg('waterRemind','on',this)"></button></div>
+    <div class="row"><div class="lab"><b>Water reminders</b><small>a ping every interval until the goal is met</small></div><button class="tg" id="sWR" onclick="toggleCfg('waterRemind','on',this)"></button></div>
+    <div class="row"><div class="lab"><b>Only when behind</b><small>skip the ping if she's on pace</small></div><button class="tg" id="sWB" onclick="toggleCfg('waterRemind','behindOnly',this)"></button></div>
     <div class="row"><div class="lab"><b>Between</b><small>first and last nudge</small></div><input class="inp t" type="time" id="sWS"><input class="inp t" type="time" id="sWE"></div>
     <div class="row"><div class="lab"><b>Check every</b><small>minutes</small></div><input class="inp n" type="number" inputmode="numeric" id="sWEv" step="15"></div>
 
@@ -412,7 +416,7 @@ button{background:none;border:none;cursor:pointer}
     </div>
 
     </div>
-    <div class="foot"><b>Domso</b><br>do or marry someone · made with 🩸 by S<br><span style="letter-spacing:2px">v5 · chalice, contained</span></div>
+    <div class="foot"><b>Domso</b><br>do or marry someone · made with 🩸 by S<br><span style="letter-spacing:2px">v6 · water 7am–9:30pm, elixir seals</span></div>
   </section>
 </main>
 
@@ -507,6 +511,14 @@ const GLYPH={
  raven:`<path d="${RAVEN}" transform="translate(25 30) scale(.43)" fill="#4a030c"/>`,
  moon:`<path d="M58 28a22 22 0 1 0 0 44a17 17 0 1 1 0-44z" fill="#4a030c"/>`,
  crown:`<path d="M29 63L26 37L39 49L50 30L61 49L74 37L71 63Z" fill="#4a030c"/><rect x="29" y="64" width="42" height="6" fill="#4a030c"/>`,
+ drop:`<path d="M50 24C59 37 67 47 67 58a17 17 0 0 1-34 0c0-11 8-21 17-34z" fill="#4a030c"/>`,
+ drops2:`<path d="M38 30C45 40 51 48 51 56a13 13 0 0 1-26 0c0-8 6-16 13-26zM62 38C69 48 75 56 75 64a13 13 0 0 1-26 0c0-8 6-16 13-26z" fill="#4a030c"/>`,
+ drops3:`<path d="M50 22C55 30 60 36 60 42a10 10 0 0 1-20 0c0-6 5-12 10-20zM35 46C40 54 45 60 45 66a10 10 0 0 1-20 0c0-6 5-12 10-20zM65 46C70 54 75 60 75 66a10 10 0 0 1-20 0c0-6 5-12 10-20z" fill="#4a030c"/>`,
+ chalice:`<path d="M33 30h34c0 15-7 24-17 25v10h10v6H40v-6h10V55c-10-1-17-10-17-25z" fill="#4a030c"/>`,
+ vial:`<path d="M44 24h12v5h-2v11l10 15a11 11 0 0 1-10 17H46a11 11 0 0 1-10-17l10-15V29h-2z" fill="#4a030c"/>`,
+ heartd:`<path d="M50 72S28 58 28 43a11 11 0 0 1 22-5 11 11 0 0 1 22 5c0 15-22 29-22 29z" fill="#4a030c"/>`,
+ crownd:`<path d="M30 50L27 30L39 40L50 24L61 40L73 30L70 50Z" fill="#4a030c"/><path d="M50 54C55 61 59 66 59 70a9 9 0 0 1-18 0c0-4 4-9 9-16z" fill="#4a030c"/>`,
+ year:`<text x="50" y="58" text-anchor="middle" font-family="Cormorant Garamond,serif" font-weight="700" font-size="28" fill="#4a030c">365</text><path d="M32 66h36" stroke="#4a030c" stroke-width="2.5"/>`,
  serpent:`<path d="M34 68C22 60 32 46 48 50S70 42 58 33" fill="none" stroke="#4a030c" stroke-width="5" stroke-linecap="round"/><circle cx="56" cy="31" r="5" fill="#4a030c"/>`,
  skull:`<g transform="translate(31 27) scale(.158)"><path d="${SKULL}" fill="#4a030c"/><path d="${EYE_L}" fill="#c4142f"/><path d="${EYE_R}" fill="#c4142f"/></g>`,
 };
@@ -521,8 +533,8 @@ $('avSeal').innerHTML=sealSVG(4); $('bootSeal').innerHTML=sealSVG(11);
 /* ---------- data ---------- */
 const DEFAULT_CFG={
   name:"my Queen", tz:"Asia/Kolkata", waterGoal:2500, glass:250, nudge:true,
-  waterRemind:{on:true,start:"08:00",end:"21:00",every:90},
-  v:2, hairDays:[0,4], hairEve:"22:00", hairDay:"06:15",
+  waterRemind:{on:true,start:"07:00",end:"21:30",every:30,behindOnly:false},
+  v:4, hairDays:[0,4], hairEve:"22:00", hairDay:"06:15",
   items:[
     {id:"thyroid",title:"Thyroid tablet",sub:"empty stomach, before 6:30",icon:"dawn",time:"06:15"},
     {id:"sid_am_b",title:"Siddha · before food",sub:"morning",icon:"herb",time:"07:30"},
@@ -537,10 +549,12 @@ const LS=k=>{try{return JSON.parse(localStorage.getItem(k))}catch(e){return null
 let cfg=Object.assign(structuredClone(DEFAULT_CFG),{v:1},LS('domso_cfg')||{});
 let log=LS('domso_log')||{};
 function migrate(){
-  if((cfg.v||1)>=2) return false;
+  if((cfg.v||1)>=4) return false;
+  const W={every:30,behindOnly:false,start:"07:00",end:"21:30"};
+  if((cfg.v||1)>=2){ cfg.waterRemind=Object.assign({},cfg.waterRemind,W); cfg.v=4; return true; }
   const T={sid_am_b:"07:30",sid_am_a:"09:00",strength:"09:00",sid_pm_b:"18:30",sid_pm_a:"20:30",ointment:"21:00"};
   cfg.items.forEach(i=>{ if(T[i.id]) i.time=T[i.id]; });
-  cfg.hairEve=cfg.hairEve||"22:00"; delete cfg.hairTime; cfg.v=2; return true;
+  cfg.hairEve=cfg.hairEve||"22:00"; delete cfg.hairTime; cfg.waterRemind=Object.assign({},cfg.waterRemind,W); cfg.v=4; return true;
 }
 let migrated=migrate();
 let sub=LS('domso_sub')||null;
@@ -570,6 +584,18 @@ function bestStreak(){
   let best=0,c=0; const d=new Date(keys[0]+"T12:00"); const end=new Date();
   while(d<=end){ if(dayComplete(d)){c++;best=Math.max(best,c);} else c=0; d.setDate(d.getDate()+1); }
   return best;
+}
+const WSEALS=[{n:3,name:'First Sips',g:'drop',t:'three days of the full elixir'},{n:10,name:'The Draught',g:'drops2',t:'ten days, never thirsty'},{n:30,name:'The Chalice',g:'chalice',t:'a month of the full elixir'},{n:100,name:'The Vial',g:'vial',t:'one hundred days. Discipline in a bottle'},{n:150,name:'The Fountain',g:'drops3',t:'one hundred and fifty days, flowing'},{n:200,name:'The Heart',g:'heartd',t:'two hundred days. It beats for you'},{n:300,name:'The Crowned Drop',g:'crownd',t:'three hundred days. Royalty'},{n:365,name:'The Eternal',g:'year',t:'a whole year of the elixir. Legend'}];
+const waterMet=d=>waterTotal(dkey(d))>=(cfg.waterGoal||2500);
+function waterStreak(){ const d=new Date(); let n=0; if(!waterMet(d)) d.setDate(d.getDate()-1); while(waterMet(d)&&n<3650){ n++; d.setDate(d.getDate()-1); } return n; }
+function bestWaterStreak(){ const keys=Object.keys(log).sort(); if(!keys.length) return 0; let best=0,c=0; const d=new Date(keys[0]+"T12:00"), end=new Date();
+  while(d<=end){ if(waterMet(d)){c++;best=Math.max(best,c);} else c=0; d.setDate(d.getDate()+1); } return best; }
+function openWSeal(i,fresh){
+  const s=WSEALS[i], got=bestWaterStreak()>=s.n;
+  openSheet(`<div style="text-align:center;padding:6px 0 10px"><div style="width:150px;margin:0 auto" class="${got?'stamp':''}">${sealSVG(s.n*17+5,s.g,!got)}</div>
+  ${fresh?'<div class="sc" style="margin-top:10px;color:var(--gold2)">a new elixir seal</div>':''}
+  <h3 style="margin-top:${fresh?4:12}px">${got?s.name:'A sealed mystery'}</h3><div class="hs">${got?s.t:`reach the full elixir ${s.n} days in a row to break this seal`}</div>
+  <div class="hs" style="margin-top:8px">${s.n} days</div></div>`);
 }
 const SEALS=[{n:3,name:'The Bat',g:'bat',t:'three nights, unbroken'},{n:7,name:'The Rose',g:'rose',t:'a full week of rites'},{n:13,name:'The Raven',g:'raven',t:'thirteen nights, the unlucky number tamed'},{n:21,name:'The Moon',g:'moon',t:'three weeks beneath the moon'},{n:30,name:'The Crown',g:'crown',t:'a month. Queen indeed'},{n:50,name:'The Serpent',g:'serpent',t:'fifty nights, coiled discipline'},{n:100,name:'The Skull',g:'skull',t:'one hundred nights. Legend'}];
 
@@ -684,11 +710,12 @@ function drip(){ if(SK){ SK.drip(); setTimeout(()=>kick(5*(Math.random()<.5?-1:1
 /* ---------- water ---------- */
 function addWater(ml){
   ml=+ml; if(!ml||ml<0) return;
-  const k=todayKey(); const before=waterTotal(k);
+  const k=todayKey(); const before=waterTotal(k), bestB=bestWaterStreak();
   day(k).water.push({ml,t:Date.now()}); save(); buzz();
   drip(cur==='water'?'water':'today'); askMotion();
   const after=waterTotal(k);
   toast(before<cfg.waterGoal && after>=cfg.waterGoal ? 'The elixir is complete 🩸' : `+${ml} ml`);
+  if(before<cfg.waterGoal && after>=cfg.waterGoal){ const bestA=bestWaterStreak(), i=WSEALS.findIndex(s=>bestB<s.n&&bestA>=s.n); if(i>=0) setTimeout(()=>openWSeal(i,true),1400); }
   renderAll();
 }
 function undoWater(){ const w=day(todayKey()).water; if(!w.length) return toast('Nothing to undo'); const x=w.pop(); save(); toast(`Removed ${x.ml} ml`); renderAll(); }
@@ -783,7 +810,8 @@ function renderWater(){
   const k=todayKey(), tot=waterTotal(k), goal=cfg.waterGoal;
   renderVessel('water',$('vWater'),$('numWater'));
   const rem=Math.max(goal-tot,0);
-  $('waterSub').textContent= rem? `${rem} ml still to drink today` : 'the goal is met today';
+  const wst=waterStreak();
+  $('waterSub').textContent= (rem? `${rem} ml still to drink today` : 'the goal is met today') + (wst?` · ${wst}-day elixir streak`:'');
   let w="", max=goal; const days=[];
   for(let a=6;a>=0;a--){ const d=new Date(); d.setDate(d.getDate()-a); days.push(d); max=Math.max(max,waterTotal(dkey(d))); }
   for(const d of days){ const t=waterTotal(dkey(d));
@@ -814,7 +842,12 @@ function renderCal(dir){
   if(dir){ el.style.animation='none'; void el.offsetWidth; el.style.animation=(dir>0?'inR':'inL')+' .4s cubic-bezier(.2,1.1,.3,1)'; }
   const best=bestStreak();
   $('sBest').textContent=best; $('sMonth').textContent=counted?Math.round(kept/counted*100)+'%':'—'; $('sWater').textContent=wdays;
+  paintWSeals();
   $('seals').innerHTML=SEALS.map((s,i)=>{const got=best>=s.n;return `<div class="seal-it${got?'':' lock'}" onclick="openSeal(${i})">${sealSVG(s.n*13,s.g,!got)}<b>${got?s.name:'Sealed away'}</b><small>${s.n} nights</small></div>`}).join('');
+}
+function paintWSeals(){
+  const best=bestWaterStreak(); $('wsNow').textContent=waterStreak(); $('wsBest').textContent=best;
+  $('wseals').innerHTML=WSEALS.map((s,i)=>{const got=best>=s.n;return `<div class="seal-it${got?'':' lock'}" onclick="openWSeal(${i})">${sealSVG(s.n*17+5,s.g,!got)}<b>${got?s.name:'Sealed away'}</b><small>${s.n} days</small></div>`}).join('');
 }
 function openSeal(i){
   const s=SEALS[i], got=bestStreak()>=s.n;
@@ -838,7 +871,7 @@ function renderMe(){
      <div class="r2"><input class="inp" style="font-style:italic" value="${esc(i.sub)}" placeholder="note" onchange="setItem('${i.id}','sub',this.value)"><input class="inp t" type="time" value="${i.time}" onchange="setItem('${i.id}','time',this.value)"></div></div>
     <button class="del" onclick="delRite('${i.id}')">${IC.x}</button></div>`).join('');
   $('sGoal').value=cfg.waterGoal; $('sGlass').value=cfg.glass;
-  $('sWR').classList.toggle('on',!!cfg.waterRemind.on);
+  $('sWR').classList.toggle('on',!!cfg.waterRemind.on); $('sWB').classList.toggle('on',!!cfg.waterRemind.behindOnly);
   $('sWS').value=cfg.waterRemind.start; $('sWE').value=cfg.waterRemind.end; $('sWEv').value=cfg.waterRemind.every;
   $('sHT').value=cfg.hairEve||'22:00'; $('sHD').value=cfg.hairDay||'06:15'; $('sName').value=cfg.name;
   $('sNudge').classList.toggle('on',!!cfg.nudge);
@@ -891,7 +924,7 @@ function renderPush(){
   if(perm==='denied'){ setStatus('bad','Notifications are blocked'); body.innerHTML=`<div class="hs">Settings → Notifications → Domso → Allow Notifications, then reopen the app.</div>`; return; }
   if(perm==='granted' && sub){
     setStatus('ok','Reminders are on for this phone');
-    body.innerHTML=`<div class="hs" style="margin-bottom:12px">Each rite pings at its time${cfg.nudge?', with a second nudge 30 min later if it is still unsealed':''}. Water nudges only when she's behind.</div>
+    body.innerHTML=`<div class="hs" style="margin-bottom:12px">Each rite pings at its time${cfg.nudge?', with a second nudge 30 min later if it is still unsealed':''}. Water pings every ${cfg.waterRemind.every} min from ${fmt12(cfg.waterRemind.start)} to ${fmt12(cfg.waterRemind.end)} until 2.5 L is reached.</div>
     <div style="display:flex;gap:8px"><button class="btn" style="flex:1" onclick="testLocal()">${IC.bell} Test ping</button><button class="btn" style="flex:1" onclick="enablePush(true)">Re-link</button></div>`; return; }
   setStatus('warn','Reminders are off');
   body.innerHTML=`<button class="btn p full" onclick="enablePush()">${IC.bell} Enable reminders</button>`;
