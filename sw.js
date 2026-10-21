@@ -1,7 +1,7 @@
 /* Domso service worker: offline shell + push reminders */
-const CACHE = 'domso-v8';
+const CACHE = 'domso-v9';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icons/icon-180.png', './icons/icon-192.png', './icons/icon-512.png',
-  './lib/three.module.min.js', './lib/chalice3d.js'];
+  './lib/three.module.min.js', './lib/vessels3d.js'];
 
 self.addEventListener('install', e => {
   // cache each file on its own so one missing file can never block the install

@@ -215,10 +215,10 @@ button{background:none;border:none;cursor:pointer}
 
 /* ---------- nav ---------- */
 .nav{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(var(--sb) + 14px);width:calc(100% - 44px);max-width:436px;height:66px;border-radius:33px;background:rgba(20,10,12,.84);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);box-shadow:inset 0 0 0 1px #b08a4a33,0 20px 40px -10px #000d;display:flex;align-items:center;justify-content:space-between;padding:0 9px;z-index:30}
-.nav button{height:48px;min-width:48px;display:flex;align-items:center;justify-content:center;gap:8px;color:var(--mute);border-radius:24px;transition:all .35s cubic-bezier(.2,1.2,.3,1)}
+.nav button{height:48px;min-width:44px;display:flex;align-items:center;justify-content:center;gap:8px;color:var(--mute);border-radius:24px;transition:all .35s cubic-bezier(.2,1.2,.3,1)}
 .nav button svg{width:24px;height:24px}
 .nav button span{display:none;font-family:var(--disp);font-weight:700;font-size:17px}
-.nav button.on{background:linear-gradient(180deg,#a8102a,#5d0614);color:#fff;padding:0 18px;box-shadow:inset 0 1px 0 #ff9aa244,0 6px 18px -4px #b3122eaa}
+.nav button.on{background:linear-gradient(180deg,#a8102a,#5d0614);color:#fff;padding:0 14px;box-shadow:inset 0 1px 0 #ff9aa244,0 6px 18px -4px #b3122eaa}
 .nav button.on span{display:inline}
 
 /* ---------- sheet, toast ---------- */
@@ -359,11 +359,13 @@ button{background:none;border:none;cursor:pointer}
     <div class="cal" id="cal"></div>
     <div class="legend"><span><i style="background:var(--glow)"></i>rites sealed</span><span><i style="background:#4fb7ff"></i>elixir complete</span></div>
     <div class="duo"><div><b id="sBest">0</b><span class="sc">best streak</span></div><div class="sep"></div><div><b id="sMonth">0%</b><span class="sc">this month</span></div><div class="sep"></div><div><b id="sWater">0</b><span class="sc">elixir days</span></div></div>
-    <div class="orn"><span>her seals</span></div>
-    <div class="seals" id="seals"></div>
-    <div class="orn"><span>elixir seals</span></div>
-    <div class="hs" style="text-align:center;margin:-2px 0 10px">days in a row she drank the full elixir · now <b id="wsNow" style="font-style:normal;color:var(--bone)">0</b>, best <b id="wsBest" style="font-style:normal;color:var(--bone)">0</b></div>
-    <div class="seals" id="wseals"></div>
+  </section>
+
+  <!-- BADGES -->
+  <section class="view" id="v-badges">
+    <div class="top"><div class="logo">Domso</div></div>
+    <div class="h2">Her Badges</div><div class="hs">wax seals for days in a row · from 3 days to a whole year</div>
+    <div id="badgeList"></div>
   </section>
 
   <!-- ME -->
@@ -407,6 +409,10 @@ button{background:none;border:none;cursor:pointer}
     <div class="hs" style="margin-bottom:10px">one plays each night when every rite is sealed, a new one daily. Tonight: <b id="finTonight" style="font-style:normal;color:var(--bone)"></b></div>
     <div class="fins" id="finList"></div>
 
+    <div class="orn"><span>the vessels</span></div>
+    <div class="hs" style="margin-bottom:10px">a different vessel each day, looping. Today: <b id="vesTonight" style="font-style:normal;color:var(--bone)"></b>. Tap to preview</div>
+    <div class="fins" id="vesList"></div>
+
     <div class="orn"><span>keep safe</span></div>
     <div style="display:flex;gap:8px">
       <button class="btn" style="flex:1" onclick="exportData()">Export</button>
@@ -416,14 +422,15 @@ button{background:none;border:none;cursor:pointer}
     </div>
 
     </div>
-    <div class="foot"><b>Domso</b><br>do or marry someone · made with 🩸 by S<br><span style="letter-spacing:2px">v6 · water 7am–9:30pm, elixir seals</span></div>
+    <div class="foot"><b>Domso</b><br>do or marry someone · made with 🩸 by S<br><span style="letter-spacing:2px">v8 · eight vessels</span></div>
   </section>
 </main>
 
 <nav class="nav" id="nav">
   <button class="on" data-v="today" onclick="go('today')"><span data-i="navToday"></span><span>Today</span></button>
   <button data-v="water" onclick="go('water')"><span data-i="navWater"></span><span>Elixir</span></button>
-  <button data-v="cal" onclick="go('cal')"><span data-i="navCal"></span><span>Nights</span></button>
+  <button data-v="cal" onclick="go('cal')"><span data-i="navCal"></span><span>Calendar</span></button>
+  <button data-v="badges" onclick="go('badges')"><span data-i="navBadge"></span><span>Badges</span></button>
   <button data-v="me" onclick="go('me')"><span data-i="navMe"></span><span>Me</span></button>
 </nav>
 
@@ -434,7 +441,7 @@ button{background:none;border:none;cursor:pointer}
 <div class="boot" id="boot"><span id="bootSeal"></span><div class="bt">Domso</div><div class="bs">her daily rites</div></div>
 
 <script type="importmap">{"imports":{"three":"./lib/three.module.min.js"}}</script>
-<script type="module" src="lib/chalice3d.js"></script>
+<script type="module" src="lib/vessels3d.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
@@ -477,6 +484,7 @@ const IC={
  navToday:E('<path d="M11 13h10v15.5H11z"/><path d="M16 13v-2.2"/><path d="M16 2.6c2 2.4 3 4 3 5.4a3 3 0 01-6 0c0-1.4 1-3 3-5.4z"/><path d="M8 28.5h16"/>',2),
  navWater:E('<path d="M12.5 3h7M13.3 3v7.2C8.4 12 6 15.8 6 20.2 6 25.6 10.5 29 16 29s10-3.4 10-8.8c0-4.4-2.4-8.2-7.3-10V3"/><path d="M7.4 18.5c3-1.6 6-1.6 8.6 0s5.6 1.6 8.6 0"/>',2),
  navCal:E('<path d="M20.5 3.5a12.5 12.5 0 100 25 10 10 0 110-25z"/><path d="M25 8l.6 1.6 1.6.6-1.6.6-.6 1.6-.6-1.6-1.6-.6 1.6-.6z"/>',2),
+ navBadge:E('<circle cx="16" cy="12.5" r="7.5"/><path d="M11.6 18.6l-3.1 9.4 4.6-2 3 3.6M20.4 18.6l3.1 9.4-4.6-2-3 3.6"/><path d="M16 8.6l1.2 2.5 2.7.4-2 1.9.5 2.7-2.4-1.3-2.4 1.3.5-2.7-2-1.9 2.7-.4z"/>',2),
  navMe:E('<circle cx="11" cy="11" r="6.5"/><circle cx="11" cy="11" r="2.2"/><path d="M15.6 15.6L28 28M23.5 23.5l-2.8 2.8M26.3 26.3l-2 2"/>',2),
  x:E('<path d="M8 8l16 16M24 8L8 24"/>',2.6),
  plus:E('<path d="M16 6v20M6 16h20"/>',2.6),
@@ -522,8 +530,10 @@ const GLYPH={
  serpent:`<path d="M34 68C22 60 32 46 48 50S70 42 58 33" fill="none" stroke="#4a030c" stroke-width="5" stroke-linecap="round"/><circle cx="56" cy="31" r="5" fill="#4a030c"/>`,
  skull:`<g transform="translate(31 27) scale(.158)"><path d="${SKULL}" fill="#4a030c"/><path d="${EYE_L}" fill="#c4142f"/><path d="${EYE_R}" fill="#c4142f"/></g>`,
 };
-function sealSVG(seed,glyph='D',dim=false,label){
-  const inner= label!=null ? `<text x="50" y="62" text-anchor="middle" font-family="Cormorant Garamond,serif" font-weight="700" font-size="36" fill="${dim?'#8e7d76':'#3a0207'}">${label}</text>` : (dim?'<text x="50" y="64" text-anchor="middle" font-family="Cormorant Garamond,serif" font-weight="700" font-size="40" fill="#5a4e50">?</text>':GLYPH[glyph]);
+function iconGlyph(k){ const s=IC[k]||IC.pill; const inner=s.slice(s.indexOf('>')+1,s.lastIndexOf('</svg>')); return `<g transform="translate(29 23) scale(1.32)" fill="none" stroke="#4a030c" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">${inner}</g>`; }
+function sealSVG(seed,glyph='D',dim=false,label,roman){
+  if(!dim && String(glyph).startsWith('ic:')) return sealSVG(seed,'__',false,null,roman).replace('<!--G-->',iconGlyph(glyph.slice(3))+(roman?`<text x="50" y="78" text-anchor="middle" font-family="Cormorant Garamond,serif" font-weight="700" font-size="11" letter-spacing="1" fill="#4a030c">${roman}</text>`:''));
+  const inner= glyph==='__' ? '<!--G-->' : label!=null ? `<text x="50" y="62" text-anchor="middle" font-family="Cormorant Garamond,serif" font-weight="700" font-size="36" fill="${dim?'#8e7d76':'#3a0207'}">${label}</text>` : (dim?'<text x="50" y="64" text-anchor="middle" font-family="Cormorant Garamond,serif" font-weight="700" font-size="40" fill="#5a4e50">?</text>':GLYPH[glyph]);
   return `<svg viewBox="0 0 100 100"><path d="${sealPath(seed)}" fill="url(#${dim?'gWaxDim':'gWax'})"/>
   <circle cx="50" cy="50" r="33" fill="none" stroke="${dim?'#0c0a0b':'#3f020a'}" stroke-width="3" opacity=".7"/><circle cx="50" cy="50" r="36.5" fill="none" stroke="#ffb3bc" stroke-opacity="${dim?.08:.22}" stroke-width="1"/>
   ${inner}<path d="M24 34c4-9 12-14 22-15" stroke="#fff" stroke-opacity="${dim?.08:.28}" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`;
@@ -590,14 +600,36 @@ const waterMet=d=>waterTotal(dkey(d))>=(cfg.waterGoal||2500);
 function waterStreak(){ const d=new Date(); let n=0; if(!waterMet(d)) d.setDate(d.getDate()-1); while(waterMet(d)&&n<3650){ n++; d.setDate(d.getDate()-1); } return n; }
 function bestWaterStreak(){ const keys=Object.keys(log).sort(); if(!keys.length) return 0; let best=0,c=0; const d=new Date(keys[0]+"T12:00"), end=new Date();
   while(d<=end){ if(waterMet(d)){c++;best=Math.max(best,c);} else c=0; d.setDate(d.getDate()+1); } return best; }
-function openWSeal(i,fresh){
-  const s=WSEALS[i], got=bestWaterStreak()>=s.n;
-  openSheet(`<div style="text-align:center;padding:6px 0 10px"><div style="width:150px;margin:0 auto" class="${got?'stamp':''}">${sealSVG(s.n*17+5,s.g,!got)}</div>
-  ${fresh?'<div class="sc" style="margin-top:10px;color:var(--gold2)">a new elixir seal</div>':''}
-  <h3 style="margin-top:${fresh?4:12}px">${got?s.name:'A sealed mystery'}</h3><div class="hs">${got?s.t:`reach the full elixir ${s.n} days in a row to break this seal`}</div>
-  <div class="hs" style="margin-top:8px">${s.n} days</div></div>`);
+const TIERS=[3,10,30,100,150,200,300,365], TIER_N=['Kindled','Steady','Devoted','Centurion','Unbroken','Relentless','Sovereign','Eternal'], ROM=['I','II','III','IV','V','VI','VII','VIII'];
+function curStreakOf(met){ const d=new Date(); let n=0; if(!met(d)) d.setDate(d.getDate()-1); while(met(d)&&n<3650){ n++; d.setDate(d.getDate()-1); } return n; }
+function bestStreakOf(met){ const keys=Object.keys(log).sort(); if(!keys.length) return 0; let best=0,c=0; const d=new Date(keys[0]+"T12:00"), end=new Date();
+  while(d<=end){ if(met(d)){c++;best=Math.max(best,c);} else c=0; d.setDate(d.getDate()+1); } return best; }
+const riteMet=ids=>d=>{ const L=ids(); if(!L.length) return false; const dn=peek(dkey(d)).done||{}; return L.every(id=>dn[id]); };
+const riteFam=(key,name,icon,ids)=>({key,name,sub:`days in a row she sealed ${name.toLowerCase()==='siddha'?'every siddha tablet':'the '+name.toLowerCase()}`,met:riteMet(ids),
+  seals:TIERS.map((n,i)=>({n,name:`${name} · ${TIER_N[i]}`,g:'ic:'+icon,r:ROM[i],t:`${n} days of ${name.toLowerCase()}, never missed`}))});
+let COLL=null;
+function collections(){ if(COLL) return COLL; COLL=[
+  {key:'all',name:'Every rite',sub:'the full finish: every rite sealed, days in a row',met:d=>dayComplete(d),seals:SEALS},
+  {key:'water',name:'The elixir',sub:'days in a row she drank the full elixir',met:d=>waterMet(d),seals:WSEALS},
+  riteFam('thyroid','Thyroid','dawn',()=>cfg.items.some(i=>i.id==='thyroid')?['thyroid']:[]),
+  riteFam('siddha','Siddha','herb',()=>cfg.items.filter(i=>i.id.startsWith('sid_')).map(i=>i.id)),
+  riteFam('strength','Strength','bolt',()=>cfg.items.some(i=>i.id==='strength')?['strength']:[]),
+  riteFam('ointment','Ointment','jar',()=>cfg.items.some(i=>i.id==='ointment')?['ointment']:[]),
+ ]; return COLL; }
+function renderBadges(){
+  $('badgeList').innerHTML=collections().map((c,ci)=>{ const best=bestStreakOf(c.met), now=curStreakOf(c.met);
+    return `<div class="orn"><span>${c.name}</span></div><div class="hs" style="text-align:center;margin:-2px 0 12px">${c.sub} · now <b style="font-style:normal;color:var(--bone)">${now}</b>, best <b style="font-style:normal;color:var(--bone)">${best}</b></div>
+    <div class="seals">${c.seals.map((s,i)=>{const got=best>=s.n;return `<div class="seal-it${got?'':' lock'}" onclick="openBadge(${ci},${i})">${sealSVG(s.n*13+ci*7,s.g,!got,null,s.r)}<b>${got?s.name.replace(/^.* · /,''):'Sealed away'}</b><small>${s.n} days</small></div>`}).join('')}</div>`; }).join('');
 }
-const SEALS=[{n:3,name:'The Bat',g:'bat',t:'three nights, unbroken'},{n:7,name:'The Rose',g:'rose',t:'a full week of rites'},{n:13,name:'The Raven',g:'raven',t:'thirteen nights, the unlucky number tamed'},{n:21,name:'The Moon',g:'moon',t:'three weeks beneath the moon'},{n:30,name:'The Crown',g:'crown',t:'a month. Queen indeed'},{n:50,name:'The Serpent',g:'serpent',t:'fifty nights, coiled discipline'},{n:100,name:'The Skull',g:'skull',t:'one hundred nights. Legend'}];
+function openBadge(ci,i,fresh){
+  const c=collections()[ci], s=c.seals[i], got=bestStreakOf(c.met)>=s.n;
+  openSheet(`<div style="text-align:center;padding:6px 0 10px"><div style="width:150px;margin:0 auto" class="${got?'stamp':''}">${sealSVG(s.n*13+ci*7,s.g,!got,null,s.r)}</div>
+  ${fresh?'<div class="sc" style="margin-top:10px;color:var(--gold2)">a new seal</div>':''}
+  <h3 style="margin-top:${fresh?4:12}px">${got?s.name:'A sealed mystery'}</h3><div class="hs">${got?s.t:`${c.sub.replace(/^the full finish: /,'')}: reach ${s.n} to break this seal`}</div>
+  <div class="hs" style="margin-top:8px">${c.name} · ${s.n} days</div></div>`);
+}
+function famBests(){ return collections().slice(2).map(c=>bestStreakOf(c.met)); }
+const SEALS=[{n:3,name:'The Bat',g:'bat',t:'three days, every rite sealed'},{n:10,name:'The Rose',g:'rose',t:'ten days of every rite'},{n:30,name:'The Raven',g:'raven',t:'a month, not one rite missed'},{n:100,name:'The Moon',g:'moon',t:'one hundred days beneath the moon'},{n:150,name:'The Crown',g:'crown',t:'one hundred and fifty days. Queen indeed'},{n:200,name:'The Serpent',g:'serpent',t:'two hundred days, coiled discipline'},{n:300,name:'The Skull',g:'skull',t:'three hundred days. Legend'},{n:365,name:'The Eternal Night',g:'year',t:'a whole year, every rite. Immortal'}];
 
 /* ---------- persistence ---------- */
 let fdb=null, applying=false, pushTimer=null;
@@ -653,7 +685,11 @@ function openSheet(html){ $('sheetIn').innerHTML='<div class="grab"></div>'+html
    ============================================================ */
 /* the vessel is a real 3D glass skull (lib/skull3d.js, WebGL). One renderer, moved between screens. */
 let SK=null;
-function skull(){ if(!SK && window.SkullVessel){ try{ SK=new SkullVessel(); }catch(e){ console.warn('3d off',e); } } return SK; }
+const VESSEL_ORDER=[1,2,3,4,6,7,8,9]; let vesselPreview=null;
+function vesselId(){ if(vesselPreview) return vesselPreview; const d=new Date(); const n=Math.floor(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/864e5); return VESSEL_ORDER[n%VESSEL_ORDER.length]; }
+function vesselName(){ const v=(window.VESSELS||[]).find(x=>x.id===vesselId()); return v?v.name:''; }
+function skull(){ if(!SK && window.SkullVessel){ try{ window.VESSEL_DESIGN=vesselId(); SK=new SkullVessel(); }catch(e){ console.warn('3d off',e); } } return SK; }
+function previewVessel(id){ vesselPreview=id; if(SK&&SK.setDesign) SK.setDesign(id); toast(vesselName()); go('today',-1); }
 window.addEventListener('skull3d-ready',()=>renderAll());
 function waterPct(){ const tot=waterTotal(todayKey()), goal=cfg.waterGoal||2500; return Math.min(tot/goal,1); }
 function renderVessel(name,host,numEl){
@@ -661,11 +697,11 @@ function renderVessel(name,host,numEl){
     host.innerHTML='<div class="vglow"></div><div class="v3"></div>';
     host.querySelector('.v3').addEventListener('click',()=>{ if(Date.now()<suppressTap) return; askMotion(); kick(9*(Math.random()<.5?-1:1)); });
   }
-  const sk=skull(); if(sk){ sk.mount(host.querySelector('.v3')); sk.setLevel(waterPct()); if(sk.setOverflow) sk.setOverflow(Math.max(0,waterTotal(todayKey())-(cfg.waterGoal||2500))/1000); }
+  const sk=skull(); if(sk){ if(sk.setDesign) sk.setDesign(vesselId()); sk.mount(host.querySelector('.v3')); sk.setLevel(waterPct()); if(sk.setOverflow) sk.setOverflow(Math.max(0,waterTotal(todayKey())-(cfg.waterGoal||2500))/1000); }
   const k=todayKey(), tot=waterTotal(k), goal=cfg.waterGoal||2500, g=cfg.glass||250;
   const n=Math.max(4,Math.min(14,Math.round(goal/g))), lit=Math.min(n,Math.floor(tot/g));
   const L=(tot/1000).toFixed(2).replace(/0+$/,'').replace(/\.$/,'');
-  numEl.innerHTML=`<b>${tot?L:'0'}<small> L</small></b><span class="of">${tot>=goal?'the elixir is complete':`of ${goal/1000} L · ${lit} of ${n} draughts`}</span>
+  numEl.innerHTML=`<b>${tot?L:'0'}<small> L</small></b><span class="of" style="font-variant:small-caps;letter-spacing:2px;font-style:normal;font-size:13px;color:#8e6a62">${esc(vesselName())}</span><span class="of">${tot>=goal?'the elixir is complete':`of ${goal/1000} L · ${lit} of ${n} draughts`}</span>
    <div class="drops">${Array.from({length:n},(_,i)=>`<svg viewBox="0 0 13 16"><path d="M6.5 1C9 4.4 12 7.6 12 10.3a5.5 5.5 0 01-11 0C1 7.6 4 4.4 6.5 1z" fill="${i<lit?'#8e0b1c':'none'}" stroke="${i<lit?'#ff4d68':'#5a3a40'}" stroke-width="1"/></svg>`).join('')}</div>`;
   host.querySelector('.vglow').style.opacity=tot>=goal?1:.45;
 }
@@ -715,7 +751,7 @@ function addWater(ml){
   drip(cur==='water'?'water':'today'); askMotion();
   const after=waterTotal(k);
   toast(before<cfg.waterGoal && after>=cfg.waterGoal ? 'The elixir is complete 🩸' : `+${ml} ml`);
-  if(before<cfg.waterGoal && after>=cfg.waterGoal){ const bestA=bestWaterStreak(), i=WSEALS.findIndex(s=>bestB<s.n&&bestA>=s.n); if(i>=0) setTimeout(()=>openWSeal(i,true),1400); }
+  if(before<cfg.waterGoal && after>=cfg.waterGoal){ const bestA=bestWaterStreak(), i=WSEALS.findIndex(s=>bestB<s.n&&bestA>=s.n); if(i>=0) setTimeout(()=>openBadge(1,i,true),1400); }
   renderAll();
 }
 function undoWater(){ const w=day(todayKey()).water; if(!w.length) return toast('Nothing to undo'); const x=w.pop(); save(); toast(`Removed ${x.ml} ml`); renderAll(); }
@@ -731,11 +767,14 @@ function askCustom(){
 let justSealed=null;
 function toggleDone(id,k=todayKey(),silent){
   const d=day(k).done; const date=new Date(k+"T12:00");
-  const was=dayComplete(date), bestBefore=bestStreak();
+  const was=dayComplete(date), bestBefore=bestStreak(), fb=(!silent&&k===todayKey())?famBests():null;
   if(d[id]) delete d[id]; else { d[id]=Date.now(); buzz(18); justSealed=id+'@'+k; }
   save();
+  let famNew=null;
+  if(fb){ const fa=famBests(); fa.forEach((v,ix)=>{ if(famNew) return; const c=collections()[ix+2], i=c.seals.findIndex(s=>fb[ix]<s.n&&v>=s.n); if(i>=0) famNew=[ix+2,i]; }); }
   if(!silent){
-    if(!was && dayComplete(date) && k===todayKey()){ renderAll(); const bestAfter=bestStreak(); const s=SEALS.find(x=>bestBefore<x.n&&bestAfter>=x.n); setTimeout(()=>showFinale(null,s),500); return; }
+    if(!was && dayComplete(date) && k===todayKey()){ if(famNew) toast('New seal: '+collections()[famNew[0]].seals[famNew[1]].name); renderAll(); const bestAfter=bestStreak(); const s=SEALS.find(x=>bestBefore<x.n&&bestAfter>=x.n); setTimeout(()=>showFinale(null,s),500); return; }
+    if(famNew){ renderAll(); setTimeout(()=>openBadge(famNew[0],famNew[1],true),400); return; }
     if(d[id]) toast('Sealed ✓'); else toast('Seal broken');
   }
   renderAll();
@@ -842,17 +881,6 @@ function renderCal(dir){
   if(dir){ el.style.animation='none'; void el.offsetWidth; el.style.animation=(dir>0?'inR':'inL')+' .4s cubic-bezier(.2,1.1,.3,1)'; }
   const best=bestStreak();
   $('sBest').textContent=best; $('sMonth').textContent=counted?Math.round(kept/counted*100)+'%':'—'; $('sWater').textContent=wdays;
-  paintWSeals();
-  $('seals').innerHTML=SEALS.map((s,i)=>{const got=best>=s.n;return `<div class="seal-it${got?'':' lock'}" onclick="openSeal(${i})">${sealSVG(s.n*13,s.g,!got)}<b>${got?s.name:'Sealed away'}</b><small>${s.n} nights</small></div>`}).join('');
-}
-function paintWSeals(){
-  const best=bestWaterStreak(); $('wsNow').textContent=waterStreak(); $('wsBest').textContent=best;
-  $('wseals').innerHTML=WSEALS.map((s,i)=>{const got=best>=s.n;return `<div class="seal-it${got?'':' lock'}" onclick="openWSeal(${i})">${sealSVG(s.n*17+5,s.g,!got)}<b>${got?s.name:'Sealed away'}</b><small>${s.n} days</small></div>`}).join('');
-}
-function openSeal(i){
-  const s=SEALS[i], got=bestStreak()>=s.n;
-  openSheet(`<div style="text-align:center;padding:6px 0 10px"><div style="width:150px;margin:0 auto" class="${got?'stamp':''}">${sealSVG(s.n*13,s.g,!got)}</div>
-  <h3 style="margin-top:12px">${got?s.name:'A sealed mystery'}</h3><div class="hs">${got?s.t:`keep every rite for ${s.n} nights in a row to break this seal`}</div></div>`);
 }
 function openDay(k){
   const dt=new Date(k+"T12:00"), its=itemsFor(dt), d=peek(k).done||{}, tot=waterTotal(k);
@@ -878,6 +906,8 @@ function renderMe(){
   $('sTilt').classList.toggle('on',tiltPref());
   $('hairDays').innerHTML=["S","M","T","W","T","F","S"].map((c,ix)=>`<button class="${cfg.hairDays.includes(ix)?'on':''}" onclick="toggleHair(${ix})">${c}</button>`).join('');
   $('finTonight').textContent=`${finIndex()+1} · ${FINALES[finIndex()].name}`;
+  $('vesTonight').textContent=vesselName();
+  $('vesList').innerHTML=VESSEL_ORDER.map((id,i)=>`<button onclick="previewVessel(${id})">${i+1}</button>`).join('');
   $('finList').innerHTML=FINALES.map((f,i)=>`<button onclick="showFinale(${i})">${i+1}</button>`).join('');
   renderPush();
 }
@@ -1063,7 +1093,7 @@ function closeFinale(){ const el=$('fin'); el.style.transition='opacity .5s'; el
 /* ============================================================
    NAV, LOCK, GESTURES
    ============================================================ */
-const ORDER=['today','water','cal','me'];
+const ORDER=['today','water','cal','badges','me'];
 let cur='today';
 const PASS="1234"; let unlocked=false, pin="";
 function lockHTML(){ return `<div style="text-align:center"><div style="width:76px;margin:0 auto 6px">${sealSVG(31)}</div><h3>Sealed</h3><div class="hs">enter the passcode</div></div>
@@ -1091,6 +1121,7 @@ function renderAll(){
   try{ if(cur==='today') renderToday(); }catch(e){console.error(e)}
   try{ if(cur==='water') renderWater(); }catch(e){console.error(e)}
   try{ if(cur==='cal') renderCal(); }catch(e){console.error(e)}
+  try{ if(cur==='badges') renderBadges(); }catch(e){console.error(e)}
   try{ if(cur==='me') renderMe(); }catch(e){console.error(e)}
 }
 
@@ -1186,7 +1217,7 @@ window.addEventListener('scroll',()=>{ const d=window.scrollY-lastSY; lastSY=win
 bindInputs();
 if(migrated) save();
 const startHash=location.hash.slice(1);
-cur=['today','water','cal'].includes(startHash)?startHash:'today';
+cur=['today','water','cal','badges'].includes(startHash)?startHash:'today';
 go(cur,0);
 setInterval(()=>{ if(cur==='today') renderToday(); },60000);
 document.addEventListener('visibilitychange',()=>{ if(document.hidden){ unlocked=false; paintSeal(); return; } renderAll(); });
