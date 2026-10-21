@@ -422,6 +422,31 @@ button{background:none;border:none;cursor:pointer}
 .ev.pzr .tx h5{color:#8e7d76}.ev.pzr .med{opacity:.5}
 .pzn{display:inline-block;margin-top:3px;font-size:12.5px;font-style:normal;letter-spacing:.4px;color:var(--gold2);padding:1px 8px;border-radius:8px;box-shadow:inset 0 0 0 1px #b08a4a44}
 .sealbox.pzs svg{filter:drop-shadow(0 3px 4px #000c);transform:rotate(-6deg)}
+/* rate the day */
+.rate{position:fixed;inset:0;z-index:86;display:none;overflow-y:auto;-webkit-overflow-scrolling:touch;background:radial-gradient(120% 70% at 50% 0%,#2a0710 0%,#0d0608 55%,#070405 100%);animation:fadeIn .5s both}
+.rate.on{display:block}
+.rin{max-width:440px;margin:0 auto;padding:calc(var(--st) + 26px) 22px calc(var(--sb) + 40px)}
+.rin .k{text-align:center;font-variant:small-caps;letter-spacing:4px;font-size:13px;color:var(--gold)}
+.rin .t{text-align:center;font-family:'UnifrakturCook',serif;font-size:38px;line-height:1.05;margin:6px 0 4px;color:#f3e6da;text-shadow:0 0 24px #b3122e88}
+.rin .s{text-align:center;font-style:italic;color:#a8958c;font-size:15.5px}
+.rleft{margin:8px auto 2px;text-align:center;font-size:14px;color:var(--gold2);font-style:italic;max-width:330px;line-height:1.35}
+.rw{margin:4px -8px 0;touch-action:none;cursor:pointer}.rw svg{width:100%;height:auto;display:block;overflow:visible}
+.rheart{transform-origin:0 0;animation:hb 1.2s ease-in-out infinite}
+@keyframes hb{0%,100%{transform:scale(1)}12%{transform:scale(1.12)}24%{transform:scale(.97)}36%{transform:scale(1.07)}}
+.rw.flare svg{animation:flare .9s ease-out both}@keyframes flare{40%{filter:drop-shadow(0 0 22px #ff2d4f) brightness(1.5)}100%{filter:none;opacity:.2;transform:scale(.92)}}
+.rbig{text-align:center;min-height:74px}.rbig b{font-weight:700;font-size:50px;line-height:1;color:#fff;font-family:var(--disp)}.rbig span{font-size:19px;color:var(--mute)}
+.rbig .nm{font-variant:small-caps;letter-spacing:5px;color:#ff4d68;font-size:15px}
+.rin .q{margin-top:12px;padding:13px 14px 6px;border-radius:18px;background:linear-gradient(#170b0e,#100809);box-shadow:inset 0 0 0 1px #b08a4a2e}
+.rin .q h4{font-family:var(--disp);font-weight:700;font-size:18.5px;margin:2px 0 4px}
+.rin textarea{width:100%;background:none;border:none;border-bottom:1px solid #4a2a30;color:var(--bone);font:italic 16.5px var(--serif);padding:4px 2px 8px;margin-bottom:10px;resize:none;outline:none;-webkit-user-select:text;user-select:text}
+.rin textarea:focus{border-color:var(--glow)}.rin textarea::placeholder{color:#6d5a56}
+.rbtn{display:block;margin:16px auto 0;width:230px;padding:13px 0;border-radius:99px;background:linear-gradient(#b3122e,#7d0611);font-family:var(--disp);font-weight:700;font-size:18px;color:#fff;box-shadow:0 8px 22px #b3122e55,inset 0 1px 0 #ff8a9a55;transition:opacity .3s}
+.rbtn:disabled{opacity:.35;box-shadow:none}
+.rlater{text-align:center;margin-top:12px;font-size:14px;color:var(--mute);font-style:italic}
+.fleft{margin-top:10px;font-size:14px;font-style:italic;color:#d9b9ad;animation:ink .8s 2.2s both}
+.drate{margin:2px 0 12px;padding:10px 12px;border-radius:14px;background:#0c0607;box-shadow:inset 0 0 0 1px #b08a4a2a}
+.drate b{font-family:var(--disp);font-size:18px}.drate b em{font-style:normal;color:#ff4d68;letter-spacing:2px;font-variant:small-caps;font-size:14px;margin-left:6px}
+.drate p{font-size:14.5px;margin-top:5px;line-height:1.35;color:var(--bone2)}.drate p i{color:var(--mute);font-size:13px;margin-right:4px}
 </style>
 </head>
 <body>
@@ -554,7 +579,7 @@ button{background:none;border:none;cursor:pointer}
     </div>
     </div></details>
     </div>
-    <div class="foot"><b>Domso</b><br>do or marry someone · made with 🩸 by S<br><span style="letter-spacing:2px">v14 · siddha paused</span></div>
+    <div class="foot"><b>Domso</b><br>do or marry someone · made with 🩸 by S<br><span style="letter-spacing:2px">v15 · the heartbeat</span></div>
   </section>
 </main>
 
@@ -569,6 +594,7 @@ button{background:none;border:none;cursor:pointer}
 <div class="sheet" id="sheet" onclick="if(event.target===this)closeSheet()"><div class="in" id="sheetIn"></div></div>
 <div class="toast" id="toast"></div>
 <div class="fin" id="fin"></div>
+<div class="rate" id="rate"></div>
 <div class="onb" id="onb"></div>
 <div class="boot" id="boot"><span id="bootSeal"></span><div class="bt">Domso</div><div class="bs">her daily rites</div></div>
 
@@ -941,9 +967,15 @@ function toggleDone(id,k=todayKey(),silent){
   let famNew=null;
   if(fb){ const fa=famBests(); fa.forEach((v,ix)=>{ if(famNew) return; const c=collections()[ix+2], i=c.seals.findIndex(s=>fb[ix]<s.n&&v>=s.n); if(i>=0) famNew=[ix+2,i]; }); }
   if(!silent){
-    if(!was && dayComplete(date) && k===todayKey()){ if(famNew){ const fs=collections()[famNew[0]].seals[famNew[1]]; toast('New seal: '+fs.name); sealEarnedWord(fs.name,fs.t); } renderAll(); const bestAfter=bestStreak(); const s=SEALS.find(x=>bestBefore<x.n&&bestAfter>=x.n);
+    if(!was && dayComplete(date) && k===todayKey()){ if(famNew){ const fs=collections()[famNew[0]].seals[famNew[1]]; toast('New seal: '+fs.name); sealEarnedWord(fs.name,fs.t); } const bestAfter=bestStreak(); const s=SEALS.find(x=>bestBefore<x.n&&bestAfter>=x.n);
       const its=itemsFor(date); finTold=notifyHim(`🩸 ${HER} sealed every rite`,`${its.length} rites done · ${L2(waterTotal(k))} L of the elixir · ${streak()} ${streak()===1?'night':'nights'} unbroken`,'alldone'); if(s) sealEarnedWord(s.name,s.t);
-      setTimeout(()=>showFinale(null,s),500); return; }
+      if(!day(k).fin){ day(k).fin=Date.now(); save(); renderAll(); setTimeout(()=>showFinale(null,s),500); } else { renderAll(); toast(s?'New seal: '+s.name:'Every rite sealed ✓'); }
+      return; }
+    if(d[id] && k===todayKey() && id===lastRiteId(date) && !day(k).fin){
+      day(k).fin=Date.now(); save(); const left=leftList(k);
+      finTold=notifyHim(`🌙 ${HER} ended her day`,left.length?`still open: ${left.join(' · ')}`:'every rite sealed','dayend');
+      if(famNew){ const fs=collections()[famNew[0]].seals[famNew[1]]; sealEarnedWord(fs.name,fs.t); }
+      renderAll(); setTimeout(()=>showFinale(null,null),500); return; }
     if(famNew){ renderAll(); setTimeout(()=>openBadge(famNew[0],famNew[1],true),400); return; }
     if(d[id]) toast('Sealed ✓'); else toast('Seal broken');
   }
@@ -1066,7 +1098,8 @@ function openDay(k){
   const title=dt.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'short'});
   const rows=its.map(i=>`<div class="ev${d[i.id]?' d':''}"><div class="evi" onclick="toggleDone('${i.id}','${k}',true);openDay('${k}')"><div class="med">${IC[i.icon]||IC.pill}</div><div class="tx"><h5>${esc(i.title)}</h5><small>${fmt12(i.time)}</small></div>${d[i.id]?`<span class="sealbox">${sealSVG(hash(i.id)+3)}</span>`:'<span class="tm">tap</span>'}</div></div>`).join('');
   const pd=peek(k), moods=(pd.mood||[]).map(m=>`<span>${moodIcon(m.v)}<b>${m.v}</b><small>${new Date(m.t).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})}</small></span>`).join('');
-  openSheet(`<h3>${title}</h3><div class="hs" style="margin-bottom:10px">${tot} ml of the elixir · tap a rite to fix it${pd.redeem?' · <span style="color:var(--gold2)">mended with the month\'s redemption</span>':''}</div>${moods?`<div class="sc" style="margin:4px 0 6px;color:var(--mute)">how she felt</div><div class="dmood">${moods}</div>`:''}${rows}`);
+  const rt=pd.rate, rateHTML=rt?`<div class="drate"><b>${rt.v}/10<em>${RNAMES[rt.v]}</em></b>${rt.good?`<p><i>good</i>${esc(rt.good)}</p>`:''}${rt.bad?`<p><i>bad</i>${esc(rt.bad)}</p>`:''}${rt.note?`<p><i>for ${HIM}</i>${esc(rt.note)}</p>`:''}</div>`:'';
+  openSheet(`<h3>${title}</h3><div class="hs" style="margin-bottom:10px">${tot} ml of the elixir · tap a rite to fix it${pd.redeem?' · <span style="color:var(--gold2)">mended with the month\'s redemption</span>':''}</div>${rateHTML?`<div class="sc" style="margin:4px 0 6px;color:var(--mute)">her day</div>${rateHTML}`:''}${moods?`<div class="sc" style="margin:4px 0 6px;color:var(--mute)">how she felt</div><div class="dmood">${moods}</div>`:''}${rows}`);
 }
 
 /* ---------- settings ---------- */
@@ -1278,12 +1311,12 @@ function showFinale(i,newSeal){
   const el=$('fin');
   el.innerHTML=`<div class="fbg"></div><div class="stage" id="fstage" style="${f.stageAnim?`animation:${f.stageAnim}`:''}">${f.scene(st)}
    <div class="ftxt" style="${textPos};--td:${f.td||'1.6s'}">${f.title?`<div class="ft">${f.title}</div><div class="fs">${f.sub}</div>`:''}${f.name==='Blood Letter'?'':statsHTML}
-   ${newSeal?`<div class="fnew">✦ New seal earned: ${newSeal.name} ✦</div>`:''}${(i==null&&ROLE()==='her')?`<div class="ftold">✉ word sent to ${HIM}</div>`:''}<div class="fbtn" onclick="closeFinale()">${f.btn||'Rest now, my Queen'}</div></div></div>`;
-  el.classList.add('on'); el.dataset.t=Date.now();
+   ${newSeal?`<div class="fnew">✦ New seal earned: ${newSeal.name} ✦</div>`:''}${i==null&&!dayComplete(new Date())&&leftList(k).length?`<div class="fleft">still open: ${leftList(k).map(esc).join(' · ')}</div>`:''}${(i==null&&ROLE()==='her')?`<div class="ftold">✉ word sent to ${HIM}</div>`:''}<div class="fbtn" onclick="closeFinale()">${i==null&&ROLE()==='her'&&!peek(k).rate?'Rate your day':(f.btn||'Rest now, my Queen')}</div></div></div>`;
+  el.classList.add('on'); el.dataset.t=Date.now(); finLive=(i==null);
   const fsk=$('finSkull'), sk=skull(); if(fsk&&sk){ sk.mount(fsk); sk.level=0; sk.setLevel(1); }
   el.onclick=e=>{ if(Date.now()-el.dataset.t>2500 && !e.target.closest('.fbtn')) closeFinale(); };
 }
-function closeFinale(){ const el=$('fin'); el.style.transition='opacity .5s'; el.style.opacity=0; setTimeout(()=>{el.classList.remove('on');el.style.opacity='';el.innerHTML='';renderAll();},500); }
+function closeFinale(){ const el=$('fin'), live=finLive; finLive=false; el.style.transition='opacity .5s'; el.style.opacity=0; setTimeout(()=>{el.classList.remove('on');el.style.opacity='';el.innerHTML='';renderAll(); if(live&&ROLE()==='her'&&!peek(todayKey()).rate) setTimeout(()=>openRate(todayKey(),'t'),350);},500); }
 
 /* ============================================================
    NAV, LOCK, GESTURES
@@ -1323,7 +1356,7 @@ function renderAll(){
 /* one touch controller: swipe a rite to seal, swipe the page to change tab,
    swipe the calendar to change month, pull down at the top to refresh */
 let G=null;
-const overlayOpen=()=>$('sheet').classList.contains('on')||$('fin').classList.contains('on')||$('onb').classList.contains('on');
+const overlayOpen=()=>$('sheet').classList.contains('on')||$('fin').classList.contains('on')||$('onb').classList.contains('on')||$('rate').classList.contains('on');
 document.addEventListener('touchstart',e=>{
   if(overlayOpen()||e.touches.length>1){ G=null; return; }
   const t=e.touches[0], tg=e.target;
@@ -1468,8 +1501,9 @@ function renderMood(){
   const m=(peek(todayKey()).mood||[]), last=m[m.length-1], him=ROLE()==='him';
   const tm=t=>new Date(t).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
   if(him){
-    el.innerHTML= last? `<div class="mood done"><div class="mic">${moodIcon(last.v)}</div><div class="mt"><b>She feels ${last.v}</b><small>told you at ${tm(last.t)}${m.length>1?` · ${m.length} times today`:''}</small></div></div>`
-      : `<div class="mood done"><div class="mic">${moodIcon('okay')}</div><div class="mt"><b>She hasn't said yet</b><small>you'll get a ping when she does</small></div></div>`;
+    const rt=peek(todayKey()).rate; const rtl=rt?`<div class="mr">She rated today <b>${rt.v}/10</b> · ${RNAMES[rt.v]}${rt.note?` · “${esc(rt.note)}”`:''}</div>`:'';
+    el.innerHTML= last? `<div class="mood done"><div class="mic">${moodIcon(last.v)}</div><div class="mt"><b>She feels ${last.v}</b><small>told you at ${tm(last.t)}${m.length>1?` · ${m.length} times today`:''}</small>${rtl}</div></div>`
+      : `<div class="mood done"><div class="mic">${moodIcon('okay')}</div><div class="mt"><b>She hasn't said yet</b><small>you'll get a ping when she does</small>${rtl}</div></div>`;
     return;
   }
   if(last && !moodEditing){
@@ -1484,15 +1518,16 @@ const okDay=d=>dayComplete(d)||!!peek(dkey(d)).redeem;
 const metR=met=>d=>met(d)||!!peek(dkey(d)).redeem;
 function streakEndingAt(met,date){ const d=new Date(date); let n=0,r,g=0; const M=metR(met); while((r=M(d))&&g++<3650){ if(r!=='skip') n++; d.setDate(d.getDate()-1); } return n; }
 let redeemAskedFor=null;
-function checkRedeem(){
-  if(ROLE()!=='her' || overlayOpen()) return;
+function checkRedeem(){ if(!tryRedeem()) checkRate(); }
+function tryRedeem(){
+  if(ROLE()!=='her' || overlayOpen()) return false;
   const Y=new Date(); Y.setDate(Y.getDate()-1); Y.setHours(12,0,0,0); const yk=dkey(Y);
-  if(redeemAskedFor===yk) return;
-  const yd=peek(yk); if(yd.redeem||yd.redeemNo) return;
-  const mk=yk.slice(0,7); if((cfg.redeems||{})[mk]) return;
+  if(redeemAskedFor===yk) return false;
+  const yd=peek(yk); if(yd.redeem||yd.redeemNo) return false;
+  const mk=yk.slice(0,7); if((cfg.redeems||{})[mk]) return false;
   const P=new Date(Y); P.setDate(P.getDate()-1);
   const broken=collections().map(c=>({c,n:c.met(Y)?0:streakEndingAt(c.met,P)})).filter(x=>x.n>=2 && !x.c.met(Y));
-  if(!broken.length) return;
+  if(!broken.length) return false;
   redeemAskedFor=yk;
   const nxt=new Date(Y.getFullYear(),Y.getMonth()+1,1).toLocaleDateString('en-GB',{day:'numeric',month:'long'});
   const list=broken.map(x=>`<b style="font-style:normal;color:var(--bone)">${x.c.name}</b> (${x.n} ${x.c.key==='all'?'nights':'days'})`).join(', ');
@@ -1500,14 +1535,15 @@ function checkRedeem(){
    <h3>The record broke</h3><div class="hs" style="margin:4px 0 10px">Yesterday the chain fell: ${list}.</div>
    <div class="hs">Use this month's redemption to mend it?<br><span style="color:var(--gold2)">Only one redemption each month.</span> After this, none until ${nxt}.</div>
    <div class="btns" style="margin-top:18px"><button class="btn" onclick="redeemNo('${yk}')">Let it fall</button><button class="btn p" onclick="redeemYes('${yk}')">Mend it</button></div></div>`);
+  return true;
 }
 function redeemYes(yk){
   day(yk).redeem=Date.now(); cfg.redeems=cfg.redeems||{}; cfg.redeems[yk.slice(0,7)]=yk; save();
   const r=document.querySelector('.rdm'); if(r) r.classList.add('mend');
   notifyHim(`🕯 ${HER} used this month's redemption`,`${new Date(yk+'T12:00').toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'short'})} is mended. Her streaks live on`,'redeem');
-  setTimeout(()=>{ closeSheet(); toast('The chain is mended 🩸'); renderAll(); },1100);
+  setTimeout(()=>{ closeSheet(); toast('The chain is mended 🩸'); renderAll(); setTimeout(checkRate,1200); },1100);
 }
-function redeemNo(yk){ day(yk).redeemNo=1; save(); closeSheet(); renderAll(); }
+function redeemNo(yk){ day(yk).redeemNo=1; save(); closeSheet(); renderAll(); setTimeout(checkRate,700); }
 
 /* ---------- the candle that burns down with her rites ---------- */
 function candleSVG(remain,out){
@@ -1561,6 +1597,91 @@ function renderSky(){
 function slamHTML(svg){
   const dp=[...Array(12)].map((_,i)=>`<i class="dp" style="--a:${i*30+(i%2?8:-6)}deg;--d:${58+(i*37%30)}px;--z:${(.6+(i*13%7)/10).toFixed(2)}"></i>`).join('');
   return `<div class="slam"><div class="sw"></div>${dp}<div class="sv">${svg}</div></div>`;
+}
+
+/* ============================================================
+   RATE THE DAY — the heartbeat, with a heart that grows with her mark
+   ============================================================ */
+const RNAMES=['','Ruin','Ash','Thorn','Fog','Ember','Steady','Bloom','Crown','Radiant','Eternal'];
+let rateK=null, rateV=0, rateMode='t', finLive=false;
+function lastRiteId(date){ const its=itemsFor(date).filter(i=>i.id!=='hair'); return its.length?its[its.length-1].id:null; }
+function leftList(k){
+  const date=new Date(k+'T12:00'), d=peek(k).done||{}, out=itemsFor(date).filter(i=>!d[i.id]).map(i=>i.title);
+  const tot=waterTotal(k), goal=cfg.waterGoal||2500; if(tot<goal) out.push(`${L2(tot)} of ${L2(goal)} L elixir`);
+  return out;
+}
+function beatSVG(v){
+  const base=176, seg=27, x0=14;
+  let d=`M0 ${base}`;
+  for(let i=0;i<10;i++){ const x=x0+i*seg, h=12+i*6.5; d+=` L${x} ${base} L${x+5} ${(base-h*.3).toFixed(1)} L${x+9} ${(base+h*.25).toFixed(1)} L${x+13} ${(base-h).toFixed(1)} L${x+17} ${(base+h*.45).toFixed(1)} L${x+21} ${base}`; }
+  d+=` L300 ${base}`;
+  const cut=v?x0+v*seg-3:0;
+  const grid=[...Array(13)].map((_,i)=>`<path d="M${i*25} 96V232"/>`).join('')+[...Array(6)].map((_,i)=>`<path d="M0 ${96+i*27}h300"/>`).join('');
+  const hs=v?0.62+v*0.1:0.5, dur=v?(1.5-v*0.085).toFixed(2):'2.2';
+  const heart=`<g transform="translate(150 50) scale(${hs.toFixed(3)})"><g class="rheart" style="animation-duration:${dur}s"><circle cx="0" cy="0" r="46" fill="url(#wHalo)" opacity="${v?(.35+v*.06).toFixed(2):'.15'}"/><path d="M0 22C-14 12-28 2-28-10a14 14 0 0 1 28-6 14 14 0 0 1 28 6C28 2 14 12 0 22z" fill="url(#wHeart)" stroke="#ff8a9a" stroke-width="1" ${v?'filter="url(#wGlow)"':'opacity=".5"'}/><path d="M-17-12a7 7 0 0 1 9-4" stroke="#fff" stroke-opacity=".55" stroke-width="2.4" fill="none" stroke-linecap="round"/></g></g>`;
+  const nums=[...Array(10)].map((_,i)=>`<text data-v="${i+1}" x="${(x0+i*seg+13).toFixed(1)}" y="254" text-anchor="middle" font-size="13" font-weight="700" font-family="Cormorant Garamond" fill="${i+1===v?'#ff4d68':i<v?'#c9a69c':'#5a4a48'}">${i+1}</text>`).join('');
+  return `<svg viewBox="0 0 300 262" class="wsvg"><defs><filter id="wGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+   <radialGradient id="wHeart" cx="35%" cy="30%" r="80%"><stop offset="0" stop-color="#ff5a6e"/><stop offset=".55" stop-color="#b3122e"/><stop offset="1" stop-color="#4a030c"/></radialGradient>
+   <radialGradient id="wHalo"><stop offset="0" stop-color="#ff2d4f" stop-opacity=".55"/><stop offset=".5" stop-color="#ff2d4f" stop-opacity=".18"/><stop offset="1" stop-color="#ff2d4f" stop-opacity="0"/></radialGradient>
+   <clipPath id="bkL"><rect x="0" y="80" width="${cut}" height="160"/></clipPath><clipPath id="bkR"><rect x="${cut}" y="80" width="300" height="160"/></clipPath></defs>
+   <rect x="0" y="0" width="300" height="262" fill="transparent"/>
+   <g stroke="#ff4d68" opacity=".14">${grid}</g>
+   <path d="${d}" fill="none" stroke="#4a3438" stroke-width="2" clip-path="url(#bkR)"/>
+   ${v?`<path d="${d}" fill="none" stroke="#ff2d4f" stroke-width="2.7" stroke-linejoin="round" filter="url(#wGlow)" clip-path="url(#bkL)"/><circle cx="${cut}" cy="${base}" r="5" fill="#fff" filter="url(#wGlow)"/>`:''}
+   ${heart}${nums}</svg>`;
+}
+function paintRate(){
+  $('rweb').innerHTML=beatSVG(rateV);
+  $('rbig').innerHTML=rateV?`<b>${rateV}</b><span> / 10</span><div class="nm">${RNAMES[rateV]}</div>`:`<div class="nm" style="color:var(--mute)">slide along the heartbeat</div>`;
+  $('rSeal').disabled=!rateV;
+}
+function openRate(k,mode){
+  if(ROLE()!=='her') return;
+  rateK=k; rateMode=mode||'t'; const r=peek(k).rate; rateV=r?r.v:0;
+  const dw=rateMode==='y'?'yesterday':'today', left=leftList(k);
+  const el=$('rate');
+  el.innerHTML=`<div class="rin">
+   <div class="k">✦ ${rateMode==='y'?'before the new day':'the day is sealed'} ✦</div>
+   <div class="t">How was ${dw},<br>${esc(cfg.name||'my Queen')}?</div>
+   ${rateMode==='y'&&left.length?`<div class="rleft">left unfinished ${dw}: ${left.map(esc).join(' · ')}</div>`:''}
+   <div class="s">how strong did ${dw} beat?</div>
+   <div class="rw" id="rweb"></div><div class="rbig" id="rbig"></div>
+   <div class="q"><h4>What was good ${dw}?</h4><textarea id="rGood" rows="2" placeholder="college, home, anything…">${esc(r?r.good:'')}</textarea>
+    <h4>What was bad ${dw}?</h4><textarea id="rBad" rows="2" placeholder="it's okay to say it…">${esc(r?r.bad:'')}</textarea>
+    <h4>Anything else you want to tell ${HIM}?</h4><textarea id="rNote" rows="2" placeholder="only he will see this…">${esc(r?r.note:'')}</textarea></div>
+   <button class="rbtn" id="rSeal" onclick="sealRate()">Seal the day</button>
+   <div class="rlater" onclick="closeRate(true)">not now</div></div>`;
+  el.classList.add('on'); el.scrollTop=0; paintRate();
+  const w=$('rweb');
+  const pick=e=>{ const t=e.target.closest&&e.target.closest('[data-v]'); if(t){ setRateV(+t.dataset.v); return; }
+    const svg=w.querySelector('svg'); const b=svg.getBoundingClientRect(); const x=(e.clientX-b.left)*300/b.width, y=(e.clientY-b.top)*262/b.height;
+    if(y<84) return; setRateV(Math.max(1,Math.min(10,Math.floor((x-14)/27)+1))); };
+  let dragging=false;
+  w.onpointerdown=e=>{ dragging=true; try{w.setPointerCapture(e.pointerId)}catch(_){} pick(e); };
+  w.onpointermove=e=>{ if(dragging) pick(e); };
+  w.onpointerup=w.onpointercancel=()=>{ dragging=false; };
+}
+function setRateV(v){ if(v===rateV) return; rateV=v; buzz(6); paintRate(); }
+function closeRate(later){
+  const el=$('rate'); if(later&&rateMode==='y'&&rateK){ day(rateK).rateSkip=1; save(); }
+  el.style.transition='opacity .45s'; el.style.opacity=0; setTimeout(()=>{ el.classList.remove('on'); el.style.opacity=''; el.innerHTML=''; renderAll(); },450);
+}
+function sealRate(){
+  if(!rateV||!rateK) return;
+  const good=$('rGood').value.trim(), bad=$('rBad').value.trim(), note=$('rNote').value.trim();
+  day(rateK).rate={v:rateV,good,bad,note,t:Date.now()}; save();
+  const dw=rateK===todayKey()?'today':'yesterday';
+  const parts=[good&&`Good: ${good}`,bad&&`Bad: ${bad}`,note&&`For you: ${note}`].filter(Boolean).join(' · ')||'no words, just the mark';
+  const sent=notifyHim(`💓 ${HER} rated ${dw} ${rateV}/10 · ${RNAMES[rateV]}`,parts.length>360?parts.slice(0,357)+'…':parts,'rate');
+  $('rweb').classList.add('flare'); buzz(25);
+  setTimeout(()=>{ closeRate(false); toast(sent?`The day is sealed · ${HIM} has your words`:'The day is sealed 🩸'); },900);
+}
+function checkRate(){
+  if(ROLE()!=='her'||overlayOpen()) return;
+  const Y=new Date(); Y.setDate(Y.getDate()-1); const yk=dkey(Y), yd=log[yk];
+  if(!yd||yd.rate||yd.rateSkip) return;
+  const active=Object.keys(yd.done||{}).length||(yd.water||[]).length; if(!active) return;
+  openRate(yk,'y');
 }
 
 /* ---------- init ---------- */
