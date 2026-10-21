@@ -344,10 +344,81 @@ button{background:none;border:none;cursor:pointer}
 @keyframes glint{0%,100%{opacity:.2}50%{opacity:1}}
 @keyframes pour{from{transform:scaleY(0)}to{transform:scaleY(1)}}
 @keyframes fade{to{opacity:0}}
+/* ---------- extras: mood, candle, sky, slam, lock bat, redemption ---------- */
+#v-today{position:relative}
+#v-today>*:not(.sky){position:relative;z-index:1}
+.sky{position:absolute!important;z-index:0!important;left:-22px;right:-22px;top:calc(-1*(var(--st) + 14px));height:calc(var(--st) + 330px);pointer-events:none;overflow:hidden;
+  -webkit-mask-image:linear-gradient(#000 52%,transparent 96%);mask-image:linear-gradient(#000 52%,transparent 96%)}
+.sky>svg{position:absolute;left:0;bottom:0;width:100%;height:100%}
+.sky circle[style*="tw"]{opacity:.8}
+@keyframes tw{0%,100%{opacity:.25}50%{opacity:1}}
+.sky .mist{animation:mist 18s ease-in-out infinite alternate}@keyframes mist{to{transform:translateX(40px)}}
+.sky .cld{animation:mist 30s ease-in-out infinite alternate}
+.sky .rav{animation:rav 22s linear infinite}@keyframes rav{from{transform:translateX(-200px)}to{transform:translateX(320px)}}
+.sbats{position:absolute;inset:0}.sbat{position:absolute;left:0;width:60px;animation:batfly 11s linear infinite both}
+.cndl{position:absolute!important;right:-4px;top:58px;width:44px;height:108px;z-index:2!important;pointer-events:none}
+.cndl svg{width:100%;height:100%;overflow:visible}
+.fl{animation:flick 1.6s ease-in-out infinite}
+@keyframes flick{0%,100%{transform:scale(1,1) skewX(0)}20%{transform:scale(.94,1.07) skewX(3deg)}45%{transform:scale(1.04,.94) skewX(-2deg)}70%{transform:scale(.97,1.05) skewX(2deg)}}
+.cglow{animation:glowp 2.4s ease-in-out infinite}@keyframes glowp{50%{opacity:.6}}
+.smk{stroke-dasharray:6 40;animation:smk 2.6s linear infinite}@keyframes smk{from{stroke-dashoffset:46;opacity:.8}to{stroke-dashoffset:0;opacity:0}}
+.mood{margin:18px 0 4px;padding:14px 14px 12px;border-radius:18px;background:linear-gradient(#170b0e,#100809);box-shadow:inset 0 0 0 1px #b08a4a26,0 8px 18px #0006}
+.mq{font-family:var(--disp);font-style:italic;font-size:19px;text-align:center;margin-bottom:10px}
+.mo{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.mo button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px 9px;border-radius:14px;background:#0c0607;box-shadow:inset 0 0 0 1px #b08a4a2a;transition:transform .15s}
+.mo button:active{transform:scale(.95);box-shadow:inset 0 0 0 1.5px var(--glow)}
+.mo .mi{width:34px;height:47px}.mo span{font-family:var(--disp);font-weight:700;font-size:16px}
+.mi-drained .fl{opacity:.75;animation-duration:2.6s}
+.mcx{text-align:center;font-size:13px;color:var(--mute);font-style:italic;margin-top:9px}
+.mood.done{display:flex;align-items:center;gap:12px;padding:12px 14px}
+.mood .mic{width:34px;flex:none}.mood .mic svg{width:34px;height:47px}
+.mood .mt{flex:1;min-width:0}.mood .mt b{font-family:var(--disp);font-size:19px;display:block;line-height:1.1}
+.mood .mt small{font-size:13px;color:var(--mute);font-style:italic}
+.mood .mr{font-size:14.5px;color:var(--bone2);margin-top:4px;line-height:1.3}
+.mch{font-size:13px;color:var(--gold2);font-style:italic;padding:6px 4px;align-self:flex-start}
+.cd .mp{position:absolute;top:3px;right:4px;width:6px;height:6px;border-radius:50%}
+.cd.mend:before{content:"";position:absolute;inset:3px;border-radius:50%;border:1.5px dashed var(--gold2);opacity:.85}
+.dmood{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 12px}
+.dmood span{display:flex;align-items:center;gap:6px;padding:5px 10px 5px 6px;border-radius:12px;background:#0c0607;box-shadow:inset 0 0 0 1px #b08a4a2a;font-size:14px}
+.dmood svg{width:18px;height:25px}.dmood small{color:var(--mute);font-style:italic}
+.ftold{margin-top:10px;font-size:14px;font-style:italic;color:#d9b9ad;letter-spacing:.3px;animation:ink .8s 2.4s both}
+/* slam: a new seal pressed into wax */
+.slam{position:relative;width:150px;height:150px;margin:0 auto}
+.slam .sv{position:relative;z-index:2;animation:slam .75s cubic-bezier(.25,1.25,.35,1) .1s both}
+.slam .sv svg{width:150px;height:150px;filter:drop-shadow(0 8px 10px #000c)}
+@keyframes slam{0%{transform:translateY(-140px) scale(2.4) rotate(-30deg);opacity:0;filter:blur(4px)}40%{opacity:1;filter:none}58%{transform:translateY(0) scale(.86) rotate(5deg)}76%{transform:scale(1.07) rotate(-2deg)}100%{transform:none}}
+.slam .sw{position:absolute;inset:8px;border-radius:50%;border:3px solid #c4142f;z-index:1;animation:sw .7s .52s ease-out both}
+@keyframes sw{from{transform:scale(.6);opacity:.9}to{transform:scale(1.8);opacity:0}}
+.slam .dp{position:absolute;left:50%;top:50%;width:10px;height:10px;margin:-5px;border-radius:50% 50% 50% 0;background:radial-gradient(circle at 35% 35%,#ff5a6e,#8e0b1c);z-index:1;opacity:0;animation:dp .8s .52s cubic-bezier(.1,.8,.3,1) both}
+@keyframes dp{0%{transform:rotate(var(--a)) translateY(-30px) scale(var(--z));opacity:1}100%{transform:rotate(var(--a)) translateY(calc(-30px - var(--d))) scale(.3);opacity:0}}
+.jolt{animation:shk .35s .55s both}@keyframes shk{20%{transform:translate(-4px,2px)}40%{transform:translate(4px,-2px)}60%{transform:translate(-3px,1px)}80%{transform:translate(2px,0)}}
+/* lock: a bat crosses, the seal cracks open */
+.lk{position:relative;overflow:hidden;margin:-18px -22px 0;padding:18px 22px 0}
+.lbat{position:absolute;left:0;top:30px;width:52px;animation:lbat 7s linear .3s infinite both;opacity:.95}
+@keyframes lbat{0%{transform:translate(-80px,40px) scale(.7)}30%{transform:translate(90px,-4px) scale(.85)}55%{transform:translate(220px,30px) scale(.8)}80%{transform:translate(330px,0) scale(.9)}100%{transform:translate(520px,20px) scale(.9)}}
+.lseal{position:relative;width:84px;height:84px;margin:0 auto 6px}
+.lseal .h{position:absolute;inset:0}.lseal .h svg{width:84px;height:84px}
+.lseal .h.l{clip-path:polygon(0 0,50% 0,46% 28%,54% 40%,45% 52%,55% 64%,47% 76%,50% 100%,0 100%)}
+.lseal .h.r{clip-path:polygon(50% 0,100% 0,100% 100%,50% 100%,47% 76%,55% 64%,45% 52%,54% 40%,46% 28%)}
+.lseal .crk{position:absolute;inset:0;width:84px;height:84px;opacity:0}
+.lseal .crk path{stroke-dasharray:100;stroke-dashoffset:100}
+.lseal .burst{position:absolute;inset:-30px;border-radius:50%;background:radial-gradient(circle,#ffd7a0 0,#ff2d4f66 30%,transparent 65%);opacity:0;transform:scale(.4)}
+.lseal.open .crk{opacity:1}.lseal.open .crk path{animation:draw .28s ease-out forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.lseal.open .h.l{animation:spL .6s .3s cubic-bezier(.3,.6,.4,1) forwards}.lseal.open .h.r{animation:spR .6s .3s cubic-bezier(.3,.6,.4,1) forwards}
+.lseal.open .burst{animation:burst .7s .32s ease-out forwards}
+@keyframes spL{to{transform:translate(-26px,10px) rotate(-22deg);opacity:0}}@keyframes spR{to{transform:translate(26px,10px) rotate(22deg);opacity:0}}
+@keyframes burst{40%{opacity:1}100%{opacity:0;transform:scale(1.3)}}
+/* redemption */
+.rdm{position:relative;width:110px;margin:0 auto 8px}.rdm>svg:first-child{width:110px;height:110px;filter:drop-shadow(0 6px 8px #000c)}
+.rdm .rck{position:absolute;inset:0;width:110px;height:110px;transition:opacity .6s}
+.rdm.mend .rck{opacity:0}.rdm.mend>svg:first-child{animation:mend 1s ease both}
+@keyframes mend{30%{filter:drop-shadow(0 0 22px #d9b26a) brightness(1.4)}100%{filter:drop-shadow(0 6px 8px #000c)}}
 </style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+ <linearGradient id="gCandle" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#4a030c"/><stop offset=".35" stop-color="#b3122e"/><stop offset=".6" stop-color="#d4202f"/><stop offset="1" stop-color="#5a0610"/></linearGradient>
  <radialGradient id="gWax" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="#d4202f"/><stop offset=".5" stop-color="#8e0b1c"/><stop offset="1" stop-color="#3f020a"/></radialGradient>
  <radialGradient id="gWaxDim" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="#4a4044"/><stop offset=".55" stop-color="#2a2326"/><stop offset="1" stop-color="#141012"/></radialGradient>
  <linearGradient id="gBlood" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7d0611"/><stop offset=".3" stop-color="#5a030b"/><stop offset=".65" stop-color="#3a0107"/><stop offset="1" stop-color="#1c0003"/></linearGradient>
@@ -361,11 +432,13 @@ button{background:none;border:none;cursor:pointer}
 <main class="app" id="app">
   <!-- TODAY -->
   <section class="view on" id="v-today">
+    <div class="sky" id="sky"></div><div class="cndl" id="candle"></div>
     <div class="top"><div class="logo">Domso</div><div class="av" onclick="go('me')"><span id="avSeal"></span><i id="syncDot"></i></div></div>
     <div class="hi" id="greet"></div><div class="hs" id="greetSub"></div>
     <div class="vwrap" id="vToday"></div>
     <div class="vnum" id="numToday"></div>
     <div class="btns"><button class="btn p" onclick="addWater(cfg.glass)"><span data-i="drop"></span><span class="glassLbl">+ 250 ml</span></button><button class="btn" onclick="addWater(500)">+ 500</button><button class="btn" onclick="askCustom()">Custom</button><button class="btn sq" onclick="undoWater()" aria-label="Undo"><span data-i="undo"></span></button></div>
+    <div id="moodCard"></div>
     <div id="hairTop"></div>
     <div class="duo"><div><b id="cDone">0<em> / 0</em></b><span class="sc">rites sealed</span></div><div class="sep"></div><div><b id="cStreak">0<em> nights</em></b><span class="sc">unbroken</span></div></div>
     <div class="tl" id="timeline"></div>
@@ -392,6 +465,7 @@ button{background:none;border:none;cursor:pointer}
     <div class="calh"><button onclick="calMove(-1)"><span data-i="left"></span></button><h3 id="calTitle"></h3><button onclick="calMove(1)"><span data-i="right"></span></button></div>
     <div class="cal" id="cal"></div>
     <div class="legend"><span><i style="background:var(--glow)"></i>rites sealed</span><span><i style="background:#4fb7ff"></i>elixir complete</span></div>
+    <div class="legend" style="margin-top:0"><span><i style="background:#ff2d4f;width:6px;height:6px"></i>strong</span><span><i style="background:#e0a54a;width:6px;height:6px"></i>okay</span><span><i style="background:#8e7d76;width:6px;height:6px"></i>drained</span><span><i style="background:none;box-shadow:inset 0 0 0 1.3px #d9b26a"></i>mended</span></div>
     <div class="duo"><div><b id="sBest">0</b><span class="sc">best streak</span></div><div class="sep"></div><div><b id="sMonth">0%</b><span class="sc">this month</span></div><div class="sep"></div><div><b id="sWater">0</b><span class="sc">elixir days</span></div></div>
   </section>
 
@@ -454,6 +528,11 @@ button{background:none;border:none;cursor:pointer}
     <div class="pick" id="vesList"></div>
     </div></details>
 
+    <details class="fold" data-k="this phone"><summary><span>this phone</span><em id="roleNow"></em><i></i></summary><div class="fb">
+    <div class="hs" style="margin-bottom:10px">Domso is on both phones. Tell it whose this one is: hers gets the rite and water reminders, Sundar's gets word of what she does</div>
+    <div class="pick fl" id="roleList"></div>
+    </div></details>
+
     <details class="fold" data-k="keep safe"><summary><span>keep safe</span><i></i></summary><div class="fb">
     <div style="display:flex;gap:8px">
       <button class="btn" style="flex:1" onclick="exportData()">Export</button>
@@ -463,7 +542,7 @@ button{background:none;border:none;cursor:pointer}
     </div>
     </div></details>
     </div>
-    <div class="foot"><b>Domso</b><br>do or marry someone · made with 🩸 by S<br><span style="letter-spacing:2px">v10 · forty-eight seals</span></div>
+    <div class="foot"><b>Domso</b><br>do or marry someone · made with 🩸 by S<br><span style="letter-spacing:2px">v11 · word to Sundar</span></div>
   </section>
 </main>
 
@@ -609,7 +688,7 @@ function migrate(){
   cfg.hairEve=cfg.hairEve||"22:00"; delete cfg.hairTime; cfg.waterRemind=Object.assign({},cfg.waterRemind,W); cfg.v=4; return true;
 }
 let migrated=migrate();
-let sub=LS('domso_sub')||null;
+let sub=LS('domso_sub')||null, subS=LS('domso_subS')||null, evq=LS('domso_ev')||[];
 let updated=+(localStorage.getItem('domso_upd')||0);
 
 const pad=n=>String(n).padStart(2,'0');
@@ -630,22 +709,22 @@ function itemsFor(date){
 const waterTotal=k=>(peek(k).water||[]).reduce((s,w)=>s+w.ml,0);
 function dayComplete(date){ const its=itemsFor(date), d=peek(dkey(date)).done||{}; return its.length>0 && its.every(i=>d[i.id]); }
 function dayFrac(date){ const its=itemsFor(date), d=peek(dkey(date)).done||{}; return its.length? its.filter(i=>d[i.id]).length/its.length : 0; }
-function streak(){ const d=new Date(); let n=0; if(!dayComplete(d)) d.setDate(d.getDate()-1); while(dayComplete(d) && n<3650){ n++; d.setDate(d.getDate()-1); } return n; }
+function streak(){ const d=new Date(); let n=0; if(!okDay(d)) d.setDate(d.getDate()-1); while(okDay(d) && n<3650){ n++; d.setDate(d.getDate()-1); } return n; }
 function bestStreak(){
   const keys=Object.keys(log).sort(); if(!keys.length) return 0;
   let best=0,c=0; const d=new Date(keys[0]+"T12:00"); const end=new Date();
-  while(d<=end){ if(dayComplete(d)){c++;best=Math.max(best,c);} else c=0; d.setDate(d.getDate()+1); }
+  while(d<=end){ if(okDay(d)){c++;best=Math.max(best,c);} else c=0; d.setDate(d.getDate()+1); }
   return best;
 }
 const WSEALS=[{n:3,name:'First Sips',g:'drop',t:'three days of the full elixir'},{n:10,name:'The Draught',g:'drops2',t:'ten days, never thirsty'},{n:30,name:'The Chalice',g:'chalice',t:'a month of the full elixir'},{n:100,name:'The Vial',g:'vial',t:'one hundred days. Discipline in a bottle'},{n:150,name:'The Fountain',g:'drops3',t:'one hundred and fifty days, flowing'},{n:200,name:'The Heart',g:'heartd',t:'two hundred days. It beats for you'},{n:300,name:'The Crowned Drop',g:'crownd',t:'three hundred days. Royalty'},{n:365,name:'The Eternal',g:'infdrop',t:'a whole year of the elixir. Legend'}];
 const waterMet=d=>waterTotal(dkey(d))>=(cfg.waterGoal||2500);
-function waterStreak(){ const d=new Date(); let n=0; if(!waterMet(d)) d.setDate(d.getDate()-1); while(waterMet(d)&&n<3650){ n++; d.setDate(d.getDate()-1); } return n; }
-function bestWaterStreak(){ const keys=Object.keys(log).sort(); if(!keys.length) return 0; let best=0,c=0; const d=new Date(keys[0]+"T12:00"), end=new Date();
-  while(d<=end){ if(waterMet(d)){c++;best=Math.max(best,c);} else c=0; d.setDate(d.getDate()+1); } return best; }
+function waterStreak(){ const W=metR(waterMet); const d=new Date(); let n=0; if(!W(d)) d.setDate(d.getDate()-1); while(W(d)&&n<3650){ n++; d.setDate(d.getDate()-1); } return n; }
+function bestWaterStreak(){ const W=metR(waterMet); const keys=Object.keys(log).sort(); if(!keys.length) return 0; let best=0,c=0; const d=new Date(keys[0]+"T12:00"), end=new Date();
+  while(d<=end){ if(W(d)){c++;best=Math.max(best,c);} else c=0; d.setDate(d.getDate()+1); } return best; }
 const ROM12=['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
 const TIERS=[3,10,30,100,150,200,300,365], TIER_N=['Kindled','Steady','Devoted','Centurion','Unbroken','Relentless','Sovereign','Eternal'], ROM=['I','II','III','IV','V','VI','VII','VIII'];
-function curStreakOf(met){ const d=new Date(); let n=0; if(!met(d)) d.setDate(d.getDate()-1); while(met(d)&&n<3650){ n++; d.setDate(d.getDate()-1); } return n; }
-function bestStreakOf(met){ const keys=Object.keys(log).sort(); if(!keys.length) return 0; let best=0,c=0; const d=new Date(keys[0]+"T12:00"), end=new Date();
+function curStreakOf(met0){ const met=metR(met0); const d=new Date(); let n=0; if(!met(d)) d.setDate(d.getDate()-1); while(met(d)&&n<3650){ n++; d.setDate(d.getDate()-1); } return n; }
+function bestStreakOf(met0){ const met=metR(met0); const keys=Object.keys(log).sort(); if(!keys.length) return 0; let best=0,c=0; const d=new Date(keys[0]+"T12:00"), end=new Date();
   while(d<=end){ if(met(d)){c++;best=Math.max(best,c);} else c=0; d.setDate(d.getDate()+1); } return best; }
 const riteMet=ids=>d=>{ const L=ids(); if(!L.length) return false; const dn=peek(dkey(d)).done||{}; return L.every(id=>dn[id]); };
 const FAM_SEALS={
@@ -671,7 +750,8 @@ function renderBadges(){
 }
 function openBadge(ci,i,fresh,reveal){
   const c=collections()[ci], s=c.seals[i], earned=bestStreakOf(c.met)>=s.n, got=earned||reveal;
-  openSheet(`<div style="text-align:center;padding:6px 0 10px"><div style="width:150px;margin:0 auto" class="${got?'stamp':''}">${sealSVG(s.n*13+ci*7,s.g,!got,null,s.r)}</div>
+  if(fresh&&earned&&ci!==0) sealEarnedWord(s.name,s.t);
+  openSheet(`<div style="text-align:center;padding:6px 0 10px" class="${fresh?'jolt':''}">${fresh?slamHTML(sealSVG(s.n*13+ci*7,s.g,false,null,s.r)):`<div style="width:150px;margin:0 auto">${sealSVG(s.n*13+ci*7,s.g,!got,null,s.r)}</div>`}
   ${fresh?'<div class="sc" style="margin-top:10px;color:var(--gold2)">a new seal</div>':''}
   <h3 style="margin-top:${fresh?4:12}px">${got?s.name:'A sealed mystery'}</h3><div class="hs">${got?s.t:`${c.sub.replace(/^the full finish: /,'')}: reach ${s.n} to break this seal`}</div>
   <div class="hs" style="margin-top:8px">${c.name} · ${s.n} days${reveal?(earned?' · <b style="font-style:normal;color:var(--gold2)">✓ she has it</b>':' · not earned yet'):''}</div></div>`);
@@ -680,18 +760,22 @@ function famBests(){ return collections().slice(2).map(c=>bestStreakOf(c.met)); 
 const SEALS=[{n:3,name:'The Bat',g:'bat',t:'three days, every rite sealed'},{n:10,name:'The Rose',g:'rose',t:'ten days of every rite'},{n:30,name:'The Raven',g:'raven',t:'a month, not one rite missed'},{n:100,name:'The Moon',g:'moon',t:'one hundred days beneath the moon'},{n:150,name:'The Crown',g:'crown',t:'one hundred and fifty days. Queen indeed'},{n:200,name:'The Serpent',g:'serpent',t:'two hundred days, coiled discipline'},{n:300,name:'The Skull',g:'skull',t:'three hundred days. Legend'},{n:365,name:'The Eternal Night',g:'wglass',t:'a whole year, every rite. Immortal'}];
 
 /* ---------- persistence ---------- */
-let fdb=null, applying=false, pushTimer=null;
+let fdb=null, applying=false, pushTimer=null, firstSync=false;
 function save(){
   updated=Date.now();
   localStorage.setItem('domso_cfg',JSON.stringify(cfg));
   localStorage.setItem('domso_log',JSON.stringify(log));
   localStorage.setItem('domso_upd',String(updated));
   if(sub) localStorage.setItem('domso_sub',JSON.stringify(sub));
+  if(subS) localStorage.setItem('domso_subS',JSON.stringify(subS));
+  localStorage.setItem('domso_ev',JSON.stringify(evq||[]));
   if(!applying){ clearTimeout(pushTimer); pushTimer=setTimeout(pushCloud,400); }
 }
 function pushCloud(){
   if(!fdb) return;
-  fdb.doc(CLOUD_DOC).set({cfg:JSON.stringify(cfg),log:JSON.stringify(log),sub:sub?JSON.stringify(sub):"",updated},{merge:true})
+  const p={cfg:JSON.stringify(cfg),log:JSON.stringify(log),updated};
+  if(ROLE()==='her'){ if(sub) p.sub=JSON.stringify(sub); p.ev=JSON.stringify(evq||[]); } else { if(subS) p.subS=JSON.stringify(subS); }
+  fdb.doc(CLOUD_DOC).set(p,{merge:true})
     .then(()=>setSync(true)).catch(e=>{console.warn('cloud write',e);setSync(false)});
 }
 function initCloud(){
@@ -707,6 +791,8 @@ function initCloud(){
           if(d.cfg) cfg=Object.assign(structuredClone(DEFAULT_CFG),{v:1},JSON.parse(d.cfg));
           if(d.log) log=JSON.parse(d.log);
           if(d.sub) sub=JSON.parse(d.sub);
+          if(d.subS) subS=JSON.parse(d.subS);
+          if(d.ev&&ROLE()==='her'){ try{ const e=JSON.parse(d.ev), seen=new Set((evq||[]).map(x=>x.t)); evq=(evq||[]).concat(e.filter(x=>!seen.has(x.t))).sort((a,b)=>a.t-b.t).slice(-20); }catch(_){} }
           updated=d.updated;
           localStorage.setItem('domso_cfg',JSON.stringify(cfg));
           localStorage.setItem('domso_log',JSON.stringify(log));
@@ -716,6 +802,8 @@ function initCloud(){
         if(migrate()) save();
         renderAll();
       } else if((d.updated||0)<updated){ pushCloud(); }
+      if(d.subS&&!subS){ try{ subS=JSON.parse(d.subS); }catch(_){} }
+      if(!firstSync){ firstSync=true; setTimeout(checkRedeem,1200); }
     },e=>{console.warn('cloud read',e);setSync(false)});
   }catch(e){ console.warn('firebase off',e); setSync(false); }
 }
@@ -821,7 +909,7 @@ function askCustom(){
 }
 
 /* ---------- rites ---------- */
-let justSealed=null;
+let justSealed=null, finTold=false;
 function toggleDone(id,k=todayKey(),silent){
   const d=day(k).done; const date=new Date(k+"T12:00");
   const was=dayComplete(date), bestBefore=bestStreak(), fb=(!silent&&k===todayKey())?famBests():null;
@@ -830,7 +918,9 @@ function toggleDone(id,k=todayKey(),silent){
   let famNew=null;
   if(fb){ const fa=famBests(); fa.forEach((v,ix)=>{ if(famNew) return; const c=collections()[ix+2], i=c.seals.findIndex(s=>fb[ix]<s.n&&v>=s.n); if(i>=0) famNew=[ix+2,i]; }); }
   if(!silent){
-    if(!was && dayComplete(date) && k===todayKey()){ if(famNew) toast('New seal: '+collections()[famNew[0]].seals[famNew[1]].name); renderAll(); const bestAfter=bestStreak(); const s=SEALS.find(x=>bestBefore<x.n&&bestAfter>=x.n); setTimeout(()=>showFinale(null,s),500); return; }
+    if(!was && dayComplete(date) && k===todayKey()){ if(famNew){ const fs=collections()[famNew[0]].seals[famNew[1]]; toast('New seal: '+fs.name); sealEarnedWord(fs.name,fs.t); } renderAll(); const bestAfter=bestStreak(); const s=SEALS.find(x=>bestBefore<x.n&&bestAfter>=x.n);
+      const its=itemsFor(date); finTold=notifyHim(`🩸 ${HER} sealed every rite`,`${its.length} rites done · ${L2(waterTotal(k))} L of the elixir · ${streak()} ${streak()===1?'night':'nights'} unbroken`,'alldone'); if(s) sealEarnedWord(s.name,s.t);
+      setTimeout(()=>showFinale(null,s),500); return; }
     if(famNew){ renderAll(); setTimeout(()=>openBadge(famNew[0],famNew[1],true),400); return; }
     if(d[id]) toast('Sealed ✓'); else toast('Seal broken');
   }
@@ -857,6 +947,7 @@ function renderToday(){
   const left=its.filter(i=>!done[i.id]).length;
   $('greetSub').textContent=`${now.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})} · ${left?(left===1?'one rite remains':`${left} rites remain`):'every rite sealed'}`;
   renderVessel('today',$('vToday'),$('numToday'));
+  renderSky(); renderCandle(); renderMood();
   document.querySelectorAll('.glassLbl').forEach(e=>e.textContent=`+ ${cfg.glass} ml`);
   const dn=its.length-left, st=streak();
   $('cDone').innerHTML=`${dn}<em> / ${its.length}</em>`;
@@ -932,7 +1023,8 @@ function renderCal(dir){
     const f=fut?0:dayFrac(dt), wm=!fut&&waterTotal(k)>=cfg.waterGoal;
     if(!fut){ counted++; if(f===1) kept++; if(wm) wdays++; }
     const inner= f===1? sealSVG(d*7+m,'D',false,d) : (!fut&&f>0? `<svg class="ring2" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="none" stroke="#2a1b1e" stroke-width="6"/><circle cx="50" cy="50" r="45" fill="none" stroke="#c4142f" stroke-width="6" stroke-linecap="round" stroke-dasharray="${C*f} ${C}"/></svg><span>${d}</span>` : `<span>${d}</span>`);
-    h+=`<div class="cd${fut?' fut':''}${k===tk?' tdy':''}" onclick="${fut?'':`openDay('${k}')`}">${inner}${wm?'<i class="wd"></i>':''}</div>`;
+    const pd=peek(k), md=(pd.mood||[]).slice(-1)[0];
+    h+=`<div class="cd${fut?' fut':''}${k===tk?' tdy':''}${pd.redeem&&f<1?' mend':''}" onclick="${fut?'':`openDay('${k}')`}">${inner}${wm?'<i class="wd"></i>':''}${md?`<i class="mp" style="background:${MOOD_COL[md.v]}"></i>`:''}</div>`;
   }
   const el=$('cal'); el.innerHTML=h;
   if(dir){ el.style.animation='none'; void el.offsetWidth; el.style.animation=(dir>0?'inR':'inL')+' .4s cubic-bezier(.2,1.1,.3,1)'; }
@@ -943,7 +1035,8 @@ function openDay(k){
   const dt=new Date(k+"T12:00"), its=itemsFor(dt), d=peek(k).done||{}, tot=waterTotal(k);
   const title=dt.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'short'});
   const rows=its.map(i=>`<div class="ev${d[i.id]?' d':''}"><div class="evi" onclick="toggleDone('${i.id}','${k}',true);openDay('${k}')"><div class="med">${IC[i.icon]||IC.pill}</div><div class="tx"><h5>${esc(i.title)}</h5><small>${fmt12(i.time)}</small></div>${d[i.id]?`<span class="sealbox">${sealSVG(hash(i.id)+3)}</span>`:'<span class="tm">tap</span>'}</div></div>`).join('');
-  openSheet(`<h3>${title}</h3><div class="hs" style="margin-bottom:10px">${tot} ml of the elixir · tap a rite to fix it</div>${rows}`);
+  const pd=peek(k), moods=(pd.mood||[]).map(m=>`<span>${moodIcon(m.v)}<b>${m.v}</b><small>${new Date(m.t).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})}</small></span>`).join('');
+  openSheet(`<h3>${title}</h3><div class="hs" style="margin-bottom:10px">${tot} ml of the elixir · tap a rite to fix it${pd.redeem?' · <span style="color:var(--gold2)">mended with the month\'s redemption</span>':''}</div>${moods?`<div class="sc" style="margin:4px 0 6px;color:var(--mute)">how she felt</div><div class="dmood">${moods}</div>`:''}${rows}`);
 }
 
 /* ---------- settings ---------- */
@@ -970,6 +1063,8 @@ function renderMe(){
   $('finList').innerHTML=`<div class="pk${fLoop?' on':''}" onclick="pickFinale('loop')"><span class="n">↻</span><b>Loop nightly</b></div>`+
     FINALES.map((f,i)=>`<div class="pk${!fLoop&&+cfg.finale===i?' on':''}" onclick="pickFinale(${i})"><span class="n">${ROM12[i]}</span><b>${f.name}</b><span class="pl" onclick="event.stopPropagation();showFinale(${i})">▶</span></div>`).join('');
   renderMeSeals();
+  const rl=ROLE(); $('roleNow').textContent=rl==='him'?HIM+"'s":HER+"'s";
+  $('roleList').innerHTML=[['her',HER+"'s",'reminders'],['him',HIM+"'s",'her news']].map(([r,n,d])=>`<div class="pk${rl===r?' on':''}" onclick="setRole('${r}')"><b>${n}<br><small>${d}</small></b></div>`).join('');
   renderPush();
 }
 function setItem(id,f,v){ const it=cfg.items.find(x=>x.id===id); if(!it) return; if(f==='time'&&!v) return; it[f]=v; save(); toast('Saved'); renderAll(); }
@@ -1013,6 +1108,9 @@ function renderPush(){
   if(!('PushManager' in window) || !('Notification' in window)){ setStatus('bad','Update iOS to 16.4 or later for reminders'); body.innerHTML=''; return; }
   const perm=Notification.permission;
   if(perm==='denied'){ setStatus('bad','Notifications are blocked'); body.innerHTML=`<div class="hs">Settings → Notifications → Domso → Allow Notifications, then reopen the app.</div>`; return; }
+  if(ROLE()==='him'){
+    if(perm==='granted' && subS){ setStatus('ok','You will get her news on this phone'); body.innerHTML=`<div class="hs" style="margin-bottom:12px">A ping when she seals every rite, breaks a new seal, tells how she feels, or uses her monthly redemption. Her rite and water reminders stay on her phone.</div><button class="btn full" onclick="enablePush(true)">Re-link</button>`; return; }
+    setStatus('warn','Sundar\'s pings are off'); body.innerHTML=`<button class="btn p full" onclick="enablePush()">${IC.bell} Ping me when she finishes</button>`; return; }
   if(perm==='granted' && sub){
     setStatus('ok','Reminders are on for this phone');
     body.innerHTML=`<div class="hs" style="margin-bottom:12px">Each rite pings at its time${cfg.nudge?', with a second nudge 30 min later if it is still unsealed':''}. Water pings every ${cfg.waterRemind.every} min from ${fmt12(cfg.waterRemind.start)} to ${fmt12(cfg.waterRemind.end)} until 2.5 L is reached.</div>
@@ -1028,7 +1126,7 @@ async function enablePush(force){
     let s=await reg.pushManager.getSubscription();
     if(s && force){ await s.unsubscribe(); s=null; }
     if(!s) s=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:b64u(VAPID_PUBLIC)});
-    sub=s.toJSON(); save(); renderPush(); toast('Reminders on 🩸');
+    if(ROLE()==='him') subS=s.toJSON(); else sub=s.toJSON(); save(); renderPush(); toast(ROLE()==='him'?'You will hear when she finishes 🩸':'Reminders on 🩸');
   }catch(e){ console.error(e); toast('Could not enable: '+(e.message||e)); }
 }
 async function testLocal(){
@@ -1041,7 +1139,7 @@ async function initSW(){
     swReg=await navigator.serviceWorker.register('sw.js');
     if('PushManager' in window && Notification.permission==='granted'){
       const s=await swReg.pushManager.getSubscription();
-      if(s){ const j=s.toJSON(); if(!sub||sub.endpoint!==j.endpoint){ sub=j; save(); } }
+      if(s){ const j=s.toJSON(); if(ROLE()==='him'){ if(!subS||subS.endpoint!==j.endpoint){ subS=j; save(); } } else if(!sub||sub.endpoint!==j.endpoint){ sub=j; save(); } }
     }
   }catch(e){ console.warn('sw',e); }
   if(cur==='me') renderPush();
@@ -1144,7 +1242,7 @@ function showFinale(i,newSeal){
   const el=$('fin');
   el.innerHTML=`<div class="fbg"></div><div class="stage" id="fstage" style="${f.stageAnim?`animation:${f.stageAnim}`:''}">${f.scene(st)}
    <div class="ftxt" style="${textPos};--td:${f.td||'1.6s'}">${f.title?`<div class="ft">${f.title}</div><div class="fs">${f.sub}</div>`:''}${f.name==='Blood Letter'?'':statsHTML}
-   ${newSeal?`<div class="fnew">✦ New seal earned: ${newSeal.name} ✦</div>`:''}<div class="fbtn" onclick="closeFinale()">${f.btn||'Rest now, my Queen'}</div></div></div>`;
+   ${newSeal?`<div class="fnew">✦ New seal earned: ${newSeal.name} ✦</div>`:''}${(i==null&&ROLE()==='her')?`<div class="ftold">✉ word sent to ${HIM}</div>`:''}<div class="fbtn" onclick="closeFinale()">${f.btn||'Rest now, my Queen'}</div></div></div>`;
   el.classList.add('on'); el.dataset.t=Date.now();
   const fsk=$('finSkull'), sk=skull(); if(fsk&&sk){ sk.mount(fsk); sk.level=0; sk.setLevel(1); }
   el.onclick=e=>{ if(Date.now()-el.dataset.t>2500 && !e.target.closest('.fbtn')) closeFinale(); };
@@ -1157,15 +1255,15 @@ function closeFinale(){ const el=$('fin'); el.style.transition='opacity .5s'; el
 const ORDER=['today','water','cal','badges','me'];
 let cur='today';
 const PASS="1234"; let unlocked=false, pin="";
-function lockHTML(){ return `<div style="text-align:center"><div style="width:76px;margin:0 auto 6px">${sealSVG(31)}</div><h3>Sealed</h3><div class="hs">enter the passcode</div></div>
+function lockHTML(){ return `<div class="lk"><svg class="lbat" viewBox="0 0 100 50"><path d="${BAT}" fill="#050203" style="transform-origin:50% 50%;animation:flap .26s infinite"/></svg><div style="text-align:center"><div class="lseal" id="lseal"><div class="burst"></div><div class="h l">${sealSVG(31)}</div><div class="h r">${sealSVG(31)}</div><svg class="crk" viewBox="0 0 84 84"><path d="M42 0L38.6 23.5 45.4 33.6 37.8 43.7 46.2 53.8 39.5 63.8 42 84" fill="none" stroke="#14020a" stroke-width="2.6" stroke-linejoin="round" pathLength="100"/></svg></div><h3>Sealed</h3><div class="hs">enter the passcode</div></div>
   <div class="dots" id="dots">${'<i></i>'.repeat(4)}</div>
-  <div class="pad">${['1','2','3','4','5','6','7','8','9','','0','del'].map(k=>k===''?'<span></span>':`<button onclick="pinKey('${k}')">${k==='del'?IC.left:k}</button>`).join('')}</div>`; }
+  <div class="pad">${['1','2','3','4','5','6','7','8','9','','0','del'].map(k=>k===''?'<span></span>':`<button onclick="pinKey('${k}')">${k==='del'?IC.left:k}</button>`).join('')}</div></div>`; }
 function showLock(){ pin=""; openSheet(lockHTML()); }
 function pinKey(k){
   if(k==='del') pin=pin.slice(0,-1); else if(pin.length<4) pin+=k;
   buzz(8); document.querySelectorAll('#dots i').forEach((d,i)=>d.classList.toggle('on',i<pin.length));
   if(pin.length===4){
-    if(pin===PASS){ unlocked=true; setTimeout(()=>{closeSheet();paintSeal();},150); }
+    if(pin===PASS){ unlocked=true; const ls=$('lseal'); if(ls) ls.classList.add('open'); buzz(30); setTimeout(()=>{closeSheet();paintSeal();},1000); }
     else { const d=$('dots'); d.classList.remove('shake'); void d.offsetWidth; d.classList.add('shake'); buzz(60); pin="";
       setTimeout(()=>document.querySelectorAll('#dots i').forEach(x=>x.classList.remove('on')),350); }
   }
@@ -1274,6 +1372,161 @@ function endOnb(){ askMotion(); localStorage.setItem('domso_onb','1'); const el=
 let lastSY=window.scrollY;
 window.addEventListener('scroll',()=>{ const d=window.scrollY-lastSY; lastSY=window.scrollY; if(SK&&SK.jolt&&(cur==='today'||cur==='water')) SK.jolt(0, Math.max(-.02,Math.min(.02,d*.0009))); },{passive:true});
 
+/* ============================================================
+   EXTRAS — phones, word to Sundar, how she feels, redemption,
+   the candle, the stamp, the lock bat, the sky
+   ============================================================ */
+const HER='Sandhiya', HIM='Sundar';
+const ROLE=()=>{ try{ return localStorage.getItem('domso_role')||'her'; }catch(e){ return 'her'; } };
+function setRole(r){
+  try{ localStorage.setItem('domso_role',r); }catch(e){}
+  if(r==='him'){
+    // if the shared "her" link is actually this phone, move it to Sundar's slot
+    (async()=>{ try{ const reg=await navigator.serviceWorker.ready; const s=await reg.pushManager.getSubscription(); if(s){ const j=s.toJSON(); subS=j; if(sub&&sub.endpoint===j.endpoint){ sub=null; if(fdb) fdb.doc(CLOUD_DOC).set({sub:""},{merge:true}); } save(); renderAll(); } }catch(e){} })();
+  }
+  toast(r==='him'?'This phone is Sundar\'s':'This phone is hers'); renderAll();
+}
+/* word to Sundar: her phone queues it, the worker delivers it to his phone within a minute */
+function notifyHim(title,body,tag){
+  if(ROLE()!=='her') return false;
+  const now=Date.now(); evq=(evq||[]).filter(e=>now-e.t<864e5); evq.push({t:now,title,body,tag:tag||'ev'}); evq=evq.slice(-20); save(); return true;
+}
+const L2=ml=>(ml/1000).toFixed(2).replace(/0+$/,'').replace(/\.$/,'');
+function sealEarnedWord(name,why){ notifyHim(`🏅 ${HER} broke a new seal`,`${name} · ${why}`,'seal'); }
+
+/* ---------- how she feels ---------- */
+const MOODS=[{v:'drained',n:'Drained'},{v:'okay',n:'Okay'},{v:'strong',n:'Strong'}];
+const MOOD_COL={drained:'#8e7d76',okay:'#e0a54a',strong:'#ff2d4f'};
+function moodIcon(v){
+  const h={drained:9,okay:19,strong:29}[v], top=42-h, f={drained:.55,okay:.85,strong:1.2}[v];
+  return `<svg viewBox="0 0 36 50" class="mi mi-${v}"><ellipse cx="18" cy="44.5" rx="12" ry="3" fill="#5a4322"/><rect x="12.5" y="${top}" width="11" height="${h}" rx="2" fill="url(#gCandle)"/><ellipse cx="18" cy="${top}" rx="5.5" ry="1.4" fill="#d01a33"/>${v==='drained'?`<path d="M13 ${top+1}c0 3-1 5-.4 7" stroke="#d01a33" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M22 ${top+1}c0 2 1 4 .5 9" stroke="#d01a33" stroke-width="1.6" fill="none" stroke-linecap="round"/>`:''}<path d="M18 ${top}v-3" stroke="#1a0a0a" stroke-width="1.2"/>
+   <g class="fl" style="transform-origin:18px ${top-3}px"><ellipse cx="18" cy="${top-9*f}" rx="${7*f}" ry="${9*f}" fill="#ffb347" opacity=".18"/><path d="M18 ${top-3-15*f}c${3*f} ${5*f} ${4.5*f} ${8*f} ${4.5*f} ${10*f}a${4.5*f} ${4.5*f} 0 0 1-${9*f} 0c0-${2*f} ${1.5*f}-${5*f} ${4.5*f}-${10*f}z" fill="#ffb347"/><path d="M18 ${top-3-8*f}c${1.5*f} ${2.5*f} ${2.2*f} ${4*f} ${2.2*f} ${5*f}a${2.2*f} ${2.2*f} 0 0 1-${4.4*f} 0c0-${1*f} ${.7*f}-${2.5*f} ${2.2*f}-${5*f}z" fill="#fff3c4"/></g></svg>`;
+}
+let moodEditing=false;
+function moodQ(){ const h=new Date().getHours(); return h<11?'How did you wake, my Queen?':h<18?'How do you feel, my Queen?':'How was today, my Queen?'; }
+function moodReply(v){
+  const k=todayKey(), now=new Date(), nm=now.getHours()*60+now.getMinutes(), tot=waterTotal(k), goal=cfg.waterGoal||2500;
+  const w=cfg.waterRemind||{}, s=mins(w.start||'07:00'), e=mins(w.end||'21:30');
+  const pace=nm<=s?0:nm>=e?goal:Math.round(goal*(nm-s)/(e-s)), behind=pace-tot;
+  const its=itemsFor(now), done=peek(k).done||{}, late=its.filter(i=>!done[i.id]&&i.id!=='hair'&&mins(i.time)<=nm), left=its.filter(i=>!done[i.id]).length, st=streak();
+  if(v==='drained'){
+    if(behind>=300) return `You're ${L2(behind)} L behind on the elixir. Two glasses might lift you.`;
+    if(late.length) return `${late[0].title} is still waiting. It might help.`;
+    return now.getHours()>=21?'Rest early tonight. You did your rites.':'Go gentle today, and rest when you can.';
+  }
+  if(v==='okay') return tot<goal?`Steady. ${L2(goal-tot)} L of the elixir to go.`:'Steady, and the elixir is already full.';
+  if(!left) return 'That is the rites working. Every one sealed.';
+  if(st>=3) return `${st} nights unbroken. It shows.`;
+  return 'Ride it. Seal the next rite while you are strong.';
+}
+function setMood(v){
+  const k=todayKey(), d=day(k); d.mood=(d.mood||[]); const t=Date.now(); const reply=moodReply(v);
+  d.mood.push({v,t,r:reply}); moodEditing=false; save(); buzz(10);
+  const its=itemsFor(new Date()), done=d.done||{}, dn=its.filter(i=>done[i.id]).length;
+  const sent=notifyHim(`💭 ${HER} feels ${v}`,`${new Date(t).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})} · ${L2(waterTotal(k))} of ${L2(cfg.waterGoal)} L · ${dn}/${its.length} rites sealed`,'mood');
+  if(sent) toast(`Sundar has been told`);
+  renderMood();
+}
+function renderMood(){
+  const el=$('moodCard'); if(!el) return;
+  const m=(peek(todayKey()).mood||[]), last=m[m.length-1], him=ROLE()==='him';
+  const tm=t=>new Date(t).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+  if(him){
+    el.innerHTML= last? `<div class="mood done"><div class="mic">${moodIcon(last.v)}</div><div class="mt"><b>She feels ${last.v}</b><small>told you at ${tm(last.t)}${m.length>1?` · ${m.length} times today`:''}</small></div></div>`
+      : `<div class="mood done"><div class="mic">${moodIcon('okay')}</div><div class="mt"><b>She hasn't said yet</b><small>you'll get a ping when she does</small></div></div>`;
+    return;
+  }
+  if(last && !moodEditing){
+    el.innerHTML=`<div class="mood done"><div class="mic">${moodIcon(last.v)}</div><div class="mt"><b>Feeling ${last.v}</b><small>${tm(last.t)} · ${HIM} has been told</small><div class="mr">${esc(last.r||'')}</div></div><button class="mch" onclick="moodEditing=true;renderMood()">change</button></div>`;
+    return;
+  }
+  el.innerHTML=`<div class="mood"><div class="mq">${moodQ()}</div><div class="mo">${MOODS.map(x=>`<button onclick="setMood('${x.v}')">${moodIcon(x.v)}<span>${x.n}</span></button>`).join('')}</div>${last?`<div class="mcx" onclick="moodEditing=false;renderMood()">keep "${last.v}"</div>`:''}</div>`;
+}
+
+/* ---------- the monthly redemption ---------- */
+const okDay=d=>dayComplete(d)||!!peek(dkey(d)).redeem;
+const metR=met=>d=>met(d)||!!peek(dkey(d)).redeem;
+function streakEndingAt(met,date){ const d=new Date(date); let n=0; const M=metR(met); while(M(d)&&n<3650){ n++; d.setDate(d.getDate()-1); } return n; }
+let redeemAskedFor=null;
+function checkRedeem(){
+  if(ROLE()!=='her' || overlayOpen()) return;
+  const Y=new Date(); Y.setDate(Y.getDate()-1); Y.setHours(12,0,0,0); const yk=dkey(Y);
+  if(redeemAskedFor===yk) return;
+  const yd=peek(yk); if(yd.redeem||yd.redeemNo) return;
+  const mk=yk.slice(0,7); if((cfg.redeems||{})[mk]) return;
+  const P=new Date(Y); P.setDate(P.getDate()-1);
+  const broken=collections().map(c=>({c,n:c.met(Y)?0:streakEndingAt(c.met,P)})).filter(x=>x.n>=2 && !x.c.met(Y));
+  if(!broken.length) return;
+  redeemAskedFor=yk;
+  const nxt=new Date(Y.getFullYear(),Y.getMonth()+1,1).toLocaleDateString('en-GB',{day:'numeric',month:'long'});
+  const list=broken.map(x=>`<b style="font-style:normal;color:var(--bone)">${x.c.name}</b> (${x.n} ${x.c.key==='all'?'nights':'days'})`).join(', ');
+  openSheet(`<div style="text-align:center"><div class="rdm">${sealSVG(77,'D')}<svg class="rck" viewBox="0 0 100 100"><path d="M50 14L45 30l9 11-10 12 10 12-8 12 4 11" fill="none" stroke="#14020a" stroke-width="3" stroke-linejoin="round"/></svg></div>
+   <h3>The record broke</h3><div class="hs" style="margin:4px 0 10px">Yesterday the chain fell: ${list}.</div>
+   <div class="hs">Use this month's redemption to mend it?<br><span style="color:var(--gold2)">Only one redemption each month.</span> After this, none until ${nxt}.</div>
+   <div class="btns" style="margin-top:18px"><button class="btn" onclick="redeemNo('${yk}')">Let it fall</button><button class="btn p" onclick="redeemYes('${yk}')">Mend it</button></div></div>`);
+}
+function redeemYes(yk){
+  day(yk).redeem=Date.now(); cfg.redeems=cfg.redeems||{}; cfg.redeems[yk.slice(0,7)]=yk; save();
+  const r=document.querySelector('.rdm'); if(r) r.classList.add('mend');
+  notifyHim(`🕯 ${HER} used this month's redemption`,`${new Date(yk+'T12:00').toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'short'})} is mended. Her streaks live on`,'redeem');
+  setTimeout(()=>{ closeSheet(); toast('The chain is mended 🩸'); renderAll(); },1100);
+}
+function redeemNo(yk){ day(yk).redeemNo=1; save(); closeSheet(); renderAll(); }
+
+/* ---------- the candle that burns down with her rites ---------- */
+function candleSVG(remain,out){
+  const H=Math.round(12+64*remain), top=104-H, burned=1-remain;
+  const drips=[[16,6+burned*16],[29,4+burned*24],[22.5,3+burned*10]].map(([x,l])=>`<path d="M${x} ${top}v${l.toFixed(1)}" stroke="#a5101f" stroke-width="2.6" stroke-linecap="round"/>`).join('');
+  return `<svg viewBox="0 0 46 112"><defs><radialGradient id="cgl"><stop offset="0" stop-color="#ffb347" stop-opacity=".5"/><stop offset="1" stop-color="#ffb347" stop-opacity="0"/></radialGradient></defs>
+  ${out?'':`<circle cx="23" cy="${top-10}" r="22" fill="url(#cgl)" class="cglow"/>`}
+  <path d="M4 104h38l-4 6H8z" fill="#5a4322"/><ellipse cx="23" cy="104" rx="19" ry="3.4" fill="#8a6a3a"/><ellipse cx="23" cy="103.6" rx="15" ry="2.2" fill="#3a2a16"/>
+  <rect x="15" y="${top}" width="16" height="${H}" rx="2.2" fill="url(#gCandle)"/>${drips}<ellipse cx="23" cy="${top}" rx="8" ry="2" fill="#d01a33"/>
+  <path d="M23 ${top}v-5" stroke="#1a0a0a" stroke-width="1.4" stroke-linecap="round"/>
+  ${out?`<path class="smk" d="M23 ${top-6}c-5-6 5-10 0-16s5-10 0-16" stroke="#b9aea8" stroke-width="1.5" fill="none" stroke-linecap="round"/>`
+       :`<g class="fl" style="transform-origin:23px ${top-4}px"><path d="M23 ${top-24}c4 7 6.5 11 6.5 14a6.5 6.5 0 0 1-13 0c0-3 2.5-7 6.5-14z" fill="#ffb347"/><path d="M23 ${top-15}c2 3.4 3 5.2 3 6.5a3 3 0 0 1-6 0c0-1.3 1-3.1 3-6.5z" fill="#fff3c4"/></g>`}</svg>`;
+}
+function renderCandle(){
+  const el=$('candle'); if(!el) return; const its=itemsFor(new Date()), done=peek(todayKey()).done||{};
+  const left=its.filter(i=>!done[i.id]).length, out=its.length>0&&left===0;
+  el.innerHTML=candleSVG(its.length?left/its.length:1,out); el.title=out?'snuffed: every rite sealed':`${left} rites left`;
+}
+
+/* ---------- the sky above her (morning · afternoon · evening · night) ---------- */
+const SKY_ON=()=>{ try{ return localStorage.getItem('domso_sky')!=='off' && (SKY_DEFAULT || localStorage.getItem('domso_sky')==='on'); }catch(e){ return SKY_DEFAULT; } };
+const SKY_DEFAULT=false;   // waiting for Sundar's OK on the four skies
+function skyPhase(){ let p=null; try{ p=localStorage.getItem('domso_skyp'); }catch(e){} if(p) return p; const h=new Date().getHours(); return h>=5&&h<11?'morning':h>=11&&h<16?'afternoon':h>=16&&h<20?'evening':'night'; }
+const rnd=(s=>()=>(s=(s*16807)%2147483647)/2147483647)(42);
+function stars(n,ymax,big){ let o=''; for(let i=0;i<n;i++){ const x=(rnd()*390).toFixed(0), y=(rnd()*ymax).toFixed(0), r=(rnd()*(big?1.5:1)+.3).toFixed(2), d=(2+rnd()*4).toFixed(1); o+=`<circle cx="${x}" cy="${y}" r="${r}" fill="#fff" style="animation:tw ${d}s ${(rnd()*4).toFixed(1)}s ease-in-out infinite"/>`; } return o; }
+function skySVG(p){
+  const sp=`<path d="${SPIRES}" transform="translate(0 222) scale(1 .62)" fill="${p==='night'?'#050307':'#0d0507'}"/>`;
+  const bats=n=>[...Array(n)].map((_,i)=>`<svg class="sbat" viewBox="0 0 100 50" style="top:${70+i*34}px;--s:${(.28+i*.08).toFixed(2)};animation-delay:${(i*2.6).toFixed(1)}s"><path d="${BAT}" fill="#070304" style="transform-origin:50% 50%;animation:flap .3s infinite"/></svg>`).join('');
+  if(p==='morning') return `<svg viewBox="0 0 390 300" preserveAspectRatio="xMidYMin slice"><defs><linearGradient id="skM" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#140818"/><stop offset=".38" stop-color="#3e1230"/><stop offset=".66" stop-color="#9a2f3a"/><stop offset=".82" stop-color="#e07a4a"/><stop offset="1" stop-color="#f3b06a"/></linearGradient><radialGradient id="snM"><stop offset="0" stop-color="#ffe2a8"/><stop offset=".35" stop-color="#ffb070" stop-opacity=".7"/><stop offset="1" stop-color="#ff7a4a" stop-opacity="0"/></radialGradient></defs>
+   <rect width="390" height="300" fill="url(#skM)"/><g opacity=".5">${stars(18,90)}</g><circle cx="292" cy="236" r="90" fill="url(#snM)"/><circle cx="292" cy="236" r="24" fill="#ffe7b8"/>
+   <g class="mist"><ellipse cx="120" cy="214" rx="170" ry="9" fill="#ffd9c0" opacity=".16"/><ellipse cx="300" cy="200" rx="140" ry="6" fill="#ffd9c0" opacity=".12"/></g>${sp}</svg>`;
+  if(p==='afternoon') return `<svg viewBox="0 0 390 300" preserveAspectRatio="xMidYMin slice"><defs><linearGradient id="skA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a0e16"/><stop offset=".5" stop-color="#5a1c24"/><stop offset="1" stop-color="#8d3d36"/></linearGradient><radialGradient id="snA"><stop offset="0" stop-color="#fff0d2" stop-opacity=".95"/><stop offset=".3" stop-color="#ffc79a" stop-opacity=".35"/><stop offset="1" stop-color="#ff9a6a" stop-opacity="0"/></radialGradient><filter id="cbl"><feGaussianBlur stdDeviation="7"/></filter></defs>
+   <rect width="390" height="300" fill="url(#skA)"/><circle cx="300" cy="62" r="80" fill="url(#snA)"/><circle cx="300" cy="62" r="17" fill="#fff2dc" opacity=".9"/>
+   <g filter="url(#cbl)"><g class="cld"><ellipse cx="90" cy="70" rx="90" ry="20" fill="#c06a5c" opacity=".35"/><ellipse cx="250" cy="120" rx="120" ry="22" fill="#2a0c12" opacity=".55"/><ellipse cx="60" cy="160" rx="110" ry="18" fill="#c06a5c" opacity=".25"/><ellipse cx="330" cy="40" rx="70" ry="14" fill="#2a0c12" opacity=".45"/></g></g>
+   <g class="rav"><path d="M0 0c4-4 8-4 11-1 3-3 7-3 11 1-4-1-8 0-11 3-3-3-7-4-11-3z" fill="#120607" transform="translate(130 96)"/><path d="M0 0c3-3 6-3 8-1 2-2 5-2 8 1-3-1-6 0-8 2-2-2-5-3-8-2z" fill="#120607" transform="translate(170 84)"/></g>${sp}</svg>`;
+  if(p==='evening') return `<svg viewBox="0 0 390 300" preserveAspectRatio="xMidYMin slice"><defs><linearGradient id="skE" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0e050c"/><stop offset=".35" stop-color="#3a0918"/><stop offset=".62" stop-color="#9c1024"/><stop offset=".8" stop-color="#e3402e"/><stop offset="1" stop-color="#ff8a3a"/></linearGradient><radialGradient id="snE"><stop offset="0" stop-color="#ffb06a"/><stop offset=".4" stop-color="#ff5a32" stop-opacity=".6"/><stop offset="1" stop-color="#c4142f" stop-opacity="0"/></radialGradient></defs>
+   <rect width="390" height="300" fill="url(#skE)"/><g opacity=".7">${stars(14,70)}</g><circle cx="96" cy="240" r="120" fill="url(#snE)"/><circle cx="96" cy="240" r="40" fill="#ff6a3c"/>
+   <path d="M0 196h390M30 206h330" stroke="#ffb07a" stroke-opacity=".18" stroke-width="2"/>${sp}</svg><div class="sbats">${bats(3)}</div>`;
+  return `<svg viewBox="0 0 390 300" preserveAspectRatio="xMidYMin slice"><defs><linearGradient id="skN" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#020106"/><stop offset=".55" stop-color="#0b0614"/><stop offset="1" stop-color="#1c0a18"/></linearGradient><radialGradient id="mnN"><stop offset="0" stop-color="#f3e6d0" stop-opacity=".45"/><stop offset="1" stop-color="#f3e6d0" stop-opacity="0"/></radialGradient></defs>
+   <rect width="390" height="300" fill="url(#skN)"/>${stars(70,230,1)}<circle cx="300" cy="74" r="70" fill="url(#mnN)"/><circle cx="300" cy="74" r="25" fill="#ebdfcb"/>
+   <circle cx="292" cy="68" r="5" fill="#cbbca6"/><circle cx="309" cy="81" r="7" fill="#cbbca6"/><circle cx="306" cy="63" r="3" fill="#cbbca6"/><circle cx="291" cy="84" r="3.4" fill="#cbbca6"/>
+   <g class="mist"><ellipse cx="100" cy="222" rx="170" ry="8" fill="#b9a6c0" opacity=".08"/></g>${sp}<rect x="125" y="262" width="3" height="5" fill="#ffb347" opacity=".8"/><rect x="236" y="250" width="3" height="5" fill="#ffb347" opacity=".7"/></svg>`;
+}
+function renderSky(){
+  const el=$('sky'); if(!el) return;
+  if(!SKY_ON()){ el.innerHTML=''; el.dataset.p=''; return; }
+  const p=skyPhase(); if(el.dataset.p===p) return; el.dataset.p=p; el.innerHTML=skySVG(p); el.className='sky sky-'+p;
+}
+
+/* ---------- the stamp, for a newly broken seal ---------- */
+function slamHTML(svg){
+  const dp=[...Array(12)].map((_,i)=>`<i class="dp" style="--a:${i*30+(i%2?8:-6)}deg;--d:${58+(i*37%30)}px;--z:${(.6+(i*13%7)/10).toFixed(2)}"></i>`).join('');
+  return `<div class="slam"><div class="sw"></div>${dp}<div class="sv">${svg}</div></div>`;
+}
+
 /* ---------- init ---------- */
 bindInputs();
 if(migrated) save();
@@ -1281,7 +1534,8 @@ const startHash=location.hash.slice(1);
 cur=['today','water','cal','badges'].includes(startHash)?startHash:'today';
 go(cur,0);
 setInterval(()=>{ if(cur==='today') renderToday(); },60000);
-document.addEventListener('visibilitychange',()=>{ if(document.hidden){ unlocked=false; paintSeal(); return; } renderAll(); });
+document.addEventListener('visibilitychange',()=>{ if(document.hidden){ unlocked=false; paintSeal(); return; } renderAll(); setTimeout(checkRedeem,1500); });
+setTimeout(()=>{ if(!firstSync) checkRedeem(); },4500);
 if(window.firebase) initCloud(); else setSync(false);
 initSW();
 armMotion();

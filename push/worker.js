@@ -115,16 +115,36 @@ async function loadDoc(env) {
   if (!r.ok) throw new Error(`firestore ${r.status}: ${(await r.text()).slice(0, 200)}`);
   const f = (await r.json()).fields || {};
   const s = k => (f[k] && f[k].stringValue) || '';
-  return { cfg: s('cfg') ? JSON.parse(s('cfg')) : null, log: s('log') ? JSON.parse(s('log')) : {}, sub: s('sub') ? JSON.parse(s('sub')) : null };
+  const n = k => f[k] ? +(f[k].integerValue || f[k].doubleValue || 0) : 0;
+  return { cfg: s('cfg') ? JSON.parse(s('cfg')) : null, log: s('log') ? JSON.parse(s('log')) : {}, sub: s('sub') ? JSON.parse(s('sub')) : null,
+    subS: s('subS') ? JSON.parse(s('subS')) : null, ev: s('ev') ? JSON.parse(s('ev')) : [], evDone: n('evDone') };
+}
+
+/* mark Sundar's events as delivered (touches only the evDone field) */
+async function markDone(env, t) {
+  const url = `https://firestore.googleapis.com/v1/projects/${env.FIREBASE_PROJECT}/databases/(default)/documents/${env.DOC_PATH}?key=${env.FIREBASE_KEY}&updateMask.fieldPaths=evDone`;
+  const r = await fetch(url, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ fields: { evDone: { integerValue: String(t) } } }) });
+  if (!r.ok) throw new Error(`firestore write ${r.status}: ${(await r.text()).slice(0, 200)}`);
+}
+
+/* her news for Sundar: queued by her phone in "ev", delivered here once */
+export function pendingFor(ev, evDone, nowMs) {
+  return (ev || []).filter(e => e && e.t > evDone && nowMs - e.t < 30 * 60e3).sort((a, b) => a.t - b.t);
 }
 
 async function run(env, at) {
-  const { cfg, log, sub } = await loadDoc(env);
-  if (!cfg || !sub || !sub.endpoint) return { skipped: 'no config or no subscription yet' };
+  const { cfg, log, sub, subS, ev, evDone } = await loadDoc(env);
+  if (!cfg) return { skipped: 'no config yet' };
   const now = nowIn(cfg.tz || 'Asia/Kolkata', at);
-  const msgs = due(cfg, log, now);
   const results = [];
-  for (const m of msgs) results.push({ tag: m.tag, ...(await sendPush(sub, m, env)) });
+  // her reminders → her phone
+  if (sub && sub.endpoint) for (const m of due(cfg, log, now)) results.push({ tag: m.tag, ...(await sendPush(sub, m, env)) });
+  // her news → Sundar's phone
+  const news = pendingFor(ev, evDone, Date.now());
+  if (news.length) {
+    if (subS && subS.endpoint) for (const e of news) results.push({ tag: 'him:' + e.tag, ...(await sendPush(subS, { title: e.title, body: e.body, tag: 'him-' + e.tag + '-' + e.t, url: './#today' }, env)) });
+    await markDone(env, Math.max(...news.map(e => e.t)));
+  }
   return { at: `${now.key} ${hhmm(now.m)}`, sent: results };
 }
 
@@ -137,9 +157,10 @@ export default {
     if (u.pathname === '/test') {
       if (!env.TEST_TOKEN || u.searchParams.get('t') !== env.TEST_TOKEN) return new Response('nope', { status: 403 });
       try {
-        const { sub } = await loadDoc(env);
-        if (!sub) return new Response('No phone linked yet. Open Domso → Me → Enable reminders.', { status: 404 });
-        const r = await sendPush(sub, { title: '🩸 Domso', body: 'Reminders are working. Sleep well, Queen.', tag: 'test', url: './#today' }, env);
+        const { sub, subS } = await loadDoc(env);
+        const him = u.searchParams.get('who') === 'him', s = him ? subS : sub;
+        if (!s) return new Response(him ? "Sundar's phone isn't linked yet. On his phone: Me → this phone → Sundar's, then Ping me when she finishes." : 'No phone linked yet. Open Domso → Me → Enable reminders.', { status: 404 });
+        const r = await sendPush(s, him ? { title: '🩸 Domso', body: "You'll hear when she seals every rite.", tag: 'test', url: './#today' } : { title: '🩸 Domso', body: 'Reminders are working. Sleep well, Queen.', tag: 'test', url: './#today' }, env);
         return Response.json(r);
       } catch (e) { return new Response(String(e), { status: 500 }); }
     }
