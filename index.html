@@ -1834,6 +1834,7 @@ const MSH=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','De
 const MFULL=['January','February','March','April','May','June','July','August','September','October','November','December'];
 const LEATHER=['#5a0a14','#22161a','#2a3a2a','#1d2238','#4a1a2e','#3a2414','#6a0c18','#1b1416','#3a0d22','#5a0a14','#2a3a2a','#1d2238'];
 let dYear=new Date().getFullYear(), dMonth=null;
+const DIARY_START='2026-10-21';   // the grimoire begins here
 const dayHas=k=>{ const d=log[k]; return !!(d&&(Object.keys(d.done||{}).length||(d.water||[]).length||d.rate||(d.mood||[]).length)); };
 const monthHas=(y,m)=>Object.keys(log).some(k=>k.startsWith(`${y}-${pad(m+1)}-`)&&dayHas(k));
 function sealsByDay(){
@@ -1847,7 +1848,7 @@ function coffinSVG(y){
   let g=`<path d="M120 4h150l70 90-28 290H78L50 94z" fill="#140a0c" stroke="url(#cbr)" stroke-width="5"/><path d="M195 20v18M187 28h16" stroke="#e6c27a" stroke-width="3"/>`;
   let i=0;
   [[86,0],[184,1],[282,2]].forEach(([yy,r])=>{ g+=`<rect x="${70-r*4}" y="${yy+80}" width="${250+r*8}" height="8" fill="url(#cbr)"/>`; const x0=90-r*4+(r===0?6:0);
-    for(let k=0;k<4;k++,i++){ const x=x0+k*(34+16)+(r===0?16:0), h=70, top=yy+80-h, fut=(y>cy)||(y===cy&&i>cm), has=monthHas(y,i), on=!fut;
+    for(let k=0;k<4;k++,i++){ const x=x0+k*(34+16)+(r===0?16:0), h=70, top=yy+80-h, fut=(y>cy)||(y===cy&&i>cm)||`${y}-${pad(i+1)}-31`<DIARY_START, has=monthHas(y,i), on=!fut;
       g+=`<g data-m="${i}" class="${on?'bk':'bk fut'}">`;
       g+= on? `<rect x="${x}" y="${top}" width="34" height="${h}" rx="2" fill="${has?LEATHER[i]:'#2a2024'}" ${y===cy&&i===cm?'stroke="#ff4d68" stroke-width="1.5"':''}/><rect x="${x}" y="${top+9}" width="34" height="3" fill="#b08a4a" opacity="${has?.9:.35}"/><rect x="${x}" y="${top+h-12}" width="34" height="3" fill="#b08a4a" opacity="${has?.9:.35}"/><rect x="${x+2}" y="${top}" width="3" height="${h}" fill="#fff" opacity=".07"/>
         <text x="${x+17}" y="${top+h/2}" transform="rotate(-90 ${x+17} ${top+h/2})" text-anchor="middle" dominant-baseline="middle" font-family="UnifrakturCook" font-size="${MFULL[i].length>7?12:14}" fill="${has?'#e6c27a':'#7a6a5a'}">${MFULL[i]}</text>${y===cy&&i===cm?`<ellipse cx="${x+17}" cy="${top+h/2}" rx="30" ry="44" fill="#ff2d4f" opacity=".1"/>`:''}`
@@ -1858,7 +1859,7 @@ function coffinSVG(y){
 function renderDiary(){
   const el=$('diaryBody'); if(!el) return;
   if(dMonth==null){
-    const years=Object.keys(log).map(k=>+k.slice(0,4)), minY=Math.min(new Date().getFullYear(),...(years.length?years:[dYear])), maxY=new Date().getFullYear();
+    const minY=+DIARY_START.slice(0,4), maxY=new Date().getFullYear();
     el.innerHTML=`<div class="dhead"><div class="h2" style="font-family:'UnifrakturCook';font-weight:400">Her Grimoire</div><div class="hs">one book a month · tap a book to read her days</div></div>
      <div class="ynav"><button onclick="diaryYear(-1)" ${dYear<=minY?'disabled':''}>${IC.left}</button><b>${dYear}</b><button onclick="diaryYear(1)" ${dYear>=maxY?'disabled':''}>${IC.right}</button></div>
      <div class="coffin" id="coffin">${coffinSVG(dYear)}</div><div class="hs" style="text-align:center;margin-top:2px">swipe the coffin for other years</div>`;
@@ -1867,7 +1868,7 @@ function renderDiary(){
   }
   const y=dYear, m=dMonth, n=new Date(y,m+1,0).getDate(), tk=todayKey(), seals=sealsByDay();
   let rated=0,sum=0,best=null;
-  const rows=[...Array(n)].map((_,i)=>{ const dt=new Date(y,m,i+1,12), k=dkey(dt); if(k>tk) return '';
+  const rows=[...Array(n)].map((_,i)=>{ const dt=new Date(y,m,i+1,12), k=dkey(dt); if(k>tk||k<DIARY_START) return '';
     const d=peek(k), rt=d.rate, its=itemsFor(dt), dn=its.filter(x=>(d.done||{})[x.id]).length, L=waterTotal(k), sl=seals[k]||[];
     if(rt){ rated++; sum+=rt.v; if(!best||rt.v>best.v) best={v:rt.v,k}; }
     const hz=rt?(.62+rt.v*.05):.55;
@@ -1876,10 +1877,10 @@ function renderDiary(){
       <div class="dh ${rt?'':'no'}"><svg viewBox="-30 -26 60 50" style="width:${Math.round(40*hz)}px"><path d="M0 22C-14 12-28 2-28-10a14 14 0 0 1 28-6 14 14 0 0 1 28 6C28 2 14 12 0 22z" fill="${rt?'url(#gWax)':'none'}" stroke="${rt?'#ff8a9a':'#4a3a3a'}" stroke-width="1.5"/></svg><b>${rt?rt.v:'—'}</b></div></div>`; }).join('');
   el.innerHTML=`<div class="mhead"><button class="mback" onclick="dMonth=null;renderDiary()">${IC.left}<span>the coffin</span></button>
     <div class="mt">${MFULL[m]}<small>${y}</small></div>
-    <div class="msum">${rated?`${rated} days written · average <b>${(sum/rated).toFixed(1)}</b> · best <b>${best.v}</b> on ${new Date(best.k+'T12:00').getDate()} ${MSH[m]}`:'no days written yet this month'}</div></div>
+    <div class="msum">${rated?`${rated} ${rated===1?'day':'days'} written · average <b>${(sum/rated).toFixed(1)}</b> · best <b>${best.v}</b> on ${new Date(best.k+'T12:00').getDate()} ${MSH[m]}`:'no days written yet this month'}</div></div>
     <div class="dlist">${rows||'<div class="hs" style="text-align:center;margin-top:30px">nothing here yet</div>'}</div>`;
 }
-function diaryYear(dir){ const maxY=new Date().getFullYear(); const ny=dYear+dir; if(ny>maxY) return; const years=Object.keys(log).map(k=>+k.slice(0,4)); const minY=Math.min(maxY,...(years.length?years:[maxY])); if(ny<minY) return; dYear=ny; renderDiary(); const c=document.querySelector('#coffin'); if(c){ c.style.animation='none'; void c.offsetWidth; c.style.animation=(dir>0?'inR':'inL')+' .4s cubic-bezier(.2,1.1,.3,1)'; } }
+function diaryYear(dir){ const maxY=new Date().getFullYear(); const ny=dYear+dir; if(ny>maxY) return; if(ny<+DIARY_START.slice(0,4)) return; dYear=ny; renderDiary(); const c=document.querySelector('#coffin'); if(c){ c.style.animation='none'; void c.offsetWidth; c.style.animation=(dir>0?'inR':'inL')+' .4s cubic-bezier(.2,1.1,.3,1)'; } }
 function openDiaryDay(k){
   const dt=new Date(k+'T12:00'), d=peek(k), rt=d.rate, its=itemsFor(dt), done=d.done||{}, L=waterTotal(k), goal=cfg.waterGoal||2500;
   const day=dt.getDate(), sfx=(day%10===1&&day!==11)?'st':(day%10===2&&day!==12)?'nd':(day%10===3&&day!==13)?'rd':'th';
