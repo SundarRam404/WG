@@ -512,6 +512,30 @@ button{background:none;border:none;cursor:pointer}
 .dpage .hw{font-style:italic;font-size:17.5px;line-height:1.35;margin-top:2px;border-bottom:1px solid #b8a07a88;padding-bottom:6px;-webkit-user-select:text;user-select:text}
 .dpage .hw small{font-size:13px;opacity:.6}.dpage .hw.none{opacity:.45}
 .dpage .dsig{text-align:right;font-style:italic;font-size:13px;opacity:.6;margin-top:10px}
+.plog{margin-top:14px;padding:11px 12px;border-radius:14px;background:#0c0607;box-shadow:inset 0 0 0 1px #b08a4a2a}.plog.warn{box-shadow:inset 0 0 0 1.5px #ff4d68}
+.plog .sc{color:var(--mute);font-size:12px;letter-spacing:3px;margin-bottom:4px}.plog>small{font-style:italic;color:var(--mute)}
+.plog .pl{display:flex;align-items:baseline;gap:8px;padding:4px 0;border-top:1px solid #2a1b1e;font-size:14px}.plog .pl:first-of-type{border-top:none}
+.plog .pl span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.plog .pl small{color:var(--mute);font-style:italic;font-size:12.5px;white-space:nowrap}
+.plog .pl b{font-size:12.5px;white-space:nowrap}.plog .ok{color:#3ddc84}.plog .bad{color:#ff4d68}
+/* the bell tower */
+.top .tr{display:flex;align-items:center;gap:10px}
+.bell{position:relative;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;color:var(--gold2);box-shadow:inset 0 0 0 1px #b08a4a44;background:#0c0607aa;cursor:pointer}
+.bell svg{width:30px;height:30px}.bell:active svg{animation:ring .6s}
+@keyframes ring{20%{transform:rotate(14deg)}40%{transform:rotate(-12deg)}60%{transform:rotate(8deg)}80%{transform:rotate(-4deg)}}
+.bell i{position:absolute;top:-3px;right:-3px;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:#b3122e;color:#fff;font:700 11px/18px var(--disp);font-style:normal;text-align:center;box-shadow:0 0 8px #ff2d4f99}
+.bhead{display:flex;align-items:center;gap:12px;margin-bottom:10px}.bhead .bellsvg{width:52px;height:52px;color:var(--gold2);flex:none}
+.bchips{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:6px}
+.bchips button{flex:none;padding:6px 12px;border-radius:99px;box-shadow:inset 0 0 0 1px #b08a4a44;font-size:14px;color:var(--bone2)}
+.bchips button.on{background:#8e0b1c;color:#fff;box-shadow:inset 0 0 0 1px #ff4d68}
+.bday{font-variant:small-caps;letter-spacing:3px;font-size:13px;color:var(--gold2);margin:14px 0 4px}
+.brow{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #2a1b1e}
+.brow .bi{width:30px;font-size:19px;text-align:center;flex:none}
+.brow .bt{flex:1;min-width:0}.brow .bt b{display:block;font-family:var(--disp);font-size:16.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.brow .bt small{font-size:12.5px;color:var(--mute);font-style:italic}
+.bp{font-size:11.5px;padding:3px 8px;border-radius:9px;white-space:nowrap;flex:none;max-width:46%;overflow:hidden;text-overflow:ellipsis}
+.bp.ok{background:#3ddc8422;color:#7fe8aa}.bp.st{background:#e0a54a22;color:#e8c27a}.bp.bad{background:#ff2d4f26;color:#ff8a9a}.bp.upc{background:#ffffff10;color:var(--mute)}
+.brow.up{opacity:.75}
+.bmore{text-align:center;font-size:13.5px;color:var(--gold2);font-style:italic;padding:8px 0}
+.bats{position:fixed;inset:0;z-index:4;pointer-events:none;overflow:hidden}.bat{position:absolute;left:0;top:0;will-change:transform}.bat svg{display:block;width:100%;height:auto;overflow:visible;filter:drop-shadow(0 0 6px #ff2d4f99) drop-shadow(0 3px 4px #000)}
 </style>
 </head>
 <body>
@@ -531,7 +555,7 @@ button{background:none;border:none;cursor:pointer}
   <!-- TODAY -->
   <section class="view on" id="v-today">
     <div class="sky" id="sky"></div><div class="cndl" id="candle"></div>
-    <div class="top"><div class="logo">Domso</div><div class="av" onclick="go('me')"><span id="avSeal"></span><i id="syncDot"></i></div></div>
+    <div class="top"><div class="logo">Domso</div><div class="tr"><div class="bell" id="bellBtn" onclick="openBells()"></div><div class="av" onclick="go('me')"><span id="avSeal"></span><i id="syncDot"></i></div></div></div>
     <div class="hi" id="greet"></div><div class="hs" id="greetSub"></div>
     <div class="vwrap" id="vToday"></div>
     <div class="vnum" id="numToday"></div>
@@ -587,6 +611,7 @@ button{background:none;border:none;cursor:pointer}
 
     <div class="sealcard" onclick="toggleForge()"><div class="scv" id="sealBig"></div><div class="sct"><span class="sc">✦ her seal ✦</span><b id="forgeNow"></b><small>pressed into every rite, day, badge and the lock</small><span class="btn p" id="forgeBtn">Design her seal</span></div></div>
     <div id="forgeWrap" class="forgewrap"><div id="forge"></div></div>
+    <div class="row" style="margin:4px 0 8px"><div class="lab"><b>Bats in the app</b><small>a colony drifts across the screens, more at night</small></div><button class="tg" id="sBats" onclick="toggleBats(this)"></button></div>
 
     <div class="orn"><span>reminders</span></div>
     <div class="status" id="pStatus"><i></i><span>Checking…</span></div>
@@ -653,7 +678,7 @@ button{background:none;border:none;cursor:pointer}
     </div>
     </div></details>
     </div>
-    <div class="foot"><b>Domso</b><br>do or marry someone · made with 🩸 by S<br><span style="letter-spacing:2px">v17 · her grimoire</span></div>
+    <div class="foot"><b>Domso</b><br>do or marry someone · made with 🩸 by S<br><span style="letter-spacing:2px">v18 · bells & bats</span></div>
   </section>
 </main>
 
@@ -668,6 +693,7 @@ button{background:none;border:none;cursor:pointer}
 
 <div class="sheet" id="sheet" onclick="if(event.target===this)closeSheet()"><div class="in" id="sheetIn"></div></div>
 <div class="toast" id="toast"></div>
+<div class="bats" id="bats"></div>
 <div class="fin" id="fin"></div>
 <div class="rate" id="rate"></div>
 <div class="onb" id="onb"></div>
@@ -785,8 +811,20 @@ const WAXES={
  plum:{n:'Plum',s:['#b05a9a','#5a1a4a','#22061a'],ink:'#1a0414',lite:'#9a4a84',rim:'#22061a',hl:'#f4cce8'},
  midnight:{n:'Midnight',s:['#5a7ad8','#1c2c70','#060a24'],ink:'#03071e',lite:'#5a7ad8',rim:'#060a24',hl:'#cfdcff'},
  teal:{n:'Teal',s:['#5ac8c8','#1a6a70','#042226'],ink:'#021a1c',lite:'#3aa0a4',rim:'#042226',hl:'#ccf6f6'},
- emerald:{n:'Emerald',s:['#5ad69a','#1a6a44','#04241a'],ink:'#021a10',lite:'#3aa070',rim:'#04241a',hl:'#ccffe2'}};
-const SHAPES={wax:'Wax',round:'Round',scallop:'Scallop',flower:'Flower',burst:'Starburst',heart:'Heart',drop:'Drop',oval:'Cameo',shield:'Shield',coffin:'Coffin',diamond:'Diamond',gem:'Gem',hexagon:'Hexagon',octagon:'Octagon',crown:'Crown'};
+ emerald:{n:'Emerald',s:['#5ad69a','#1a6a44','#04241a'],ink:'#021a10',lite:'#3aa070',rim:'#04241a',hl:'#ccffe2'},
+ scarlet:{n:'Scarlet',s:['#ff5a4a','#d01a1a','#5a0404'],ink:'#3a0202',lite:'#ff3a2a',rim:'#5a0404',hl:'#ffd0c8'},
+ garnet:{n:'Garnet',s:['#c03040','#6a0a1a','#2a0208'],ink:'#1a0104',lite:'#a02030',rim:'#2a0208',hl:'#ffc0c8'},
+ amber:{n:'Amber',s:['#ffc85a','#d07a10','#5a2a02'],ink:'#3a1a00',lite:'#e09020',rim:'#5a2a02',hl:'#fff0c8'},
+ champagne:{n:'Champagne',s:['#fff0d8','#d8b88a','#6a4a2a'],ink:'#4a2e14',lite:'#b8946a',rim:'#6a4a2a',hl:'#ffffff'},
+ pearl:{n:'Pearl',s:['#ffffff','#e0d8e8','#8a8098'],ink:'#4a4258',lite:'#a8a0b8',rim:'#8a8098',hl:'#ffffff'},
+ graphite:{n:'Graphite',s:['#8a8a90','#4a4a50','#1a1a1e'],ink:'#0a0a0c',lite:'#6a6a72',rim:'#1a1a1e',hl:'#e8e8ee'},
+ lavender:{n:'Lavender',s:['#e0ccff','#a084d8','#4a3478'],ink:'#2a1a4a',lite:'#8a6ac8',rim:'#4a3478',hl:'#f8f0ff'},
+ orchid:{n:'Orchid',s:['#ff8ae0','#c03aa0','#5a0a48'],ink:'#3a0430',lite:'#e05ac0',rim:'#5a0a48',hl:'#ffe0f6'},
+ sapphire:{n:'Sapphire',s:['#5aa0ff','#1a4ac8','#061a5a'],ink:'#020a30',lite:'#3a7ae8',rim:'#061a5a',hl:'#d8e8ff'},
+ ice:{n:'Ice',s:['#f0fbff','#a8d8f0','#3a6a8a'],ink:'#1a3a52',lite:'#7ab8d8',rim:'#3a6a8a',hl:'#ffffff'},
+ jade:{n:'Jade',s:['#a8e8c0','#4aa070','#14402a'],ink:'#082a18',lite:'#5ab884',rim:'#14402a',hl:'#e8fff0'},
+ moss:{n:'Moss',s:['#a8b85a','#5a6a1a','#1e2604'],ink:'#141a02',lite:'#7a8a2a',rim:'#1e2604',hl:'#f0f6d0'}};
+const SHAPES={wax:'Wax',round:'Round',scallop:'Scallop',flower:'Flower',burst:'Starburst',heart:'Heart',spade:'Spade',drop:'Drop',leaf:'Leaf',oval:'Cameo',quatrefoil:'Quatrefoil',trefoil:'Trefoil',star:'Star',bat:'Bat',bell:'Bell',arch:'Arch',keyhole:'Keyhole',shield:'Shield',coffin:'Coffin',diamond:'Diamond',gem:'Gem',hexagon:'Hexagon',octagon:'Octagon',pentagon:'Pentagon',square:'Square',triangle:'Triangle',crown:'Crown'};
 let sealOverride=null, forgeDraft=null;
 function sealCfg(){ const d={text:'D',color:'blood',shape:'wax'}; if(sealOverride) return Object.assign(d,sealOverride); try{ return Object.assign(d,cfg.seal||{}); }catch(e){ return d; } }
 function shapePath(shape,seed){
@@ -795,6 +833,18 @@ function shapePath(shape,seed){
   const polar=f=>{ let d=''; for(let i=0;i<=200;i++){ const a=i/200*Math.PI*2-Math.PI/2, r=f(a); d+=(i?'L':'M')+(50+r*Math.cos(a)).toFixed(2)+' '+(50+r*Math.sin(a)).toFixed(2); } return d+'Z'; };
   if(shape==='flower') return polar(a=>36+10*Math.abs(Math.cos(a*2.5)));
   if(shape==='burst'){ let d=''; for(let i=0;i<32;i++){ const a=i/32*Math.PI*2-Math.PI/2, r=i%2?38:47; d+=(i?'L':'M')+(50+r*Math.cos(a)).toFixed(2)+' '+(50+r*Math.sin(a)).toFixed(2); } return d+'Z'; }
+  if(shape==='quatrefoil') return polar(a=>33+13*Math.abs(Math.cos(a*2)));
+  if(shape==='trefoil') return polar(a=>32+14*Math.abs(Math.cos(a*1.5)));
+  if(shape==='star'){ let d=''; for(let i=0;i<10;i++){ const a=i/10*Math.PI*2-Math.PI/2, r=i%2?29:48; d+=(i?'L':'M')+(50+r*Math.cos(a)).toFixed(2)+' '+(52+r*Math.sin(a)).toFixed(2); } return d+'Z'; }
+  if(shape==='pentagon'){ let d=''; for(let i=0;i<5;i++){ const a=i/5*Math.PI*2-Math.PI/2; d+=(i?'L':'M')+(50+48*Math.cos(a)).toFixed(2)+' '+(53+48*Math.sin(a)).toFixed(2); } return d+'Z'; }
+  if(shape==='square') return 'M18 6h64a12 12 0 0 1 12 12v64a12 12 0 0 1-12 12H18A12 12 0 0 1 6 82V18A12 12 0 0 1 18 6z';
+  if(shape==='triangle') return 'M8 10h84L50 94z';
+  if(shape==='leaf') return 'M50 2C78 22 92 48 75 74c-8 12-16 18-25 24-9-6-17-12-25-24C8 48 22 22 50 2z';
+  if(shape==='spade') return 'M50 4C66 26 93 40 93 62a20 20 0 0 1-35 13c2 8 6 15 12 21H30c6-6 10-13 12-21A20 20 0 0 1 7 62C7 40 34 26 50 4z';
+  if(shape==='bell') return 'M50 4c19 0 31 15 31 35v22l12 19H7l12-19V39C19 19 31 4 50 4zM39 84h22a11 11 0 0 1-22 0z';
+  if(shape==='arch') return 'M12 97V45C12 22 30 6 50 2c20 4 38 20 38 43v52z';
+  if(shape==='keyhole') return 'M50 3a31 31 0 0 1 17.5 56.6L77 97H23l9.5-37.4A31 31 0 0 1 50 3z';
+  if(shape==='bat') return BAT.replace(/(-?\d+(?:\.\d+)?)[ ,](-?\d+(?:\.\d+)?)/g,(m,x,y)=>`${(+x).toFixed(1)} ${(14+(+y-18)*2.3).toFixed(1)}`);
   if(shape==='drop') return 'M50 3C64 26 87 46 87 64a37 37 0 0 1-74 0c0-18 23-38 37-61z';
   if(shape==='oval') return 'M50 3a37 47 0 1 0 .1 0z';
   if(shape==='diamond') return 'M50 2L94 50 50 98 6 50z';
@@ -1015,6 +1065,9 @@ function initCloud(){
         renderAll();
       } else if((d.updated||0)<updated){ pushCloud(); }
       if(d.subS&&!subS){ try{ subS=JSON.parse(d.subS); }catch(_){} }
+      try{ pushLog=d.pushlog?JSON.parse(d.pushlog):[]; }catch(_){ pushLog=[]; }
+      cloudLinks={sub:d.sub||'',subS:d.subS||'',dead:d.subDead==='1',deadS:d.subSDead==='1'};
+      linkCheck(); if(cur==='me') renderPush(); try{ paintBell(); }catch(_){}
       if(!firstSync){ firstSync=true; setTimeout(checkRedeem,1200); }
     },e=>{console.warn('cloud read',e);setSync(false)});
   }catch(e){ console.warn('firebase off',e); setSync(false); }
@@ -1108,6 +1161,7 @@ function addWater(ml){
   drip(cur==='water'?'water':'today'); askMotion();
   const after=waterTotal(k);
   toast(before<cfg.waterGoal && after>=cfg.waterGoal ? 'The elixir is complete 🩸' : `+${ml} ml`);
+  notifyHim(`💧 ${HER} drank ${ml} ml`,`${L2(after)} of ${L2(cfg.waterGoal)} L today${before<cfg.waterGoal&&after>=cfg.waterGoal?' · the elixir is complete 🩸':''}`,'water');
   if(before<cfg.waterGoal && after>=cfg.waterGoal){ const bestA=bestWaterStreak(), i=WSEALS.findIndex(s=>bestB<s.n&&bestA>=s.n); if(i>=0) setTimeout(()=>openBadge(1,i,true),1400); }
   renderAll();
 }
@@ -1139,8 +1193,9 @@ function toggleDone(id,k=todayKey(),silent){
       finTold=notifyHim(`🌙 ${HER} ended her day`,left.length?`still open: ${left.join(' · ')}`:'every rite sealed','dayend');
       if(famNew){ const fs=collections()[famNew[0]].seals[famNew[1]]; sealEarnedWord(fs.name,fs.t); }
       renderAll(); setTimeout(()=>showFinale(null,null),500); return; }
-    if(famNew){ renderAll(); setTimeout(()=>openBadge(famNew[0],famNew[1],true),400); return; }
+    if(famNew){ const its=itemsFor(date), it=its.find(x=>x.id===id); if(it&&d[id]) notifyHim(`✓ ${HER} sealed ${it.title}`,`${its.filter(x=>d[x.id]).length}/${its.length} rites today`,'rite'); renderAll(); setTimeout(()=>openBadge(famNew[0],famNew[1],true),400); return; }
     if(d[id]) toast('Sealed ✓'); else toast('Seal broken');
+    if(d[id]&&k===todayKey()){ const its=itemsFor(date), it=its.find(x=>x.id===id), dn=its.filter(x=>d[x.id]).length; if(it) notifyHim(`✓ ${HER} sealed ${it.title}`,`${new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})} · ${dn}/${its.length} rites today`,'rite'); }
   }
   renderAll();
 }
@@ -1170,6 +1225,7 @@ function renderToday(){
   $('greetSub').textContent=`${now.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})} · ${left?(left===1?'one rite remains':`${left} rites remain`):'every rite sealed'}`;
   renderVessel('today',$('vToday'),$('numToday'));
   renderSky(); renderCandle(); renderMood();
+  if(!$('bellBtn').innerHTML) $('bellBtn').innerHTML=BELL_SVG+'<i id="bellN" style="display:none"></i>'; paintBell();
   $('pauseNote').innerHTML='';
   document.querySelectorAll('.glassLbl').forEach(e=>e.textContent=`+ ${cfg.glass} ml`);
   const dn=its.length-left, st=streak();
@@ -1296,7 +1352,7 @@ function renderMe(){
     VESSEL_ORDER.map(id=>`<div class="pk${+cfg.vessel===id?' on':''}" onclick="pickVessel(${id})"><img src="vessels/v${id}.jpg" alt="" loading="lazy"><b>${vesselNameOf(id)}</b></div>`).join('');
   $('finList').innerHTML=`<div class="pk${fLoop?' on':''}" onclick="pickFinale('loop')"><span class="n">↻</span><b>Loop nightly</b></div>`+
     FINALES.map((f,i)=>`<div class="pk${!fLoop&&+cfg.finale===i?' on':''}" onclick="pickFinale(${i})"><span class="n">${ROM12[i]}</span><b>${f.name}</b><span class="pl" onclick="event.stopPropagation();showFinale(${i})">▶</span></div>`).join('');
-  renderMeSeals(); renderForge();
+  renderMeSeals(); renderForge(); $('sBats').classList.toggle('on',batsOn());
   const rl=ROLE(); $('roleNow').textContent=rl==='him'?HIM+"'s":HER+"'s";
   $('roleList').innerHTML=[['her',HER+"'s",'reminders'],['him',HIM+"'s",'her news']].map(([r,n,d])=>`<div class="pk${rl===r?' on':''}" onclick="setRole('${r}')"><b>${n}<br><small>${d}</small></b></div>`).join('');
   renderPush();
@@ -1307,6 +1363,7 @@ function delRite(id){ const it=cfg.items.find(x=>x.id===id); if(!confirm(`Remove
 function addRite(){ cfg.items.push({id:'r'+Date.now().toString(36),title:'New rite',sub:'',icon:'potion',time:'12:00',since:todayKey()}); save(); renderAll(); toast('Added. Set its name and time'); }
 function toggleHair(ix){ const s=new Set(cfg.hairDays); s.has(ix)?s.delete(ix):s.add(ix); cfg.hairDays=[...s].sort(); save(); renderAll(); }
 function togglePre(btn){ const on=!Array.isArray(cfg.pre)||cfg.pre.length>0; cfg.pre=on?[]:[30,10]; save(); btn.classList.toggle('on',!on); toast(on?'Early pings off':'Pings 30 and 10 min before'); }
+function toggleHimPing(k,btn){ cfg.himPings=Object.assign({rite:true,water:true},cfg.himPings||{}); cfg.himPings[k]=!cfg.himPings[k]; save(); btn.classList.toggle('on',cfg.himPings[k]); toast(cfg.himPings[k]?'You will hear it':'Muted'); }
 function toggleCfg(group,key,btn){ if(group){ cfg[group][key]=!cfg[group][key]; } else cfg[key]=!cfg[key]; save(); btn.classList.toggle('on'); }
 function bindInputs(){
   const num=(id,fn)=>$(id).addEventListener('change',e=>{const v=+e.target.value; if(v>0){fn(v);save();renderAll();toast('Saved')}});
@@ -1334,7 +1391,29 @@ function importData(inp){
 /* ---------- reminders (web push) ---------- */
 const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
 const standalone=window.navigator.standalone===true || matchMedia('(display-mode: standalone)').matches;
-let swReg=null;
+let swReg=null, ownSub=null, pushLog=[], cloudLinks=null, relinking=false;
+/* make sure the shared link points at THIS phone's slot, and repair it if Apple said it is dead */
+async function linkCheck(){
+  if(!cloudLinks||!fdb||relinking||!('Notification' in window)||Notification.permission!=='granted') return;
+  const him=ROLE()==='him', dead=him?cloudLinks.deadS:cloudLinks.dead, field=him?'subS':'sub';
+  try{
+    if(dead){ relinking=true; const reg=await navigator.serviceWorker.ready; let s0=await reg.pushManager.getSubscription(); if(s0) await s0.unsubscribe();
+      const s1=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:b64u(VAPID_PUBLIC)}); ownSub=s1.toJSON();
+      if(him) subS=ownSub; else sub=ownSub;
+      await fdb.doc(CLOUD_DOC).set({[field]:JSON.stringify(ownSub),[him?'subSDead':'subDead']:''},{merge:true}); save(); relinking=false; return; }
+    if(!ownSub) return;
+    let cloud=null; try{ cloud=JSON.parse(cloudLinks[field]||'null'); }catch(_){}
+    if(!cloud||cloud.endpoint!==ownSub.endpoint){ if(him) subS=ownSub; else sub=ownSub; await fdb.doc(CLOUD_DOC).set({[field]:JSON.stringify(ownSub)},{merge:true}); }
+  }catch(e){ relinking=false; console.warn('relink',e); }
+}
+function pingLogHTML(){
+  const me=ROLE()==='him'?'him':'her', L=(pushLog||[]).filter(e=>e.to===me).slice(-6).reverse();
+  if(!L.length) return `<div class="plog"><div class="sc">last pings</div><small>none sent yet</small></div>`;
+  const tm=t=>{ const d=new Date(t), td=dkey(d)===todayKey(); return (td?'':d.toLocaleDateString('en-GB',{day:'numeric',month:'short'})+' · ')+d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}); };
+  const st=e=>e.st>=200&&e.st<300?'<b class="ok">✓</b>':e.st===0?'<b class="bad">no phone linked</b>':(e.st===404||e.st===410)?'<b class="bad">link expired, re-linking</b>':`<b class="bad">refused (${e.st})</b>`;
+  const bad=L[0]&&!(L[0].st>=200&&L[0].st<300);
+  return `<div class="plog${bad?' warn':''}"><div class="sc">last pings to this phone</div>${L.map(e=>`<div class="pl"><span>${esc(e.title||e.tag)}</span><small>${tm(e.t)}</small>${st(e)}</div>`).join('')}${bad?`<button class="btn p full" style="margin-top:10px" onclick="enablePush(true)">Re-link this phone</button>`:''}</div>`;
+}
 function b64u(s){ const p='='.repeat((4-s.length%4)%4); const b=atob((s+p).replace(/-/g,'+').replace(/_/g,'/')); return Uint8Array.from(b,c=>c.charCodeAt(0)); }
 function setStatus(cls,txt){ const s=$('pStatus'); s.className='status '+cls; s.querySelector('span').textContent=txt; }
 function renderPush(){
@@ -1347,12 +1426,12 @@ function renderPush(){
   const perm=Notification.permission;
   if(perm==='denied'){ setStatus('bad','Notifications are blocked'); body.innerHTML=`<div class="hs">Settings → Notifications → Domso → Allow Notifications, then reopen the app.</div>`; return; }
   if(ROLE()==='him'){
-    if(perm==='granted' && subS){ setStatus('ok','You will get her news on this phone'); body.innerHTML=`<div class="hs" style="margin-bottom:12px">A ping when she seals every rite, breaks a new seal, tells how she feels, or uses her monthly redemption. Her rite and water reminders stay on her phone.</div><button class="btn full" onclick="enablePush(true)">Re-link</button>`; return; }
+    if(perm==='granted' && subS){ setStatus('ok','You will get her news on this phone'); body.innerHTML=`<div class="hs" style="margin-bottom:6px">You hear when she finishes her rites, ends her day, rates it, tells how she feels, breaks a seal or uses her redemption. Her own reminders stay on her phone.</div><div class="row"><div class="lab"><b>Every rite she seals</b><small>"Sandhiya sealed Face wash"</small></div><button class="tg ${(cfg.himPings||{}).rite===false?'':'on'}" onclick="toggleHimPing('rite',this)"></button></div><div class="row" style="margin-bottom:10px"><div class="lab"><b>Every glass she drinks</b><small>"Sandhiya drank 250 ml"</small></div><button class="tg ${(cfg.himPings||{}).water===false?'':'on'}" onclick="toggleHimPing('water',this)"></button></div><button class="btn full" onclick="enablePush(true)">Re-link</button>${pingLogHTML()}`; return; }
     setStatus('warn','Sundar\'s pings are off'); body.innerHTML=`<button class="btn p full" onclick="enablePush()">${IC.bell} Ping me when she finishes</button>`; return; }
   if(perm==='granted' && sub){
     setStatus('ok','Reminders are on for this phone');
     body.innerHTML=`<div class="hs" style="margin-bottom:12px">Each rite pings ${(!Array.isArray(cfg.pre)||cfg.pre.length)?'30 min before, 10 min before and on time':'on time'}${cfg.nudge?', with a nudge 30 min later if it is still unsealed':''}. Water pings every ${cfg.waterRemind.every} min from ${fmt12(cfg.waterRemind.start)} to ${fmt12(cfg.waterRemind.end)} until 2.5 L is reached.</div>
-    <div style="display:flex;gap:8px"><button class="btn" style="flex:1" onclick="testLocal()">${IC.bell} Test ping</button><button class="btn" style="flex:1" onclick="enablePush(true)">Re-link</button></div>`; return; }
+    <div style="display:flex;gap:8px"><button class="btn" style="flex:1" onclick="testLocal()">${IC.bell} Test ping</button><button class="btn" style="flex:1" onclick="enablePush(true)">Re-link</button></div>${pingLogHTML()}`; return; }
   setStatus('warn','Reminders are off');
   body.innerHTML=`<button class="btn p full" onclick="enablePush()">${IC.bell} Enable reminders</button>`;
 }
@@ -1364,7 +1443,7 @@ async function enablePush(force){
     let s=await reg.pushManager.getSubscription();
     if(s && force){ await s.unsubscribe(); s=null; }
     if(!s) s=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:b64u(VAPID_PUBLIC)});
-    if(ROLE()==='him') subS=s.toJSON(); else sub=s.toJSON(); save(); renderPush(); toast(ROLE()==='him'?'You will hear when she finishes 🩸':'Reminders on 🩸');
+    ownSub=s.toJSON(); if(ROLE()==='him') subS=ownSub; else sub=ownSub; save(); if(fdb) fdb.doc(CLOUD_DOC).set(ROLE()==='him'?{subS:JSON.stringify(ownSub),subSDead:''}:{sub:JSON.stringify(ownSub),subDead:''},{merge:true}); renderPush(); toast(ROLE()==='him'?'You will hear when she finishes 🩸':'Reminders on 🩸');
   }catch(e){ console.error(e); toast('Could not enable: '+(e.message||e)); }
 }
 async function testLocal(){
@@ -1377,7 +1456,7 @@ async function initSW(){
     swReg=await navigator.serviceWorker.register('sw.js');
     if('PushManager' in window && Notification.permission==='granted'){
       const s=await swReg.pushManager.getSubscription();
-      if(s){ const j=s.toJSON(); if(ROLE()==='him'){ if(!subS||subS.endpoint!==j.endpoint){ subS=j; save(); } } else if(!sub||sub.endpoint!==j.endpoint){ sub=j; save(); } }
+      if(s){ const j=s.toJSON(); ownSub=j; setTimeout(linkCheck,1500); if(ROLE()==='him'){ if(!subS||subS.endpoint!==j.endpoint){ subS=j; save(); } } else if(!sub||sub.endpoint!==j.endpoint){ sub=j; save(); } }
     }
   }catch(e){ console.warn('sw',e); }
   if(cur==='me') renderPush();
@@ -1634,6 +1713,7 @@ function setRole(r){
 /* word to Sundar: her phone queues it, the worker delivers it to his phone within a minute */
 function notifyHim(title,body,tag){
   if(ROLE()!=='her') return false;
+  const hp=Object.assign({rite:true,water:true},cfg.himPings||{}); if((tag==='rite'&&!hp.rite)||(tag==='water'&&!hp.water)) return false;
   const now=Date.now(); evq=(evq||[]).filter(e=>now-e.t<864e5); evq.push({t:now,title,body,tag:tag||'ev'}); evq=evq.slice(-20); save(); return true;
 }
 const L2=ml=>(ml/1000).toFixed(2).replace(/0+$/,'').replace(/\.$/,'');
@@ -1939,6 +2019,83 @@ function openDiaryDay(k){
   document.getElementById('sheetIn').classList.add('parch');
 }
 
+/* ============================================================
+   THE BELL TOWER — every ping: sent, stopped, failed, coming up
+   ============================================================ */
+const BELL_IC={rite:'✓',water:'💧',hair:'🪮',facewash:'🫧',thyroid:'🌅',strength:'⚡',ointment:'🫙',mood:'💭',rate:'💓',alldone:'🩸',dayend:'🌙',seal:'🏅',redeem:'🕯'};
+const bellIcon=tag=>BELL_IC[tag]||(String(tag).startsWith('sid_')?'🌿':'🔔');
+/* mirror of the reminder service's schedule, to show what is still to come today */
+function dueAt(m){
+  const now=new Date(), k=todayKey(), dow=now.getDay(), out=[], done=peek(k).done||{};
+  const hd=cfg.hairDays||[];
+  if(hd.includes((dow+1)%7)){ if(m===mins(cfg.hairEve||'20:00')) out.push({tag:'hair',title:'🪮 Tomorrow is hair wash day'}); else if(cfg.hairEve2&&m===mins(cfg.hairEve2)) out.push({tag:'hair',title:'🪮 Hair wash tomorrow'}); }
+  if(hd.includes(dow)&&!done.hair){ const hs=mins(cfg.hairDay||'05:00'), he=mins(cfg.hairEnd||'11:00'), ev=Math.max(15,+cfg.hairEvery||30); if(m>=hs&&m<he&&(m-hs)%ev===0) out.push({tag:'hair',title:'🪮 Hair wash today'}); }
+  const pre=Array.isArray(cfg.pre)?cfg.pre:[30,10];
+  for(const it of cfg.items){ if(pausedOn(it.id,k)||done[it.id]) continue; const t=mins(it.time), ah=pre.find(p=>p>0&&t-p===m);
+    if(t===m) out.push({tag:it.id,title:`🩸 ${it.title} · now`}); else if(ah) out.push({tag:it.id,title:`⏳ ${it.title} in ${ah} min`}); else if(cfg.nudge&&t+30===m) out.push({tag:it.id,title:`Still pending: ${it.title}`}); }
+  const w=cfg.waterRemind||{};
+  if(w.on&&w.start&&w.end&&w.every){ const s=mins(w.start), e=mins(w.end), ev=Math.max(15,+w.every); if(m>=s&&m<=e&&(m-s)%ev===0&&waterTotal(k)<(cfg.waterGoal||2500)) out.push({tag:'water',title:'💧 Time for the elixir'}); }
+  return out;
+}
+function upcomingToday(){ const n=new Date(), m0=n.getHours()*60+n.getMinutes(), out=[]; for(let m=m0+1;m<24*60;m++) for(const x of dueAt(m)) out.push({...x,m}); return out; }
+function bellSeen(){ try{ return +(localStorage.getItem('domso_bellseen')||0); }catch(e){ return 0; } }
+function bellMine(){ const him=ROLE()==='him'; return (pushLog||[]).filter(e=>him||e.to==='her'); }
+function bellCountable(){ const him=ROLE()==='him'; return bellMine().filter(e=>him?e.to==='him':true); }
+function paintBell(){
+  const b=$('bellN'); if(!b) return; const n=bellCountable().filter(e=>e.t>bellSeen()&&e.st>=200&&e.st<300).length;
+  b.textContent=n>9?'9+':n; b.style.display=n?'':'none';
+}
+let bellFilter=null;
+function openBells(){ try{ localStorage.setItem('domso_bellseen',String(Date.now())); }catch(e){} paintBell(); renderBells(); }
+function renderBells(){
+  const him=ROLE()==='him'; if(!bellFilter) bellFilter=him?'news':'all';
+  if(him&&!['news','hers','up'].includes(bellFilter)) bellFilter='news'; if(!him&&['news','hers'].includes(bellFilter)) bellFilter='all';
+  let L=bellMine().slice().reverse(); const up=upcomingToday();
+  if(him&&bellFilter==='news') L=L.filter(e=>e.to==='him'); if(him&&bellFilter==='hers') L=L.filter(e=>e.to==='her');
+  const kind=e=>e.st>=200&&e.st<300?'sent':e.st===-1?'stopped':'failed';
+  const counts={sent:0,stopped:0,failed:0}; L.forEach(e=>counts[kind(e)]++);
+  const chips=him?[['news','Her news'],['hers','Her reminders'],['up',`Coming ${up.length}`]]:[['all','All'],['sent',`Sent ${counts.sent}`],['stopped',`Stopped ${counts.stopped}`],['failed',`Failed ${counts.failed}`],['up',`Coming ${up.length}`]];
+  const tm=t=>new Date(t).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+  const dayLbl=t=>{ const k=dkey(new Date(t)), y=dkey(new Date(Date.now()-864e5)); return k===todayKey()?'Today':k===y?'Yesterday':new Date(t).toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'short'}); };
+  const pill=e=>{ const k=kind(e); return k==='sent'?'<b class="bp ok">✓ delivered</b>':k==='stopped'?`<b class="bp st">⏸ stopped · ${esc(e.why||'not needed')}</b>`:`<b class="bp bad">✗ ${e.st===0?'no phone linked':(e.st===404||e.st===410)?'link expired':'refused '+e.st}</b>`; };
+  let rows='';
+  if(bellFilter==='up'||(!him&&bellFilter==='all')){ if(up.length) rows+=`<div class="bday">Coming up today</div>`+up.slice(0,bellFilter==='up'?200:6).map(x=>`<div class="brow up"><span class="bi">${bellIcon(x.tag)}</span><div class="bt"><b>${esc(x.title.replace(/^[^\p{L}\p{N}(]+/u,''))}</b><small>${fmt12(`${pad(Math.floor(x.m/60))}:${pad(x.m%60)}`)}</small></div><b class="bp upc">⏳ scheduled</b></div>`).join('')+(bellFilter==='all'&&up.length>6?`<div class="bmore" onclick="bellFilter='up';renderBells()">+ ${up.length-6} more today</div>`:''); }
+  if(bellFilter!=='up'){ let last=''; L.filter(e=>['all','news','hers'].includes(bellFilter)||kind(e)===bellFilter).forEach(e=>{ const dl=dayLbl(e.t); if(dl!==last){ rows+=`<div class="bday">${dl}</div>`; last=dl; }
+    rows+=`<div class="brow ${kind(e)}"><span class="bi">${bellIcon(e.tag)}</span><div class="bt"><b>${esc(String(e.title||e.tag).replace(/^[^\p{L}\p{N}(]+/u,''))}</b><small>${tm(e.t)}</small></div>${pill(e)}</div>`; }); }
+  if(!rows) rows=`<div class="hs" style="text-align:center;margin:30px 0">The bells are silent. Pings will appear here once the reminder service sends them.</div>`;
+  openSheet(`<div class="bhead">${BELL_SVG}<div><h3>The Bell Tower</h3><div class="hs">${him?(bellFilter==='news'?`everything ${HER} does, as it reaches you`:`her reminders and whether they reached her`):'every ping to this phone: sent, stopped and to come'}</div></div></div>
+   <div class="bchips">${chips.map(([k,n])=>`<button class="${bellFilter===k?'on':''}" onclick="bellFilter='${k}';renderBells()">${n}</button>`).join('')}</div><div class="blist">${rows}</div>`);
+}
+const BELL_SVG=`<svg class="bellsvg" viewBox="0 0 64 64"><path d="M6 26c4-6 10-8 16-6-4 2-6 5-6 9-3-2-6-3-10-3zM58 26c-4-6-10-8-16-6 4 2 6 5 6 9 3-2 6-3 10-3z" fill="currentColor" opacity=".55"/><path d="M32 8a3 3 0 0 1 3 3v2c8 2 13 9 13 18v10l5 7H11l5-7V31c0-9 5-16 13-18v-2a3 3 0 0 1 3-3z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="M20 41h24" stroke="currentColor" stroke-width="1.4" opacity=".6"/><path d="M27 52a5 5 0 0 0 10 0" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M32 18v14" stroke="currentColor" stroke-width="1.2" opacity=".5"/><circle cx="32" cy="31" r="2.4" fill="currentColor"/></svg>`;
+
+/* ============================================================
+   BATS — a colony that drifts across every screen
+   ============================================================ */
+const batsOn=()=>cfg.bats!==false;
+let batLayer=null, batLive=0, batTimer=null;
+function spawnBat(force){
+  if(!batsOn()||document.hidden||!batLayer) return;
+  if(batLive>=6&&!force) return;
+  const W=innerWidth, H=innerHeight, ltr=Math.random()<.5, size=28+Math.random()*34, y0=40+Math.random()*(H*.75), dur=6500+Math.random()*7000;
+  const el=document.createElement('div'); el.className='bat';
+  el.style.width=size+'px'; el.style.opacity=(.75+Math.random()*.25).toFixed(2);
+  el.innerHTML=`<svg viewBox="0 0 100 50"><path d="${BAT}" fill="#12040a" stroke="#c4142f" stroke-width="2" style="transform-origin:50% 55%;animation:flap ${(.18+Math.random()*.14).toFixed(2)}s ease-in-out infinite"/><circle cx="46.5" cy="30" r="1.3" fill="#ff2d4f"/><circle cx="53.5" cy="30" r="1.3" fill="#ff2d4f"/></svg>`;
+  batLayer.appendChild(el); batLive++;
+  const x0=ltr?-size-20:W+20, x1=ltr?W+size+20:-size-20, amp=20+Math.random()*60, steps=8, kf=[];
+  for(let i=0;i<=steps;i++){ const f=i/steps, x=x0+(x1-x0)*f, y=y0+Math.sin(f*Math.PI*(2+Math.random()))*amp-f*40*Math.random(); kf.push({transform:`translate(${x.toFixed(0)}px,${y.toFixed(0)}px) scaleX(${ltr?1:-1}) rotate(${(Math.sin(f*9)*8).toFixed(1)}deg)`}); }
+  const a=el.animate(kf,{duration:dur,easing:'linear'});
+  a.onfinish=()=>{ el.remove(); batLive--; };
+}
+function batSwarm(n){ for(let i=0;i<n;i++) setTimeout(()=>spawnBat(true),i*180+Math.random()*200); }
+function batLoop(){
+  clearTimeout(batTimer); if(!batsOn()) return;
+  const h=new Date().getHours(), night=h>=19||h<5;
+  spawnBat(); batTimer=setTimeout(batLoop,(night?1800:4200)+Math.random()*(night?2500:5000));
+}
+function initBats(){ batLayer=$('bats'); if(!batLayer) return; setTimeout(()=>batSwarm(3),1500); batLoop(); }
+function toggleBats(btn){ cfg.bats=!batsOn(); save(); btn.classList.toggle('on',batsOn()); if(batsOn()){ batSwarm(4); batLoop(); } else { clearTimeout(batTimer); batLayer.innerHTML=''; batLive=0; } }
+document.addEventListener('visibilitychange',()=>{ if(!document.hidden&&batsOn()){ batSwarm(2); batLoop(); } });
+
 /* ---------- init ---------- */
 bindInputs();
 if(migrated) save();
@@ -1951,6 +2108,7 @@ setTimeout(()=>{ if(!firstSync) checkRedeem(); },4500);
 if(window.firebase) initCloud(); else setSync(false);
 initSW();
 armMotion();
+initBats();
 setTimeout(()=>{ $('boot').classList.add('gone'); if(!localStorage.getItem('domso_onb')) setTimeout(showOnb,300); },900);
 </script>
 </body>

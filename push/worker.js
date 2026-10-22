@@ -128,15 +128,48 @@ async function loadDoc(env) {
   const s = k => (f[k] && f[k].stringValue) || '';
   const n = k => f[k] ? +(f[k].integerValue || f[k].doubleValue || 0) : 0;
   return { cfg: s('cfg') ? JSON.parse(s('cfg')) : null, log: s('log') ? JSON.parse(s('log')) : {}, sub: s('sub') ? JSON.parse(s('sub')) : null,
-    subS: s('subS') ? JSON.parse(s('subS')) : null, ev: s('ev') ? JSON.parse(s('ev')) : [], evDone: n('evDone') };
+    subS: s('subS') ? JSON.parse(s('subS')) : null, ev: s('ev') ? JSON.parse(s('ev')) : [], evDone: n('evDone'), pushlog: s('pushlog') ? JSON.parse(s('pushlog')) : [] };
 }
 
 /* mark Sundar's events as delivered (touches only the evDone field) */
-async function markDone(env, t) {
-  const url = `https://firestore.googleapis.com/v1/projects/${env.FIREBASE_PROJECT}/databases/(default)/documents/${env.DOC_PATH}?key=${env.FIREBASE_KEY}&updateMask.fieldPaths=evDone`;
-  const r = await fetch(url, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ fields: { evDone: { integerValue: String(t) } } }) });
+/* pings that would have gone out but were not needed: she had already sealed it, finished the elixir, or it is paused */
+export function skips(cfg, log, now) {
+  const out = [], today = (log && log[now.key]) || { done: {}, water: [] }, done = today.done || {};
+  const pre = Array.isArray(cfg.pre) ? cfg.pre : [30, 10];
+  for (const it of (cfg.items || [])) {
+    if (it.since && now.key < it.since) continue;
+    const t = mins(it.time), hit = t === now.m || pre.some(p => p > 0 && t - p === now.m) || (cfg.nudge && t + 30 === now.m);
+    if (!hit) continue;
+    if (pausedOn(cfg, it.id, now.key)) { if (t === now.m) out.push({ tag: it.id, title: `${it.title}`, why: 'paused' }); }
+    else if (done[it.id]) out.push({ tag: it.id, title: `${it.title}`, why: 'already sealed' });
+  }
+  const w = cfg.waterRemind || {};
+  if (w.on && w.start && w.end && w.every) {
+    const s = mins(w.start), e = mins(w.end), every = Math.max(15, +w.every);
+    if (now.m >= s && now.m <= e && (now.m - s) % every === 0) {
+      const goal = +cfg.waterGoal || 2500, drunk = (today.water || []).reduce((a, x) => a + (+x.ml || 0), 0);
+      if (drunk >= goal) out.push({ tag: 'water', title: 'Time for the elixir', why: 'elixir complete' });
+    }
+  }
+  const hd = cfg.hairDays || [];
+  if (hd.includes(now.dow) && done.hair) {
+    const hs = mins(cfg.hairDay || '05:00'), he = mins(cfg.hairEnd || '11:00'), ev = Math.max(15, +cfg.hairEvery || 30);
+    if (now.m >= hs && now.m < he && (now.m - hs) % ev === 0) out.push({ tag: 'hair', title: 'Hair wash today', why: 'already washed' });
+  }
+  return out;
+}
+/* write a few fields without touching the rest of the document */
+async function patchFields(env, fields) {
+  const keys = Object.keys(fields); if (!keys.length) return;
+  const mask = keys.map(k => `updateMask.fieldPaths=${k}`).join('&');
+  const url = `https://firestore.googleapis.com/v1/projects/${env.FIREBASE_PROJECT}/databases/(default)/documents/${env.DOC_PATH}?key=${env.FIREBASE_KEY}&${mask}`;
+  const body = { fields: Object.fromEntries(keys.map(k => [k, typeof fields[k] === 'number' ? { integerValue: String(fields[k]) } : { stringValue: String(fields[k]) }])) };
+  const r = await fetch(url, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
   if (!r.ok) throw new Error(`firestore write ${r.status}: ${(await r.text()).slice(0, 200)}`);
 }
+/* the ping log the app shows: last 40 pings, newest last */
+export function addToLog(prev, entries) { return (prev || []).concat(entries).slice(-160); }
+export const deadStatus = st => st === 404 || st === 410;
 
 /* her news for Sundar: queued by her phone in "ev", delivered here once */
 export function pendingFor(ev, evDone, nowMs) {
@@ -144,18 +177,35 @@ export function pendingFor(ev, evDone, nowMs) {
 }
 
 async function run(env, at) {
-  const { cfg, log, sub, subS, ev, evDone } = await loadDoc(env);
+  const { cfg, log, sub, subS, ev, evDone, pushlog } = await loadDoc(env);
   if (!cfg) return { skipped: 'no config yet' };
   const now = nowIn(cfg.tz || 'Asia/Kolkata', at);
-  const results = [];
+  const results = [], entries = [], t = Date.now();
   // her reminders → her phone
-  if (sub && sub.endpoint) for (const m of due(cfg, log, now)) results.push({ tag: m.tag, ...(await sendPush(sub, m, env)) });
-  // her news → Sundar's phone
-  const news = pendingFor(ev, evDone, Date.now());
-  if (news.length) {
-    if (subS && subS.endpoint) for (const e of news) results.push({ tag: 'him:' + e.tag, ...(await sendPush(subS, { title: e.title, body: e.body, tag: 'him-' + e.tag + '-' + e.t, url: './#today' }, env)) });
-    await markDone(env, Math.max(...news.map(e => e.t)));
+  const msgs = due(cfg, log, now);
+  for (const m of msgs) {
+    if (!(sub && sub.endpoint)) { entries.push({ t, to: 'her', tag: m.tag, title: m.title, st: 0 }); continue; }
+    const r = await sendPush(sub, m, env); results.push({ tag: m.tag, ...r });
+    entries.push({ t, to: 'her', tag: m.tag, title: m.title, st: r.status });
   }
+  for (const k of skips(cfg, log, now)) entries.push({ t, to: 'her', tag: k.tag, title: k.title, st: -1, why: k.why });
+  // her news → Sundar's phone
+  const news = pendingFor(ev, evDone, t);
+  const patch = {};
+  if (news.length) {
+    for (const e of news) {
+      if (!(subS && subS.endpoint)) { entries.push({ t, to: 'him', tag: e.tag, title: e.title, st: 0 }); continue; }
+      const r = await sendPush(subS, { title: e.title, body: e.body, tag: 'him-' + e.tag + '-' + e.t, url: './#today' }, env);
+      results.push({ tag: 'him:' + e.tag, ...r }); entries.push({ t, to: 'him', tag: e.tag, title: e.title, st: r.status });
+    }
+    patch.evDone = Math.max(...news.map(e => e.t));
+  }
+  if (entries.length) {
+    patch.pushlog = JSON.stringify(addToLog(pushlog, entries));
+    if (entries.some(e => e.to === 'her' && deadStatus(e.st))) patch.subDead = '1';
+    if (entries.some(e => e.to === 'him' && deadStatus(e.st))) patch.subSDead = '1';
+  }
+  await patchFields(env, patch);
   return { at: `${now.key} ${hhmm(now.m)}`, sent: results };
 }
 
