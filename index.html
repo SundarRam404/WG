@@ -463,6 +463,46 @@ button{background:none;border:none;cursor:pointer}
 .drq h6{font-family:var(--disp);font-size:15px;font-weight:700;color:var(--gold2);letter-spacing:.3px}
 .drq p{font-size:16px;line-height:1.4;margin-top:2px;color:var(--bone);font-style:italic;-webkit-user-select:text;user-select:text}.drq p.none{color:#5a4a48}
 .drch{text-align:right;margin-top:8px;font-size:13.5px;color:var(--gold2);font-style:italic}
+/* her seal forge */
+.fg-prev{width:120px;margin:4px auto 6px}.fg-prev svg{width:120px;height:120px;filter:drop-shadow(0 8px 12px #000c)}
+.fg-sw{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.fg-sw button,.fg-sh button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 2px;border-radius:12px;background:#0c0607;box-shadow:inset 0 0 0 1px #b08a4a26;font-size:13px;color:var(--bone2)}
+.fg-sw button.on,.fg-sh button.on{box-shadow:inset 0 0 0 1.5px var(--gold2),0 0 14px #b3122e44}
+.fg-sw i{width:30px;height:30px;border-radius:50%;box-shadow:0 3px 6px #000a,inset 0 -3px 5px #0006}
+.fg-sh{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.fg-sh svg{width:38px;height:38px;filter:drop-shadow(0 3px 4px #000b)}
+/* her grimoire */
+.dhead{text-align:center;margin-top:10px}.dhead .h2{font-size:36px}
+.ynav{display:flex;align-items:center;justify-content:center;gap:22px;margin:10px 0 0}
+.ynav b{font-family:'UnifrakturCook';font-size:24px;color:var(--gold2);font-weight:400}
+.ynav button{width:38px;height:38px;border-radius:50%;box-shadow:inset 0 0 0 1px #b08a4a44;display:grid;place-items:center}.ynav button svg{width:16px}.ynav button:disabled{opacity:.25}
+.coffin{margin:6px -10px 0;touch-action:pan-y}.coffin svg{width:100%;height:auto;display:block}
+.coffin .bk{cursor:pointer;transition:transform .2s}.coffin .bk:not(.fut):active{transform:translateY(-6px)}
+.mhead{margin-top:8px}.mback{display:flex;align-items:center;gap:6px;color:var(--gold2);font-style:italic;font-size:15px;padding:6px 0}.mback svg{width:14px}
+.mt{font-family:'UnifrakturCook';font-size:40px;line-height:1;text-align:center;color:#f3e6da;text-shadow:0 0 22px #b3122e66}
+.mt small{display:block;font-family:var(--serif);font-size:15px;letter-spacing:5px;color:var(--gold2);margin-top:4px}
+.msum{text-align:center;font-style:italic;color:var(--mute);font-size:14.5px;margin:8px 0 12px}.msum b{color:var(--bone);font-style:normal}
+.dlist{display:flex;flex-direction:column;gap:8px}
+.drow{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:14px;background:linear-gradient(#170b0e,#100809);box-shadow:inset 0 0 0 1px #b08a4a22;cursor:pointer}
+.drow.tdy{box-shadow:inset 0 0 0 1.5px #ff4d68}
+.drow:active{transform:scale(.985)}
+.drow .dn{width:40px;text-align:center;flex:none}.drow .dn b{display:block;font-family:var(--disp);font-size:26px;line-height:1}.drow .dn small{font-size:11px;letter-spacing:2px;color:var(--mute);font-variant:small-caps}
+.drow .dm{flex:1;min-width:0}.drow .dm b{display:block;font-family:var(--disp);font-size:18px}.drow .dm small{font-size:13px;color:var(--mute);font-style:italic}
+.drow .dm i{display:block;font-size:13.5px;color:var(--bone2);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.drow .dh{width:46px;flex:none;text-align:center}.drow .dh svg{display:block;margin:0 auto;filter:drop-shadow(0 0 6px #ff2d4f66)}.drow .dh b{font-family:var(--disp);font-size:17px}
+.drow .dh.no svg{filter:none}.drow .dh.no b{color:#5a4a48}
+/* the diary page (in the sheet) */
+.sheet .in.parch{background:linear-gradient(#f3e6d0,#e0cba8);box-shadow:inset 0 1px 0 #fff8}
+.sheet .in.parch .grab{background:#b8a07a}
+.dpage{color:#1a0a0c}.dpin{position:relative}
+.dpage .dt{font-family:'UnifrakturCook';font-size:27px;padding-right:70px;line-height:1.1}.dpage .dt small{display:block;font-family:var(--serif);font-style:italic;font-size:14px;margin-top:2px;opacity:.75}
+.dpage .hrt{position:absolute;right:0;top:-4px;text-align:center;font-family:var(--disp);font-weight:700;font-size:24px;line-height:1;color:#7d0611}
+.dpage .hrt svg{display:block;margin:0 auto 2px}.dpage .hrt small{display:block;font-size:11px;letter-spacing:2px;font-variant:small-caps;font-weight:500}
+.dpage .lb{font-variant:small-caps;letter-spacing:2px;font-size:13px;opacity:.75;margin-top:12px}.dpage .lb.gold{color:#7a5a14;opacity:1}
+.dpage .chips span{display:inline-block;font-size:14px;padding:2px 9px;border-radius:10px;margin:4px 4px 0 0}
+.dpage .chips .ok{background:#1a0a0c14}.dpage .chips .no{background:#7d061122;color:#5a0610}
+.dpage .hw{font-style:italic;font-size:17.5px;line-height:1.35;margin-top:2px;border-bottom:1px solid #b8a07a88;padding-bottom:6px;-webkit-user-select:text;user-select:text}
+.dpage .hw small{font-size:13px;opacity:.6}.dpage .hw.none{opacity:.45}
+.dpage .dsig{text-align:right;font-style:italic;font-size:13px;opacity:.6;margin-top:10px}
 </style>
 </head>
 <body>
@@ -520,6 +560,11 @@ button{background:none;border:none;cursor:pointer}
   </section>
 
   <!-- BADGES -->
+  <section class="view" id="v-diary">
+    <div class="top"><div class="logo">Domso</div></div>
+    <div id="diaryBody"></div>
+  </section>
+
   <section class="view" id="v-badges">
     <div class="top"><div class="logo">Domso</div></div>
     <div class="h2">Her Badges</div><div class="hs">wax seals for days in a row · from 3 days to a whole year</div>
@@ -534,6 +579,7 @@ button{background:none;border:none;cursor:pointer}
     <div class="orn"><span>reminders</span></div>
     <div class="status" id="pStatus"><i></i><span>Checking…</span></div>
     <div id="pBody"></div>
+    <details class="fold" data-k="her seal" style="margin-top:16px"><summary><span>her seal</span><em id="forgeNow"></em><i></i></summary><div class="fb" id="forge"></div></details>
 
     <div id="meSealed" class="framed plaque" style="text-align:center;margin-top:22px;cursor:pointer" onclick="showLock()">
       <div style="width:64px;margin:0 auto 6px"></div><h5 style="font-family:var(--disp);font-size:21px;font-weight:700">The rest is sealed</h5>
@@ -596,7 +642,7 @@ button{background:none;border:none;cursor:pointer}
     </div>
     </div></details>
     </div>
-    <div class="foot"><b>Domso</b><br>do or marry someone · made with 🩸 by S<br><span style="letter-spacing:2px">v16 · face wash</span></div>
+    <div class="foot"><b>Domso</b><br>do or marry someone · made with 🩸 by S<br><span style="letter-spacing:2px">v17 · her grimoire</span></div>
   </section>
 </main>
 
@@ -604,6 +650,7 @@ button{background:none;border:none;cursor:pointer}
   <button class="on" data-v="today" onclick="go('today')"><span data-i="navToday"></span><span>Today</span></button>
   <button data-v="water" onclick="go('water')"><span data-i="navWater"></span><span>Elixir</span></button>
   <button data-v="cal" onclick="go('cal')"><span data-i="navCal"></span><span>Calendar</span></button>
+  <button data-v="diary" onclick="go('diary')"><span data-i="navBook"></span><span>Grimoire</span></button>
   <button data-v="badges" onclick="go('badges')"><span data-i="navBadge"></span><span>Badges</span></button>
   <button data-v="me" onclick="go('me')"><span data-i="navMe"></span><span>Me</span></button>
 </nav>
@@ -660,6 +707,7 @@ const IC={
  navToday:E('<path d="M11 13h10v15.5H11z"/><path d="M16 13v-2.2"/><path d="M16 2.6c2 2.4 3 4 3 5.4a3 3 0 01-6 0c0-1.4 1-3 3-5.4z"/><path d="M8 28.5h16"/>',2),
  navWater:E('<path d="M12.5 3h7M13.3 3v7.2C8.4 12 6 15.8 6 20.2 6 25.6 10.5 29 16 29s10-3.4 10-8.8c0-4.4-2.4-8.2-7.3-10V3"/><path d="M7.4 18.5c3-1.6 6-1.6 8.6 0s5.6 1.6 8.6 0"/>',2),
  navCal:E('<rect x="5" y="7" width="22" height="20.5" rx="3"/><path d="M5 13h22M11 4.5v5M21 4.5v5"/><path d="M9.5 17.5h2M15 17.5h2M20.5 17.5h2M9.5 22.5h2M15 22.5h2"/><path d="M21.5 20.2q-1.6 2.2-1.6 3.1a1.6 1.6 0 003.2 0q0-.9-1.6-3.1z" fill="currentColor"/>',2),
+ navBook:E('<path d="M16 8.2c-2.6-1.9-6.4-2.4-10-1.4v17.6c3.6-1 7.4-.5 10 1.4 2.6-1.9 6.4-2.4 10-1.4V6.8c-3.6-1-7.4-.5-10 1.4z"/><path d="M16 8.2v17.6"/><path d="M9 11.5c1.6-.3 3-.2 4.4.4M9 15c1.6-.3 3-.2 4.4.4M19 11.9c1.4-.6 2.8-.7 4.2-.4" opacity=".7"/><path d="M21 15.5v6l1.4-1.2 1.4 1.2v-6"/>',2),
  navBadge:E('<circle cx="16" cy="12.5" r="7.5"/><path d="M11.6 18.6l-3.1 9.4 4.6-2 3 3.6M20.4 18.6l3.1 9.4-4.6-2-3 3.6"/><path d="M16 8.6l1.2 2.5 2.7.4-2 1.9.5 2.7-2.4-1.3-2.4 1.3.5-2.7-2-1.9 2.7-.4z"/>',2),
  navMe:E('<circle cx="11" cy="11" r="6.5"/><circle cx="11" cy="11" r="2.2"/><path d="M15.6 15.6L28 28M23.5 23.5l-2.8 2.8M26.3 26.3l-2 2"/>',2),
  x:E('<path d="M8 8l16 16M24 8L8 24"/>',2.6),
@@ -709,9 +757,62 @@ const GLYPH={
 Object.assign(GLYPH,{"wglass": "<path d=\"M41 46C33 37 24 35 20 39c5 1 9 3 11 5c-5 0-9 1-11 4c5 1 9 1 13 0c-3 2-5 5-6 8c6-1 11-5 15-10z\" fill=\"#4a030c\"/><path d=\"M41 46C33 37 24 35 20 39c5 1 9 3 11 5c-5 0-9 1-11 4c5 1 9 1 13 0c-3 2-5 5-6 8c6-1 11-5 15-10z\" fill=\"#4a030c\" transform=\"translate(100 0) scale(-1 1)\"/><path d=\"M40 26h20v4H40zM40 70h20v4H40z\" fill=\"#4a030c\"/><path d=\"M43 30h14c0 9-5 13-5 18s5 9 5 18H43c0-9 5-13 5-18s-5-9-5-18z\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M45 33h10c-1 4-3 7-5 9-2-2-4-5-5-9zM44 69c1-5 3-8 6-9 3 1 5 4 6 9z\" fill=\"#4a030c\"/><path d=\"M50 44v14\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-dasharray=\"1.5 2.5\"/>", "infdrop": "<path d=\"M50 54C44 46 39 44 33 44a10 10 0 0 0 0 20c6 0 11-2 17-10s11-10 17-10a10 10 0 0 1 0 20c-6 0-11-2-17-10z\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 20c4 6 7 10 7 13a7 7 0 0 1-14 0c0-3 3-7 7-13z\" fill=\"#4a030c\"/><path d=\"M50 66c2.5 4 4 6 4 8a4 4 0 0 1-8 0c0-2 1.5-4 4-8z\" fill=\"#4a030c\"/>", "t1": "<path d=\"M37 58a13 13 0 0 1 26 0z\" fill=\"#4a030c\"/><path d=\"M26 58h48M33 64h34M42 70h16\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M33.8 52.7L28.1 50.9M40.0 44.2L36.5 39.4M50.0 41.0L50.0 35.0M60.0 44.2L63.5 39.4M66.2 52.7L71.9 50.9\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>", "t2": "<g transform=\"rotate(-38 50 50)\"><rect x=\"40\" y=\"25\" width=\"20\" height=\"50\" rx=\"10\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"4\"/><path d=\"M40 50h20v15a10 10 0 0 1-20 0z\" fill=\"#4a030c\"/><path d=\"M45 32v12\" stroke=\"#4a030c\" stroke-width=\"2.5\" stroke-linecap=\"round\"/></g><path d=\"M72.0 24.0L73.1 28.9L78.0 30.0L73.1 31.1L72.0 36.0L70.9 31.1L66.0 30.0L70.9 28.9z\" fill=\"#4a030c\"/><path d=\"M28.0 65.5L28.9 69.1L32.5 70.0L28.9 70.9L28.0 74.5L27.1 70.9L23.5 70.0L27.1 69.1z\" fill=\"#4a030c\"/>", "t3": "<path d=\"M50 47C45 33 31 26 26 33c-5 8 5 17 22 17zM48 52C38 53 31 62 36 69c5 5 11-4 12-15z\" fill=\"#4a030c\"/><path d=\"M50 47C45 33 31 26 26 33c-5 8 5 17 22 17zM48 52C38 53 31 62 36 69c5 5 11-4 12-15z\" fill=\"#4a030c\" transform=\"translate(100 0) scale(-1 1)\"/><ellipse cx=\"50\" cy=\"51\" rx=\"2.8\" ry=\"12\" fill=\"#4a030c\"/><path d=\"M49 40c-2-6-5-9-9-10M51 40c2-6 5-9 9-10\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M38 36c3 1 5 4 5 7\" fill=\"none\" stroke=\"#c4142f\" stroke-width=\"1.6\"/><path d=\"M38 36c3 1 5 4 5 7\" fill=\"none\" stroke=\"#c4142f\" stroke-width=\"1.6\" transform=\"translate(100 0) scale(-1 1)\"/>", "t4": "<circle cx=\"50\" cy=\"50\" r=\"10\" fill=\"#4a030c\"/><path d=\"M50.0 24.0L53.6 36.5L63.0 27.5L59.9 40.1L72.5 37.0L63.5 46.4L76.0 50.0L63.5 53.6L72.5 63.0L59.9 59.9L63.0 72.5L53.6 63.5L50.0 76.0L46.4 63.5L37.0 72.5L40.1 59.9L27.5 63.0L36.5 53.6L24.0 50.0L36.5 46.4L27.5 37.0L40.1 40.1L37.0 27.5L46.4 36.5z\" fill=\"#4a030c\"/><circle cx=\"50\" cy=\"50\" r=\"13\" fill=\"none\" stroke=\"#c4142f\" stroke-width=\"1.5\"/><circle cx=\"50\" cy=\"50\" r=\"6\" fill=\"#c4142f\"/>", "t5": "<path d=\"M50 46L23 35c-3 9 1 18 13 21l14-5zM50 53L35 59c0 8 8 12 15 5z\" fill=\"#4a030c\"/><path d=\"M50 46L23 35c-3 9 1 18 13 21l14-5zM50 53L35 59c0 8 8 12 15 5z\" fill=\"#4a030c\" transform=\"translate(100 0) scale(-1 1)\"/><ellipse cx=\"50\" cy=\"51\" rx=\"4\" ry=\"13\" fill=\"#4a030c\"/><path d=\"M49 39c-3-5-7-8-12-9M45 34l-1 3M42 32l-2 2\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"1.8\" stroke-linecap=\"round\"/><path d=\"M49 39c-3-5-7-8-12-9M45 34l-1 3M42 32l-2 2\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"1.8\" stroke-linecap=\"round\" transform=\"translate(100 0) scale(-1 1)\"/><path d=\"M32 42a3.5 3.5 0 1 0 .1 0z\" fill=\"#c4142f\"/><path d=\"M32 42a3.5 3.5 0 1 0 .1 0z\" fill=\"#c4142f\" transform=\"translate(100 0) scale(-1 1)\"/>", "t6": "<path d=\"M50 45L21 41c0 6 6 12 16 13l13-3zM50 53L37 58c3 7 8 9 13 4z\" fill=\"#4a030c\"/><path d=\"M50 45L21 41c0 6 6 12 16 13l13-3zM50 53L37 58c3 7 8 9 13 4z\" fill=\"#4a030c\" transform=\"translate(100 0) scale(-1 1)\"/><ellipse cx=\"50\" cy=\"52\" rx=\"5\" ry=\"15\" fill=\"#4a030c\"/><circle cx=\"50\" cy=\"44\" r=\"5.2\" fill=\"#c4142f\"/><circle cx=\"48\" cy=\"43.4\" r=\"1.3\" fill=\"#4a030c\"/><circle cx=\"52\" cy=\"43.4\" r=\"1.3\" fill=\"#4a030c\"/><path d=\"M48 47h4v1.5h-4z\" fill=\"#4a030c\"/><path d=\"M47 56h6M47.5 60h5M48 64h4\" fill=\"none\" stroke=\"#c4142f\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M48 36c-2-4-5-6-9-6\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"1.8\" stroke-linecap=\"round\"/><path d=\"M48 36c-2-4-5-6-9-6\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"1.8\" stroke-linecap=\"round\" transform=\"translate(100 0) scale(-1 1)\"/>", "t7": "<g transform=\"translate(50 56) scale(.78) translate(-50 -50)\"><path d=\"M50 47C45 33 31 26 26 33c-5 8 5 17 22 17zM48 52C38 53 31 62 36 69c5 5 11-4 12-15z\" fill=\"#4a030c\"/><path d=\"M50 47C45 33 31 26 26 33c-5 8 5 17 22 17zM48 52C38 53 31 62 36 69c5 5 11-4 12-15z\" fill=\"#4a030c\" transform=\"translate(100 0) scale(-1 1)\"/><ellipse cx=\"50\" cy=\"51\" rx=\"2.8\" ry=\"12\" fill=\"#4a030c\"/><path d=\"M49 40c-2-6-5-9-9-10M51 40c2-6 5-9 9-10\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M38 36c3 1 5 4 5 7\" fill=\"none\" stroke=\"#c4142f\" stroke-width=\"1.6\"/><path d=\"M38 36c3 1 5 4 5 7\" fill=\"none\" stroke=\"#c4142f\" stroke-width=\"1.6\" transform=\"translate(100 0) scale(-1 1)\"/></g><path d=\"M38 32l-2-10 7 5 7-8 7 8 7-5-2 10z\" fill=\"#4a030c\"/><circle cx=\"50\" cy=\"19\" r=\"1.8\" fill=\"#4a030c\"/>", "t8": "<path d=\"M39 46C33 37 24 35 20 39c5 1 9 3 11 5c-5 0-9 1-11 4c5 1 9 1 13 0c-3 2-5 5-6 8c6-1 11-5 15-10z\" fill=\"#4a030c\"/><path d=\"M39 46C33 37 24 35 20 39c5 1 9 3 11 5c-5 0-9 1-11 4c5 1 9 1 13 0c-3 2-5 5-6 8c6-1 11-5 15-10z\" fill=\"#4a030c\" transform=\"translate(100 0) scale(-1 1)\"/><circle cx=\"50\" cy=\"48\" r=\"11\" fill=\"#4a030c\"/><circle cx=\"50\" cy=\"48\" r=\"15\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"2.4\"/><path d=\"M35.3 39.5L30.9 37.0M39.1 35.0L35.9 31.1M44.2 32.0L42.5 27.3M50.0 31.0L50.0 26.0M55.8 32.0L57.5 27.3M60.9 35.0L64.1 31.1M64.7 39.5L69.1 37.0\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><g transform=\"translate(50 49) scale(.32) translate(-50 -50)\"><path d=\"M50 47C45 33 31 26 26 33c-5 8 5 17 22 17zM48 52C38 53 31 62 36 69c5 5 11-4 12-15z\" fill=\"#c4142f\"/><path d=\"M50 47C45 33 31 26 26 33c-5 8 5 17 22 17zM48 52C38 53 31 62 36 69c5 5 11-4 12-15z\" fill=\"#c4142f\" transform=\"translate(100 0) scale(-1 1)\"/></g>", "s1": "<path d=\"M50 72V50\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"3.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 55C40 55 31 47 31 36c11 0 19 8 19 19z\" fill=\"#4a030c\"/><path d=\"M50 50c0-13 8-21 21-21 0 13-8 21-21 21z\" fill=\"#4a030c\"/><path d=\"M37 72h26\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M36 41l9 9M64 35l-9 9\" fill=\"none\" stroke=\"#c4142f\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>", "s2": "<path d=\"M29 71C29 44 45 28 72 28C72 55 56 71 29 71z\" fill=\"#4a030c\"/><path d=\"M31 69L69 31M43 57l-1-11M43 57l11 1M53 47l-1-10M53 47l10 1M61 39l0-6M61 39l6 0\" fill=\"none\" stroke=\"#c4142f\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>", "s3": "<path d=\"M27 45h46v4H27z\" fill=\"#4a030c\"/><path d=\"M29 49h42c0 12-9 20-21 20S29 61 29 49z\" fill=\"#4a030c\"/><path d=\"M40 68h20l2 6H38z\" fill=\"#4a030c\"/><path d=\"M56 46L69 25\" stroke=\"#4a030c\" stroke-width=\"7\" stroke-linecap=\"round\"/><circle cx=\"70\" cy=\"23\" r=\"5.5\" fill=\"#4a030c\"/><path d=\"M37 55c4 6 10 8 16 7\" fill=\"none\" stroke=\"#c4142f\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>", "s4": "<path d=\"M33 27C45 35 50 46 50 72\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M48 47L36 53M50 58L63 61M45 39L59 35\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"34\" cy=\"55\" r=\"6.5\" fill=\"#4a030c\"/><circle cx=\"65\" cy=\"62\" r=\"6.5\" fill=\"#4a030c\"/><circle cx=\"61\" cy=\"34\" r=\"5.5\" fill=\"#4a030c\"/><circle cx=\"32\" cy=\"53\" r=\"1.8\" fill=\"#c4142f\"/><circle cx=\"63\" cy=\"60\" r=\"1.8\" fill=\"#c4142f\"/><circle cx=\"59.5\" cy=\"32.5\" r=\"1.5\" fill=\"#c4142f\"/><path d=\"M0 0C3.9 -5.0 9.8 -5.0 13 0C9.8 5.0 3.9 5.0 0 0z\" fill=\"#4a030c\" transform=\"translate(34 27) rotate(200)\"/><path d=\"M0 0C0.0 0.0 0.1 0.0 0.1 0C0.1 0.0 0.0 0.0 0 0z\" fill=\"#4a030c\" transform=\"translate(50 72) rotate(-60)\"/><path d=\"M0 0C3.6 -4.5 9.0 -4.5 12 0C9.0 4.5 3.6 4.5 0 0z\" fill=\"#4a030c\" transform=\"translate(46 64) rotate(200)\"/>", "s5": "<path d=\"M50 70L34 30\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M0 0C2.7 -3.4 6.8 -3.4 9 0C6.8 3.4 2.7 3.4 0 0z\" fill=\"#4a030c\" transform=\"translate(41.2 48.0) rotate(-146)\"/><path d=\"M0 0C2.7 -3.4 6.8 -3.4 9 0C6.8 3.4 2.7 3.4 0 0z\" fill=\"#4a030c\" transform=\"translate(41.2 48.0) rotate(-70)\"/><path d=\"M0 0C2.7 -3.4 6.8 -3.4 9 0C6.8 3.4 2.7 3.4 0 0z\" fill=\"#4a030c\" transform=\"translate(38.0 40.0) rotate(-146)\"/><path d=\"M0 0C2.7 -3.4 6.8 -3.4 9 0C6.8 3.4 2.7 3.4 0 0z\" fill=\"#4a030c\" transform=\"translate(38.0 40.0) rotate(-70)\"/><path d=\"M0 0C2.7 -3.4 6.8 -3.4 9 0C6.8 3.4 2.7 3.4 0 0z\" fill=\"#4a030c\" transform=\"translate(35.28 33.199999999999996) rotate(-146)\"/><path d=\"M0 0C2.7 -3.4 6.8 -3.4 9 0C6.8 3.4 2.7 3.4 0 0z\" fill=\"#4a030c\" transform=\"translate(35.28 33.199999999999996) rotate(-70)\"/><path d=\"M0 0C2.4 -3.4 6.0 -3.4 8 0C6.0 3.4 2.4 3.4 0 0z\" fill=\"#4a030c\" transform=\"translate(34 30) rotate(-108)\"/><path d=\"M50 70L50 25\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M0 0C2.7 -3.4 6.8 -3.4 9 0C6.8 3.4 2.7 3.4 0 0z\" fill=\"#4a030c\" transform=\"translate(50.0 45.25) rotate(-128)\"/><path d=\"M0 0C2.7 -3.4 6.8 -3.4 9 0C6.8 3.4 2.7 3.4 0 0z\" fill=\"#4a030c\" transform=\"translate(50.0 45.25) rotate(-52)\"/><path d=\"M0 0C2.7 -3.4 6.8 -3.4 9 0C6.8 3.4 2.7 3.4 0 0z\" fill=\"#4a030c\" transform=\"translate(50.0 36.25) rotate(-128)\"/><path d=\"M0 0C2.7 -3.4 6.8 -3.4 9 0C6.8 3.4 2.7 3.4 0 0z\" fill=\"#4a030c\" transform=\"translate(50.0 36.25) rotate(-52)\"/><path d=\"M0 0C2.7 -3.4 6.8 -3.4 9 0C6.8 3.4 2.7 3.4 0 0z\" fill=\"#4a030c\" transform=\"translate(50.0 28.6) rotate(-128)\"/><path d=\"M0 0C2.7 -3.4 6.8 -3.4 9 0C6.8 3.4 2.7 3.4 0 0z\" fill=\"#4a030c\" transform=\"translate(50.0 28.6) rotate(-52)\"/><path d=\"M0 0C2.4 -3.4 6.0 -3.4 8 0C6.0 3.4 2.4 3.4 0 0z\" fill=\"#4a030c\" transform=\"translate(50 25) rotate(-90)\"/><path d=\"M50 70L66 30\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M0 0C2.7 -3.4 6.8 -3.4 9 0C6.8 3.4 2.7 3.4 0 0z\" fill=\"#4a030c\" transform=\"translate(58.8 48.0) rotate(-110)\"/><path d=\"M0 0C2.7 -3.4 6.8 -3.4 9 0C6.8 3.4 2.7 3.4 0 0z\" fill=\"#4a030c\" transform=\"translate(58.8 48.0) rotate(-34)\"/><path d=\"M0 0C2.7 -3.4 6.8 -3.4 9 0C6.8 3.4 2.7 3.4 0 0z\" fill=\"#4a030c\" transform=\"translate(62.0 40.0) rotate(-110)\"/><path d=\"M0 0C2.7 -3.4 6.8 -3.4 9 0C6.8 3.4 2.7 3.4 0 0z\" fill=\"#4a030c\" transform=\"translate(62.0 40.0) rotate(-34)\"/><path d=\"M0 0C2.7 -3.4 6.8 -3.4 9 0C6.8 3.4 2.7 3.4 0 0z\" fill=\"#4a030c\" transform=\"translate(64.72 33.199999999999996) rotate(-110)\"/><path d=\"M0 0C2.7 -3.4 6.8 -3.4 9 0C6.8 3.4 2.7 3.4 0 0z\" fill=\"#4a030c\" transform=\"translate(64.72 33.199999999999996) rotate(-34)\"/><path d=\"M0 0C2.4 -3.4 6.0 -3.4 8 0C6.0 3.4 2.4 3.4 0 0z\" fill=\"#4a030c\" transform=\"translate(66 30) rotate(-72)\"/><rect x=\"43\" y=\"56\" width=\"14\" height=\"6\" rx=\"2\" fill=\"#4a030c\"/><path d=\"M45 59h10\" fill=\"none\" stroke=\"#c4142f\" stroke-width=\"1.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 62l-5 9M50 62l5 9\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>", "s6": "<path d=\"M28 70C38 60 44 52 50 47S64 36 72 27\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"5.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M-2 0L2 0L0 -7z\" fill=\"#4a030c\" transform=\"translate(36 62) rotate(-30)\"/><path d=\"M-2 0L2 0L0 -7z\" fill=\"#4a030c\" transform=\"translate(46 51) rotate(60)\"/><path d=\"M-2 0L2 0L0 -7z\" fill=\"#4a030c\" transform=\"translate(56 43) rotate(-40)\"/><path d=\"M-2 0L2 0L0 -7z\" fill=\"#4a030c\" transform=\"translate(64 35) rotate(55)\"/><path d=\"M0 0C3.3 -4.0 8.2 -4.0 11 0C8.2 4.0 3.3 4.0 0 0z\" fill=\"#4a030c\" transform=\"translate(41 57) rotate(-120)\"/><path d=\"M0 0C3.3 -4.0 8.2 -4.0 11 0C8.2 4.0 3.3 4.0 0 0z\" fill=\"#4a030c\" transform=\"translate(60 40) rotate(30)\"/><g transform=\"translate(72 27)\"><circle cx=\"0\" cy=\"0\" r=\"6\" fill=\"#4a030c\"/><path d=\"M-4 -1a4 4 0 0 1 8 0\" fill=\"none\" stroke=\"#c4142f\" stroke-width=\"1.4\"/><path d=\"M-2.5 2a2.5 2.5 0 0 1 5 0\" fill=\"none\" stroke=\"#c4142f\" stroke-width=\"1.2\"/></g>", "s7": "<path d=\"M27 43h46v5H27z\" fill=\"#4a030c\"/><path d=\"M30 48h40v3c0 12-8 19-20 19s-20-7-20-19z\" fill=\"#4a030c\"/><path d=\"M35 66l-3 8M65 66l3 8\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"3.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M40 38c-4-4 4-7 0-12M50 38c-4-4 4-7 0-12M60 38c-4-4 4-7 0-12\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"41\" cy=\"56\" r=\"2.4\" fill=\"#c4142f\"/><circle cx=\"55\" cy=\"60\" r=\"1.7\" fill=\"#c4142f\"/><circle cx=\"48\" cy=\"61\" r=\"1.3\" fill=\"#c4142f\"/>", "s8": "<circle cx=\"50\" cy=\"36\" r=\"11\" fill=\"#4a030c\"/><circle cx=\"39\" cy=\"41\" r=\"9.5\" fill=\"#4a030c\"/><circle cx=\"61\" cy=\"41\" r=\"9.5\" fill=\"#4a030c\"/><circle cx=\"44\" cy=\"30\" r=\"8\" fill=\"#4a030c\"/><circle cx=\"57\" cy=\"30\" r=\"8\" fill=\"#4a030c\"/><circle cx=\"50\" cy=\"45\" r=\"9\" fill=\"#4a030c\"/><path d=\"M47 46h6l1 18h-8z\" fill=\"#4a030c\"/><path d=\"M50 62c-4 6-10 8-17 9M50 62c4 6 10 8 17 9M50 62v11M46 66c-3 4-5 6-9 8M54 66c3 4 5 6 9 8\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"44\" cy=\"34\" r=\"1.6\" fill=\"#c4142f\"/><circle cx=\"56\" cy=\"38\" r=\"1.6\" fill=\"#c4142f\"/><circle cx=\"50\" cy=\"28\" r=\"1.4\" fill=\"#c4142f\"/><circle cx=\"40\" cy=\"42\" r=\"1.3\" fill=\"#c4142f\"/><circle cx=\"61\" cy=\"43\" r=\"1.3\" fill=\"#c4142f\"/>", "g1": "<path d=\"M55 22L33 54h15l-6 24 25-34H52z\" fill=\"#4a030c\"/><path d=\"M30 34l-5-3M27 44h-5M70 58l5 3M73 48h5\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>", "g2": "<g transform=\"rotate(-25 50 50)\"><rect x=\"32\" y=\"47\" width=\"36\" height=\"6\" rx=\"1.5\" fill=\"#4a030c\"/><rect x=\"21\" y=\"40\" width=\"7\" height=\"20\" rx=\"2\" fill=\"#4a030c\"/><rect x=\"28.5\" y=\"35\" width=\"6.5\" height=\"30\" rx=\"2\" fill=\"#4a030c\"/><rect x=\"72\" y=\"40\" width=\"7\" height=\"20\" rx=\"2\" fill=\"#4a030c\"/><rect x=\"65\" y=\"35\" width=\"6.5\" height=\"30\" rx=\"2\" fill=\"#4a030c\"/><path d=\"M31 38v24M68 38v24\" stroke=\"#c4142f\" stroke-width=\"1.2\"/></g>", "g3": "<path d=\"M23 38h50l5-3v7c-4 3-10 5-17 5v7c0 3 3 5 8 6v7H35v-7c5-1 8-3 8-6v-7h-6c-8 0-14-4-14-9z\" fill=\"#4a030c\"/><path d=\"M58 30l3-6M66 31l5-4M50 30l-1-6\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>", "g4": "<g transform=\"rotate(-35 50 50)\"><rect x=\"47\" y=\"36\" width=\"6\" height=\"40\" rx=\"2\" fill=\"#4a030c\"/><path d=\"M33 23h34v14H33z\" fill=\"#4a030c\"/><path d=\"M67 25l7 5-7 5z\" fill=\"#4a030c\"/><path d=\"M33 25l-6 5 6 5z\" fill=\"#4a030c\"/><rect x=\"45\" y=\"72\" width=\"10\" height=\"5\" rx=\"2\" fill=\"#4a030c\"/><path d=\"M47 48h6M47 56h6M47 64h6\" stroke=\"#c4142f\" stroke-width=\"1.3\"/><path d=\"M36 30h28\" stroke=\"#c4142f\" stroke-width=\"1.4\"/></g>", "g5": "<path d=\"M50 23l23 6v15c0 15-9 25-23 31C36 69 27 59 27 44V29z\" fill=\"#4a030c\"/><path d=\"M50 28l18 5v11c0 12-7 21-18 26-11-5-18-14-18-26V33z\" fill=\"none\" stroke=\"#c4142f\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M53 34L42 51h7l-3 13 12-18h-7z\" fill=\"#c4142f\"/>", "g6": "<g transform=\"rotate(-38 50 50)\"><rect x=\"48\" y=\"20\" width=\"4\" height=\"38\" fill=\"#4a030c\"/><path d=\"M48 20l2-5 2 5z\" fill=\"#4a030c\"/><rect x=\"40\" y=\"57\" width=\"20\" height=\"4\" rx=\"1.5\" fill=\"#4a030c\"/><rect x=\"48\" y=\"61\" width=\"4\" height=\"10\" fill=\"#4a030c\"/><circle cx=\"50\" cy=\"73\" r=\"3\" fill=\"#4a030c\"/><path d=\"M50 22v33\" stroke=\"#c4142f\" stroke-width=\"1\"/></g><g transform=\"rotate(38 50 50)\"><rect x=\"48\" y=\"20\" width=\"4\" height=\"38\" fill=\"#4a030c\"/><path d=\"M48 20l2-5 2 5z\" fill=\"#4a030c\"/><rect x=\"40\" y=\"57\" width=\"20\" height=\"4\" rx=\"1.5\" fill=\"#4a030c\"/><rect x=\"48\" y=\"61\" width=\"4\" height=\"10\" fill=\"#4a030c\"/><circle cx=\"50\" cy=\"73\" r=\"3\" fill=\"#4a030c\"/><path d=\"M50 22v33\" stroke=\"#c4142f\" stroke-width=\"1\"/></g>", "g7": "<path d=\"M50 74H32V52c0-17 8-28 18-28s18 11 18 28v22z\" fill=\"#4a030c\"/><path d=\"M35 44h30v5H35z\" fill=\"#c4142f\"/><path d=\"M44 56v12M50 56v12M56 56v12\" fill=\"none\" stroke=\"#c4142f\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 24v-1c4-6 12-9 19-7-6 2-11 6-13 12\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 26v18\" fill=\"none\" stroke=\"#c4142f\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>", "g8": "<path d=\"M27 74V44h4v-4h4v4h3v-4h4v4h0v30z\" fill=\"#4a030c\"/><path d=\"M58 74V44h4v-4h4v4h3v-4h4v4v30z\" fill=\"#4a030c\"/><path d=\"M40 74V32h4v-5h4v5h4v-5h4v5h4v42z\" fill=\"#4a030c\"/><path d=\"M45 74v-9a5 5 0 0 1 10 0v9z\" fill=\"#c4142f\"/><path d=\"M48.5 40h3v8h-3zM32 52h3v6h-3zM65 52h3v6h-3z\" fill=\"#c4142f\"/><path d=\"M50 27V17\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 17h9l-3 3 3 3h-9z\" fill=\"#4a030c\"/>", "o1": "<rect x=\"31\" y=\"36\" width=\"38\" height=\"10\" rx=\"3\" fill=\"#4a030c\"/><rect x=\"33\" y=\"47\" width=\"34\" height=\"25\" rx=\"7\" fill=\"#4a030c\"/><path d=\"M38 57h24M38 62h24\" fill=\"none\" stroke=\"#c4142f\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M36 39h20\" fill=\"none\" stroke=\"#c4142f\" stroke-width=\"1.3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 26c2.5 4 4 6 4 8a4 4 0 0 1-8 0c0-2 1.5-4 4-8z\" fill=\"#4a030c\"/>", "o2": "<path d=\"M68 24C47 28 35 45 33 68c15-4 30-17 35-44z\" fill=\"#4a030c\"/><path d=\"M30 74L66 28\" fill=\"none\" stroke=\"#c4142f\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M44 54l-6-2M50 46l-7-2M56 39l-6-2M47 55l2 6M53 47l3 5M59 39l3 5\" fill=\"none\" stroke=\"#c4142f\" stroke-width=\"1.3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>", "o3": "<rect x=\"31\" y=\"46\" width=\"36\" height=\"27\" rx=\"6\" fill=\"#4a030c\"/><rect x=\"44\" y=\"38\" width=\"10\" height=\"9\" fill=\"#4a030c\"/><rect x=\"42\" y=\"34\" width=\"14\" height=\"5\" rx=\"1.5\" fill=\"#4a030c\"/><path d=\"M55 36c6 0 9-3 12-7\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"70\" cy=\"26\" r=\"5.5\" fill=\"#4a030c\"/><path d=\"M70 32v6M68 32l-2 5M72 32l2 5\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"1.3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M36 52l8 15M44 52l8 15M52 52l8 15\" fill=\"none\" stroke=\"#c4142f\" stroke-width=\"1.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>", "o4": "<ellipse cx=\"50\" cy=\"38\" rx=\"15\" ry=\"17\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"4.5\"/><ellipse cx=\"50\" cy=\"38\" rx=\"10\" ry=\"12\" fill=\"none\" stroke=\"#c4142f\" stroke-width=\"1.3\"/><path d=\"M47 55h6v16h-6z\" fill=\"#4a030c\"/><circle cx=\"50\" cy=\"73\" r=\"3\" fill=\"#4a030c\"/><path d=\"M50.0 16.0L51.1 18.9L54.0 20.0L51.1 21.1L50.0 24.0L48.9 21.1L46.0 20.0L48.9 18.9z\" fill=\"#4a030c\"/><path d=\"M43 33c1-4 4-6 7-7\" fill=\"none\" stroke=\"#c4142f\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M37 50c-3 2-5 1-6-1\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"2\" stroke-linecap=\"round\"/><path d=\"M37 50c-3 2-5 1-6-1\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"2\" stroke-linecap=\"round\" transform=\"translate(100 0) scale(-1 1)\"/>", "o5": "<path d=\"M26 44c6-9 42-9 48 0v6H26z\" fill=\"#4a030c\"/><path d=\"M29 50v14M33 50v18M37 50v18M41 50v18M45 50v18M49 50v18M53 50v18M57 50v18M61 50v18M65 50v18M69 50v18\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"2.3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"50\" cy=\"42\" r=\"3.2\" fill=\"#c4142f\"/><path d=\"M36 44c4-3 8-4 12-4M64 44c-4-3-8-4-12-4\" fill=\"none\" stroke=\"#c4142f\" stroke-width=\"1.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>", "o6": "<rect x=\"42\" y=\"41\" width=\"16\" height=\"27\" fill=\"#4a030c\"/><ellipse cx=\"50\" cy=\"71\" rx=\"17\" ry=\"4.5\" fill=\"#4a030c\"/><path d=\"M50 22c4 6 6 9 6 12a6 6 0 0 1-12 0c0-3 2-6 6-12z\" fill=\"#4a030c\"/><path d=\"M50 29c1.6 2.5 2.4 4 2.4 5a2.4 2.4 0 0 1-4.8 0c0-1 .8-2.5 2.4-5z\" fill=\"#c4142f\"/><path d=\"M50 40v-2\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M45 42v8M55 42v5M49 42v3\" fill=\"none\" stroke=\"#c4142f\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>", "o7": "<circle cx=\"50\" cy=\"23\" r=\"3\" fill=\"#4a030c\"/><path d=\"M37 34c0-6 6-8 13-8s13 2 13 8z\" fill=\"#4a030c\"/><path d=\"M35 34h30v4H35z\" fill=\"#4a030c\"/><path d=\"M38 38h24c4 4 6 10 6 18s-2 13-6 17H38c-4-4-6-9-6-17s2-14 6-18z\" fill=\"#4a030c\"/><rect x=\"39\" y=\"48\" width=\"22\" height=\"14\" rx=\"2\" fill=\"none\" stroke=\"#c4142f\" stroke-width=\"1.5\"/><path d=\"M0 0C3.0 -3.2 7.5 -3.2 10 0C7.5 3.2 3.0 3.2 0 0z\" fill=\"#c4142f\" transform=\"translate(44 58) rotate(-45)\"/><path d=\"M0 0C1.8 -2.4 4.5 -2.4 6 0C4.5 2.4 1.8 2.4 0 0z\" fill=\"#c4142f\" transform=\"translate(50 55) rotate(-120)\"/>", "o8": "<path d=\"M36 22c0 11 6 19 14 22M64 22c0 11-6 19-14 22\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-dasharray=\"2 2.2\"/><circle cx=\"50\" cy=\"45\" r=\"3.5\" fill=\"#4a030c\"/><path d=\"M50 74S29 62 29 51a10.5 10.5 0 0 1 21-4 10.5 10.5 0 0 1 21 4c0 11-21 23-21 23z\" fill=\"#4a030c\"/><path d=\"M50 69S34 60 34 52a7 7 0 0 1 14-3\" fill=\"none\" stroke=\"#c4142f\" stroke-width=\"1.3\"/><circle cx=\"50\" cy=\"55\" r=\"2.6\" fill=\"#c4142f\"/><path d=\"M49 56h2l1 6h-4z\" fill=\"#c4142f\"/>"});
 Object.assign(GLYPH,{"f1": "<ellipse cx=\"50\" cy=\"66\" rx=\"23\" ry=\"5\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"2.6\"/><ellipse cx=\"50\" cy=\"66\" rx=\"12\" ry=\"2.4\" fill=\"none\" stroke=\"#c4142f\" stroke-width=\"1.4\"/><path d=\"M33 64C35 52 37 47 39 44C41 51 42 56 44 61C46 52 48 44 50 37C52 44 54 52 56 61C58 56 59 51 61 44C63 47 65 52 67 64Z\" fill=\"#4a030c\"/><circle cx=\"39\" cy=\"36\" r=\"2.6\" fill=\"#4a030c\"/><circle cx=\"61\" cy=\"36\" r=\"2.6\" fill=\"#4a030c\"/><circle cx=\"50\" cy=\"27\" r=\"3.2\" fill=\"#4a030c\"/><circle cx=\"31\" cy=\"45\" r=\"2\" fill=\"#4a030c\"/><circle cx=\"69\" cy=\"45\" r=\"2\" fill=\"#4a030c\"/><path d=\"M50 44v12\" fill=\"none\" stroke=\"#c4142f\" stroke-width=\"1.3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>", "f2": "<circle cx=\"44\" cy=\"54\" r=\"14\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"3.2\"/><circle cx=\"64\" cy=\"40\" r=\"9.5\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"3\"/><circle cx=\"63\" cy=\"64\" r=\"7\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"2.6\"/><circle cx=\"35\" cy=\"33\" r=\"6\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"2.4\"/><path d=\"M36 47a9 9 0 0 1 7-5M59 36a5 5 0 0 1 4-3M60 61a3.5 3.5 0 0 1 3-2\" fill=\"none\" stroke=\"#c4142f\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"73\" cy=\"54\" r=\"3\" fill=\"#4a030c\"/><circle cx=\"48\" cy=\"30\" r=\"2.2\" fill=\"#4a030c\"/><circle cx=\"28\" cy=\"58\" r=\"2.4\" fill=\"#4a030c\"/><circle cx=\"54\" cy=\"74\" r=\"1.8\" fill=\"#4a030c\"/>", "f3": "<path d=\"M24 43h52v5H24z\" fill=\"#4a030c\"/><path d=\"M27 48h46c0 12-10 20-23 20S27 60 27 48z\" fill=\"#4a030c\"/><path d=\"M43 67h14l3 7H40z\" fill=\"#4a030c\"/><path d=\"M34 53c5 2 10 2 16 0s11-2 16 0\" fill=\"none\" stroke=\"#c4142f\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M38 58c4 1.5 8 1.5 12 0s8-1.5 12 0\" fill=\"none\" stroke=\"#c4142f\" stroke-width=\"1.3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 19c3.5 5 5.5 8 5.5 10.5a5.5 5.5 0 0 1-11 0c0-2.5 2-5.5 5.5-10.5z\" fill=\"#4a030c\"/><path d=\"M50 37v3\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>", "f4": "<circle cx=\"40\" cy=\"40\" r=\"10\" fill=\"#4a030c\"/><circle cx=\"52\" cy=\"33\" r=\"12.5\" fill=\"#4a030c\"/><circle cx=\"64\" cy=\"41\" r=\"9\" fill=\"#4a030c\"/><path d=\"M30 40h44v10a2 2 0 0 1-2 2H32a2 2 0 0 1-2-2z\" fill=\"#4a030c\"/><path d=\"M38 39a8 8 0 0 1 6-6M50 30a9 9 0 0 1 8-4\" fill=\"none\" stroke=\"#c4142f\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M37 56c2.8 4 4.2 6.4 4.2 8.2a4.2 4.2 0 0 1-8.4 0c0-1.8 1.4-4.2 4.2-8.2z\" fill=\"#4a030c\"/><path d=\"M50 59.4c3.08 4.4 4.620000000000001 7.040000000000001 4.620000000000001 9.02a4.620000000000001 4.620000000000001 0 0 1-9.240000000000002 0c0-1.9800000000000002 1.54-4.620000000000001 4.620000000000001-9.02z\" fill=\"#4a030c\"/><path d=\"M63 56c2.8 4 4.2 6.4 4.2 8.2a4.2 4.2 0 0 1-8.4 0c0-1.8 1.4-4.2 4.2-8.2z\" fill=\"#4a030c\"/><path d=\"M43 71.2c2.2399999999999998 3.2 3.3600000000000003 5.120000000000001 3.3600000000000003 6.56a3.3600000000000003 3.3600000000000003 0 0 1-6.720000000000001 0c0-1.4400000000000002 1.1199999999999999-3.3600000000000003 3.3600000000000003-6.56z\" fill=\"#4a030c\"/><path d=\"M57 71.2c2.2399999999999998 3.2 3.3600000000000003 5.120000000000001 3.3600000000000003 6.56a3.3600000000000003 3.3600000000000003 0 0 1-6.720000000000001 0c0-1.4400000000000002 1.1199999999999999-3.3600000000000003 3.3600000000000003-6.56z\" fill=\"#4a030c\"/>", "f5": "<path d=\"M21 44c6-7 17-7 23 0 2 2 4 3 6 3s4-1 6-3c6-7 17-7 23 0-1 12-8 20-17 20-6 0-9-4-12-9-3 5-6 9-12 9-9 0-16-8-17-20z\" fill=\"#4a030c\"/><ellipse cx=\"36\" cy=\"50\" rx=\"6.5\" ry=\"3.6\" fill=\"#c4142f\"/><ellipse cx=\"64\" cy=\"50\" rx=\"6.5\" ry=\"3.6\" fill=\"#c4142f\"/><path d=\"M74 41c7-9 6-18 0-23 1 9-1 15-7 21z\" fill=\"#4a030c\"/><path d=\"M73 40c2-6 2-11 0-16\" fill=\"none\" stroke=\"#c4142f\" stroke-width=\"1.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M30 62L23 77\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"50\" cy=\"45\" r=\"2.4\" fill=\"#c4142f\"/>", "f6": "<circle cx=\"50\" cy=\"34\" r=\"13\" fill=\"#4a030c\"/><circle cx=\"45\" cy=\"31\" r=\"2.6\" fill=\"#c4142f\"/><circle cx=\"54\" cy=\"38\" r=\"3.4\" fill=\"#c4142f\"/><circle cx=\"55\" cy=\"28\" r=\"1.6\" fill=\"#c4142f\"/><path d=\"M24 58h52M30 64h40M38 70h24\" fill=\"none\" stroke=\"#4a030c\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 56v4M50 62v3M50 67v2\" fill=\"none\" stroke=\"#c4142f\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M28.0 22.0L28.8 25.2L32.0 26.0L28.8 26.8L28.0 30.0L27.2 26.8L24.0 26.0L27.2 25.2z\" fill=\"#4a030c\"/><path d=\"M74.0 18.6L74.7 21.3L77.4 22.0L74.7 22.7L74.0 25.4L73.3 22.7L70.6 22.0L73.3 21.3z\" fill=\"#4a030c\"/>", "f7": "<path d=\"M24 66h52c-2 6-10 8-26 8s-24-2-26-8z\" fill=\"#4a030c\"/><path d=\"M47 46h6v20h-6z\" fill=\"#4a030c\"/><path d=\"M33 45h34c-2 5-8 8-17 8s-15-3-17-8z\" fill=\"#4a030c\"/><path d=\"M42 31h16c-1 4-4 6-8 6s-7-2-8-6z\" fill=\"#4a030c\"/><path d=\"M48.5 37h3v8h-3z\" fill=\"#4a030c\"/><path d=\"M50 31v-8M42 44c-5 3-8 9-9 18M58 44c5 3 8 9 9 18\" fill=\"none\" stroke=\"#c4142f\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"50\" cy=\"20\" r=\"2.6\" fill=\"#c4142f\"/><path d=\"M30 70h40\" fill=\"none\" stroke=\"#c4142f\" stroke-width=\"1.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>", "f8": "<g transform=\"translate(50 56) scale(.8) translate(-50 -50)\"><path d=\"M21 44c6-7 17-7 23 0 2 2 4 3 6 3s4-1 6-3c6-7 17-7 23 0-1 12-8 20-17 20-6 0-9-4-12-9-3 5-6 9-12 9-9 0-16-8-17-20z\" fill=\"#4a030c\"/><ellipse cx=\"36\" cy=\"50\" rx=\"6.5\" ry=\"3.6\" fill=\"#c4142f\"/><ellipse cx=\"64\" cy=\"50\" rx=\"6.5\" ry=\"3.6\" fill=\"#c4142f\"/></g><path d=\"M36 40l-3-14 9 7 8-11 8 11 9-7-3 14z\" fill=\"#4a030c\"/><circle cx=\"50\" cy=\"19\" r=\"2.2\" fill=\"#4a030c\"/><circle cx=\"50\" cy=\"53\" r=\"2.6\" fill=\"#c4142f\"/><path d=\"M37 38h26\" fill=\"none\" stroke=\"#c4142f\" stroke-width=\"1.3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>"});
 function iconGlyph(k){ const s=IC[k]||IC.pill; const inner=s.slice(s.indexOf('>')+1,s.lastIndexOf('</svg>')); return `<g transform="translate(29 23) scale(1.32)" fill="none" stroke="#4a030c" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">${inner}</g>`; }
-function sealSVG(seed,glyph='D',dim=false,label,roman){
-  if(!dim && String(glyph).startsWith('ic:')) return sealSVG(seed,'__',false,null,roman).replace('<!--G-->',iconGlyph(glyph.slice(3))+(roman?`<text x="50" y="78" text-anchor="middle" font-family="Cormorant Garamond,serif" font-weight="700" font-size="11" letter-spacing="1" fill="#4a030c">${roman}</text>`:''));
-  const inner= glyph==='__' ? '<!--G-->' : (!dim&&roman&&GLYPH[glyph]) ? `<g transform="translate(50 45) scale(.9) translate(-50 -50)">${GLYPH[glyph]}</g><text x="50" y="82" text-anchor="middle" font-family="Cormorant Garamond,serif" font-weight="700" font-size="10" letter-spacing="1" fill="#4a030c">${roman}</text>` : label!=null ? `<text x="50" y="62" text-anchor="middle" font-family="Cormorant Garamond,serif" font-weight="700" font-size="36" fill="${dim?'#8e7d76':'#3a0207'}">${label}</text>` : (dim?'<text x="50" y="64" text-anchor="middle" font-family="Cormorant Garamond,serif" font-weight="700" font-size="40" fill="#5a4e50">?</text>':GLYPH[glyph]);
+/* ============================================================
+   HER SEAL — initials, wax colour and shape, used everywhere
+   ============================================================ */
+const WAXES={
+ blood:{n:'Blood',s:['#d4202f','#8e0b1c','#3f020a'],ink:'#4a030c',lite:'#c4142f',rim:'#3f020a',hl:'#ffb3bc'},
+ obsidian:{n:'Obsidian',s:['#5a5258','#1e1a1c','#050405'],ink:'#020102',lite:'#9a8a86',rim:'#000000',hl:'#ffffff'},
+ gold:{n:'Gold',s:['#ffe7a6','#c9932e','#5a3a0c'],ink:'#3e2404',lite:'#8a5a14',rim:'#5a3a0c',hl:'#fff6d0'},
+ amethyst:{n:'Amethyst',s:['#c07ae6','#5e1c92','#22063a'],ink:'#1c052e',lite:'#9a5ad0',rim:'#22063a',hl:'#ecd2ff'},
+ rose:{n:'Rose',s:['#ffa2b6','#d4486a','#6a0c26'],ink:'#560820',lite:'#ff6b8a',rim:'#6a0c26',hl:'#ffe2ea'},
+ midnight:{n:'Midnight',s:['#5a7ad8','#1c2c70','#060a24'],ink:'#03071e',lite:'#5a7ad8',rim:'#060a24',hl:'#cfdcff'},
+ emerald:{n:'Emerald',s:['#5ad69a','#1a6a44','#04241a'],ink:'#021a10',lite:'#3aa070',rim:'#04241a',hl:'#ccffe2'}};
+const SHAPES={wax:'Wax',round:'Round',scallop:'Scallop',heart:'Heart',shield:'Shield',coffin:'Coffin'};
+function sealCfg(){ const d={text:'D',color:'blood',shape:'wax'}; try{ return Object.assign(d,cfg.seal||{}); }catch(e){ return d; } }
+function shapePath(shape,seed){
+  if(shape==='round'){ let d=''; for(let i=0;i<=96;i++){ const a=i/96*Math.PI*2, r=44+(i%2?.7:-.7); d+=(i?'L':'M')+(50+r*Math.cos(a)).toFixed(2)+' '+(50+r*Math.sin(a)).toFixed(2); } return d+'Z'; }
+  if(shape==='scallop'){ let d=''; for(let i=0;i<=180;i++){ const a=i/180*Math.PI*2, r=41.5+3.6*Math.abs(Math.cos(a*9)); d+=(i?'L':'M')+(50+r*Math.cos(a)).toFixed(2)+' '+(50+r*Math.sin(a)).toFixed(2); } return d+'Z'; }
+  if(shape==='heart') return 'M50 93C29 79 5 62 5 37a22.5 22.5 0 0 1 45-9 22.5 22.5 0 0 1 45 9c0 25-24 42-45 56z';
+  if(shape==='shield') return 'M50 4l41 11v29c0 27-18 45-41 53C27 89 9 71 9 44V15z';
+  if(shape==='coffin') return 'M33 3h34l21 27-15 67H27L12 30z';
+  return sealPath(seed);
+}
+function monogram(t){ t=String(t||'D').slice(0,3).replace(/[&<>"']/g,''); const fs=t.length===1?48:t.length===2?38:29; return `<text x="50" y="${t.length===1?67:64}" text-anchor="middle" font-family="UnifrakturCook,serif" font-size="${fs}" fill="#4a030c" stroke="#ff8a96" stroke-opacity=".28" stroke-width=".8">${t}</text>`; }
+function themeSeal(svg,dim){
+  const sc=sealCfg(), w=WAXES[sc.color]||WAXES.blood;
+  if(sc.shape!=='wax'){
+    const round=sc.shape==='round'||sc.shape==='scallop';
+    svg=svg.replace(/<path d="[^"]*" fill="url\(#(gWax|gWaxDim)\)"\/>/,(m,g)=>`<path d="${shapePath(sc.shape)}" fill="url(#${g})"/>`);
+    if(!round) svg=svg.replace(/<circle cx="50" cy="50" r="33"[^>]*\/><circle cx="50" cy="50" r="36.5"[^>]*\/>/,`<path d="${shapePath(sc.shape)}" transform="translate(50 52) scale(.78) translate(-50 -50)" fill="none" stroke="${dim?'#0c0a0b':'#3f020a'}" stroke-width="3" opacity=".7"/>`);
+  }
+  if(dim||sc.color==='blood') return svg;
+  return svg.replace(/#4a030c/g,w.ink).replace(/#3a0207/g,w.ink).replace(/#3f020a/g,w.rim).replace(/#c4142f/g,w.lite).replace(/#ffb3bc/g,w.hl).replace(/#ff8a96/g,w.hl);
+}
+function applySealTheme(){
+  const w=WAXES[sealCfg().color]||WAXES.blood, st=document.querySelectorAll('#gWax stop');
+  st.forEach((s,i)=>s.setAttribute('stop-color',w.s[i]||w.s[2]));
+}
+function setSeal(k,v){ cfg.seal=Object.assign(sealCfg(),{[k]:v}); save(); applySealTheme(); renderAll(); }
+function renderForge(){
+  const el=$('forge'); if(!el) return; const sc=sealCfg();
+  $('forgeNow').textContent=`${sc.text} · ${WAXES[sc.color].n} · ${SHAPES[sc.shape]}`;
+  el.innerHTML=`<div class="fg-prev">${sealSVG(31)}</div>
+   <div class="row" style="border:none"><div class="lab"><b>Initials</b><small>up to 3 letters</small></div><input class="inp" id="fgText" maxlength="3" value="${esc(sc.text)}" style="max-width:110px;text-align:center;font-family:'UnifrakturCook';font-size:24px" oninput="if(this.value.trim())setSealText(this.value.trim())"></div>
+   <div class="sc" style="margin:4px 0 8px;color:var(--mute)">wax</div>
+   <div class="fg-sw">${Object.entries(WAXES).map(([k,w])=>`<button class="${sc.color===k?'on':''}" onclick="setSeal('color','${k}')"><i style="background:radial-gradient(circle at 35% 30%,${w.s[0]},${w.s[1]} 55%,${w.s[2]})"></i><span>${w.n}</span></button>`).join('')}</div>
+   <div class="sc" style="margin:12px 0 8px;color:var(--mute)">shape</div>
+   <div class="fg-sh">${Object.entries(SHAPES).map(([k,n])=>`<button class="${sc.shape===k?'on':''}" onclick="setSeal('shape','${k}')"><svg viewBox="0 0 100 100"><path d="${shapePath(k,31)}" fill="url(#gWax)"/></svg><span>${n}</span></button>`).join('')}</div>
+   <div class="hs" style="margin-top:10px">Every seal in Domso changes to match: the rites, the calendar, the badges and the lock.</div>`;
+}
+let sealTxtT=null;
+function setSealText(v){ clearTimeout(sealTxtT); sealTxtT=setTimeout(()=>{ cfg.seal=Object.assign(sealCfg(),{text:v}); save(); const p=document.querySelector('.fg-prev'); if(p) p.innerHTML=sealSVG(31); $('forgeNow').textContent=`${v} · ${WAXES[sealCfg().color].n} · ${SHAPES[sealCfg().shape]}`; const a=$('avSeal'); if(a) a.innerHTML=sealSVG(7); },250); }
+
+
+function sealSVG(seed,glyph='D',dim=false,label,roman){ return themeSeal(sealSVG0(seed,glyph,dim,label,roman),dim); }
+function sealSVG0(seed,glyph='D',dim=false,label,roman){
+  if(!dim && String(glyph).startsWith('ic:')) return sealSVG0(seed,'__',false,null,roman).replace('<!--G-->',iconGlyph(glyph.slice(3))+(roman?`<text x="50" y="78" text-anchor="middle" font-family="Cormorant Garamond,serif" font-weight="700" font-size="11" letter-spacing="1" fill="#4a030c">${roman}</text>`:''));
+  const inner= glyph==='__' ? '<!--G-->' : (!dim&&roman&&GLYPH[glyph]) ? `<g transform="translate(50 45) scale(.9) translate(-50 -50)">${GLYPH[glyph]}</g><text x="50" y="82" text-anchor="middle" font-family="Cormorant Garamond,serif" font-weight="700" font-size="10" letter-spacing="1" fill="#4a030c">${roman}</text>` : label!=null ? `<text x="50" y="62" text-anchor="middle" font-family="Cormorant Garamond,serif" font-weight="700" font-size="36" fill="${dim?'#8e7d76':'#3a0207'}">${label}</text>` : (dim?'<text x="50" y="64" text-anchor="middle" font-family="Cormorant Garamond,serif" font-weight="700" font-size="40" fill="#5a4e50">?</text>':(glyph==='D'?monogram(sealCfg().text):GLYPH[glyph]));
   return `<svg viewBox="0 0 100 100"><path d="${sealPath(seed)}" fill="url(#${dim?'gWaxDim':'gWax'})"/>
   <circle cx="50" cy="50" r="33" fill="none" stroke="${dim?'#0c0a0b':'#3f020a'}" stroke-width="3" opacity=".7"/><circle cx="50" cy="50" r="36.5" fill="none" stroke="#ffb3bc" stroke-opacity="${dim?.08:.22}" stroke-width="1"/>
   ${inner}<path d="M24 34c4-9 12-14 22-15" stroke="#fff" stroke-opacity="${dim?.08:.28}" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`;
@@ -751,6 +852,7 @@ function migrate(){
 let migrated=migrate();
 let sub=LS('domso_sub')||null, subS=LS('domso_subS')||null, evq=LS('domso_ev')||[];
 let updated=+(localStorage.getItem('domso_upd')||0);
+
 
 const pad=n=>String(n).padStart(2,'0');
 const dkey=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
@@ -887,7 +989,7 @@ let toastT;
 function toast(m){ const t=$('toast'); t.textContent=m; t.classList.add('on'); clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove('on'),2200); }
 function buzz(ms=12){ try{navigator.vibrate&&navigator.vibrate(ms)}catch(e){} }
 function closeSheet(){ $('sheet').classList.remove('on'); }
-function openSheet(html){ $('sheetIn').innerHTML='<div class="grab"></div>'+html; $('sheet').classList.add('on'); }
+function openSheet(html){ $('sheetIn').className='in'; $('sheetIn').innerHTML='<div class="grab"></div>'+html; $('sheet').classList.add('on'); }
 
 /* ============================================================
    GLASS SKULL VESSEL  — blood that sloshes with the phone
@@ -1157,7 +1259,7 @@ function renderMe(){
     VESSEL_ORDER.map(id=>`<div class="pk${+cfg.vessel===id?' on':''}" onclick="pickVessel(${id})"><img src="vessels/v${id}.jpg" alt="" loading="lazy"><b>${vesselNameOf(id)}</b></div>`).join('');
   $('finList').innerHTML=`<div class="pk${fLoop?' on':''}" onclick="pickFinale('loop')"><span class="n">↻</span><b>Loop nightly</b></div>`+
     FINALES.map((f,i)=>`<div class="pk${!fLoop&&+cfg.finale===i?' on':''}" onclick="pickFinale(${i})"><span class="n">${ROM12[i]}</span><b>${f.name}</b><span class="pl" onclick="event.stopPropagation();showFinale(${i})">▶</span></div>`).join('');
-  renderMeSeals();
+  renderMeSeals(); renderForge();
   const rl=ROLE(); $('roleNow').textContent=rl==='him'?HIM+"'s":HER+"'s";
   $('roleList').innerHTML=[['her',HER+"'s",'reminders'],['him',HIM+"'s",'her news']].map(([r,n,d])=>`<div class="pk${rl===r?' on':''}" onclick="setRole('${r}')"><b>${n}<br><small>${d}</small></b></div>`).join('');
   renderPush();
@@ -1351,7 +1453,7 @@ function closeFinale(){ const el=$('fin'), live=finLive; finLive=false; el.style
 /* ============================================================
    NAV, LOCK, GESTURES
    ============================================================ */
-const ORDER=['today','water','cal','badges','me'];
+const ORDER=['today','water','cal','diary','badges','me'];
 let cur='today';
 const PASS="1234"; let unlocked=false, pin="";
 function lockHTML(){ return `<div class="lk"><svg class="lbat" viewBox="0 0 100 50"><path d="${BAT}" fill="#050203" style="transform-origin:50% 50%;animation:flap .26s infinite"/></svg><div style="text-align:center"><div class="lseal" id="lseal"><div class="burst"></div><div class="h l">${sealSVG(31)}</div><div class="h r">${sealSVG(31)}</div><svg class="crk" viewBox="0 0 84 84"><path d="M42 0L38.6 23.5 45.4 33.6 37.8 43.7 46.2 53.8 39.5 63.8 42 84" fill="none" stroke="#14020a" stroke-width="2.6" stroke-linejoin="round" pathLength="100"/></svg></div><h3>Sealed</h3><div class="hs">enter the passcode</div></div>
@@ -1376,10 +1478,12 @@ function go(v,dir){
   if(location.hash.slice(1)!==v) history.replaceState(null,'','#'+v);
 }
 function renderAll(){
+  try{ applySealTheme(); }catch(e){}
   try{ if(cur==='today') renderToday(); }catch(e){console.error(e)}
   try{ if(cur==='water') renderWater(); }catch(e){console.error(e)}
   try{ if(cur==='cal') renderCal(); }catch(e){console.error(e)}
   try{ if(cur==='badges') renderBadges(); }catch(e){console.error(e)}
+  try{ if(cur==='diary') renderDiary(); }catch(e){console.error(e)}
   try{ if(cur==='me') renderMe(); }catch(e){console.error(e)}
 }
 
@@ -1391,14 +1495,14 @@ document.addEventListener('touchstart',e=>{
   if(overlayOpen()||e.touches.length>1){ G=null; return; }
   const t=e.touches[0], tg=e.target;
   if(tg.closest('input,select,textarea,.nav')){ G=null; return; }
-  G={x0:t.clientX,y0:t.clientY,mode:null,row:tg.closest('#timeline .ev[data-id]'),cal:tg.closest('#cal'),ves:tg.closest('.v3'),atTop:window.scrollY<=0,dx:0,dy:0};
+  G={x0:t.clientX,y0:t.clientY,mode:null,row:tg.closest('#timeline .ev[data-id]'),cal:tg.closest('#cal'),cof:tg.closest('#coffin'),ves:tg.closest('.v3'),atTop:window.scrollY<=0,dx:0,dy:0};
 },{passive:true});
 document.addEventListener('touchmove',e=>{
   if(!G) return; const t=e.touches[0]; G.dx=t.clientX-G.x0; G.dy=t.clientY-G.y0;
   const ax=Math.abs(G.dx), ay=Math.abs(G.dy);
   if(!G.mode){
     if(G.ves && ax>6 && ax>ay) G.mode='slosh';
-    else if(ax>10 && ax>ay*1.3) G.mode=G.row?'row':G.cal?'cal':'tab';
+    else if(ax>10 && ax>ay*1.3) G.mode=G.row?'row':G.cal?'cal':G.cof?'cof':'tab';
     else if(G.dy>8 && G.atTop && ay>ax) G.mode='ptr';
     else if(ay>10) G.mode='scroll';
     else return;
@@ -1412,6 +1516,8 @@ document.addEventListener('touchmove',e=>{
     G.row.querySelector('.trk').style.opacity=Math.min(1,Math.abs(dx)/80);
   } else if(G.mode==='tab'){
     const v=document.querySelector('.view.on'); v.style.animation='none'; v.style.transform=`translateX(${G.dx*.28}px)`; v.style.opacity=1-Math.min(.4,Math.abs(G.dx)/600);
+  } else if(G.mode==='cof'){
+    const c=$('coffin'); c.style.transition='none'; c.style.transform=`translateX(${G.dx*.5}px) rotate(${G.dx*.02}deg)`;
   } else if(G.mode==='cal'){
     $('cal').style.transition='none'; $('cal').style.transform=`translateX(${G.dx*.5}px)`;
   } else if(G.mode==='ptr'){
@@ -1433,6 +1539,9 @@ document.addEventListener('touchend',()=>{
     const v=document.querySelector('.view.on'); v.style.transform=''; v.style.opacity='';
     const i=ORDER.indexOf(cur);
     if(g.dx<-70 && i<ORDER.length-1) go(ORDER[i+1],1); else if(g.dx>70 && i>0) go(ORDER[i-1],-1);
+  } else if(g.mode==='cof'){
+    const c=$('coffin'); c.style.transition='transform .3s'; c.style.transform=''; suppressTap=Date.now()+350;
+    if(g.dx<-60) diaryYear(1); else if(g.dx>60) diaryYear(-1);
   } else if(g.mode==='cal'){
     $('cal').style.transition=''; $('cal').style.transform='';
     if(g.dx<-60) calMove(1); else if(g.dx>60) calMove(-1);
@@ -1716,11 +1825,87 @@ function checkRate(){
   openRate(yk,'y');
 }
 
+
+
+/* ============================================================
+   HER GRIMOIRE — a coffin case of books, one book a month
+   ============================================================ */
+const MSH=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const MFULL=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const LEATHER=['#5a0a14','#22161a','#2a3a2a','#1d2238','#4a1a2e','#3a2414','#6a0c18','#1b1416','#3a0d22','#5a0a14','#2a3a2a','#1d2238'];
+let dYear=new Date().getFullYear(), dMonth=null;
+const dayHas=k=>{ const d=log[k]; return !!(d&&(Object.keys(d.done||{}).length||(d.water||[]).length||d.rate||(d.mood||[]).length)); };
+const monthHas=(y,m)=>Object.keys(log).some(k=>k.startsWith(`${y}-${pad(m+1)}-`)&&dayHas(k));
+function sealsByDay(){
+  const out={}, keys=Object.keys(log).sort(); if(!keys.length) return out;
+  collections().forEach(c=>{ const met=metR(c.met); let run=0,best=0; const d=new Date(keys[0]+'T12:00'), end=new Date();
+    while(d<=end){ const r=met(d); if(r==='skip'){} else if(r){ run++; const was=best; best=Math.max(best,run); c.seals.forEach(s=>{ if(was<s.n&&best>=s.n){ const k=dkey(d); (out[k]=out[k]||[]).push(s.name); } }); } else run=0; d.setDate(d.getDate()+1); } });
+  return out;
+}
+function coffinSVG(y){
+  const now=new Date(), cy=now.getFullYear(), cm=now.getMonth();
+  let g=`<path d="M120 4h150l70 90-28 290H78L50 94z" fill="#140a0c" stroke="url(#cbr)" stroke-width="5"/><path d="M195 20v18M187 28h16" stroke="#e6c27a" stroke-width="3"/>`;
+  let i=0;
+  [[86,0],[184,1],[282,2]].forEach(([yy,r])=>{ g+=`<rect x="${70-r*4}" y="${yy+80}" width="${250+r*8}" height="8" fill="url(#cbr)"/>`; const x0=90-r*4+(r===0?6:0);
+    for(let k=0;k<4;k++,i++){ const x=x0+k*(34+16)+(r===0?16:0), h=70, top=yy+80-h, fut=(y>cy)||(y===cy&&i>cm), has=monthHas(y,i), on=!fut;
+      g+=`<g data-m="${i}" class="${on?'bk':'bk fut'}">`;
+      g+= on? `<rect x="${x}" y="${top}" width="34" height="${h}" rx="2" fill="${has?LEATHER[i]:'#2a2024'}" ${y===cy&&i===cm?'stroke="#ff4d68" stroke-width="1.5"':''}/><rect x="${x}" y="${top+9}" width="34" height="3" fill="#b08a4a" opacity="${has?.9:.35}"/><rect x="${x}" y="${top+h-12}" width="34" height="3" fill="#b08a4a" opacity="${has?.9:.35}"/><rect x="${x+2}" y="${top}" width="3" height="${h}" fill="#fff" opacity=".07"/>
+        <text x="${x+17}" y="${top+h/2}" transform="rotate(-90 ${x+17} ${top+h/2})" text-anchor="middle" dominant-baseline="middle" font-family="UnifrakturCook" font-size="${MFULL[i].length>7?12:14}" fill="${has?'#e6c27a':'#7a6a5a'}">${MFULL[i]}</text>${y===cy&&i===cm?`<ellipse cx="${x+17}" cy="${top+h/2}" rx="30" ry="44" fill="#ff2d4f" opacity=".1"/>`:''}`
+        : `<rect x="${x}" y="${top}" width="34" height="${h}" rx="2" fill="none" stroke="#3a2a2d" stroke-dasharray="3 3"/><text x="${x+17}" y="${top+h/2}" transform="rotate(-90 ${x+17} ${top+h/2})" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#4a3a3a">${MSH[i]}</text>`;
+      g+=`</g>`; } });
+  return `<svg viewBox="0 0 390 390" class="cof"><defs><linearGradient id="cbr" x1="0" x2="1"><stop offset="0" stop-color="#5a4322"/><stop offset=".5" stop-color="#e6c27a"/><stop offset="1" stop-color="#5a4322"/></linearGradient></defs>${g}</svg>`;
+}
+function renderDiary(){
+  const el=$('diaryBody'); if(!el) return;
+  if(dMonth==null){
+    const years=Object.keys(log).map(k=>+k.slice(0,4)), minY=Math.min(new Date().getFullYear(),...(years.length?years:[dYear])), maxY=new Date().getFullYear();
+    el.innerHTML=`<div class="dhead"><div class="h2" style="font-family:'UnifrakturCook';font-weight:400">Her Grimoire</div><div class="hs">one book a month · tap a book to read her days</div></div>
+     <div class="ynav"><button onclick="diaryYear(-1)" ${dYear<=minY?'disabled':''}>${IC.left}</button><b>${dYear}</b><button onclick="diaryYear(1)" ${dYear>=maxY?'disabled':''}>${IC.right}</button></div>
+     <div class="coffin" id="coffin">${coffinSVG(dYear)}</div><div class="hs" style="text-align:center;margin-top:2px">swipe the coffin for other years</div>`;
+    el.querySelectorAll('.bk:not(.fut)').forEach(b=>b.addEventListener('click',()=>{ if(Date.now()<suppressTap) return; dMonth=+b.dataset.m; buzz(8); renderDiary(); window.scrollTo({top:0}); }));
+    return;
+  }
+  const y=dYear, m=dMonth, n=new Date(y,m+1,0).getDate(), tk=todayKey(), seals=sealsByDay();
+  let rated=0,sum=0,best=null;
+  const rows=[...Array(n)].map((_,i)=>{ const dt=new Date(y,m,i+1,12), k=dkey(dt); if(k>tk) return '';
+    const d=peek(k), rt=d.rate, its=itemsFor(dt), dn=its.filter(x=>(d.done||{})[x.id]).length, L=waterTotal(k), sl=seals[k]||[];
+    if(rt){ rated++; sum+=rt.v; if(!best||rt.v>best.v) best={v:rt.v,k}; }
+    const hz=rt?(.62+rt.v*.05):.55;
+    return `<div class="drow${k===tk?' tdy':''}" onclick="openDiaryDay('${k}')"><div class="dn"><b>${i+1}</b><small>${MSH[m]}</small></div>
+      <div class="dm"><b>${dt.toLocaleDateString('en-GB',{weekday:'long'})}</b><small>${its.length?`${dn}/${its.length} rites`:'no rites'} · ${L2(L)} L${sl.length?` · ✦ ${sl.length>1?sl.length+' seals':esc(sl[0].replace(/^.* · /,''))}`:''}${d.redeem?' · mended':''}</small>${rt&&rt.good?`<i>“${esc(rt.good.length>46?rt.good.slice(0,44)+'…':rt.good)}”</i>`:''}</div>
+      <div class="dh ${rt?'':'no'}"><svg viewBox="-30 -26 60 50" style="width:${Math.round(40*hz)}px"><path d="M0 22C-14 12-28 2-28-10a14 14 0 0 1 28-6 14 14 0 0 1 28 6C28 2 14 12 0 22z" fill="${rt?'url(#gWax)':'none'}" stroke="${rt?'#ff8a9a':'#4a3a3a'}" stroke-width="1.5"/></svg><b>${rt?rt.v:'—'}</b></div></div>`; }).join('');
+  el.innerHTML=`<div class="mhead"><button class="mback" onclick="dMonth=null;renderDiary()">${IC.left}<span>the coffin</span></button>
+    <div class="mt">${MFULL[m]}<small>${y}</small></div>
+    <div class="msum">${rated?`${rated} days written · average <b>${(sum/rated).toFixed(1)}</b> · best <b>${best.v}</b> on ${new Date(best.k+'T12:00').getDate()} ${MSH[m]}`:'no days written yet this month'}</div></div>
+    <div class="dlist">${rows||'<div class="hs" style="text-align:center;margin-top:30px">nothing here yet</div>'}</div>`;
+}
+function diaryYear(dir){ const maxY=new Date().getFullYear(); const ny=dYear+dir; if(ny>maxY) return; const years=Object.keys(log).map(k=>+k.slice(0,4)); const minY=Math.min(maxY,...(years.length?years:[maxY])); if(ny<minY) return; dYear=ny; renderDiary(); const c=document.querySelector('#coffin'); if(c){ c.style.animation='none'; void c.offsetWidth; c.style.animation=(dir>0?'inR':'inL')+' .4s cubic-bezier(.2,1.1,.3,1)'; } }
+function openDiaryDay(k){
+  const dt=new Date(k+'T12:00'), d=peek(k), rt=d.rate, its=itemsFor(dt), done=d.done||{}, L=waterTotal(k), goal=cfg.waterGoal||2500;
+  const day=dt.getDate(), sfx=(day%10===1&&day!==11)?'st':(day%10===2&&day!==12)?'nd':(day%10===3&&day!==13)?'rd':'th';
+  const kept=its.filter(i=>done[i.id]).map(i=>i.title.replace(/ tablet$/,'')); if(L>=goal) kept.push(`${L2(L)} L elixir`);
+  const missed=its.filter(i=>!done[i.id]).map(i=>'✗ '+i.title.replace(/ tablet$/,'')); if(L<goal) missed.push(`✗ ${L2(goal-L)} L short (${L2(L)} drunk)`);
+  const pz=cfg.items.filter(i=>pausedOn(i.id,k)&&!notYet(i.id,k)); if(pz.length) missed.push(`⏸ ${pz.some(i=>i.id.startsWith('sid_'))?'Siddha':pz[0].title} paused`);
+  const sl=sealsByDay()[k]||[], moods=(d.mood||[]);
+  const tm=t=>new Date(t).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+  const blk=(lb,txt)=>`<div class="lb">${lb}</div><div class="hw${txt?'':' none'}">${txt?esc(txt):'nothing written'}</div>`;
+  openSheet(`<div class="dpage"><div class="dpin">
+   <div class="dt">${dt.toLocaleDateString('en-GB',{weekday:'long'})}, ${day}${sfx}<small>${MFULL[dt.getMonth()]} ${dt.getFullYear()}</small></div>
+   <div class="hrt">${rt?`<svg viewBox="-30 -26 60 50" style="width:${Math.round(30+rt.v*2.4)}px"><path d="M0 22C-14 12-28 2-28-10a14 14 0 0 1 28-6 14 14 0 0 1 28 6C28 2 14 12 0 22z" fill="#8e0b1c"/></svg>${rt.v}<small>${RNAMES[rt.v]}</small>`:'<small style="margin-top:14px">not rated</small>'}</div>
+   <div class="lb">kept</div><div class="chips">${kept.length?kept.map(x=>`<span class="ok">✓ ${esc(x)}</span>`).join(''):'<span class="no">nothing sealed</span>'}</div>
+   ${missed.length?`<div class="lb">missed</div><div class="chips">${missed.map(x=>`<span class="no">${esc(x)}</span>`).join('')}</div>`:''}
+   ${sl.length?`<div class="lb gold">✦ seal${sl.length>1?'s':''} broken today: ${sl.map(esc).join(', ')}</div>`:''}
+   ${moods.length?`<div class="lb">how she felt</div><div class="hw">${moods.map(x=>`${x.v} <small>${tm(x.t)}</small>`).join(' · ')}</div>`:''}
+   ${rt?blk('good',rt.good)+blk('bad',rt.bad)+blk('for '+HIM,rt.note):`<div class="hw none" style="margin-top:12px">she didn't write this day</div>${ROLE()==='her'?`<button class="btn p" style="margin-top:10px" onclick="closeSheet();setTimeout(()=>openRate('${k}','${k===todayKey()?'t':'y'}'),300)">Write this day</button>`:''}`}
+   ${rt?`<div class="dsig">— sealed at ${tm(rt.t)}</div>`:''}</div></div>`);
+  document.getElementById('sheetIn').classList.add('parch');
+}
+
 /* ---------- init ---------- */
 bindInputs();
 if(migrated) save();
 const startHash=location.hash.slice(1);
-cur=['today','water','cal','badges'].includes(startHash)?startHash:'today';
+cur=['today','water','cal','diary','badges'].includes(startHash)?startHash:'today';
 go(cur,0);
 setInterval(()=>{ if(cur==='today') renderToday(); },60000);
 document.addEventListener('visibilitychange',()=>{ if(document.hidden){ unlocked=false; paintSeal(); return; } renderAll(); setTimeout(checkRedeem,1500); });
