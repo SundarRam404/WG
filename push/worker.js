@@ -72,7 +72,8 @@ function nowIn(tz, at = new Date()) {
 }
 const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const pausedOn = (cfg, id, key) => (cfg.pauseLog || []).some(p => p.id === id && p.from <= key && (!p.to || key < p.to));
-function itemsFor(cfg, key) { return (cfg.items || []).filter(it => !key || !pausedOn(cfg, it.id, key)); }
+function itemsFor(cfg, key) { return (cfg.items || []).filter(it => !key || (!pausedOn(cfg, it.id, key) && !(it.since && key < it.since))); }
+const t12 = t => { let [h, m] = t.split(':').map(Number); const ap = h >= 12 ? 'PM' : 'AM'; h = h % 12 || 12; return `${h}:${String(m).padStart(2, '0')} ${ap}`; };
 
 export function due(cfg, log, now) {
   const out = [];
@@ -91,10 +92,13 @@ export function due(cfg, log, now) {
     if (now.m >= hs && now.m < he && (now.m - hs) % ev === 0)
       out.push({ title: '🪮 Hair wash today', body: now.m === hs ? `It's ${DAYS[now.dow]}, wash day · tap the card to seal once washed` : 'still unsealed · tap the card once washed', tag: 'hair', url: './#today' });
   }
+  const pre = Array.isArray(cfg.pre) ? cfg.pre : [30, 10];   // early pings, minutes before
   for (const it of itemsFor(cfg, now.key)) {
     if (done[it.id]) continue;
     const t = mins(it.time);
-    if (t === now.m) out.push({ title: `🩸 ${it.title}`, body: it.sub ? `${it.sub} · tap to tick it off` : 'tap to tick it off', tag: it.id, url: './#today' });
+    const ahead = pre.find(p => p > 0 && t - p === now.m);
+    if (t === now.m) out.push({ title: `🩸 ${it.title} · now`, body: it.sub ? `${it.sub} · tap to seal it` : 'tap to seal it', tag: it.id, url: './#today' });
+    else if (ahead) out.push({ title: `⏳ ${it.title} in ${ahead} min`, body: `at ${t12(it.time)}${it.sub ? ' · ' + it.sub : ''}`, tag: it.id, url: './#today' });
     else if (cfg.nudge && t + 30 === now.m) out.push({ title: `Still pending: ${it.title}`, body: 'it was due 30 min ago', tag: it.id, url: './#today' });
   }
   const w = cfg.waterRemind || {};

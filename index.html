@@ -567,6 +567,7 @@ button{background:none;border:none;cursor:pointer}
 
     <details class="fold" data-k="her"><summary><span>her</span><i></i></summary><div class="fb">
     <div class="row"><div class="lab"><b>Greeting name</b><small>"Good evening, …"</small></div><input class="inp" style="max-width:150px;text-align:right" id="sName"></div>
+    <div class="row"><div class="lab"><b>Early pings</b><small>30 min and 10 min before each rite, then on time</small></div><button class="tg" id="sPre" onclick="togglePre(this)"></button></div>
     <div class="row"><div class="lab"><b>Second nudge</b><small>if a rite is still unsealed 30 min later</small></div><button class="tg" id="sNudge" onclick="toggleCfg(null,'nudge',this)"></button></div>
     <div class="row"><div class="lab"><b>Tilt with the phone</b><small>off by default. If on, iPhone asks "Allow motion" every time Domso opens. The blood still moves when she scrolls, swipes or touches it</small></div><button class="tg" id="sTilt" onclick="toggleTilt(this)"></button></div>
     </div></details>
@@ -1146,6 +1147,7 @@ function renderMe(){
   $('sWS').value=cfg.waterRemind.start; $('sWE').value=cfg.waterRemind.end; $('sWEv').value=cfg.waterRemind.every;
   $('sHT').value=cfg.hairEve||'20:00'; $('sHT2').value=cfg.hairEve2||''; $('sHD').value=cfg.hairDay||'05:00'; $('sHE').value=cfg.hairEnd||'11:00'; $('sHEv').value=cfg.hairEvery||30; $('sName').value=cfg.name;
   $('sNudge').classList.toggle('on',!!cfg.nudge);
+  $('sPre').classList.toggle('on',!Array.isArray(cfg.pre)||cfg.pre.length>0);
   $('sTilt').classList.toggle('on',tiltPref());
   $('hairDays').innerHTML=["S","M","T","W","T","F","S"].map((c,ix)=>`<button class="${cfg.hairDays.includes(ix)?'on':''}" onclick="toggleHair(${ix})">${c}</button>`).join('');
   const vLoop=!VESSEL_ORDER.includes(+cfg.vessel), fLoop=!(cfg.finale!=null&&cfg.finale!=='loop');
@@ -1165,6 +1167,7 @@ function cycleIcon(id){ const it=cfg.items.find(x=>x.id===id); it.icon=ICON_KEYS
 function delRite(id){ const it=cfg.items.find(x=>x.id===id); if(!confirm(`Remove "${it.title}"?`)) return; cfg.items=cfg.items.filter(x=>x.id!==id); save(); renderAll(); }
 function addRite(){ cfg.items.push({id:'r'+Date.now().toString(36),title:'New rite',sub:'',icon:'potion',time:'12:00',since:todayKey()}); save(); renderAll(); toast('Added. Set its name and time'); }
 function toggleHair(ix){ const s=new Set(cfg.hairDays); s.has(ix)?s.delete(ix):s.add(ix); cfg.hairDays=[...s].sort(); save(); renderAll(); }
+function togglePre(btn){ const on=!Array.isArray(cfg.pre)||cfg.pre.length>0; cfg.pre=on?[]:[30,10]; save(); btn.classList.toggle('on',!on); toast(on?'Early pings off':'Pings 30 and 10 min before'); }
 function toggleCfg(group,key,btn){ if(group){ cfg[group][key]=!cfg[group][key]; } else cfg[key]=!cfg[key]; save(); btn.classList.toggle('on'); }
 function bindInputs(){
   const num=(id,fn)=>$(id).addEventListener('change',e=>{const v=+e.target.value; if(v>0){fn(v);save();renderAll();toast('Saved')}});
@@ -1209,7 +1212,7 @@ function renderPush(){
     setStatus('warn','Sundar\'s pings are off'); body.innerHTML=`<button class="btn p full" onclick="enablePush()">${IC.bell} Ping me when she finishes</button>`; return; }
   if(perm==='granted' && sub){
     setStatus('ok','Reminders are on for this phone');
-    body.innerHTML=`<div class="hs" style="margin-bottom:12px">Each rite pings at its time${cfg.nudge?', with a second nudge 30 min later if it is still unsealed':''}. Water pings every ${cfg.waterRemind.every} min from ${fmt12(cfg.waterRemind.start)} to ${fmt12(cfg.waterRemind.end)} until 2.5 L is reached.</div>
+    body.innerHTML=`<div class="hs" style="margin-bottom:12px">Each rite pings ${(!Array.isArray(cfg.pre)||cfg.pre.length)?'30 min before, 10 min before and on time':'on time'}${cfg.nudge?', with a nudge 30 min later if it is still unsealed':''}. Water pings every ${cfg.waterRemind.every} min from ${fmt12(cfg.waterRemind.start)} to ${fmt12(cfg.waterRemind.end)} until 2.5 L is reached.</div>
     <div style="display:flex;gap:8px"><button class="btn" style="flex:1" onclick="testLocal()">${IC.bell} Test ping</button><button class="btn" style="flex:1" onclick="enablePush(true)">Re-link</button></div>`; return; }
   setStatus('warn','Reminders are off');
   body.innerHTML=`<button class="btn p full" onclick="enablePush()">${IC.bell} Enable reminders</button>`;
