@@ -857,7 +857,9 @@ function shapePath(shape,seed){
   if(shape==='coffin') return 'M33 3h34l21 27-15 67H27L12 30z';
   return sealPath(seed);
 }
-function monogram(t){ t=String(t||'D').slice(0,3).replace(/[&<>"']/g,''); const fs=t.length===1?48:t.length===2?38:29; return `<text x="50" y="${t.length===1?67:64}" text-anchor="middle" font-family="UnifrakturCook,serif" font-size="${fs}" fill="#4a030c" stroke="#ff8a96" stroke-opacity=".28" stroke-width=".8">${t}</text>`; }
+function monogram(t){ t=String(t||'D').slice(0,3).replace(/[&<>"']/g,''); const fs=t.length===1?48:t.length===2?38:29;
+  const span=c=>/[sS]/.test(c)?`<tspan font-family="Cormorant Garamond,serif" font-weight="700" font-size="${Math.round(fs*1.12)}">${c}</tspan>`:`<tspan>${c}</tspan>`;
+  return `<text x="50" y="${t.length===1?67:64}" text-anchor="middle" font-family="UnifrakturCook,serif" font-size="${fs}" fill="#4a030c" stroke="#ff8a96" stroke-opacity=".28" stroke-width=".8">${[...t].map(span).join('')}</text>`; }
 function themeSeal(svg,dim){
   const sc=sealCfg(), w=WAXES[sc.color]||WAXES.blood;
   if(sc.shape!=='wax'){
@@ -886,7 +888,7 @@ function renderForge(){
   now.textContent=`${d.text} · ${(WAXES[d.color]||WAXES.blood).n} · ${SHAPES[d.shape]||'Wax'}${forgeDraft?' (not saved)':''}`;
   const el=$('forge'); if(!el||!forgeDraft) return;
   const pw=WAXES[d.color]||WAXES.blood;
-  el.innerHTML=`<div class="row" style="border:none;padding-top:2px"><div class="lab"><b>Initials</b><small>up to 3 letters</small></div><input class="inp" id="fgText" maxlength="3" value="${esc(d.text)}" style="max-width:110px;text-align:center;font-family:'UnifrakturCook';font-size:24px" oninput="if(this.value.trim()){forgeDraft.text=this.value.trim();$('sealBig').innerHTML=draftSVG(forgeDraft);$('forgeNow').textContent=forgeDraft.text+' · '+WAXES[forgeDraft.color].n+' · '+SHAPES[forgeDraft.shape]+' (not saved)';}"></div>
+  el.innerHTML=`<div class="row" style="border:none;padding-top:2px"><div class="lab"><b>Initials</b><small>up to 3 letters</small></div><input class="inp" id="fgText" maxlength="3" value="${esc(d.text)}" style="max-width:110px;text-align:center;font-family:'Cormorant Garamond';font-weight:700;font-size:24px" oninput="if(this.value.trim()){forgeDraft.text=this.value.trim();$('sealBig').innerHTML=draftSVG(forgeDraft);$('forgeNow').textContent=forgeDraft.text+' · '+WAXES[forgeDraft.color].n+' · '+SHAPES[forgeDraft.shape]+' (not saved)';}"></div>
    <div class="sc" style="margin:4px 0 8px;color:var(--mute)">wax</div>
    <div class="fg-sw">${Object.entries(WAXES).map(([k,w])=>`<button class="${d.color===k?'on':''}" onclick="draftSeal('color','${k}')"><i style="background:radial-gradient(circle at 35% 30%,${w.s[0]},${w.s[1]} 55%,${w.s[2]})"></i><span>${w.n}</span></button>`).join('')}</div>
    <div class="sc" style="margin:12px 0 8px;color:var(--mute)">shape</div>
