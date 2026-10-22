@@ -465,11 +465,20 @@ button{background:none;border:none;cursor:pointer}
 .drch{text-align:right;margin-top:8px;font-size:13.5px;color:var(--gold2);font-style:italic}
 /* her seal forge */
 .fg-prev{width:120px;margin:4px auto 6px}.fg-prev svg{width:120px;height:120px;filter:drop-shadow(0 8px 12px #000c)}
-.fg-sw{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.sealcard{display:flex;align-items:center;gap:16px;margin:18px 0 6px;padding:16px;border-radius:20px;background:radial-gradient(120% 140% at 0% 50%,#3a0a14,#140a0c 60%);box-shadow:inset 0 0 0 1px #b08a4a55,0 10px 26px #0008;cursor:pointer}
+.sealcard .scv{width:104px;height:104px;flex:none;animation:sealIdle 4s ease-in-out infinite}.sealcard .scv svg{width:104px;height:104px;filter:drop-shadow(0 8px 14px #000c) drop-shadow(0 0 18px #ff2d4f33)}
+@keyframes sealIdle{50%{transform:rotate(-4deg) scale(1.03)}}
+.sealcard .sct{flex:1;min-width:0}.sealcard .sct .sc{color:var(--gold2);font-size:12px;letter-spacing:3px}
+.sealcard .sct b{display:block;font-family:var(--disp);font-size:21px;line-height:1.15;margin:2px 0}.sealcard .sct small{display:block;font-size:13.5px;color:var(--mute);font-style:italic;line-height:1.3}
+.sealcard .btn{height:36px;padding:0 16px;font-size:15px;margin-top:9px}
+.fg-act{display:flex;gap:10px;margin-top:16px}.fg-act .btn{flex:1;height:46px;font-size:17px}
+.sealcard .scv.stampin{animation:stampin .6s cubic-bezier(.2,1.4,.35,1)}@keyframes stampin{0%{transform:scale(1.6) rotate(-14deg);opacity:.3}60%{transform:scale(.9) rotate(3deg);opacity:1}100%{transform:none}}
+.forgewrap{display:none;padding:14px;margin-bottom:6px;border-radius:18px;background:linear-gradient(#170b0e,#100809);box-shadow:inset 0 0 0 1px #b08a4a2e}.forgewrap.on{display:block;animation:fbIn .3s both}
+.fg-sw{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
 .fg-sw button,.fg-sh button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 2px;border-radius:12px;background:#0c0607;box-shadow:inset 0 0 0 1px #b08a4a26;font-size:13px;color:var(--bone2)}
 .fg-sw button.on,.fg-sh button.on{box-shadow:inset 0 0 0 1.5px var(--gold2),0 0 14px #b3122e44}
-.fg-sw i{width:30px;height:30px;border-radius:50%;box-shadow:0 3px 6px #000a,inset 0 -3px 5px #0006}
-.fg-sh{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.fg-sh svg{width:38px;height:38px;filter:drop-shadow(0 3px 4px #000b)}
+.fg-sw i{width:28px;height:28px;border-radius:50%;box-shadow:0 3px 6px #000a,inset 0 -3px 5px #0006}
+.fg-sh{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}.fg-sh svg{width:34px;height:34px;filter:drop-shadow(0 3px 4px #000b)}
 /* her grimoire */
 .dhead{text-align:center;margin-top:10px}.dhead .h2{font-size:36px}
 .ynav{display:flex;align-items:center;justify-content:center;gap:22px;margin:10px 0 0}
@@ -576,10 +585,12 @@ button{background:none;border:none;cursor:pointer}
     <div class="top"><div class="logo">Domso</div></div>
     <div class="h2">Thy Settings</div><div class="hs">everything here syncs to the cloud</div>
 
+    <div class="sealcard" onclick="toggleForge()"><div class="scv" id="sealBig"></div><div class="sct"><span class="sc">✦ her seal ✦</span><b id="forgeNow"></b><small>pressed into every rite, day, badge and the lock</small><span class="btn p" id="forgeBtn">Design her seal</span></div></div>
+    <div id="forgeWrap" class="forgewrap"><div id="forge"></div></div>
+
     <div class="orn"><span>reminders</span></div>
     <div class="status" id="pStatus"><i></i><span>Checking…</span></div>
     <div id="pBody"></div>
-    <details class="fold" data-k="her seal" style="margin-top:16px"><summary><span>her seal</span><em id="forgeNow"></em><i></i></summary><div class="fb" id="forge"></div></details>
 
     <div id="meSealed" class="framed plaque" style="text-align:center;margin-top:22px;cursor:pointer" onclick="showLock()">
       <div style="width:64px;margin:0 auto 6px"></div><h5 style="font-family:var(--disp);font-size:21px;font-weight:700">The rest is sealed</h5>
@@ -648,10 +659,10 @@ button{background:none;border:none;cursor:pointer}
 
 <nav class="nav" id="nav">
   <button class="on" data-v="today" onclick="go('today')"><span data-i="navToday"></span><span>Today</span></button>
-  <button data-v="water" onclick="go('water')"><span data-i="navWater"></span><span>Elixir</span></button>
+  <button data-v="badges" onclick="go('badges')"><span data-i="navBadge"></span><span>Badges</span></button>
   <button data-v="cal" onclick="go('cal')"><span data-i="navCal"></span><span>Calendar</span></button>
   <button data-v="diary" onclick="go('diary')"><span data-i="navBook"></span><span>Grimoire</span></button>
-  <button data-v="badges" onclick="go('badges')"><span data-i="navBadge"></span><span>Badges</span></button>
+  <button data-v="water" onclick="go('water')"><span data-i="navWater"></span><span>Elixir</span></button>
   <button data-v="me" onclick="go('me')"><span data-i="navMe"></span><span>Me</span></button>
 </nav>
 
@@ -762,17 +773,35 @@ function iconGlyph(k){ const s=IC[k]||IC.pill; const inner=s.slice(s.indexOf('>'
    ============================================================ */
 const WAXES={
  blood:{n:'Blood',s:['#d4202f','#8e0b1c','#3f020a'],ink:'#4a030c',lite:'#c4142f',rim:'#3f020a',hl:'#ffb3bc'},
- obsidian:{n:'Obsidian',s:['#5a5258','#1e1a1c','#050405'],ink:'#020102',lite:'#9a8a86',rim:'#000000',hl:'#ffffff'},
- gold:{n:'Gold',s:['#ffe7a6','#c9932e','#5a3a0c'],ink:'#3e2404',lite:'#8a5a14',rim:'#5a3a0c',hl:'#fff6d0'},
- amethyst:{n:'Amethyst',s:['#c07ae6','#5e1c92','#22063a'],ink:'#1c052e',lite:'#9a5ad0',rim:'#22063a',hl:'#ecd2ff'},
+ wine:{n:'Wine',s:['#a8244a','#5a0a24','#22020c'],ink:'#1e0208',lite:'#a8244a',rim:'#22020c',hl:'#ffb8cc'},
  rose:{n:'Rose',s:['#ffa2b6','#d4486a','#6a0c26'],ink:'#560820',lite:'#ff6b8a',rim:'#6a0c26',hl:'#ffe2ea'},
+ coral:{n:'Coral',s:['#ffb08a','#e0603a','#6a1a08'],ink:'#4a1004',lite:'#ff8a5a',rim:'#6a1a08',hl:'#ffe4d6'},
+ gold:{n:'Gold',s:['#ffe7a6','#c9932e','#5a3a0c'],ink:'#3e2404',lite:'#8a5a14',rim:'#5a3a0c',hl:'#fff6d0'},
+ bronze:{n:'Bronze',s:['#e8a870','#9a5a2a','#3a1a08'],ink:'#2a1004',lite:'#b87040',rim:'#3a1a08',hl:'#ffe0c4'},
+ silver:{n:'Silver',s:['#f4f4f6','#9a9aa4','#3a3a44'],ink:'#1e1e26',lite:'#6a6a78',rim:'#3a3a44',hl:'#ffffff'},
+ ivory:{n:'Ivory',s:['#fff8e8','#d8c8a4','#7a6a4a'],ink:'#4a3a1a',lite:'#a8946a',rim:'#7a6a4a',hl:'#ffffff'},
+ obsidian:{n:'Obsidian',s:['#5a5258','#1e1a1c','#050405'],ink:'#020102',lite:'#9a8a86',rim:'#000000',hl:'#ffffff'},
+ amethyst:{n:'Amethyst',s:['#c07ae6','#5e1c92','#22063a'],ink:'#1c052e',lite:'#9a5ad0',rim:'#22063a',hl:'#ecd2ff'},
+ plum:{n:'Plum',s:['#b05a9a','#5a1a4a','#22061a'],ink:'#1a0414',lite:'#9a4a84',rim:'#22061a',hl:'#f4cce8'},
  midnight:{n:'Midnight',s:['#5a7ad8','#1c2c70','#060a24'],ink:'#03071e',lite:'#5a7ad8',rim:'#060a24',hl:'#cfdcff'},
+ teal:{n:'Teal',s:['#5ac8c8','#1a6a70','#042226'],ink:'#021a1c',lite:'#3aa0a4',rim:'#042226',hl:'#ccf6f6'},
  emerald:{n:'Emerald',s:['#5ad69a','#1a6a44','#04241a'],ink:'#021a10',lite:'#3aa070',rim:'#04241a',hl:'#ccffe2'}};
-const SHAPES={wax:'Wax',round:'Round',scallop:'Scallop',heart:'Heart',shield:'Shield',coffin:'Coffin'};
-function sealCfg(){ const d={text:'D',color:'blood',shape:'wax'}; try{ return Object.assign(d,cfg.seal||{}); }catch(e){ return d; } }
+const SHAPES={wax:'Wax',round:'Round',scallop:'Scallop',flower:'Flower',burst:'Starburst',heart:'Heart',drop:'Drop',oval:'Cameo',shield:'Shield',coffin:'Coffin',diamond:'Diamond',gem:'Gem',hexagon:'Hexagon',octagon:'Octagon',crown:'Crown'};
+let sealOverride=null, forgeDraft=null;
+function sealCfg(){ const d={text:'D',color:'blood',shape:'wax'}; if(sealOverride) return Object.assign(d,sealOverride); try{ return Object.assign(d,cfg.seal||{}); }catch(e){ return d; } }
 function shapePath(shape,seed){
   if(shape==='round'){ let d=''; for(let i=0;i<=96;i++){ const a=i/96*Math.PI*2, r=44+(i%2?.7:-.7); d+=(i?'L':'M')+(50+r*Math.cos(a)).toFixed(2)+' '+(50+r*Math.sin(a)).toFixed(2); } return d+'Z'; }
   if(shape==='scallop'){ let d=''; for(let i=0;i<=180;i++){ const a=i/180*Math.PI*2, r=41.5+3.6*Math.abs(Math.cos(a*9)); d+=(i?'L':'M')+(50+r*Math.cos(a)).toFixed(2)+' '+(50+r*Math.sin(a)).toFixed(2); } return d+'Z'; }
+  const polar=f=>{ let d=''; for(let i=0;i<=200;i++){ const a=i/200*Math.PI*2-Math.PI/2, r=f(a); d+=(i?'L':'M')+(50+r*Math.cos(a)).toFixed(2)+' '+(50+r*Math.sin(a)).toFixed(2); } return d+'Z'; };
+  if(shape==='flower') return polar(a=>36+10*Math.abs(Math.cos(a*2.5)));
+  if(shape==='burst'){ let d=''; for(let i=0;i<32;i++){ const a=i/32*Math.PI*2-Math.PI/2, r=i%2?38:47; d+=(i?'L':'M')+(50+r*Math.cos(a)).toFixed(2)+' '+(50+r*Math.sin(a)).toFixed(2); } return d+'Z'; }
+  if(shape==='drop') return 'M50 3C64 26 87 46 87 64a37 37 0 0 1-74 0c0-18 23-38 37-61z';
+  if(shape==='oval') return 'M50 3a37 47 0 1 0 .1 0z';
+  if(shape==='diamond') return 'M50 2L94 50 50 98 6 50z';
+  if(shape==='gem') return 'M27 9h46l22 26-45 60L5 35z';
+  if(shape==='hexagon') return 'M50 3l41 23.5v47L50 97 9 73.5v-47z';
+  if(shape==='octagon') return 'M31 4h38l27 27v38L69 96H31L4 69V31z';
+  if(shape==='crown') return 'M7 90V30l21 18 22-36 22 36 21-18v60z';
   if(shape==='heart') return 'M50 93C29 79 5 62 5 37a22.5 22.5 0 0 1 45-9 22.5 22.5 0 0 1 45 9c0 25-24 42-45 56z';
   if(shape==='shield') return 'M50 4l41 11v29c0 27-18 45-41 53C27 89 9 71 9 44V15z';
   if(shape==='coffin') return 'M33 3h34l21 27-15 67H27L12 30z';
@@ -782,7 +811,7 @@ function monogram(t){ t=String(t||'D').slice(0,3).replace(/[&<>"']/g,''); const 
 function themeSeal(svg,dim){
   const sc=sealCfg(), w=WAXES[sc.color]||WAXES.blood;
   if(sc.shape!=='wax'){
-    const round=sc.shape==='round'||sc.shape==='scallop';
+    const round=['round','scallop','flower','burst'].includes(sc.shape);
     svg=svg.replace(/<path d="[^"]*" fill="url\(#(gWax|gWaxDim)\)"\/>/,(m,g)=>`<path d="${shapePath(sc.shape)}" fill="url(#${g})"/>`);
     if(!round) svg=svg.replace(/<circle cx="50" cy="50" r="33"[^>]*\/><circle cx="50" cy="50" r="36.5"[^>]*\/>/,`<path d="${shapePath(sc.shape)}" transform="translate(50 52) scale(.78) translate(-50 -50)" fill="none" stroke="${dim?'#0c0a0b':'#3f020a'}" stroke-width="3" opacity=".7"/>`);
   }
@@ -794,19 +823,27 @@ function applySealTheme(){
   st.forEach((s,i)=>s.setAttribute('stop-color',w.s[i]||w.s[2]));
 }
 function setSeal(k,v){ cfg.seal=Object.assign(sealCfg(),{[k]:v}); save(); applySealTheme(); renderAll(); }
+let forgeOpen=false;
+function draftSVG(d){ sealOverride=d; let svg=sealSVG(31); sealOverride=null; const w=WAXES[d.color]||WAXES.blood;
+  return svg.replace(/url\(#gWax\)/g,'url(#gWaxP)').replace('<svg viewBox="0 0 100 100">',`<svg viewBox="0 0 100 100"><defs><radialGradient id="gWaxP" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="${w.s[0]}"/><stop offset=".5" stop-color="${w.s[1]}"/><stop offset="1" stop-color="${w.s[2]}"/></radialGradient></defs>`); }
+function toggleForge(){ if(forgeOpen) return closeForge(false); forgeOpen=true; forgeDraft=Object.assign({},sealCfg()); $('forgeWrap').classList.add('on'); $('forgeBtn').textContent='Designing…'; renderForge(); setTimeout(()=>$('forgeWrap').scrollIntoView({behavior:'smooth',block:'start'}),60); buzz(8); }
+function closeForge(saved){ forgeOpen=false; forgeDraft=null; $('forgeWrap').classList.remove('on'); $('forgeBtn').textContent='Design her seal'; renderForge(); if(!saved) toast('Nothing changed'); }
+function draftSeal(k,v){ if(!forgeDraft) return; forgeDraft[k]=v; renderForge(); buzz(5); }
+function saveSeal(){ if(!forgeDraft) return; cfg.seal=Object.assign({},forgeDraft); save(); applySealTheme(); closeForge(true); renderAll(); const b=$('sealBig'); if(b){ b.classList.remove('stampin'); void b.offsetWidth; b.classList.add('stampin'); } toast('Her seal is set 🩸'); buzz(25); }
 function renderForge(){
-  const el=$('forge'); if(!el) return; const sc=sealCfg();
-  $('forgeNow').textContent=`${sc.text} · ${WAXES[sc.color].n} · ${SHAPES[sc.shape]}`;
-  el.innerHTML=`<div class="fg-prev">${sealSVG(31)}</div>
-   <div class="row" style="border:none"><div class="lab"><b>Initials</b><small>up to 3 letters</small></div><input class="inp" id="fgText" maxlength="3" value="${esc(sc.text)}" style="max-width:110px;text-align:center;font-family:'UnifrakturCook';font-size:24px" oninput="if(this.value.trim())setSealText(this.value.trim())"></div>
+  const big=$('sealBig'), now=$('forgeNow'), d=forgeDraft||sealCfg(); if(!big) return;
+  big.innerHTML=forgeDraft?draftSVG(d):sealSVG(31);
+  now.textContent=`${d.text} · ${(WAXES[d.color]||WAXES.blood).n} · ${SHAPES[d.shape]||'Wax'}${forgeDraft?' (not saved)':''}`;
+  const el=$('forge'); if(!el||!forgeDraft) return;
+  const pw=WAXES[d.color]||WAXES.blood;
+  el.innerHTML=`<div class="row" style="border:none;padding-top:2px"><div class="lab"><b>Initials</b><small>up to 3 letters</small></div><input class="inp" id="fgText" maxlength="3" value="${esc(d.text)}" style="max-width:110px;text-align:center;font-family:'UnifrakturCook';font-size:24px" oninput="if(this.value.trim()){forgeDraft.text=this.value.trim();$('sealBig').innerHTML=draftSVG(forgeDraft);$('forgeNow').textContent=forgeDraft.text+' · '+WAXES[forgeDraft.color].n+' · '+SHAPES[forgeDraft.shape]+' (not saved)';}"></div>
    <div class="sc" style="margin:4px 0 8px;color:var(--mute)">wax</div>
-   <div class="fg-sw">${Object.entries(WAXES).map(([k,w])=>`<button class="${sc.color===k?'on':''}" onclick="setSeal('color','${k}')"><i style="background:radial-gradient(circle at 35% 30%,${w.s[0]},${w.s[1]} 55%,${w.s[2]})"></i><span>${w.n}</span></button>`).join('')}</div>
+   <div class="fg-sw">${Object.entries(WAXES).map(([k,w])=>`<button class="${d.color===k?'on':''}" onclick="draftSeal('color','${k}')"><i style="background:radial-gradient(circle at 35% 30%,${w.s[0]},${w.s[1]} 55%,${w.s[2]})"></i><span>${w.n}</span></button>`).join('')}</div>
    <div class="sc" style="margin:12px 0 8px;color:var(--mute)">shape</div>
-   <div class="fg-sh">${Object.entries(SHAPES).map(([k,n])=>`<button class="${sc.shape===k?'on':''}" onclick="setSeal('shape','${k}')"><svg viewBox="0 0 100 100"><path d="${shapePath(k,31)}" fill="url(#gWax)"/></svg><span>${n}</span></button>`).join('')}</div>
-   <div class="hs" style="margin-top:10px">Every seal in Domso changes to match: the rites, the calendar, the badges and the lock.</div>`;
+   <div class="fg-sh">${Object.entries(SHAPES).map(([k,n])=>`<button class="${d.shape===k?'on':''}" onclick="draftSeal('shape','${k}')"><svg viewBox="0 0 100 100"><defs><radialGradient id="gP${k}" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="${pw.s[0]}"/><stop offset=".5" stop-color="${pw.s[1]}"/><stop offset="1" stop-color="${pw.s[2]}"/></radialGradient></defs><path d="${shapePath(k,31)}" fill="url(#gP${k})"/></svg><span>${n}</span></button>`).join('')}</div>
+   <div class="fg-act"><button class="btn" onclick="closeForge(false)">Cancel</button><button class="btn p" onclick="saveSeal()">Save seal</button></div>
+   <div class="hs" style="margin-top:8px;text-align:center">Once saved, every seal in Domso changes to match.</div>`;
 }
-let sealTxtT=null;
-function setSealText(v){ clearTimeout(sealTxtT); sealTxtT=setTimeout(()=>{ cfg.seal=Object.assign(sealCfg(),{text:v}); save(); const p=document.querySelector('.fg-prev'); if(p) p.innerHTML=sealSVG(31); $('forgeNow').textContent=`${v} · ${WAXES[sealCfg().color].n} · ${SHAPES[sealCfg().shape]}`; const a=$('avSeal'); if(a) a.innerHTML=sealSVG(7); },250); }
 
 
 function sealSVG(seed,glyph='D',dim=false,label,roman){ return themeSeal(sealSVG0(seed,glyph,dim,label,roman),dim); }
@@ -1453,7 +1490,7 @@ function closeFinale(){ const el=$('fin'), live=finLive; finLive=false; el.style
 /* ============================================================
    NAV, LOCK, GESTURES
    ============================================================ */
-const ORDER=['today','water','cal','diary','badges','me'];
+const ORDER=['today','badges','cal','diary','water','me'];
 let cur='today';
 const PASS="1234"; let unlocked=false, pin="";
 function lockHTML(){ return `<div class="lk"><svg class="lbat" viewBox="0 0 100 50"><path d="${BAT}" fill="#050203" style="transform-origin:50% 50%;animation:flap .26s infinite"/></svg><div style="text-align:center"><div class="lseal" id="lseal"><div class="burst"></div><div class="h l">${sealSVG(31)}</div><div class="h r">${sealSVG(31)}</div><svg class="crk" viewBox="0 0 84 84"><path d="M42 0L38.6 23.5 45.4 33.6 37.8 43.7 46.2 53.8 39.5 63.8 42 84" fill="none" stroke="#14020a" stroke-width="2.6" stroke-linejoin="round" pathLength="100"/></svg></div><h3>Sealed</h3><div class="hs">enter the passcode</div></div>
