@@ -128,7 +128,7 @@ async function loadDoc(env) {
   const s = k => (f[k] && f[k].stringValue) || '';
   const n = k => f[k] ? +(f[k].integerValue || f[k].doubleValue || 0) : 0;
   return { cfg: s('cfg') ? JSON.parse(s('cfg')) : null, log: s('log') ? JSON.parse(s('log')) : {}, sub: s('sub') ? JSON.parse(s('sub')) : null,
-    subS: s('subS') ? JSON.parse(s('subS')) : null, ev: s('ev') ? JSON.parse(s('ev')) : [], evDone: n('evDone'), pushlog: s('pushlog') ? JSON.parse(s('pushlog')) : [] };
+    subS: s('subS') ? JSON.parse(s('subS')) : null, ev: s('ev') ? JSON.parse(s('ev')) : [], evDone: n('evDone'), pushlog: s('pushlog') ? JSON.parse(s('pushlog')) : [], raw: { cfg: s('cfg'), log: s('log') } };
 }
 
 /* mark Sundar's events as delivered (touches only the evDone field) */
@@ -159,10 +159,10 @@ export function skips(cfg, log, now) {
   return out;
 }
 /* write a few fields without touching the rest of the document */
-async function patchFields(env, fields) {
+async function patchFields(env, fields, path) {
   const keys = Object.keys(fields); if (!keys.length) return;
   const mask = keys.map(k => `updateMask.fieldPaths=${k}`).join('&');
-  const url = `https://firestore.googleapis.com/v1/projects/${env.FIREBASE_PROJECT}/databases/(default)/documents/${env.DOC_PATH}?key=${env.FIREBASE_KEY}&${mask}`;
+  const url = `https://firestore.googleapis.com/v1/projects/${env.FIREBASE_PROJECT}/databases/(default)/documents/${path || env.DOC_PATH}?key=${env.FIREBASE_KEY}&${mask}`;
   const body = { fields: Object.fromEntries(keys.map(k => [k, typeof fields[k] === 'number' ? { integerValue: String(fields[k]) } : { stringValue: String(fields[k]) }])) };
   const r = await fetch(url, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
   if (!r.ok) throw new Error(`firestore write ${r.status}: ${(await r.text()).slice(0, 200)}`);
@@ -177,7 +177,7 @@ export function pendingFor(ev, evDone, nowMs) {
 }
 
 async function run(env, at) {
-  const { cfg, log, sub, subS, ev, evDone, pushlog } = await loadDoc(env);
+  const { cfg, log, sub, subS, ev, evDone, pushlog, raw } = await loadDoc(env);
   if (!cfg) return { skipped: 'no config yet' };
   const now = nowIn(cfg.tz || 'Asia/Kolkata', at);
   const results = [], entries = [], t = Date.now();
@@ -206,6 +206,11 @@ async function run(env, at) {
     if (entries.some(e => e.to === 'him' && deadStatus(e.st))) patch.subSDead = '1';
   }
   await patchFields(env, patch);
+  // nightly backup at 03:00 her time: one copy per weekday (shared/domso-bak-0 … -6), only if there is something to keep
+  if (now.m === 180 && raw.log && raw.log.length > 2) {
+    await patchFields(env, { cfg: raw.cfg, log: raw.log, at: Date.now(), days: Object.keys(log || {}).length }, `${env.DOC_PATH}-bak-${now.dow}`);
+    results.push({ tag: 'backup', status: 'ok' });
+  }
   return { at: `${now.key} ${hhmm(now.m)}`, sent: results };
 }
 

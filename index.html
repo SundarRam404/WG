@@ -676,7 +676,7 @@ button{background:none;border:none;cursor:pointer}
     </div>
     </div></details>
     </div>
-    <div class="foot"><b>Domso</b><br>do or marry someone · made with 🩸 by S<br><span style="letter-spacing:2px">v18 · the bell tower</span></div>
+    <div class="foot"><b>Domso</b><br>do or marry someone · made with 🩸 by S<br><span style="letter-spacing:2px">v19 · safe sync</span></div>
   </section>
 </main>
 
@@ -924,6 +924,7 @@ const DEFAULT_CFG={
 const LS=k=>{try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}};
 let cfg=Object.assign(structuredClone(DEFAULT_CFG),{v:1},LS('domso_cfg')||{});
 let log=LS('domso_log')||{};
+if(!Object.keys(log).length){ const b=LS('domso_log_bak'); if(b&&Object.keys(b).length) log=b; }
 function migrate(){
   if((cfg.v||1)===6){ if(!cfg.items.some(i=>i.id==='facewash')) cfg.items.push({id:'facewash',title:'Face wash',sub:'evening',icon:'face',time:'18:20',since:'2026-10-22'}); cfg.v=7; return true; }
   if((cfg.v||1)===5){ Object.assign(cfg,{hairEve:'20:00',hairEve2:'21:00',hairDay:'05:00',hairEnd:'11:00',hairEvery:30}); cfg.v=6; return migrate()||true; }
@@ -1022,54 +1023,104 @@ const SEALS=[{n:3,name:'The Bat',g:'bat',t:'three days, every rite sealed'},{n:1
 
 /* ---------- persistence ---------- */
 let fdb=null, applying=false, pushTimer=null, firstSync=false;
+/* ---------------------------------------------------------------
+   SAFE SYNC (after the 25 Oct wipe)
+   1. never upload before the first download (a fresh/cleared phone can't blank the cloud)
+   2. merge day-by-day (each day carries u = last edit time); never replace the whole log
+   3. only HER phone writes the log; Sundar's phone reads it (and writes settings only when he changes them)
+   --------------------------------------------------------------- */
+let remoteCfgU=0, cloudReady=false, pendingPush=false, cfgU=+(localStorage.getItem('domso_cfgU')||0), lastCfgJSON=JSON.stringify(cfg), lastCloudLog=null;
+const dayJSON=d=>{ const {u,...r}=d||{}; return JSON.stringify(r); };
+let dayCache={}; for(const k in log) dayCache[k]=dayJSON(log[k]);
+const dayW=d=>Object.keys((d&&d.done)||{}).length+((d&&d.water)||[]).length+(d&&d.rate?3:0)+((d&&d.mood)||[]).length;
+function mergeLogs(a,b){ const out={}; a=a||{}; b=b||{};
+  for(const k of new Set([...Object.keys(a),...Object.keys(b)])){ const x=a[k], y=b[k];
+    if(!x){ out[k]=y; continue; } if(!y){ out[k]=x; continue; }
+    const ux=x.u||0, uy=y.u||0; out[k]=(ux||uy)?(ux>=uy?x:y):(dayW(x)>=dayW(y)?x:y); }
+  return out; }
+function persistLocal(){
+  try{
+    localStorage.setItem('domso_cfg',JSON.stringify(cfg)); localStorage.setItem('domso_cfgU',String(cfgU));
+    localStorage.setItem('domso_log',JSON.stringify(log)); localStorage.setItem('domso_upd',String(updated));
+    if(sub) localStorage.setItem('domso_sub',JSON.stringify(sub));
+    if(subS) localStorage.setItem('domso_subS',JSON.stringify(subS));
+    localStorage.setItem('domso_ev',JSON.stringify(evq||[]));
+    if(Object.keys(log).length) localStorage.setItem('domso_log_bak',JSON.stringify(log));
+  }catch(e){}
+}
 function save(){
   updated=Date.now();
-  localStorage.setItem('domso_cfg',JSON.stringify(cfg));
-  localStorage.setItem('domso_log',JSON.stringify(log));
-  localStorage.setItem('domso_upd',String(updated));
-  if(sub) localStorage.setItem('domso_sub',JSON.stringify(sub));
-  if(subS) localStorage.setItem('domso_subS',JSON.stringify(subS));
-  localStorage.setItem('domso_ev',JSON.stringify(evq||[]));
+  for(const k in log){ const j=dayJSON(log[k]); if(dayCache[k]!==j){ log[k].u=updated; dayCache[k]=j; } }
+  const cj=JSON.stringify(cfg); if(cj!==lastCfgJSON){ cfgU=updated; lastCfgJSON=cj; }
+  persistLocal();
   if(!applying){ clearTimeout(pushTimer); pushTimer=setTimeout(pushCloud,400); }
 }
 function pushCloud(){
   if(!fdb) return;
-  const p={cfg:JSON.stringify(cfg),log:JSON.stringify(log),updated};
-  if(ROLE()==='her'){ if(sub) p.sub=JSON.stringify(sub); p.ev=JSON.stringify(evq||[]); } else { if(subS) p.subS=JSON.stringify(subS); }
-  fdb.doc(CLOUD_DOC).set(p,{merge:true})
-    .then(()=>setSync(true)).catch(e=>{console.warn('cloud write',e);setSync(false)});
+  if(!cloudReady){ pendingPush=true; return; }          // rule 1
+  pendingPush=false;
+  const p={updated}; if(cfgU>=remoteCfgU&&(ROLE()==='her'||cfgU>remoteCfgU)){ p.cfg=JSON.stringify(cfg); p.cfgU=cfgU; remoteCfgU=cfgU; }
+  if(ROLE()==='her'){ const lj=JSON.stringify(log); p.log=lj; lastCloudLog=lj; if(sub) p.sub=JSON.stringify(sub); p.ev=JSON.stringify(evq||[]); }   // rule 3
+  else { if(subS) p.subS=JSON.stringify(subS); }
+  fdb.doc(CLOUD_DOC).set(p,{merge:true}).then(()=>setSync(true)).catch(e=>{console.warn('cloud write',e);setSync(false)});
 }
 function initCloud(){
   try{
     firebase.initializeApp(firebaseConfig); fdb=firebase.firestore();
     fdb.doc(CLOUD_DOC).onSnapshot(s=>{
       setSync(true);
-      if(!s.exists){ pushCloud(); return; }
-      const d=s.data();
-      if((d.updated||0)>updated){
-        applying=true;
-        try{
-          if(d.cfg) cfg=Object.assign(structuredClone(DEFAULT_CFG),{v:1},JSON.parse(d.cfg));
-          if(d.log) log=JSON.parse(d.log);
-          if(d.sub) sub=JSON.parse(d.sub);
-          if(d.subS) subS=JSON.parse(d.subS);
-          if(d.ev&&ROLE()==='her'){ try{ const e=JSON.parse(d.ev), seen=new Set((evq||[]).map(x=>x.t)); evq=(evq||[]).concat(e.filter(x=>!seen.has(x.t))).sort((a,b)=>a.t-b.t).slice(-20); }catch(_){} }
-          updated=d.updated;
-          localStorage.setItem('domso_cfg',JSON.stringify(cfg));
-          localStorage.setItem('domso_log',JSON.stringify(log));
-          localStorage.setItem('domso_upd',String(updated));
-          if(sub) localStorage.setItem('domso_sub',JSON.stringify(sub));
-        }finally{ applying=false; }
-        if(migrate()) save();
-        renderAll();
-      } else if((d.updated||0)<updated){ pushCloud(); }
-      if(d.subS&&!subS){ try{ subS=JSON.parse(d.subS); }catch(_){} }
+      if(!s.exists){ cloudReady=true; pushCloud(); return; }
+      const d=s.data(); let changed=false;
+      applying=true;
+      try{
+        const rU=+(d.cfgU||0)||+(d.updated||0); remoteCfgU=Math.max(remoteCfgU,rU);
+        if(d.cfg && rU>cfgU){ try{ cfg=Object.assign(structuredClone(DEFAULT_CFG),{v:1},JSON.parse(d.cfg)); cfgU=rU; lastCfgJSON=JSON.stringify(cfg); changed=true; }catch(_){} }
+        let remote={}; try{ remote=JSON.parse(d.log||'{}'); }catch(_){}
+        const merged=mergeLogs(log,remote);
+        for(const k in merged){ if(merged[k]!==log[k]){ dayCache[k]=dayJSON(merged[k]); changed=true; } }
+        log=merged;
+        if(d.sub) sub=JSON.parse(d.sub);
+        if(d.subS) subS=JSON.parse(d.subS);
+        if(d.ev&&ROLE()==='her'){ try{ const e=JSON.parse(d.ev), seen=new Set((evq||[]).map(x=>x.t)); evq=(evq||[]).concat(e.filter(x=>!seen.has(x.t))).sort((a,b)=>a.t-b.t).slice(-20); }catch(_){} }
+        updated=Math.max(updated,+(d.updated||0));
+        persistLocal();
+      }finally{ applying=false; }
+      const first=!cloudReady; cloudReady=true;
+      if(migrate()) save();
+      if(first) runRecovery();
+      if(ROLE()==='her' && JSON.stringify(log)!==(d.log||'{}') && JSON.stringify(log)!==lastCloudLog) { clearTimeout(pushTimer); pushTimer=setTimeout(pushCloud,300); }
+      else if(pendingPush){ clearTimeout(pushTimer); pushTimer=setTimeout(pushCloud,300); }
+      if(changed) renderAll();
       try{ pushLog=d.pushlog?JSON.parse(d.pushlog):[]; }catch(_){ pushLog=[]; }
       cloudLinks={sub:d.sub||'',subS:d.subS||'',dead:d.subDead==='1',deadS:d.subSDead==='1'};
       linkCheck(); if(cur==='me') renderPush(); try{ paintBell(); }catch(_){}
       if(!firstSync){ firstSync=true; setTimeout(checkRedeem,1200); }
     },e=>{console.warn('cloud read',e);setSync(false)});
   }catch(e){ console.warn('firebase off',e); setSync(false); }
+}
+/* ---------- recovery: rebuild 23–25 Oct from the bell log (the pings Sundar received) ---------- */
+const RECOVERY=[{"t": 1792755371392, "tag": "water", "title": "💧 Sandhiya drank 500 ml"}, {"t": 1792760591244, "tag": "rite", "title": "✓ Sandhiya sealed Face wash"}, {"t": 1792766891158, "tag": "water", "title": "💧 Sandhiya drank 250 ml"}, {"t": 1792768691619, "tag": "water", "title": "💧 Sandhiya drank 150 ml"}, {"t": 1792769350369, "tag": "water", "title": "💧 Sandhiya drank 150 ml"}, {"t": 1792775951042, "tag": "alldone", "title": "🩸 Sandhiya sealed every rite"}, {"t": 1792776071290, "tag": "rate", "title": "💓 Sandhiya rated today 9/10 · Radiant"}, {"t": 1792812552467, "tag": "rite", "title": "✓ Sandhiya sealed Thyroid tablet"}, {"t": 1792812611579, "tag": "mood", "title": "💭 Sandhiya feels okay"}, {"t": 1792815371642, "tag": "water", "title": "💧 Sandhiya drank 200 ml"}, {"t": 1792815371642, "tag": "rite", "title": "✓ Sandhiya sealed Strength tablet"}, {"t": 1792827671639, "tag": "water", "title": "💧 Sandhiya drank 100 ml"}, {"t": 1792828991862, "tag": "water", "title": "💧 Sandhiya drank 100 ml"}, {"t": 1792847831869, "tag": "water", "title": "💧 Sandhiya drank 250 ml"}, {"t": 1792847831869, "tag": "rite", "title": "✓ Sandhiya sealed Face wash"}, {"t": 1792850771826, "tag": "water", "title": "💧 Sandhiya drank 250 ml"}, {"t": 1792857192467, "tag": "water", "title": "💧 Sandhiya drank 100 ml"}, {"t": 1792857192467, "tag": "alldone", "title": "🩸 Sandhiya sealed every rite"}, {"t": 1792857312613, "tag": "rate", "title": "💓 Sandhiya rated today 9/10 · Radiant"}, {"t": 1792896792445, "tag": "mood", "title": "💭 Sandhiya feels drained"}, {"t": 1792898950461, "tag": "rite", "title": "✓ Sandhiya sealed Thyroid tablet"}, {"t": 1792898950461, "tag": "water", "title": "💧 Sandhiya drank 50 ml"}, {"t": 1792900331807, "tag": "rite", "title": "✓ Sandhiya sealed Hair wash"}, {"t": 1792902432711, "tag": "water", "title": "💧 Sandhiya drank 200 ml"}, {"t": 1792906271047, "tag": "water", "title": "💧 Sandhiya drank 250 ml"}, {"t": 1792908070705, "tag": "water", "title": "💧 Sandhiya drank 150 ml"}, {"t": 1792911672762, "tag": "water", "title": "💧 Sandhiya drank 100 ml"}, {"t": 1792914311801, "tag": "water", "title": "💧 Sandhiya drank 100 ml"}, {"t": 1792915332274, "tag": "water", "title": "💧 Sandhiya drank 250 ml"}, {"t": 1792917132881, "tag": "water", "title": "💧 Sandhiya drank 150 ml"}, {"t": 1792930870476, "tag": "water", "title": "💧 Sandhiya drank 200 ml"}, {"t": 1792932731443, "tag": "rite", "title": "✓ Sandhiya sealed Face wash"}, {"t": 1792933451865, "tag": "water", "title": "💧 Sandhiya drank 250 ml"}];
+function applyRecovery(entries){
+  let n=0; const days=new Set();
+  const idOf=title=>{ const t=title.replace(/^.*sealed /,'').trim(); if(t==='Hair wash') return 'hair'; const it=cfg.items.find(i=>i.title===t); return it?it.id:null; };
+  const ents=entries.slice().sort((a,b)=>a.t-b.t);
+  for(const e of ents){
+    const dt=new Date(e.t), k=dkey(dt), d=day(k), T=String(e.title||'');
+    if(e.tag==='water'){ const m=T.match(/drank (\d+) ml/); if(m&&!(d.water||[]).some(w=>w.t===e.t)){ d.water.push({ml:+m[1],t:e.t}); n++; days.add(k); } }
+    else if(e.tag==='rite'){ const id=idOf(T); if(id&&!d.done[id]){ d.done[id]=e.t; n++; days.add(k); } }
+    else if(e.tag==='alldone'){ for(const it of itemsFor(dt)) if(!d.done[it.id]){ d.done[it.id]=e.t; n++; } d.fin=d.fin||e.t; days.add(k); }
+    else if(e.tag==='dayend'){ d.fin=d.fin||e.t; }
+    else if(e.tag==='mood'){ const m=T.match(/feels (\w+)/); if(m&&!(d.mood||[]).some(x=>x.t===e.t)){ (d.mood=d.mood||[]).push({v:m[1],t:e.t,r:''}); n++; days.add(k); } }
+    else if(e.tag==='rate'){ const m=T.match(/rated (?:today|yesterday) (\d+)\/10/); if(m){ const rk=/yesterday/.test(T)?dkey(new Date(e.t-864e5)):k, rd=day(rk); if(!rd.rate){ rd.rate={v:+m[1],good:'',bad:'',note:'',t:e.t,restored:1}; n++; days.add(rk); } } }
+  }
+  return {n,days:[...days].sort()};
+}
+function runRecovery(){
+  if(ROLE()!=='her'||cfg.recov1) return;
+  const live=(pushLog||[]).filter(e=>e.to==='him');
+  const r=applyRecovery(RECOVERY.concat(live));
+  cfg.recov1=Date.now(); save();
+  if(r.n) setTimeout(()=>openSheet(`<h3>Restored</h3><div class="hs" style="margin:6px 0 10px">On 25 Oct Domso lost its saved days. I rebuilt <b style="font-style:normal;color:var(--bone)">${r.days.length} days</b> (${r.days.map(k=>new Date(k+'T12:00').toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'})).join(', ')}) from the pings Sundar received: every glass, every rite, how you felt and your ratings. The words you wrote with those ratings couldn't be recovered. Older days can be filled in from the Calendar: tap a day.</div><button class="btn p full" onclick="closeSheet()">Thank you</button>`),900);
 }
 function setSync(ok){ const el=$('syncDot'); if(el) el.className=ok?'ok':''; }
 
@@ -1311,6 +1362,7 @@ function renderCal(dir){
   const best=bestStreak();
   $('sBest').textContent=best; $('sMonth').textContent=counted?Math.round(kept/counted*100)+'%':'—'; $('sWater').textContent=wdays;
 }
+function fillElixir(k){ const d=day(k), goal=cfg.waterGoal||2500, tot=waterTotal(k); if(tot<goal) d.water.push({ml:goal-tot,t:new Date(k+'T20:00').getTime(),fill:1}); save(); toast('Elixir filled for that day'); openDay(k); }
 function openDay(k){
   const dt=new Date(k+"T12:00"), its=itemsFor(dt), d=peek(k).done||{}, tot=waterTotal(k);
   const title=dt.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'short'});
@@ -1321,7 +1373,8 @@ function openDay(k){
   const hz=rt?(0.55+rt.v*0.06):0;
   const rateHTML=rt?`<div class="drate2"><div class="drt"><svg viewBox="-34 -32 68 60" style="width:${Math.round(54*hz+20)}px"><path d="M0 22C-14 12-28 2-28-10a14 14 0 0 1 28-6 14 14 0 0 1 28 6C28 2 14 12 0 22z" fill="url(#gWax)" stroke="#ff8a9a" stroke-width="1"/></svg><div><b>${rt.v}<span> / 10</span></b><em>${RNAMES[rt.v]}</em><small>rated at ${tm(rt.t)}${new Date(rt.t).toDateString()!==new Date(k+'T12:00').toDateString()?' the next day':''}</small></div></div>${ans('What was good',rt.good)}${ans('What was bad',rt.bad)}${ans('For '+HIM,rt.note)}${ROLE()==='her'?`<div class="drch" onclick="closeSheet();setTimeout(()=>openRate('${k}','${k===todayKey()?'t':'y'}'),300)">change rating</div>`:''}</div>`
     : (ROLE()==='her'&&k<=todayKey()?`<div class="drate2 empty"><span>Not rated yet</span><button class="btn p" onclick="closeSheet();setTimeout(()=>openRate('${k}','${k===todayKey()?'t':'y'}'),300)">Rate this day</button></div>`:`<div class="drate2 empty"><span>She hasn't rated this day</span></div>`);
-  openSheet(`<h3>${title}</h3><div class="hs" style="margin-bottom:10px">${tot} ml of the elixir · tap a rite to fix it${pd.redeem?' · <span style="color:var(--gold2)">mended with the month\'s redemption</span>':''}</div><div class="sc" style="margin:4px 0 6px;color:var(--mute)">her day</div>${rateHTML}${moods?`<div class="sc" style="margin:4px 0 6px;color:var(--mute)">how she felt</div><div class="dmood">${moods}</div>`:''}${rows}`);
+  const fillBtn=(k<todayKey()&&tot<(cfg.waterGoal||2500)&&ROLE()==='her')?`<button class="btn full" style="margin:4px 0 10px" onclick="fillElixir('${k}')">${IC.drop||''} She drank the full elixir that day</button>`:'';
+  openSheet(`<h3>${title}</h3><div class="hs" style="margin-bottom:10px">${tot} ml of the elixir · tap a rite to fix it${pd.redeem?' · <span style="color:var(--gold2)">mended with the month\'s redemption</span>':''}</div>${fillBtn}<div class="sc" style="margin:4px 0 6px;color:var(--mute)">her day</div>${rateHTML}${moods?`<div class="sc" style="margin:4px 0 6px;color:var(--mute)">how she felt</div><div class="dmood">${moods}</div>`:''}${rows}`);
 }
 
 /* ---------- settings ---------- */
@@ -1668,7 +1721,6 @@ document.addEventListener('touchend',()=>{
 });
 async function refreshApp(){
   try{ const r=await navigator.serviceWorker?.getRegistration(); if(r) await r.update(); }catch(e){}
-  try{ if(fdb){ const s=await fdb.doc(CLOUD_DOC).get(); if(s.exists){ const d=s.data(); if((d.updated||0)>updated){ localStorage.setItem('domso_cfg',d.cfg); localStorage.setItem('domso_log',d.log); localStorage.setItem('domso_upd',String(d.updated)); } } } }catch(e){}
   setTimeout(()=>location.reload(),500);
 }
 
