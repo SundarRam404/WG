@@ -206,6 +206,12 @@ async function run(env, at) {
     if (entries.some(e => e.to === 'him' && deadStatus(e.st))) patch.subSDead = '1';
   }
   await patchFields(env, patch);
+  // hourly backup at minute 7, never replaced by a smaller copy (a wiped phone can't erase the backup)
+  if (now.m % 60 === 7 && raw.log && raw.log.length > 2) {
+    const days = Object.keys(log || {}).length, path = `${env.DOC_PATH}-bak-hourly`;
+    let prev = 0; try { const r = await fetch(`https://firestore.googleapis.com/v1/projects/${env.FIREBASE_PROJECT}/databases/(default)/documents/${path}?key=${env.FIREBASE_KEY}&mask.fieldPaths=days`); if (r.ok) { const f = (await r.json()).fields || {}; prev = +(f.days?.integerValue || 0); } } catch (e) {}
+    if (days >= prev) { await patchFields(env, { cfg: raw.cfg, log: raw.log, at: Date.now(), days }, path); results.push({ tag: 'backup-hourly', status: days }); }
+  }
   // nightly backup at 03:00 her time: one copy per weekday (shared/domso-bak-0 … -6), only if there is something to keep
   if (now.m === 180 && raw.log && raw.log.length > 2) {
     await patchFields(env, { cfg: raw.cfg, log: raw.log, at: Date.now(), days: Object.keys(log || {}).length }, `${env.DOC_PATH}-bak-${now.dow}`);
