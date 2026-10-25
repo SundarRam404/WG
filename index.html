@@ -677,7 +677,7 @@ button{background:none;border:none;cursor:pointer}
     </div>
     </div></details>
     </div>
-    <div class="foot"><b>Domso</b><br>do or marry someone · made with 🩸 by S<br><span style="letter-spacing:2px">v20 · safe sync+</span></div>
+    <div class="foot"><b>Domso</b><br>do or marry someone · made with 🩸 by S<br><span style="letter-spacing:2px">v21 · safe sync+</span></div>
   </section>
 </main>
 
@@ -1031,13 +1031,14 @@ let fdb=null, applying=false, pushTimer=null, firstSync=false;
    2. merge day-by-day (each day carries u = last edit time); never replace the whole log
    3. only HER phone writes the log; Sundar's phone reads it (and writes settings only when he changes them)
    --------------------------------------------------------------- */
-let remoteCfgU=0, cloudReady=false, pendingPush=false, cfgU=+(localStorage.getItem('domso_cfgU')||0), lastCfgJSON=JSON.stringify(cfg), lastCloudLog=null;
+let remoteDays=-1, remoteCfgU=0, cloudReady=false, pendingPush=false, cfgU=+(localStorage.getItem('domso_cfgU')||0), lastCfgJSON=JSON.stringify(cfg), lastCloudLog=null;
 const dayJSON=d=>{ const {u,...r}=d||{}; return JSON.stringify(r); };
 let dayCache={}; for(const k in log) dayCache[k]=dayJSON(log[k]);
 const dayW=d=>Object.keys((d&&d.done)||{}).length+((d&&d.water)||[]).length+(d&&d.rate?3:0)+((d&&d.mood)||[]).length;
 function mergeLogs(a,b){ const out={}; a=a||{}; b=b||{};
   for(const k of new Set([...Object.keys(a),...Object.keys(b)])){ const x=a[k], y=b[k];
     if(!x){ out[k]=y; continue; } if(!y){ out[k]=x; continue; }
+    if(x.rec&&!y.rec&&dayW(y)>0){ out[k]=y; continue; } if(y.rec&&!x.rec&&dayW(x)>0){ out[k]=x; continue; }   // a real day always beats a rebuilt one
     const ux=x.u||0, uy=y.u||0; out[k]=(ux||uy)?(ux>=uy?x:y):(dayW(x)>=dayW(y)?x:y); }
   return out; }
 function persistLocal(){
@@ -1063,7 +1064,9 @@ function pushCloud(){
   if(!cloudReady){ pendingPush=true; return; }          // rule 1
   pendingPush=false;
   const p={updated}; if(cfgU>=remoteCfgU&&(ROLE()==='her'||cfgU>remoteCfgU)){ p.cfg=JSON.stringify(cfg); p.cfgU=cfgU; remoteCfgU=cfgU; }
-  if(ROLE()==='her'){ const lj=JSON.stringify(log); p.log=lj; lastCloudLog=lj; if(sub) p.sub=JSON.stringify(sub); p.ev=JSON.stringify(evq||[]); }   // rule 3
+  const refill=ROLE()==='him'&&remoteDays===0&&Object.keys(log).length>0;     // the one exception: an EMPTY cloud may be refilled by Sundar's phone
+  if(ROLE()==='her'||refill){ const lj=JSON.stringify(log); p.log=lj; lastCloudLog=lj; if(refill) remoteDays=Object.keys(log).length; }
+  if(ROLE()==='her'){ if(sub) p.sub=JSON.stringify(sub); p.ev=JSON.stringify(evq||[]); }   // rule 3
   else { if(subS) p.subS=JSON.stringify(subS); }
   fdb.doc(CLOUD_DOC).set(p,{merge:true}).then(()=>setSync(true)).catch(e=>{console.warn('cloud write',e);setSync(false)});
 }
@@ -1078,7 +1081,7 @@ function initCloud(){
       try{
         const rU=+(d.cfgU||0)||+(d.updated||0); remoteCfgU=Math.max(remoteCfgU,rU);
         if(d.cfg && rU>cfgU){ try{ cfg=Object.assign(structuredClone(DEFAULT_CFG),{v:1},JSON.parse(d.cfg)); cfgU=rU; lastCfgJSON=JSON.stringify(cfg); changed=true; }catch(_){} }
-        let remote={}; try{ remote=JSON.parse(d.log||'{}'); }catch(_){}
+        let remote={}; try{ remote=JSON.parse(d.log||'{}'); }catch(_){} remoteDays=Object.keys(remote).length;
         const merged=mergeLogs(log,remote);
         for(const k in merged){ if(merged[k]!==log[k]){ dayCache[k]=dayJSON(merged[k]); changed=true; } }
         log=merged;
@@ -1134,13 +1137,15 @@ function applyRecovery(entries){
     else if(e.tag==='mood'){ const m=T.match(/feels (\w+)/); if(m&&!(d.mood||[]).some(x=>x.t===e.t)){ (d.mood=d.mood||[]).push({v:m[1],t:e.t,r:''}); n++; days.add(k); } }
     else if(e.tag==='rate'){ const m=T.match(/rated (?:today|yesterday) (\d+)\/10/); if(m){ const rk=/yesterday/.test(T)?dkey(new Date(e.t-864e5)):k, rd=day(rk); if(!rd.rate){ rd.rate={v:+m[1],good:'',bad:'',note:'',t:e.t,restored:1}; n++; days.add(rk); } } }
   }
+  for(const k of days){ if(log[k]){ log[k].rec=1; delete log[k].u; dayCache[k]=dayJSON(log[k]); } }
   return {n,days:[...days].sort()};
 }
+function runRecoveryNow(){ cfg.recov1=0; runRecovery(); }
 function runRecovery(){
-  if(ROLE()!=='her'||cfg.recov1) return;
+  if(cfg.recov1) return; if(ROLE()==='guest') return; if(ROLE()==='him'&&remoteDays!==0) return;
   const live=(pushLog||[]).filter(e=>e.to==='him');
   const r=applyRecovery(RECOVERY.concat(live));
-  cfg.recov1=Date.now(); save();
+  cfg.recov1=Date.now(); save(); if(ROLE()==='him'&&remoteDays===0){ clearTimeout(pushTimer); pushTimer=setTimeout(pushCloud,300); }
   if(r.n) setTimeout(()=>openSheet(`<h3>Restored</h3><div class="hs" style="margin:6px 0 10px">On 25 Oct Domso lost its saved days. I rebuilt <b style="font-style:normal;color:var(--bone)">${r.days.length} days</b> (${r.days.map(k=>new Date(k+'T12:00').toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'})).join(', ')}) from the pings Sundar received: every glass, every rite, how you felt and your ratings. The words you wrote with those ratings couldn't be recovered. Older days can be filled in from the Calendar: tap a day.</div><button class="btn p full" onclick="closeSheet()">Thank you</button>`),900);
 }
 function setSync(ok){ const el=$('syncDot'); if(el) el.className=ok?'ok':''; }
